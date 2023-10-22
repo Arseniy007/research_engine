@@ -98,4 +98,3 @@ def change_password(request):
                         {"form": form, "error_message": "Try again!"})
     else:
         return render(request, "user_management/change_password.html", {"form": form})
-
