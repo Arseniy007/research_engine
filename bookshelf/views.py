@@ -17,3 +17,10 @@ def add_book(request):
 def delete_book(request, book_id):
     # TODO
     pass
+
+
+
+@login_required(redirect_field_name=None)
+def save_paper(request):
+    # TODO
+    pass
