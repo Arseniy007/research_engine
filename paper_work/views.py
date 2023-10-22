@@ -5,15 +5,10 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-
-@login_required(redirect_field_name=None)
-def add_book(request):
-    # TODO
-    pass
-
+from .models import Paper
 
 
 @login_required(redirect_field_name=None)
-def delete_book(request, book_id):
+def save_paper(request):
     # TODO
     pass

@@ -13,13 +13,6 @@ class Book(models.Model):
     year = models.IntegerField(blank=True)
 
 
-class Paper(models.Model):
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    pass
-
-
-
 
 """
 class Article(Book):

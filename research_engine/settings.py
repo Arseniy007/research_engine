@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'paper_work'
+    'bookshelf'
     'user_management',
     'django.contrib.admin',
     'django.contrib.auth',
