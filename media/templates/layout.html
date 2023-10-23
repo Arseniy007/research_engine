@@ -19,7 +19,7 @@
             {% if user.is_authenticated %}
                 <li><a href="{% url 'user_management:logout' %}">Logout</a></li>
                 <li><a href="{% url 'user_management:change_password' %}">Change password</a></li>
-                <li><a href="{% url 'teachers_room:index' %}">Index</a></li>
+                <li><a href="{% url 'paper_work:save_paper' %}">Save Paper</a></li>
             {% else %}
                 <li><a href="{% url 'user_management:login' %}">Login</a></li>
                 <li><a href="{% url 'user_management:register' %}">Register</a></li>
