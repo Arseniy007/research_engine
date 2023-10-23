@@ -3,11 +3,12 @@
 
 {% block body %}
 
+    <h3>{{ paper.title }}</h3>
 
-    <form action="{% url 'paper_work:save_paper' %}" method="post">
+    <form enctype="multipart/form-data" action="{% url 'paper_work:save_version' paper.pk %}" method="post">
         {% csrf_token %} 
         {{ form }}
-        <button id="change_password_button" type="submit">Save Paper</button>
+        <button id="change_password_button" type="submit">Save New Version</button>
     </form>
 
 {% endblock %}
