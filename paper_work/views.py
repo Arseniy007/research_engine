@@ -7,12 +7,11 @@ from django.urls import reverse
 
 from .forms import NewPaperForm, NewPaperVersionForm
 from .models import Paper, PaperVersion
-#from .paper_saving import save_paper, save_paper_version
 
 
 @login_required(redirect_field_name=None)
-def save_paper(request):
-    # TODO
+def add_paper(request):
+    
 
     form = NewPaperForm(request.POST, request.FILES or None)
 
@@ -38,7 +37,8 @@ def save_paper(request):
 
 
 @login_required(redirect_field_name=None)
-def save_paper_version(request, paper_id):
+def save_paper(request, paper_id):
+    """Saves current version of the paper"""
 
     form = NewPaperVersionForm(request.POST, request.FILES or None)
     paper = Paper.objects.get(pk=paper_id)
@@ -54,5 +54,6 @@ def save_paper_version(request, paper_id):
 
         else:
             print(form.erros)
+            # TODO
 
     return render(request, "paper_work/save_version.html", {"form": form, "paper": paper})

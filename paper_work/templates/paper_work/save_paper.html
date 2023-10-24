@@ -4,7 +4,7 @@
 {% block body %}
 
 
-    <form action="{% url 'paper_work:save_paper' %}" method="post">
+    <form action="{% url 'paper_work:add_paper' %}" method="post">
         {% csrf_token %} 
         {{ form }}
         <button id="change_password_button" type="submit">Save Paper</button>

@@ -23,3 +23,4 @@ class PaperVersion(models.Model):
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
     paper_title = models.CharField(max_length=50)
     file = models.FileField(upload_to=user_directory_path)
+    saving_date = models.DateTimeField(auto_now_add=True)
