@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 
 from user_management.models import User
-from .models import Paper, PaperVersion
+from .models import Paper
 
 
 def check_paper(user_id, paper_id):
@@ -14,4 +14,3 @@ def check_paper(user_id, paper_id):
         return False
     else:
         return paper
-

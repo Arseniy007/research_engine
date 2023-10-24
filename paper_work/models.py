@@ -1,4 +1,6 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.utils.html import format_html
 from datetime import datetime
 
 from user_management.models import User
@@ -24,3 +26,16 @@ class PaperVersion(models.Model):
     paper_title = models.CharField(max_length=50)
     file = models.FileField(upload_to=user_directory_path)
     saving_date = models.DateTimeField(auto_now_add=True)
+
+
+    def file_link(self):
+        
+        return format_html("<a href='%s'>download</a>" % (f"file/uploads/papers/{self.file.url}",))
+    
+    file_link.allow_tags = True
+
+
+    """
+    def __str__(self):
+        return f"uploads/papers/{str(self.file)}"
+    """

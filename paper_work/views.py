@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
-from django.http import JsonResponse
+from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -41,7 +41,7 @@ def add_paper(request):
 def save_paper(request, paper_id):
     """Saves current version of the paper"""
 
-    paper = check_paper(request.user, paper_id)
+    paper = check_paper(request.user.pk, paper_id)
 
     if not paper:
         # TODO 
@@ -58,19 +58,24 @@ def save_paper(request, paper_id):
 
             new_version = PaperVersion(user=request.user, paper=paper, paper_title=paper.title, file=file)
             new_version.save()
+            print(new_version)
 
         else:
             print(form.erros)
             # TODO
+    
+    paper_versions = PaperVersion.objects.filter(user=request.user, paper_title=paper.title).order_by("saving_date")
 
-    return render(request, "paper_work/save_paper.html", {"form": form, "paper": paper})
+    links = [version.file_link for version in paper_versions]
+
+    return render(request, "paper_work/save_paper.html", {"form": form, "paper": paper, "paper_versions": paper_versions, "links": links})
 
 
 @login_required(redirect_field_name=None)
 def delete_paper(request, paper_id):
     """Deletes added paper and all releted info"""
 
-    paper = check_paper(request.user, paper_id)
+    paper = check_paper(request.user.pk, paper_id)
 
     if not paper:
         # TODO 
@@ -79,3 +84,17 @@ def delete_paper(request, paper_id):
     paper.delete()
 
     return JsonResponse({"message": "ok"})
+
+
+@login_required(redirect_field_name=None)
+def pdf_view(request, file_path):
+
+    try:
+        return FileResponse(open(file_path, 'rb'), contenttype="application/ms-word")
+    except FileNotFoundError:
+        raise Http404()
+
+
+@login_required(redirect_field_name=None)
+def word_view(request, file_path):
+    pass

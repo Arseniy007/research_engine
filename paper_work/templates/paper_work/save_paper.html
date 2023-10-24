@@ -11,6 +11,23 @@
         <button id="change_password_button" type="submit">Save New Version</button>
     </form>
 
+    <ul>
+        {% for version in paper_versions %}
+            <li>
+                <a href="">{{ version.file }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <br>
+    <ul>
+        {% for link in links %}
+            <li>
+                {{ link }}
+            </li>
+        {% endfor %}
+    </ul>
+
 {% endblock %}
 
 {% block script %}
