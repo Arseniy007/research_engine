@@ -7,6 +7,7 @@ from django.urls import reverse
 
 from .forms import NewPaperForm, NewPaperVersionForm
 from .models import Paper, PaperVersion
+from .check_paper import check_paper
 
 
 @login_required(redirect_field_name=None)
@@ -40,6 +41,12 @@ def add_paper(request):
 def save_paper(request, paper_id):
     """Saves current version of the paper"""
 
+    paper = check_paper(request.user, paper_id)
+
+    if not paper:
+        # TODO 
+        pass
+
     form = NewPaperVersionForm(request.POST, request.FILES or None)
     paper = Paper.objects.get(pk=paper_id)
 
@@ -57,3 +64,18 @@ def save_paper(request, paper_id):
             # TODO
 
     return render(request, "paper_work/save_paper.html", {"form": form, "paper": paper})
+
+
+@login_required(redirect_field_name=None)
+def delete_paper(request, paper_id):
+    """Deletes added paper and all releted info"""
+
+    paper = check_paper(request.user, paper_id)
+
+    if not paper:
+        # TODO 
+        pass
+
+    paper.delete()
+
+    return JsonResponse({"message": "ok"})
