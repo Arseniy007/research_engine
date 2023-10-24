@@ -11,8 +11,8 @@ from .models import Paper, PaperVersion
 
 @login_required(redirect_field_name=None)
 def add_paper(request):
+    """Adds new paper and creates a space for it"""
     
-
     form = NewPaperForm(request.POST, request.FILES or None)
 
     if request.method == "POST":
@@ -26,14 +26,14 @@ def add_paper(request):
 
             saved_paper = Paper.objects.get(user=request.user, title=title)
 
-            link = reverse("paper_work:save_version", args=(saved_paper.pk,))
+            link = reverse("paper_work:save_paper", args=(saved_paper.pk,))
             return redirect(link)
         
         else:
             print(form.erros)
+            # TODO
 
-
-    return render(request, "paper_work/save_paper.html", {"form": form})
+    return render(request, "paper_work/add_paper.html", {"form": form})
 
 
 @login_required(redirect_field_name=None)
@@ -56,4 +56,4 @@ def save_paper(request, paper_id):
             print(form.erros)
             # TODO
 
-    return render(request, "paper_work/save_version.html", {"form": form, "paper": paper})
+    return render(request, "paper_work/save_paper.html", {"form": form, "paper": paper})
