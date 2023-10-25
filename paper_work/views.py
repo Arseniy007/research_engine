@@ -11,7 +11,7 @@ from .verification import check_paper, check_file
 
 
 @login_required(redirect_field_name=None)
-def add_paper(request):
+def create_paper_space(request):
     """Adds new paper and creates a space for it"""
     
     form = NewPaperForm(request.POST, request.FILES or None)
@@ -34,7 +34,7 @@ def add_paper(request):
             print(form.erros)
             # TODO
 
-    return render(request, "paper_work/add_paper.html", {"form": form})
+    return render(request, "paper_work/create_paper.html", {"form": form})
 
 
 @login_required(redirect_field_name=None)
