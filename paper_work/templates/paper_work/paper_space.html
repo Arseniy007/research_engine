@@ -5,7 +5,7 @@
 
     <h3>{{ paper.title }}</h3>
 
-    <form enctype="multipart/form-data" action="{% url 'paper_work:save_paper' paper.pk %}" method="post">
+    <form enctype="multipart/form-data" action="{% url 'paper_work:paper_space' paper.pk %}" method="post">
         {% csrf_token %} 
         {{ form }}
         <button id="change_password_button" type="submit">Save New Version</button>

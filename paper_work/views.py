@@ -27,7 +27,7 @@ def create_paper_space(request):
 
             saved_paper = Paper.objects.get(user=request.user, title=title)
 
-            link = reverse("paper_work:save_paper", args=(saved_paper.pk,))
+            link = reverse("paper_work:paper_space", args=(saved_paper.pk,))
             return redirect(link)
         
         else:
@@ -38,7 +38,7 @@ def create_paper_space(request):
 
 
 @login_required(redirect_field_name=None)
-def save_paper(request, paper_id):
+def paper_space(request, paper_id):
     """Saves current version of the paper"""
 
     paper = check_paper(request.user, paper_id)
@@ -56,7 +56,7 @@ def save_paper(request, paper_id):
 
             file = form.cleaned_data["file"]
 
-            new_version = PaperVersion(user=request.user, paper=paper, paper_title=paper.title, file=file)
+            new_version = PaperVersion(user=request.user, paper=paper, file=file)
             new_version.save()
             print(new_version)
 
@@ -64,15 +64,15 @@ def save_paper(request, paper_id):
             print(form.erros)
             # TODO
     
-    paper_versions = PaperVersion.objects.filter(user=request.user, paper_title=paper.title).order_by("saving_date")
+    paper_versions = PaperVersion.objects.filter(user=request.user, paper=paper).order_by("saving_date")
 
     links = [reverse("paper_work:show_file", args=(version.pk,)) for version in paper_versions]
 
-    return render(request, "paper_work/save_paper.html", {"form": form, "paper": paper, "paper_versions": paper_versions, "links": links, "rename_form": RenamePaperForm()})
+    return render(request, "paper_work/paper_space.html", {"form": form, "paper": paper, "paper_versions": paper_versions, "links": links, "rename_form": RenamePaperForm()})
 
 
 @login_required(redirect_field_name=None)
-def delete_paper(request, paper_id):
+def delete_paper_space(request, paper_id):
     """Deletes added paper and all releted info"""
 
     paper = check_paper(request.user, paper_id)
@@ -84,20 +84,6 @@ def delete_paper(request, paper_id):
     paper.delete()
 
     return JsonResponse({"message": "ok"})
-
-
-@login_required(redirect_field_name=None)
-def handle_file(request, file_id):
-
-    file = check_file(request.user.pk, file_id)
-
-    if not file:
-        # TODO
-        pass
-
-    opened_file = open(file.get_path(), "rb")
-
-    return FileResponse(opened_file)
 
 
 @login_required(redirect_field_name=None)
@@ -124,3 +110,17 @@ def rename_paper(request, paper_id):
         pass
 
     return JsonResponse({"message": "error"})
+
+
+@login_required(redirect_field_name=None)
+def handle_file(request, file_id):
+
+    file = check_file(request.user.pk, file_id)
+
+    if not file:
+        # TODO
+        pass
+
+    opened_file = open(file.get_path(), "rb")
+
+    return FileResponse(opened_file)

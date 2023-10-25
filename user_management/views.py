@@ -22,7 +22,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return redirect(reverse("paper_work:save_paper"))
+            return redirect(reverse("paper_work:create_paper"))
         else:
             return render(request, "user_management/login.html", {
                 "message": "Invalid username and/or password."})
@@ -63,7 +63,7 @@ def register(request):
                 "message": "Username already taken."})
         
         login(request, user)
-        return redirect(reverse("paper_work:save_paper"))
+        return redirect(reverse("paper_work:create_paper"))
     
     else:
         return render(request, "user_management/register.html")
