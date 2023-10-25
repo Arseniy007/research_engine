@@ -108,6 +108,8 @@ def rename_paper(request, paper_id):
 @login_required(redirect_field_name=None)
 def handle_file(request, file_id):
 
+    # do i really need display_file function?
+
     return display_file(request.user.pk, file_id)
 
 
