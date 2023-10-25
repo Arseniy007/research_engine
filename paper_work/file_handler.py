@@ -15,6 +15,7 @@ def display_file(user_id, file_id):
 
 
 def delete_files():
+    """Deletes all files in the system related to the deleted paper"""
     # TODO
 
     pass

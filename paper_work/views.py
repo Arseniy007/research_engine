@@ -84,6 +84,9 @@ def delete_paper_space(request, paper_id):
 
     paper.delete()
 
+    # TODO 
+    # Delete all paper-releted files in the system
+
     return JsonResponse({"message": "ok"})
 
 
@@ -91,9 +94,11 @@ def delete_paper_space(request, paper_id):
 def rename_paper(request, paper_id):
 
     paper = check_paper(request.user, paper_id)
+    print(type(paper))
 
     if not paper:
         # TODO 
+        print("hi")
         pass
 
     form = RenamePaperForm(request.POST)
@@ -103,11 +108,13 @@ def rename_paper(request, paper_id):
         new_title = form.cleaned_data["new_title"]
 
         paper.title = new_title
-        paper.save()
+        paper.save(update_fields=("title",))
+
         return JsonResponse({"message": "ok"})
 
     else:
         print(form.errors)
+        # TODO
         pass
 
     return JsonResponse({"message": "error"})
@@ -117,3 +124,6 @@ def rename_paper(request, paper_id):
 def handle_file(request, file_id):
 
     return display_file(request.user.pk, file_id)
+
+
+# Maybe check_paper and check_file function should JsonResponse theyself? Without checking their returns second time?

@@ -8,7 +8,7 @@ from research_engine.settings import MEDIA_ROOT
 
 
 def user_directory_path(instance, filename):
-    # File will be uploaded to MEDIA_ROOT/user_<id>/paper_title/date/<filename>
+    # File will be uploaded to MEDIA_ROOT/user_<id>/paper_<id>/<saving_date>/<filename>
 
     saving_date = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     return f"user_{instance.user.id}/paper_{instance.paper.pk}/{saving_date}/{filename}"
