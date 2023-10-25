@@ -5,7 +5,7 @@ from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .forms import NewPaperForm, NewPaperVersionForm
+from .forms import NewPaperForm, NewPaperVersionForm, RenamePaperForm
 from .models import Paper, PaperVersion
 from .verification import check_paper, check_file
 
@@ -68,7 +68,7 @@ def save_paper(request, paper_id):
 
     links = [reverse("paper_work:show_file", args=(version.pk,)) for version in paper_versions]
 
-    return render(request, "paper_work/save_paper.html", {"form": form, "paper": paper, "paper_versions": paper_versions, "links": links})
+    return render(request, "paper_work/save_paper.html", {"form": form, "paper": paper, "paper_versions": paper_versions, "links": links, "rename_form": RenamePaperForm()})
 
 
 @login_required(redirect_field_name=None)
@@ -98,3 +98,29 @@ def handle_file(request, file_id):
     opened_file = open(file.get_path(), "rb")
 
     return FileResponse(opened_file)
+
+
+@login_required(redirect_field_name=None)
+def rename_paper(request, paper_id):
+
+    paper = check_paper(request.user, paper_id)
+
+    if not paper:
+        # TODO 
+        pass
+
+    form = RenamePaperForm(request.POST)
+
+    if form.is_valid():
+
+        new_title = form.cleaned_data["new_title"]
+
+        paper.title = new_title
+        paper.save()
+        return JsonResponse({"message": "ok"})
+
+    else:
+        print(form.errors)
+        pass
+
+    return JsonResponse({"message": "error"})

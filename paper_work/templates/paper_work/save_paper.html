@@ -28,6 +28,12 @@
         {% endfor %}
     </ul>
 
+    <form action="{% url 'paper_work:rename_paper' paper.pk %}" method="post">
+        {% csrf_token %} 
+        {{ rename_form }}
+        <button id="change_password_button" type="submit">Rename Paper</button>
+    </form>
+
 {% endblock %}
 
 {% block script %}
