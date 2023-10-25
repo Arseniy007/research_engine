@@ -42,14 +42,9 @@ def create_paper_space(request):
 def paper_space(request, paper_id):
     """Saves current version of the paper"""
 
-    paper = check_paper(request.user, paper_id)
-
-    if not paper:
-        # TODO 
-        pass
+    paper = check_paper(paper_id, request.user)
 
     form = NewPaperVersionForm(request.POST, request.FILES or None)
-    paper = Paper.objects.get(pk=paper_id)
 
     if request.method == "POST":
 
@@ -78,10 +73,6 @@ def delete_paper_space(request, paper_id):
 
     paper = check_paper(request.user, paper_id)
 
-    if not paper:
-        # TODO 
-        pass
-
     paper.delete()
 
     # TODO 
@@ -93,13 +84,7 @@ def delete_paper_space(request, paper_id):
 @login_required(redirect_field_name=None)
 def rename_paper(request, paper_id):
 
-    paper = check_paper(request.user, paper_id)
-    print(type(paper))
-
-    if not paper:
-        # TODO 
-        print("hi")
-        pass
+    paper = check_paper(paper_id, request.user)
 
     form = RenamePaperForm(request.POST)
 

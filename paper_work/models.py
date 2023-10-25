@@ -1,6 +1,4 @@
-from django.core.validators import FileExtensionValidator
 from django.db import models
-from django.utils.html import format_html
 from datetime import datetime
 
 from user_management.models import User
@@ -31,3 +29,6 @@ class PaperVersion(models.Model):
     def get_path(self):
         """Returns a full path to the file"""
         return  f"{MEDIA_ROOT}/{str(self.file)}"
+    
+
+# Does PaperVersion class realy needs to have user reference? Paper model already has!
