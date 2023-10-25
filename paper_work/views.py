@@ -8,6 +8,7 @@ from django.urls import reverse
 from .forms import NewPaperForm, NewPaperVersionForm, RenamePaperForm
 from .models import Paper, PaperVersion
 from .verification import check_paper, check_file
+from .file_handler import display_file
 
 
 @login_required(redirect_field_name=None)
@@ -115,12 +116,4 @@ def rename_paper(request, paper_id):
 @login_required(redirect_field_name=None)
 def handle_file(request, file_id):
 
-    file = check_file(request.user.pk, file_id)
-
-    if not file:
-        # TODO
-        pass
-
-    opened_file = open(file.get_path(), "rb")
-
-    return FileResponse(opened_file)
+    return display_file(request.user.pk, file_id)
