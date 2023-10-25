@@ -7,7 +7,9 @@ from django.urls import reverse
 
 from .forms import NewPaperForm, NewPaperVersionForm
 from .models import Paper, PaperVersion
-from .check_paper import check_paper
+from .check_paper import check_paper, check_file
+
+from .file_handler import handle_file_2
 
 
 @login_required(redirect_field_name=None)
@@ -66,7 +68,9 @@ def save_paper(request, paper_id):
     
     paper_versions = PaperVersion.objects.filter(user=request.user, paper_title=paper.title).order_by("saving_date")
 
-    links = [version.file_link for version in paper_versions]
+
+
+    links = [f"test/{version.pk}" for version in paper_versions]
 
     return render(request, "paper_work/save_paper.html", {"form": form, "paper": paper, "paper_versions": paper_versions, "links": links})
 
@@ -86,15 +90,24 @@ def delete_paper(request, paper_id):
     return JsonResponse({"message": "ok"})
 
 
-@login_required(redirect_field_name=None)
-def pdf_view(request, file_path):
-
-    try:
-        return FileResponse(open(file_path, 'rb'), contenttype="application/ms-word")
-    except FileNotFoundError:
-        raise Http404()
-
 
 @login_required(redirect_field_name=None)
-def word_view(request, file_path):
-    pass
+def handle_file(request, file_id):
+
+    file = check_file(request.user.pk, file_id)
+
+    if not file:
+        # TODO
+        pass
+
+
+    location = file.get_path()
+
+    """
+    with open(location, "rb") as doc:
+        data = doc.read()
+    """
+
+    opened_file = open(location, "rb")
+
+    return FileResponse(opened_file)
