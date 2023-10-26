@@ -9,7 +9,7 @@ def user_directory_path(instance, filename):
     # File will be uploaded to MEDIA_ROOT/user_<id>/paper_<id>/<saving_date>/<filename>
 
     saving_date = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    return f"user_{instance.user.id}/paper_{instance.paper.pk}/{saving_date}/{filename}"
+    return f"user_{instance.paper.user.pk}/paper_{instance.paper.pk}/{saving_date}/{filename}"
 
 
 class Paper(models.Model):
@@ -25,7 +25,6 @@ class Paper(models.Model):
 
 class PaperVersion(models.Model):
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
     file = models.FileField(upload_to=user_directory_path)
     saving_date = models.DateTimeField(auto_now_add=True)
@@ -36,4 +35,4 @@ class PaperVersion(models.Model):
         return  f"{MEDIA_ROOT}/{str(self.file)}"
     
 
-# Does PaperVersion class realy needs to have user reference? Paper model already has!
+# Maybe add to Paper class needed number of words etc.

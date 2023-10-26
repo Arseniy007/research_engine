@@ -8,18 +8,17 @@ def check_paper(paper_id, user):
     """Checks if user is the author of the given page and page exists"""
 
     try:
-        paper = Paper.objects.get(pk=paper_id, user=user)
+        return Paper.objects.get(pk=paper_id, user=user)
     except ObjectDoesNotExist:
         raise Http404
-    else:
-        return paper
 
 
 def check_file(file_id, user):
     """Checks if user is the author of the given paper version and this version exists"""
 
     try:
-        file = PaperVersion.objects.get(pk=file_id, user=user)
+        file = PaperVersion.objects.get(pk=file_id)
+        Paper.objects.get(pk=file.paper.pk, user=user)
     except ObjectDoesNotExist:
         raise Http404
     else:

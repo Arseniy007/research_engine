@@ -54,7 +54,7 @@ def paper_space(request, paper_id):
 
             file = form.cleaned_data["file"]
 
-            new_version = PaperVersion(user=request.user, paper=paper, file=file)
+            new_version = PaperVersion(paper=paper, file=file)
             new_version.save()
             print(new_version)
 
@@ -62,7 +62,7 @@ def paper_space(request, paper_id):
             print(form.erros)
             # TODO
     
-    paper_versions = PaperVersion.objects.filter(user=request.user, paper=paper).order_by("saving_date")
+    paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_date")
 
     links = [reverse("paper_work:display_file", args=(version.pk,)) for version in paper_versions]
 
@@ -89,7 +89,6 @@ def delete_paper(request, paper_id):
 def rename_paper(request, paper_id):
 
     paper = check_paper(paper_id, request.user)
-
     form = RenamePaperForm(request.POST)
 
     if form.is_valid():
@@ -112,8 +111,10 @@ def rename_paper(request, paper_id):
 @login_required(redirect_field_name=None)
 def display_file(request, file_id):
 
+    # Get and chek file
     file = check_file(file_id, request.user)
 
+    # Open and send it
     return FileResponse(open(file.get_path(), "rb"))
 
 
@@ -121,14 +122,14 @@ def display_file(request, file_id):
 def get_file_info(request, file_id):
     """Returns info about text-file"""
     
-    # Get and open file
+    # Get, check and open file
     file = check_file(file_id, request.user)
     raw_text = textract.process(file.get_path())
 
     # Translate it into hexidesimal in order to handle different languages
     hex_text = str(hexlify(raw_text))
 
-    # Cut the unwanted part of new string
+    # Cut the unwanted part of the new string
     hex_text = hex_text[2:-1]
 
     # Decode text back from hexidecimal
