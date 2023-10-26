@@ -18,6 +18,11 @@ class Paper(models.Model):
     title = models.CharField(max_length=50, unique=True)
 
 
+    def get_path(self):
+        """Returns a path to the paper directory"""
+        return f"{MEDIA_ROOT}/user_{self.user.pk}/paper_{self.pk}"
+
+
 class PaperVersion(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -5,10 +5,11 @@ from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+import shutil
+
 from .forms import NewPaperForm, NewPaperVersionForm, RenamePaperForm
 from .models import Paper, PaperVersion
 from .verification import check_paper, check_file
-from .file_handler import display_file
 
 
 @login_required(redirect_field_name=None)
@@ -68,15 +69,17 @@ def paper_space(request, paper_id):
 
 
 @login_required(redirect_field_name=None)
-def delete_paper_space(request, paper_id):
+def delete_paper(request, paper_id):
     """Deletes added paper and all releted info"""
 
-    paper = check_paper(request.user, paper_id)
+    # Check if user has right to delte this paper
+    paper = check_paper(paper_id, request.user)
+    
+    # Delete paper directory with all files inside
+    shutil.rmtree(paper.get_path())
 
+    # Delete paper from the db
     paper.delete()
-
-    # TODO 
-    # Delete all paper-releted files in the system
 
     return JsonResponse({"message": "ok"})
 
@@ -106,11 +109,8 @@ def rename_paper(request, paper_id):
 
 
 @login_required(redirect_field_name=None)
-def handle_file(request, file_id):
+def display_file(request, file_id):
 
-    # do i really need display_file function?
+    file = check_file(file_id, request.user)
 
-    return display_file(request.user.pk, file_id)
-
-
-# Maybe check_paper and check_file function should JsonResponse theyself? Without checking their returns second time?
+    return FileResponse(open(file.get_path(), "rb"))

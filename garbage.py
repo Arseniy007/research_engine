@@ -8,7 +8,6 @@ def validate_file_extension(value):
     
 
 
-
     """
     def __str__(self):
         return f"uploads/papers/{str(self.file)}"
@@ -63,5 +62,80 @@ def handle_file_2(user_id, file_id):
     opened_file = open(location, "rb")
 
     return FileResponse(opened_file)
+
+"""
+
+
+"""
+
+def delete_files(paper_id, user):
+
+    # TODO
+
+    paper = check_paper(paper_id, user)
+
+    files_directory_location = paper.get_path()
+
+    remove(files_directory_location)
+
+ """
+
+
+"""
+
+
+from django.http import FileResponse
+
+from . verification import check_file
+
+
+def display_file(user, file_id):
+
+    file = check_file(file_id, user)
+
+    return FileResponse(open(file.get_path(), "rb"))
+
+
+"""
+
+
+
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 """
