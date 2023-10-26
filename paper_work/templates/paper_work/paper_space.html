@@ -14,7 +14,7 @@
     <ul>
         {% for version in paper_versions %}
             <li>
-                <a href="{% url 'paper_work:dispaly_file' version.pk %}">{{ version.file }}</a>
+                <a href="{% url 'paper_work:display_file' version.pk %}">{{ version.file }}</a>
             </li>
         {% endfor %}
     </ul>

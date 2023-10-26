@@ -5,7 +5,9 @@ from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+import textract
 import shutil
+import re
 
 from .forms import NewPaperForm, NewPaperVersionForm, RenamePaperForm
 from .models import Paper, PaperVersion
@@ -63,7 +65,7 @@ def paper_space(request, paper_id):
     
     paper_versions = PaperVersion.objects.filter(user=request.user, paper=paper).order_by("saving_date")
 
-    links = [reverse("paper_work:dispay_file", args=(version.pk,)) for version in paper_versions]
+    links = [reverse("paper_work:display_file", args=(version.pk,)) for version in paper_versions]
 
     return render(request, "paper_work/paper_space.html", {"form": form, "paper": paper, "paper_versions": paper_versions, "links": links, "rename_form": RenamePaperForm()})
 
@@ -120,5 +122,18 @@ def display_file(request, file_id):
 def get_file_info(request, file_id):
     
     file = check_file(file_id, request.user)
+
+    text = str(textract.process(file.get_path()))
+
+    #words = text.split(" ")
+    #print(len(words))
+
+    #word_count = len(re.findall(r"\b\w+\b", text)) 
+
+    #word_count = re.sub('<(.|\n)*?>','', text)
+
+    #print(len(text))
+
+    return JsonResponse({"message": "ok"})
 
     
