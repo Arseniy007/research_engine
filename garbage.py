@@ -98,7 +98,46 @@ def display_file(user, file_id):
 
 """
 
+"""
+    words = text.split()
+    header = "Lorem ipsum dolor sit amet"
+    print(len(words) - len(header.split()))
+    print(len(text) - len(header))
 
+    print(text)
+  
+
+    
+    
+
+    #word_count = len(re.findall(r"\b\w+\b", text)) 
+
+    #word_count = re.sub('<(.|\n)*?>','', text)
+
+    #print(len(text))
+
+    
+
+    paragraphs = text.split("\n\n")
+
+    num_of_word = len(paragraphs)
+
+    for paragraph in paragraphs:
+
+        if paragraph != "\n":
+
+            words = len(paragraph.split())
+            num_of_word += words
+
+    num_of_word += len(paragraphs)
+    
+    
+    print(num_of_word, "hf")
+    print(len(text))
+    #print(text.encode().decode('utf-8', 'ignore'))
+
+
+    print(text)
 
 """
 
@@ -137,5 +176,3 @@ def display_file(user, file_id):
 
 
 
-
-"""

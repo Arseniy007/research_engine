@@ -9,6 +9,12 @@ import textract
 import shutil
 import re
 
+from bs4 import BeautifulSoup
+
+import unicodedata
+
+from office_word_count import Counter
+
 from .forms import NewPaperForm, NewPaperVersionForm, RenamePaperForm
 from .models import Paper, PaperVersion
 from .verification import check_paper, check_file
@@ -123,16 +129,20 @@ def get_file_info(request, file_id):
     
     file = check_file(file_id, request.user)
 
-    text = str(textract.process(file.get_path()))
+    text = textract.process(file.get_path())
 
-    #words = text.split(" ")
-    #print(len(words))
 
-    #word_count = len(re.findall(r"\b\w+\b", text)) 
+    soup = BeautifulSoup(text)
+    x = soup.original_encoding
+    
 
-    #word_count = re.sub('<(.|\n)*?>','', text)
+    info = Counter(text)
 
-    #print(len(text))
+    print(info.count())
+    print(soup)
+    print(type(soup))
+    print(x)
+    
 
     return JsonResponse({"message": "ok"})
 
