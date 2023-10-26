@@ -35,4 +35,14 @@ class PaperVersion(models.Model):
         return  f"{MEDIA_ROOT}/{str(self.file)}"
     
 
+class Invitation(models.Model):
+
+    code = models.CharField(max_length=15, unique=True)
+    paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
+    #user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #guest = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
 # Maybe add to Paper class needed number of words etc.
+# If i invite someone, than i need to have Many to Many relation
+# Do I need user and guest in Invitation class?

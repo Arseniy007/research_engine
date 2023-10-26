@@ -143,3 +143,9 @@ def get_file_info(request, file_id):
                 "characters with space": info.characters_with_space}
     
     return JsonResponse(response)
+
+
+
+# Send and receive invitations!
+# Will there be any difference between s. adviser and co-author?
+# Comments? Each one has only one version of paper?
