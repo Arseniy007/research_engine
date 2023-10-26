@@ -63,7 +63,7 @@ def paper_space(request, paper_id):
     
     paper_versions = PaperVersion.objects.filter(user=request.user, paper=paper).order_by("saving_date")
 
-    links = [reverse("paper_work:show_file", args=(version.pk,)) for version in paper_versions]
+    links = [reverse("paper_work:dispay_file", args=(version.pk,)) for version in paper_versions]
 
     return render(request, "paper_work/paper_space.html", {"form": form, "paper": paper, "paper_versions": paper_versions, "links": links, "rename_form": RenamePaperForm()})
 
@@ -114,3 +114,11 @@ def display_file(request, file_id):
     file = check_file(file_id, request.user)
 
     return FileResponse(open(file.get_path(), "rb"))
+
+
+@login_required(redirect_field_name=None)
+def get_file_info(request, file_id):
+    
+    file = check_file(file_id, request.user)
+
+    
