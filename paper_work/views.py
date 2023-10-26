@@ -1,19 +1,12 @@
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
-from django.db import IntegrityError
-from django.http import FileResponse, Http404, JsonResponse
+from django.http import FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-import textract
-import shutil
-import re
-
-from bs4 import BeautifulSoup
-
-import unicodedata
-
+from binascii import hexlify
 from office_word_count import Counter
+import shutil
+import textract
 
 from .forms import NewPaperForm, NewPaperVersionForm, RenamePaperForm
 from .models import Paper, PaperVersion
@@ -126,24 +119,26 @@ def display_file(request, file_id):
 
 @login_required(redirect_field_name=None)
 def get_file_info(request, file_id):
+    """Returns info about text-file"""
     
+    # Get and open file
     file = check_file(file_id, request.user)
+    raw_text = textract.process(file.get_path())
 
-    text = textract.process(file.get_path())
+    # Translate it into hexidesimal in order to handle different languages
+    hex_text = str(hexlify(raw_text))
 
+    # Cut the unwanted part of new string
+    hex_text = hex_text[2:-1]
 
-    soup = BeautifulSoup(text)
-    x = soup.original_encoding
+    # Decode text back from hexidecimal
+    decoded_text = bytes.fromhex(hex_text).decode('utf-8')
+
+    # Count words, characters, etc.
+    info = Counter(decoded_text).count()
+
+    response = {"number of words": info.words, 
+                "characters with no space": info.characters_no_space,
+                "characters with space": info.characters_with_space}
     
-
-    info = Counter(text)
-
-    print(info.count())
-    print(soup)
-    print(type(soup))
-    print(x)
-    
-
-    return JsonResponse({"message": "ok"})
-
-    
+    return JsonResponse(response)

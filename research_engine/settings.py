@@ -134,3 +134,5 @@ MEDIA_ROOT = 'uploads/papers'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'
+
+ACCEPTED_PAPER_FORMATS = ".pdf, .docx"
