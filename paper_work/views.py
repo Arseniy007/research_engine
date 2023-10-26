@@ -150,3 +150,10 @@ def get_file_info(request, file_id):
 # Will there be any difference between s. adviser and co-author?
 # Comments? Each one has only one version of paper?
 # paper space viwe in paper_work???
+
+
+# !!!!!!!
+
+# Separate paper_space and all Paper class functions from files and PaperVersion function!
+# Rewrite paper_space function! 
+# Add delete file function?
