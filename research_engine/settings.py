@@ -136,3 +136,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 
 ACCEPTED_PAPER_FORMATS = ".pdf, .docx"
+
+SAVING_TIME_FORMAT = "%Y-%m-%d-%H-%M-%S"

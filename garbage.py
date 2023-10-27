@@ -135,7 +135,20 @@ def display_file(user, file_id):
 
 
 
+"""
+def user_directory_path(instance, filename):
+    # File will be uploaded to MEDIA_ROOT/user_<id>/paper_<id>/<saving_date>/<filename>
 
+    saving_date = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    return f"user_{instance.paper.user.pk}/paper_{instance.paper.pk}/{saving_date}/{filename}"
+"""
+
+"""
+def get_saving_time():
+
+    return datetime.now().strftime(SAVING_TIME_FORMAT)
+
+"""
 
 
 
