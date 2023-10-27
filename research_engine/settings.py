@@ -32,8 +32,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'chat_with_data',
-    'paper_work',
     'bookshelf',
+    'paper_work',
+    'work_space',
     'user_management',
     'django.contrib.admin',
     'django.contrib.auth',

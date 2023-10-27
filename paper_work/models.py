@@ -31,6 +31,11 @@ class PaperVersion(models.Model):
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
     saving_time = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to=user_directory_path)
+
+
+    def get_saving_time(self):
+        """Return saving time in chosen format"""
+        return self.saving_time.strftime(SAVING_TIME_FORMAT)
     
 
     def get_full_path(self):
@@ -42,11 +47,6 @@ class PaperVersion(models.Model):
         """Returns a path to the file directory"""
         return f"{self.paper.get_path()}/{self.get_saving_time()}"
     
-    
-    def get_saving_time(self):
-        """Return saving time in chosen format"""
-        return self.saving_time.strftime(SAVING_TIME_FORMAT)
-
 
 class Invitation(models.Model):
 

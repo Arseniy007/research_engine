@@ -126,10 +126,10 @@ def delete_file(request, file_id):
     # Get and chek file
     file = check_file(file_id, request.user)
 
-    # Delete paper directory with all files inside
+    # Delete file directory with file inside
     shutil.rmtree(file.get_directory_path())
 
-    # Delete paper from the db
+    # Delete file from the db
     file.delete()
 
     return JsonResponse({"message": "ok"})
@@ -172,4 +172,4 @@ def get_file_info(request, file_id):
 # !!!!!!!
 
 # Separate paper_space and all Paper class functions from files and PaperVersion function!
-# Rewrite paper_space function! 
+# Rewrite paper_space function!
