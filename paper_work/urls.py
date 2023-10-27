@@ -10,5 +10,6 @@ urlpatterns = [
     path("paper_space/<int:paper_id>", views.paper_space, name="paper_space"),
     path("rename_paper/<int:paper_id>", views.rename_paper, name="rename_paper"),
     path("file/<int:file_id>", views.display_file, name="display_file"),
-    path("file_info/<int:file_id>", views.get_file_info, name="file_info")
+    path("file_info/<int:file_id>", views.get_file_info, name="file_info"),
+    path("delete_file/<int:file_id>", views.delete_file, name="delete_file")
 ]

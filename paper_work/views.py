@@ -121,6 +121,21 @@ def display_file(request, file_id):
 
 
 @login_required(redirect_field_name=None)
+def delete_file(request, file_id):
+
+    # Get and chek file
+    file = check_file(file_id, request.user)
+
+    # Delete paper directory with all files inside
+    shutil.rmtree(file.get_directory_path())
+
+    # Delete paper from the db
+    file.delete()
+
+    return JsonResponse({"message": "ok"})
+
+
+@login_required(redirect_field_name=None)
 def get_file_info(request, file_id):
     """Returns info about text-file"""
     
@@ -158,4 +173,3 @@ def get_file_info(request, file_id):
 
 # Separate paper_space and all Paper class functions from files and PaperVersion function!
 # Rewrite paper_space function! 
-# Add delete file function?
