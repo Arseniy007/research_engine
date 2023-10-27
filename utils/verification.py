@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 
 from paper_work.models import Paper, PaperVersion
-from work_space.models import WorkSpace
+from work_space.models import WorkSpace, Invitation
 
 
 def check_work_space(space_id, user):
@@ -10,6 +10,15 @@ def check_work_space(space_id, user):
 
     try:
         return WorkSpace.objects.get(pk=space_id, owner=user)
+    except ObjectDoesNotExist:
+        raise Http404
+    
+
+def check_invitation(invitation_code):
+    """Checks if invitation exists"""
+
+    try:
+        return Invitation.objects.get(code=invitation_code)
     except ObjectDoesNotExist:
         raise Http404
 

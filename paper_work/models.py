@@ -53,3 +53,5 @@ class PaperVersion(models.Model):
 
 # Maybe add to Paper class needed number of words etc.
 # If i invite someone, than i need to have Many to Many relation
+
+# How to connect work space - paper - and files

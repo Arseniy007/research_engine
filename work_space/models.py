@@ -8,6 +8,7 @@ class WorkSpace(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     guests = models.ManyToManyField(User, blank=True, related_name="guests")
     title = models.CharField(max_length=50)
+    is_archived = models.BooleanField(default=False)
 
 
 class Invitation(models.Model):

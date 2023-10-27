@@ -12,7 +12,7 @@ POPULATION = ascii_lowercase + ascii_uppercase + digits
 LENGTH_OF_STRING = 15
 
 
-def generate_invitation(paper):
+def generate_invitation(space):
     '''Generates random invitation code and creates its object'''
 
     # Make sure invitation texts never repeat
@@ -21,7 +21,7 @@ def generate_invitation(paper):
         invitation_code = "".join([SystemRandom().choice(POPULATION) for _ in range(LENGTH_OF_STRING)])
 
         try:
-            new_invitation = Invitation(code=invitation_code, paper=paper)
+            new_invitation = Invitation(code=invitation_code, work_space=space)
 
         except IntegrityError:
             # Generate new code in case of repetition

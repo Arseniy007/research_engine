@@ -11,3 +11,9 @@ class NewWorkSpaceForm(forms.Form):
 class RenameWorkSpaceForm(forms.Form):
 
     new_title = forms.CharField(max_length=50)
+
+
+class ReceiveInvitationForm(forms.Form):
+
+    code = forms.CharField(max_length=15)
+    

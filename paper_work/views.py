@@ -95,7 +95,6 @@ def rename_paper(request, paper_id):
     if form.is_valid():
 
         paper = check_paper(paper_id, request.user)
-
         new_title = form.cleaned_data["new_title"]
 
         paper.title = new_title
@@ -163,14 +162,5 @@ def get_file_info(request, file_id):
     return JsonResponse(response)
 
 
-
-# Send and receive invitations!
-# Will there be any difference between s. adviser and co-author?
-# Comments? Each one has only one version of paper?
-# paper space viwe in paper_work???
-
-
-# !!!!!!!
-
-# Separate paper_space and all Paper class functions from files and PaperVersion function!
+# paper space view in paper_work???
 # Rewrite paper_space function!
