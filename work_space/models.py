@@ -10,8 +10,6 @@ class WorkSpace(models.Model):
     title = models.CharField(max_length=50)
 
 
-
-
 class Invitation(models.Model):
 
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
