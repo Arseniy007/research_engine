@@ -17,7 +17,7 @@ from utils.verification import check_paper, check_file
 def create_paper_space(request):
     """Adds new paper and creates a space for it"""
     
-    form = NewPaperForm(request.POST, request.FILES or None)
+    form = NewPaperForm(request.POST or None)
 
     if request.method == "POST":
 
@@ -34,7 +34,7 @@ def create_paper_space(request):
             return redirect(link)
         
         else:
-            print(form.erros)
+            print(form.errors)
             # TODO
 
     return render(request, "paper_work/create_paper.html", {"form": form})
@@ -61,7 +61,7 @@ def paper_space(request, paper_id):
             print(new_version)
 
         else:
-            print(form.erros)
+            print(form.errors)
             # TODO
     
     paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
@@ -90,10 +90,11 @@ def delete_paper(request, paper_id):
 @login_required(redirect_field_name=None)
 def rename_paper(request, paper_id):
 
-    paper = check_paper(paper_id, request.user)
     form = RenamePaperForm(request.POST)
 
     if form.is_valid():
+
+        paper = check_paper(paper_id, request.user)
 
         new_title = form.cleaned_data["new_title"]
 
