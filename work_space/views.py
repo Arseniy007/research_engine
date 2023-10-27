@@ -42,6 +42,15 @@ def create_work_space(request):
 
 
 @login_required(redirect_field_name=None)
+def delete_work_space(request, space_id):
+    # TODO
+
+    space = check_work_space(space_id, request.user)
+
+    pass
+
+
+@login_required(redirect_field_name=None)
 def archive_work_space(request, space_id):
     # TODO
 
