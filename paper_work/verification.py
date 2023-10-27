@@ -2,6 +2,16 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 
 from .models import Paper, PaperVersion
+from work_space.models import WorkSpace
+
+
+def check_work_space(space_id, user):
+    """Checks if work_space exists and the user is its owner"""
+
+    try:
+        return WorkSpace.objects.get(pk=space_id, owner=user)
+    except ObjectDoesNotExist:
+        raise Http404
 
 
 def check_paper(paper_id, user):

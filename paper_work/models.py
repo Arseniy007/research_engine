@@ -2,6 +2,7 @@ from django.db import models
 
 from research_engine.settings import MEDIA_ROOT, SAVING_TIME_FORMAT
 from user_management.models import User
+from work_space.models import WorkSpace
 
 
 def user_directory_path(instance, filename):
@@ -14,6 +15,8 @@ class Paper(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50, unique=True)
+
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
 
 
     def get_path(self):
@@ -47,12 +50,6 @@ class PaperVersion(models.Model):
         """Returns a path to the file directory"""
         return f"{self.paper.get_path()}/{self.get_saving_time()}"
     
-
-class Invitation(models.Model):
-
-    code = models.CharField(max_length=15, unique=True)
-    paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
-
 
 # Maybe add to Paper class needed number of words etc.
 # If i invite someone, than i need to have Many to Many relation

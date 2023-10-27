@@ -1,3 +1,18 @@
 from django.db import models
 
-# Create your models here.
+from user_management.models import User
+
+
+class WorkSpace(models.Model):
+
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    guests = models.ManyToManyField(User, blank=True, related_name="guests")
+    title = models.CharField(max_length=50)
+
+
+
+
+class Invitation(models.Model):
+
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
+    code = models.CharField(max_length=15, unique=True)
