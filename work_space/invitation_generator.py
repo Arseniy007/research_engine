@@ -8,6 +8,7 @@ from .models import Invitation
 # String with all ascii char options for the generator
 POPULATION = ascii_lowercase + ascii_uppercase + digits
 
+# Numbers of characters in invitation code
 LENGTH_OF_STRING = 15
 
 

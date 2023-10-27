@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 
-from .models import Paper, PaperVersion
+from paper_work.models import Paper, PaperVersion
 from work_space.models import WorkSpace
 
 

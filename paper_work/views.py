@@ -10,7 +10,7 @@ import textract
 
 from .forms import NewPaperForm, NewPaperVersionForm, RenamePaperForm
 from .models import Paper, PaperVersion
-from .verification import check_paper, check_file
+from work_space.verification import check_paper, check_file
 
 
 @login_required(redirect_field_name=None)
