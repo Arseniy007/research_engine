@@ -6,6 +6,7 @@ from django.urls import reverse
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
+from paper_work.forms import NewPaperForm
 from utils.verification import check_work_space, check_invitation, ownership_required
 
 
@@ -23,22 +24,19 @@ def create_work_space(request):
 
     if form.is_valid():
 
+        # Save new work space to the db
         title = form.cleaned_data["title"]
-
         new_space = WorkSpace(owner=request.user, title=title)
         new_space.save()
 
+        # Redirect user to the new work space
         new_space_id = WorkSpace.objects.get(owner=request.user, title=title).pk
-
         link_to_work_space = reverse("work_space:space", args=(new_space_id,))
-
         return redirect(link_to_work_space)
 
-
-    else:
-        print(form.errors)
-        # TODO
-        return redirect(reverse("user_management:error_page"))
+    # TODO
+    print(form.errors)
+    return redirect(reverse("user_management:error_page"))
 
 
 @ownership_required
@@ -70,7 +68,7 @@ def work_space(request, space_id):
 
     space = check_work_space(space_id, request.user)
 
-    return render(request, "work_space/work_space.html", {"space": space, "papers": space.papers.all()})
+    return render(request, "work_space/work_space.html", {"space": space, "papers": space.papers.all(), "form": NewPaperForm()})
 
 
 @ownership_required

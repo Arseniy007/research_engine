@@ -6,6 +6,12 @@
 
     <h3>{{ space }}</h3>
 
+    <form action="{% url 'paper_work:create_paper' %}" method="post">
+        {% csrf_token %} 
+        {{ form }}
+        <button id="change_password_button" type="submit">Add Paper</button>
+    </form>
+
     <ul>
         {% for paper in papers %}
         <li>

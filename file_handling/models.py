@@ -1,6 +1,7 @@
 from django.db import models
 
 from research_engine.settings import MEDIA_ROOT, SAVING_TIME_FORMAT
+from user_management.models import User
 
 
 def user_directory_path(instance, filename):
@@ -11,6 +12,7 @@ def user_directory_path(instance, filename):
 
 class PaperVersion(models.Model):
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     paper = models.ForeignKey("paper_work.Paper", on_delete=models.CASCADE)
     saving_time = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to=user_directory_path)

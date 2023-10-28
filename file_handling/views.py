@@ -10,27 +10,25 @@ import shutil
 import textract
 
 from .forms import NewPaperVersionForm
-from file_handling.models import PaperVersion
+from .models import PaperVersion
 from utils.verification import authorship_required, check_paper, check_file
 
 
 @login_required(redirect_field_name=None)
 def upload_file(request, paper_id):
+    """Upload .pdf/.docx file to the given paper"""
 
     paper = check_paper(paper_id, request.user)
-
     form = NewPaperVersionForm(request.POST, request.FILES)
 
     if form.is_valid():
 
+        # Get and save new file
         file = form.cleaned_data["file"]
-
         new_version = PaperVersion(paper=paper, file=file)
         new_version.save()
-        print(new_version)
-
+        
     else:
-
         print(form.errors)
         # TODO
         return redirect(reverse("user_management:error_page"))

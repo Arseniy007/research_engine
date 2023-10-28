@@ -31,27 +31,17 @@ def authorship_required(function):
 
 
 def check_work_space(space_id, user):
-    """Checks if work_space exists and the user is its owner"""
+    """Checks if work_space exists and the user is either its owner or guest"""
 
     try:
         space = WorkSpace.objects.get(pk=space_id)
     except ObjectDoesNotExist:
         raise Http404
     else:
-        if space.owner != user and user not in space.guests:
+        if space.owner != user and user not in space.guests.all():
             raise Http404
-        
         return space
         
-
-def check_invitation(invitation_code):
-    """Checks if invitation exists"""
-
-    try:
-        return Invitation.objects.get(code=invitation_code)
-    except ObjectDoesNotExist:
-        raise Http404
-
 
 def check_paper(paper_id, user):
     """Checks if user is the author of the given page and page exists"""
@@ -61,9 +51,7 @@ def check_paper(paper_id, user):
     except ObjectDoesNotExist:
         raise Http404
     else:
-        #if paper.work_space.owner != user and user not in paper.work_space.guests:
-            #raise Http404
-   
+        check_work_space(paper.work_space.pk, user)
         return paper
 
 
@@ -72,8 +60,17 @@ def check_file(file_id, user):
 
     try:
         file = PaperVersion.objects.get(pk=file_id)
-        Paper.objects.get(pk=file.paper.pk, user=user)
     except ObjectDoesNotExist:
         raise Http404
     else:
+        check_paper(file.paper.pk, user)
         return file
+
+
+def check_invitation(invitation_code):
+    """Checks if invitation exists"""
+
+    try:
+        return Invitation.objects.get(code=invitation_code)
+    except ObjectDoesNotExist:
+        raise Http404

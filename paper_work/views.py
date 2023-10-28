@@ -16,27 +16,23 @@ from utils.verification import authorship_required, check_paper
 def create_paper(request):
     """Adds new paper and creates a space for it"""
     
-    form = NewPaperForm(request.POST or None)
+    form = NewPaperForm(request.POST)
 
-    if request.method == "POST":
+    if form.is_valid():
 
-        if form.is_valid():
+        # Save new paper to db
+        title = form.cleaned_data["title"]
+        new_paper = Paper(user=request.user, title=title)
+        new_paper.save()
 
-            title = form.cleaned_data["title"]
-
-            new_paper = Paper(user=request.user, title=title)
-            new_paper.save()
-
-            saved_paper = Paper.objects.get(user=request.user, title=title)
-
-            link = reverse("paper_work:paper_space", args=(saved_paper.pk,))
-            return redirect(link)
+        # Redirect user to the new paper-space
+        saved_paper = Paper.objects.get(user=request.user, title=title)
+        link = reverse("paper_work:paper_space", args=(saved_paper.pk,))
+        return redirect(link)
         
-        else:
-            print(form.errors)
-            # TODO
-
-    return render(request, "paper_work/create_paper.html", {"form": form})
+    # TODO
+    print(form.errors)
+    return redirect(reverse("user_management:error_page"))
 
 
 @login_required(redirect_field_name=None)
@@ -69,9 +65,11 @@ def delete_paper(request, paper_id):
 
     return JsonResponse({"message": "ok"})
 
+
 @authorship_required
 @login_required(redirect_field_name=None)
 def archive_paper(request, paper_id):
+    """Mark paper is archived"""
 
     # Check if user has right to archive this paper
     paper = check_paper(paper_id, request.user)
@@ -99,11 +97,9 @@ def rename_paper(request, paper_id):
 
         return JsonResponse({"message": "ok"})
 
-    else:
-        print(form.errors)
-        # TODO
-        pass
-
-    return JsonResponse({"message": "error"})
+    # TODO
+    print(form.errors)
+    return redirect(reverse("user_management:error_page"))
+        
 
 # What else?

@@ -166,7 +166,17 @@ def ownership_required(function):
 
 """
 
+"""
+    if paper.work_space.owner != user and user not in paper.work_space.guests:
+        raise Http404
+    return paper
 
+
+    if file.paper.work_space.owner != user or user not in file.paper.work_space.guests:
+        raise Http404
+    return file
+
+"""
 
 
 

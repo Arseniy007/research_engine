@@ -62,7 +62,7 @@ def register(request):
                 "message": "Username already taken."})
         
         login(request, user)
-        return redirect(reverse("paper_work:create_paper"))
+        return redirect(reverse("work_space:index"))
     
     else:
         return render(request, "user_management/register.html")
