@@ -140,5 +140,3 @@ LOGIN_URL = 'login'
 ACCEPTED_PAPER_FORMATS = ".pdf, .docx"
 
 SAVING_TIME_FORMAT = "%Y-%m-%d-%H-%M-%S"
-
-FILE_OBJECTS = "file_handling.models.PaperVersion"

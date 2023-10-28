@@ -1,6 +1,7 @@
 from django.db import models
 
-from research_engine.settings import MEDIA_ROOT, FILE_OBJECTS
+from file_handling.models import PaperVersion
+from research_engine.settings import MEDIA_ROOT
 from user_management.models import User
 from work_space.models import WorkSpace
 
@@ -22,11 +23,11 @@ class Paper(models.Model):
         """Returns a path to the paper directory"""
         return f"{MEDIA_ROOT}/user_{self.user.pk}/paper_{self.pk}"
     
-    '''
+    
     def get_number_of_files(self):
         """Returns a number of files (PaperVersion objects) related to this papers"""
-        return len("file_handling.PaperVersion".objects.filter(paper=self))
-    '''
+        return len(PaperVersion.objects.filter(paper=self))
+    
     
 
 # Maybe add to Paper class needed number of words etc.
