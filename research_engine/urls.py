@@ -22,6 +22,7 @@ urlpatterns = [
     path("", include("user_management.urls")),
     path("", include("work_space.urls")),
     path("", include("paper_work.urls")),
+    path("", include("file_handling.urls")),
     path("", include("bookshelf.urls")),
     path("", include("chat_with_data.urls"))
 ]

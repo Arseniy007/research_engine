@@ -10,8 +10,9 @@ import shutil
 import textract
 
 from .forms import NewPaperForm, NewPaperVersionForm, RenamePaperForm
-from .models import Paper, PaperVersion
-from utils.verification import check_paper, check_file
+from .models import Paper
+from file_handling.models import PaperVersion
+from utils.verification import check_paper, check_file, authorship_required
 
 
 @login_required(redirect_field_name=None)
@@ -72,6 +73,7 @@ def paper_space(request, paper_id):
     return render(request, "paper_work/paper_space.html", {"form": form, "paper": paper, "paper_versions": paper_versions, "links": links, "rename_form": RenamePaperForm()})
 
 
+@authorship_required
 @login_required(redirect_field_name=None)
 def delete_paper(request, paper_id):
     """Deletes added paper and all releted info"""
@@ -87,7 +89,7 @@ def delete_paper(request, paper_id):
 
     return JsonResponse({"message": "ok"})
 
-
+@authorship_required
 @login_required(redirect_field_name=None)
 def archive_paper(request, paper_id):
 
@@ -101,6 +103,7 @@ def archive_paper(request, paper_id):
     return JsonResponse({"message": "ok"})
 
 
+@authorship_required
 @login_required(redirect_field_name=None)
 def rename_paper(request, paper_id):
 
@@ -134,6 +137,7 @@ def display_file(request, file_id):
     return FileResponse(open(file.get_full_path(), "rb"))
 
 
+@authorship_required
 @login_required(redirect_field_name=None)
 def delete_file(request, file_id):
 
@@ -149,6 +153,7 @@ def delete_file(request, file_id):
     return JsonResponse({"message": "ok"})
 
 
+@authorship_required
 @login_required(redirect_field_name=None)
 def clear_file_history(request, paper_id):
 

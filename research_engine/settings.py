@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'chat_with_data',
     'bookshelf',
+    'file_handling',
     'paper_work',
     'work_space',
     'user_management',
@@ -139,3 +140,5 @@ LOGIN_URL = 'login'
 ACCEPTED_PAPER_FORMATS = ".pdf, .docx"
 
 SAVING_TIME_FORMAT = "%Y-%m-%d-%H-%M-%S"
+
+FILE_OBJECTS = "file_handling.models.PaperVersion"
