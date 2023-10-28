@@ -4,7 +4,15 @@
 {% block body %}
 
 
-    <h3>{{ space.name }}</h3>
+    <h3>{{ space }}</h3>
+
+    <ul>
+        {% for paper in papers %}
+        <li>
+            <a href="{% url 'paper_work:paper_space' paper.pk %}">{{ paper }}</a>
+        </li>
+        {% endfor %}
+    </ul>
    
 
 {% endblock %}

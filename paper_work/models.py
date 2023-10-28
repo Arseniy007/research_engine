@@ -8,7 +8,7 @@ from work_space.models import WorkSpace
 
 class Paper(models.Model):
 
-    #work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="papers")
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="papers")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50, unique=True)
     is_archived = models.BooleanField(default=False)
@@ -31,6 +31,5 @@ class Paper(models.Model):
     
 
 # Maybe add to Paper class needed number of words etc.
-# If i invite someone, than i need to have Many to Many relation
 
 # How to connect work space - paper - and files

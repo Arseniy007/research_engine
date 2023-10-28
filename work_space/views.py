@@ -12,7 +12,7 @@ from utils.verification import check_work_space, check_invitation, ownership_req
 @login_required(redirect_field_name=None)
 def index(request):
 
-    return render(request, "work_space/index.html", {"form": NewWorkSpaceForm})
+    return render(request, "work_space/index.html", {"form": NewWorkSpaceForm, "spaces": WorkSpace.objects.all()})
 
 
 @login_required(redirect_field_name=None)
@@ -53,7 +53,7 @@ def delete_work_space(request, space_id):
 @ownership_required
 @login_required(redirect_field_name=None)
 def archive_work_space(request, space_id):
-    # TODOd
+    # TODO
 
     space = check_work_space(space_id, request.user)
 
@@ -64,14 +64,13 @@ def archive_work_space(request, space_id):
     return JsonResponse({"message": "ok"})
 
 
-
 @login_required(redirect_field_name=None)
 def work_space(request, space_id):
     # TODO
 
     space = check_work_space(space_id, request.user)
 
-    return render(request, "work_space/work_space.html", {"space": space})
+    return render(request, "work_space/work_space.html", {"space": space, "papers": space.papers.all()})
 
 
 @ownership_required

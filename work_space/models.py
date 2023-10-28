@@ -11,6 +11,10 @@ class WorkSpace(models.Model):
     is_archived = models.BooleanField(default=False)
 
 
+    def __str__(self):
+        return self.title
+
+
 class Invitation(models.Model):
 
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)

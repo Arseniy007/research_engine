@@ -10,6 +10,15 @@
         <button id="change_password_button" type="submit">Create Space</button>
     </form>
 
+
+    <ul>
+        {% for space in spaces %}
+        <li>
+            <a href="{% url 'work_space:space' space.pk %}">{{ space }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
 {% endblock %}
 
 {% block script %}

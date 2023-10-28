@@ -5,7 +5,7 @@
 
     <h3>{{ paper.title }}</h3>
 
-    <form enctype="multipart/form-data" action="{% url 'paper_work:paper_space' paper.pk %}" method="post">
+    <form enctype="multipart/form-data" action="{% url 'file_handling:upload_file' paper.pk %}" method="post">
         {% csrf_token %} 
         {{ form }}
         <button id="change_password_button" type="submit">Save New Version</button>
@@ -14,7 +14,7 @@
     <ul>
         {% for version in paper_versions %}
             <li>
-                <a href="{% url 'paper_work:display_file' version.pk %}">{{ version.file }}</a>
+                <a href="{% url 'file_handling:display_file' version.pk %}">{{ version.file }}</a>
             </li>
         {% endfor %}
     </ul>
