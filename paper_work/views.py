@@ -89,6 +89,19 @@ def delete_paper(request, paper_id):
 
 
 @login_required(redirect_field_name=None)
+def archive_paper(request, paper_id):
+
+    # Check if user has right to archive this paper
+    paper = check_paper(paper_id, request.user)
+
+    # Archive paper
+    paper.is_archived = True
+    paper.save(update_fields=("is_archive",))
+
+    return JsonResponse({"message": "ok"})
+
+
+@login_required(redirect_field_name=None)
 def rename_paper(request, paper_id):
 
     form = RenamePaperForm(request.POST)

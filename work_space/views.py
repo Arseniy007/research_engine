@@ -6,20 +6,20 @@ from django.urls import reverse
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
-from utils.verification import check_work_space, check_invitation
+from utils.verification import check_work_space, check_invitation, ownership_required
 
 
 @login_required(redirect_field_name=None)
 def index(request):
 
-    return render(request, "work_space/index.html")
+    return render(request, "work_space/index.html", {"form": NewWorkSpaceForm})
 
 
 @login_required(redirect_field_name=None)
 def create_work_space(request):
     # TODO
 
-    form = NewWorkSpaceForm(request.POST or None)
+    form = NewWorkSpaceForm(request.POST)
 
     if form.is_valid():
 
@@ -32,15 +32,16 @@ def create_work_space(request):
 
         link_to_work_space = reverse("work_space:space", args=(new_space_id,))
 
-        redirect(link_to_work_space)
+        return redirect(link_to_work_space)
 
 
     else:
         print(form.errors)
         # TODO
-        redirect(reverse("error_page.html"))
+        return redirect(reverse("user_management:error_page"))
 
 
+@ownership_required
 @login_required(redirect_field_name=None)
 def delete_work_space(request, space_id):
     # TODO
@@ -49,17 +50,19 @@ def delete_work_space(request, space_id):
 
     pass
 
-
+@ownership_required
 @login_required(redirect_field_name=None)
 def archive_work_space(request, space_id):
-    # TODO
+    # TODOd
 
     space = check_work_space(space_id, request.user)
 
+    # Archive work space
     space.is_archived = True
     space.save(update_fields=("is_archived",))
 
     return JsonResponse({"message": "ok"})
+
 
 
 @login_required(redirect_field_name=None)
@@ -71,6 +74,7 @@ def work_space(request, space_id):
     return render(request, "work_space/work_space.html", {"space": space})
 
 
+@ownership_required
 @login_required(redirect_field_name=None)
 def rename_work_space(request, space_id):
     # TODO
@@ -95,6 +99,7 @@ def rename_work_space(request, space_id):
     return JsonResponse({"message": "error"})
 
 
+@ownership_required
 @login_required(redirect_field_name=None)
 def invite_to_work_space(request, space_id):
     # TODO
@@ -151,8 +156,5 @@ def leave_work_space(request, space_id):
 
 # Is there a way to send request without forms in create and rename workspace functions
 
-
-
 # Will there be any difference between s. adviser and co-author?
 # Comments? Each one has only one version of paper?
-

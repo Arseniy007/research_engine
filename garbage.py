@@ -150,7 +150,21 @@ def get_saving_time():
 
 """
 
+"""
+def ownership_required(function):
 
+    def wrapper(user, space_id):
+        
+        space = check_work_space(space_id)
+
+        if space.owner != user:
+            raise Http404
+        
+        function(user, space_id)
+
+    return wrapper
+
+"""
 
 
 

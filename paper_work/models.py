@@ -13,10 +13,15 @@ def user_directory_path(instance, filename):
 
 class Paper(models.Model):
 
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="papers")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50, unique=True)
+    is_archived = models.BooleanField(default=False)
 
-    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
+
+    def __str__(self):
+        """Display paper title"""
+        return self.title
 
 
     def get_path(self):
@@ -27,13 +32,18 @@ class Paper(models.Model):
     def get_number_of_files(self):
         """Returns a number of files (PaperVersion objects) related to this papers"""
         return len(PaperVersion.objects.filter(paper=self))
-
+    
 
 class PaperVersion(models.Model):
 
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
     saving_time = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to=user_directory_path)
+
+
+    def __str__(self):
+        """Display file saving time instead of filename"""
+        return self.get_saving_time()
 
 
     def get_saving_time(self):
@@ -49,11 +59,6 @@ class PaperVersion(models.Model):
     def get_directory_path(self):
         """Returns a path to the file directory"""
         return f"{self.paper.get_path()}/{self.get_saving_time()}"
-    
-
-    def __str__(self):
-        """Display file saving time instead of filename"""
-        return self.get_saving_time()
     
 
 # Maybe add to Paper class needed number of words etc.

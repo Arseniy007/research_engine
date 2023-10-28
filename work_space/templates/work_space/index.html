@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+
+    <form action="{% url 'work_space:create_space' %}" method="post">
+        {% csrf_token %} 
+        {{ form }}
+        <button id="change_password_button" type="submit">Create Space</button>
+    </form>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'user_management/script.js' %}"></script>
+{% endblock %}
