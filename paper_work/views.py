@@ -5,6 +5,7 @@ from django.urls import reverse
 
 from binascii import hexlify
 from office_word_count import Counter
+import os
 import shutil
 import textract
 
@@ -75,7 +76,7 @@ def paper_space(request, paper_id):
 def delete_paper(request, paper_id):
     """Deletes added paper and all releted info"""
 
-    # Check if user has right to delte this paper
+    # Check if user has right to delete this paper
     paper = check_paper(paper_id, request.user)
     
     # Delete paper directory with all files inside
@@ -131,6 +132,26 @@ def delete_file(request, file_id):
 
     # Delete file from the db
     file.delete()
+
+    return JsonResponse({"message": "ok"})
+
+
+@login_required(redirect_field_name=None)
+def clear_file_history(request, paper_id):
+
+     # Check if user has right to delete all files
+    paper = check_paper(paper_id, request.user)
+
+    path_to_paper_directory = paper.get_path()
+
+    # Delete paper directory with all files inside
+    shutil.rmtree(path_to_paper_directory)
+
+    # Recreate new empty directory
+    os.mkdir(path_to_paper_directory)
+
+    # Remove files from the db
+    PaperVersion.objects.filter(paper=paper).delete()
 
     return JsonResponse({"message": "ok"})
 

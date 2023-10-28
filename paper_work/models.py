@@ -51,6 +51,11 @@ class PaperVersion(models.Model):
         return f"{self.paper.get_path()}/{self.get_saving_time()}"
     
 
+    def __str__(self):
+        """Display file saving time instead of filename"""
+        return self.get_saving_time()
+    
+
 # Maybe add to Paper class needed number of words etc.
 # If i invite someone, than i need to have Many to Many relation
 
