@@ -102,4 +102,53 @@ def rename_paper(request, paper_id):
     return redirect(reverse("user_management:error_page"))
         
 
+@authorship_required
+@login_required(redirect_field_name=None)
+def finish_paper(request, paper_id):
+    """Mark given paper as finished"""
+
+    # Mark paper as finished
+    paper = check_paper(paper_id, request.user)
+    paper.is_finished = True
+    paper.save(update_fields=("is_finished",))
+
+    # Is that it?
+
+    return JsonResponse({"message": "ok"})
+
+
+@authorship_required
+@login_required(redirect_field_name=None)
+def publish_paper(request, paper_id):
+    """Mark paper as published so it appers at the account page"""
+
+    paper = check_paper(paper_id, request.user)
+
+    if paper.is_finished:
+        paper.is_published = True
+        paper.save(update_fields=("is_published",))
+
+        return JsonResponse({"message": "ok"})
+
+    return JsonResponse({"message": "erro"})
+
+
+@authorship_required
+@login_required(redirect_field_name=None)
+def get_all_published_papers(request):
+    """Return all papers marked as published to show display them at the account page"""
+
+    papers = Paper.objects.filter(user=request.user, is_published=True)
+
+    if not papers:
+        return JsonResponse({"message": "none"})
+
+
+    files = [paper.get_last_file_id() for paper in papers]
+    # TODO
+    pass
+
+
+
+
 # What else?

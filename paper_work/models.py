@@ -12,6 +12,8 @@ class Paper(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50, unique=True)
     is_archived = models.BooleanField(default=False)
+    is_finished = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False)
 
 
     def __str__(self):
@@ -27,6 +29,12 @@ class Paper(models.Model):
     def get_number_of_files(self):
         """Returns a number of files (PaperVersion objects) related to this papers"""
         return len(PaperVersion.objects.filter(paper=self))
+    
+
+    def get_last_file_id(self):
+        """Returns last uploded paper file"""
+
+        return PaperVersion.objects.filter(paper=self).order_by("-pk")[0].pk
     
     
 

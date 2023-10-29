@@ -21,7 +21,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return redirect(reverse("paper_work:create_paper"))
+            return redirect(reverse("work_space:index"))
         else:
             return render(request, "user_management/login.html", {
                 "message": "Invalid username and/or password."})

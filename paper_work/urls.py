@@ -10,4 +10,7 @@ urlpatterns = [
     path("archive_paper/<int:paper_id>", views.archive_paper, name="archive_paper"),
     path("paper_space/<int:paper_id>", views.paper_space, name="paper_space"),
     path("rename_paper/<int:paper_id>", views.rename_paper, name="rename_paper"),
+    path("finish_paper/<int:paper_id>", views.finish_paper, name="finish_paper"),
+    path("publish_paper/<int:paper_id>", views.publish_paper, name="publish_paper"),
+    path("all_published_papers", views.get_all_published_papers, name="all_published_papers")
 ]
