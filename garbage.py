@@ -1,5 +1,3 @@
-from django.core.exceptions import ValidationError
-
 """
 
 def validate_file_extension(value):
@@ -35,7 +33,6 @@ def handle_file_2(user_id, file_id):
     file = check_file(user_id, file_id)
 
     if not file:
-        # TODO
         pass
 
 
@@ -51,8 +48,6 @@ def handle_file_2(user_id, file_id):
 """
 
 def delete_files(paper_id, user):
-
-    # TODO
 
     paper = check_paper(paper_id, user)
 
