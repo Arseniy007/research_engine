@@ -141,7 +141,7 @@ def leave_work_space(request, space_id):
     space = check_work_space(space_id, request.user)
 
     # Check if user was indeed a guest in a given work space
-    if request.user not in space.guests:
+    if request.user not in space.guests.all():
 
         return JsonResponse({"message": "error"})
 
