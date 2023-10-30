@@ -3,6 +3,8 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+import shutil
+
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
@@ -24,10 +26,11 @@ def create_work_space(request):
 
     if form.is_valid():
 
-        # Save new work space to the db
+        # Save new work space to the db and create its directory
         title = form.cleaned_data["title"]
         new_space = WorkSpace(owner=request.user, title=title)
         new_space.save()
+        new_space.create_directory()
 
         # Redirect user to the new work space
         new_space_id = WorkSpace.objects.get(owner=request.user, title=title).pk
@@ -42,11 +45,18 @@ def create_work_space(request):
 @ownership_required
 @login_required(redirect_field_name=None)
 def delete_work_space(request, space_id):
-    # TODO
 
+    # Check if user has right to delete this paper
     space = check_work_space(space_id, request.user)
 
-    pass
+    # Delete work pace directory with all files inside
+    shutil.rmtree(space.get_path())
+
+    # Delete work s[ace] from the db
+    space.delete()
+
+    return JsonResponse({"message": "ok"})
+
 
 @ownership_required
 @login_required(redirect_field_name=None)

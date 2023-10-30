@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('saving_time', models.DateTimeField(auto_now_add=True)),
-                ('file', models.FileField(upload_to=file_handling.models.user_directory_path)),
+                ('file', models.FileField(upload_to=file_handling.models.saving_path)),
                 ('paper', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='paper_work.paper')),
             ],
         ),

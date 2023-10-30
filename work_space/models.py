@@ -1,5 +1,8 @@
 from django.db import models
 
+import os
+
+from research_engine.settings import MEDIA_ROOT
 from user_management.models import User
 
 
@@ -12,7 +15,18 @@ class WorkSpace(models.Model):
 
 
     def __str__(self):
+        """Display work space title"""
         return self.title
+    
+
+    def get_path(self):
+        """Returns a path to the work space directory"""
+        return f"{MEDIA_ROOT}/work_space_{self.pk}"
+
+
+    def create_directory(self):
+        """Creates a directory for a work space"""
+        return os.mkdir(self.get_path())
 
 
 class Invitation(models.Model):

@@ -9,11 +9,11 @@ from .forms import NewPaperForm, RenamePaperForm
 from file_handling.forms import NewPaperVersionForm
 from .models import Paper
 from file_handling.models import PaperVersion
-from utils.verification import authorship_required, check_paper
+from utils.verification import authorship_required, check_paper, check_work_space
 
 
 @login_required(redirect_field_name=None)
-def create_paper(request):
+def create_paper(request, space_id):
     """Adds new paper and creates a space for it"""
     
     form = NewPaperForm(request.POST)
@@ -21,8 +21,9 @@ def create_paper(request):
     if form.is_valid():
 
         # Save new paper to db
+        space = check_work_space(space_id, request.user)
         title = form.cleaned_data["title"]
-        new_paper = Paper(user=request.user, title=title)
+        new_paper = Paper(work_space=space, user=request.user, title=title)
         new_paper.save()
 
         # Redirect user to the new paper-space
@@ -33,20 +34,6 @@ def create_paper(request):
     # TODO
     print(form.errors)
     return redirect(reverse("user_management:error_page"))
-
-
-@login_required(redirect_field_name=None)
-def paper_space(request, paper_id):
-    """Saves current version of the paper"""
-    # TODO
-
-    paper = check_paper(paper_id, request.user)
-
-    paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
-
-    links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
-
-    return render(request, "paper_work/paper_space.html", {"form": NewPaperVersionForm(), "paper": paper, "paper_versions": paper_versions, "links": links, "rename_form": RenamePaperForm()})
 
 
 @authorship_required
@@ -64,6 +51,20 @@ def delete_paper(request, paper_id):
     paper.delete()
 
     return JsonResponse({"message": "ok"})
+
+
+@login_required(redirect_field_name=None)
+def paper_space(request, paper_id):
+    """Saves current version of the paper"""
+    # TODO
+
+    paper = check_paper(paper_id, request.user)
+
+    paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
+
+    links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
+
+    return render(request, "paper_work/paper_space.html", {"form": NewPaperVersionForm(), "paper": paper, "paper_versions": paper_versions, "links": links, "rename_form": RenamePaperForm()})
 
 
 @authorship_required
