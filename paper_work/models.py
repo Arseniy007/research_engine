@@ -1,5 +1,7 @@
 from django.db import models
 
+import os
+
 from file_handling.models import PaperVersion
 from research_engine.settings import MEDIA_ROOT
 from user_management.models import User
@@ -25,6 +27,11 @@ class Paper(models.Model):
         """Returns a path to the paper directory"""
         return f"{MEDIA_ROOT}/work_space_{self.work_space.pk}/papers/user_{self.user.pk}/paper_{self.pk}"
     
+
+    def create_directory(self):
+        """Create an empty directory for the paper-files"""
+        return os.mkdir(self.get_path())
+    
     
     def get_number_of_files(self):
         """Returns a number of files (PaperVersion objects) related to this papers"""
@@ -33,11 +40,7 @@ class Paper(models.Model):
 
     def get_last_file_id(self):
         """Returns last uploded paper file"""
-
         return PaperVersion.objects.filter(paper=self).order_by("-pk")[0].pk
     
     
-
 # Maybe add to Paper class needed number of words etc.
-
-# How to connect work space - paper - and files

@@ -5,7 +5,6 @@ from django.urls import reverse
 
 from binascii import hexlify
 from office_word_count import Counter
-import os
 import shutil
 import textract
 
@@ -97,13 +96,11 @@ def clear_file_history(request, paper_id):
     # Check if user has right to delete all files
     paper = check_paper(paper_id, request.user)
 
-    path_to_paper_directory = paper.get_path()
-
     # Delete paper directory with all files inside
-    shutil.rmtree(path_to_paper_directory)
+    shutil.rmtree(paper.get_path())
 
     # Recreate new empty directory
-    os.mkdir(path_to_paper_directory)
+    paper.create_directory()
 
     # Remove files from the db
     PaperVersion.objects.filter(paper=paper).delete()

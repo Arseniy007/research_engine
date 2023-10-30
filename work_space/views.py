@@ -109,8 +109,10 @@ def rename_work_space(request, space_id):
 @ownership_required
 @login_required(redirect_field_name=None)
 def invite_to_work_space(request, space_id):
+    """Create an invitation to work space for another user"""
     # TODO
 
+    # Check if user has right to invite to the work space
     space = check_work_space(space_id, request.user)
 
     invitation_code = generate_invitation(space)

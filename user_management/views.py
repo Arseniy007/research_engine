@@ -100,5 +100,6 @@ def change_password(request):
 
 
 def show_error_page(request):
+    # TODO
 
     return render(request, "error_page.html")
