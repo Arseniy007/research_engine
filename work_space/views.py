@@ -177,3 +177,7 @@ def leave_work_space(request, space_id):
 # Is there a way to send request without forms in create and rename workspace functions?
 
 # Comments? Each one has only one version of paper?
+
+
+# Resctructure work space diretory efore sending its version to the user?
+# Mkdir - restructure and then (probably using some decorator) - delete it after it's been sent

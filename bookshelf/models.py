@@ -4,7 +4,6 @@ from user_management.models import User
 from work_space.models import WorkSpace
 
 
-# Create your models here.
 class Book(models.Model):
 
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
