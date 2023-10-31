@@ -5,6 +5,6 @@ from . import views
 app_name = "bookshelf"
 
 urlpatterns = [
-    path("add_book", views.add_book, name="add_book"),
+    path("add_book/<int:space_id>", views.add_book, name="add_book"),
     path("delete_book_<int:book_id>", views.delete_book, name="delete_book"),
 ]

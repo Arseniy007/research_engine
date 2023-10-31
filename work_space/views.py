@@ -1,17 +1,16 @@
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, FileResponse
+from django.http import FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
 import shutil
 
-from research_engine.settings import MEDIA_ROOT
-
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
 from paper_work.forms import NewPaperForm
-from utils.verification import check_work_space, check_invitation, ownership_required
+from research_engine.settings import MEDIA_ROOT
+from utils.verification import check_work_space, check_invitation, space_ownership_required
 
 
 @login_required(redirect_field_name=None)
@@ -44,7 +43,7 @@ def create_work_space(request):
     return redirect(reverse("user_management:error_page"))
 
 
-@ownership_required
+@space_ownership_required
 @login_required(redirect_field_name=None)
 def delete_work_space(request, space_id):
 
@@ -60,18 +59,31 @@ def delete_work_space(request, space_id):
     return JsonResponse({"message": "ok"})
 
 
-@ownership_required
+@space_ownership_required
 @login_required(redirect_field_name=None)
 def archive_work_space(request, space_id):
-    # TODO
+    """Mark given work space as archived"""
 
     space = check_work_space(space_id, request.user)
 
-    # Archive work space
     space.is_archived = True
     space.save(update_fields=("is_archived",))
 
     return JsonResponse({"message": "ok"})
+
+
+@login_required(redirect_field_name=None)
+def download_work_space(request, space_id):
+    """Download archived (zip) file of the whole work space directory"""
+
+    # Check if user has right to download the work space
+    space = check_work_space(space_id, request.user)
+
+    # Create zip file of the directory
+    zip_file = shutil.make_archive(space.title, "zip", root_dir=MEDIA_ROOT, base_dir=space.get_base_dir())
+
+    # Open and send it
+    return FileResponse(open(zip_file, "rb"))
 
 
 @login_required(redirect_field_name=None)
@@ -83,7 +95,7 @@ def work_space(request, space_id):
     return render(request, "work_space/work_space.html", {"space": space, "papers": space.papers.all(), "form": NewPaperForm()})
 
 
-@ownership_required
+@space_ownership_required
 @login_required(redirect_field_name=None)
 def rename_work_space(request, space_id):
     # TODO
@@ -108,7 +120,7 @@ def rename_work_space(request, space_id):
     return JsonResponse({"message": "error"})
 
 
-@ownership_required
+@space_ownership_required
 @login_required(redirect_field_name=None)
 def invite_to_work_space(request, space_id):
     """Create an invitation to work space for another user"""
@@ -152,34 +164,16 @@ def receive_invitation(request):
 def leave_work_space(request, space_id):
     """Remove guest from a work space"""
 
-    space = check_work_space(space_id, request.user)
-
     # Check if user was indeed a guest in a given work space
+    space = check_work_space(space_id, request.user)
     if request.user not in space.guests.all():
-
         return JsonResponse({"message": "error"})
 
     # Remove user
     space.guests.remove(request.user)
-
     return JsonResponse({"message": "ok"})
 
 
-@login_required(redirect_field_name=None)
-def download_work_space(request, space_id):
-    """Download archived (zip) file of the whole work space directory"""
+# Is there a way to send request without forms in create and rename workspace functions?
 
-    # Check if user has right to download the work space
-    space = check_work_space(space_id, request.user)
-
-    # Create zip file of the directory
-    zip_file = shutil.make_archive(space.title, "zip", root_dir=MEDIA_ROOT, base_dir=space.get_base_dir())
-
-    # Open and send it
-    return FileResponse(open(zip_file, "rb"))
-
-
-# Is there a way to send request without forms in create and rename workspace functions
-
-# Will there be any difference between s. adviser and co-author?
 # Comments? Each one has only one version of paper?

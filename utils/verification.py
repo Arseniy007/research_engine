@@ -1,12 +1,13 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 
-from paper_work.models import Paper
+from bookshelf.models import Book
 from file_handling.models import PaperVersion
+from paper_work.models import Paper
 from work_space.models import WorkSpace, Invitation
 
 
-def ownership_required(function):
+def space_ownership_required(function):
     """Checks if current user is owner of the work_space"""
     def wrapper(request, space_id):
 
@@ -15,6 +16,18 @@ def ownership_required(function):
             raise Http404
         
         return function(request, space_id)
+    return wrapper
+
+
+def book_ownership_required(function):
+    """Checks if current user added this book"""
+    def wrapper(request, book_id):
+
+        book = check_book(book_id, request.user)
+        if book.user != request.user:
+            raise Http404
+        
+        return function(request, book_id)
     return wrapper
 
 
@@ -65,6 +78,18 @@ def check_file(file_id, user):
     else:
         check_paper(file.paper.pk, user)
         return file
+
+
+def check_book(book_id, user):
+    """Checks if book exists and user added it"""
+
+    try:
+        book = Book.objects.get(pk=book_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(book.work_space.pk, user)
+        return book
 
 
 def check_invitation(invitation_code):
