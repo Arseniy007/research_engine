@@ -17,6 +17,11 @@ class WorkSpace(models.Model):
     def __str__(self):
         """Display work space title"""
         return self.title
+
+
+    def create_dir(self):
+        """Creates a directory for a work space"""
+        return os.mkdir(self.get_path())
     
 
     def get_path(self):
@@ -24,9 +29,9 @@ class WorkSpace(models.Model):
         return f"{MEDIA_ROOT}/work_space_{self.pk}"
 
 
-    def create_directory(self):
-        """Creates a directory for a work space"""
-        return os.mkdir(self.get_path())
+    def get_base_dir(self):
+        """Returns base directory without MEDIA_ROOT"""
+        return f"work_space_{self.pk}"
 
 
 class Invitation(models.Model):

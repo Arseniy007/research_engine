@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
 import shutil
+
+from research_engine.settings import MEDIA_ROOT
 
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
 from .invitation_generator import generate_invitation
@@ -161,6 +163,20 @@ def leave_work_space(request, space_id):
     space.guests.remove(request.user)
 
     return JsonResponse({"message": "ok"})
+
+
+@login_required(redirect_field_name=None)
+def download_work_space(request, space_id):
+    """Download archived (zip) file of the whole work space directory"""
+
+    # Check if user has right to download the work space
+    space = check_work_space(space_id, request.user)
+
+    # Create zip file of the directory
+    zip_file = shutil.make_archive(space.title, "zip", root_dir=MEDIA_ROOT, base_dir=space.get_base_dir())
+
+    # Open and send it
+    return FileResponse(open(zip_file, "rb"))
 
 
 # Is there a way to send request without forms in create and rename workspace functions
