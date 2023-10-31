@@ -34,7 +34,7 @@ def book_ownership_required(function):
 def authorship_required(function):
     """Checks if current user is author of the paper"""
     def wrapper(request, paper_id):
-
+        
         paper = check_paper(paper_id, request.user)
         if paper.user != request.user:
             raise Http404
