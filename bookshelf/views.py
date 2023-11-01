@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from .forms import NewBookForm, AlterBookForm
 from .models import Book
 from utils.verification import book_ownership_required, check_book, check_work_space
 
@@ -14,6 +15,8 @@ def add_book(request, space_id):
     # TODO
 
     space = check_work_space(space_id, request.user)
+
+    form = NewBookForm("#TODO")
 
 
     pass

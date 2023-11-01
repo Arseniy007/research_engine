@@ -14,5 +14,6 @@ urlpatterns = [
     path("invite_to_space/<int:space_id>", views.invite_to_work_space, name="invite_to_space"),
     path("receive_invitation", views.receive_invitation, name="receive_invitation"),
     path("leave_space/<int:space_id>", views.leave_work_space, name="leave_space"),
-    path("download_space/<int:space_id>", views.download_work_space, name="download_space")
+    path("download_space/<int:space_id>", views.download_work_space, name="download_space"),
+    path("test/<int:space_id>", views.test_restructure_dir, name="test")
 ]

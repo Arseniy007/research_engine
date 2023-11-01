@@ -6,7 +6,7 @@ from work_space.models import WorkSpace
 
 class Book(models.Model):
 
-    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="books")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=100)

@@ -1,5 +1,7 @@
 from django.db import models
 
+import os
+
 from research_engine.settings import MEDIA_ROOT, SAVING_TIME_FORMAT
 from user_management.models import User
 
@@ -24,6 +26,11 @@ class PaperVersion(models.Model):
     def __str__(self):
         """Display file saving time instead of filename"""
         return self.get_saving_time()
+    
+
+    def file_name(self):
+        """Returns only the name of file without trailing dirs"""
+        return os.path.basename(self.file.name)
 
 
     def get_saving_time(self):
