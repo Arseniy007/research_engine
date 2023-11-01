@@ -38,3 +38,17 @@ class Invitation(models.Model):
 
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
     code = models.CharField(max_length=15, unique=True)
+
+
+class Comment(models.Model):
+
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        """Disolay comment text"""
+        return self.text
+    
