@@ -7,6 +7,7 @@ import shutil
 import os
 
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
+from .friendly_directory import create_friendly_dir
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
 from paper_work.forms import NewPaperForm
@@ -80,8 +81,14 @@ def download_work_space(request, space_id):
     # Check if user has right to download the work space
     space = check_work_space(space_id, request.user)
 
+    user_friendly_dir = create_friendly_dir(space)
+
+    if not user_friendly_dir:
+        # If work space is empry
+        return JsonResponse({"message": "Empty Work Space"})
+
     # Create zip file of the directory
-    zip_file = shutil.make_archive(space.title, "zip", root_dir=MEDIA_ROOT, base_dir=space.get_base_dir())
+    zip_file = shutil.make_archive(space.title, "zip", root_dir=user_friendly_dir, base_dir=space.title)
 
     # Open and send it
     return FileResponse(open(zip_file, "rb"))
@@ -173,69 +180,6 @@ def leave_work_space(request, space_id):
     # Remove user
     space.guests.remove(request.user)
     return JsonResponse({"message": "ok"})
-
-
-@login_required(redirect_field_name=None)
-def test_restructure_dir(request, space_id):
-
-    space = check_work_space(space_id, request.user)
-
-    papers = space.papers.all()
-    books = space.books.all()
-
-    if not papers and not books:
-        return JsonResponse({"message": "Empty Work Space"})
-
-    space.create_friendly_dir()
-    root_path = space.get_friendly_path()
-
-
-    if papers:
-
-        papers_root = f"{root_path}/papers"
-
-        os.mkdir(papers_root)
-
-        authors = [paper.user for paper in papers]
-
-        for author in authors:
-
-            author_name = f"{author.last_name} {author.first_name}"
-
-            os.makedirs(os.path.join(papers_root, author_name), exist_ok=True)
-
-            author_papers = papers.filter(user=author)
-
-            for author_paper in author_papers:
-
-                path_to_paper = f"{papers_root}/{author_name}/{author_paper}"
-
-                os.makedirs(path_to_paper, exist_ok=True)
-
-                versions = author_paper.versions.all()
-
-                for version in versions:
-
-                    path_to_paper_version = f"{path_to_paper}/{version.get_saving_time()}"
-                    os.makedirs(path_to_paper_version, exist_ok=True)
-                    file_name = version.file_name()
-
-
-                    original_file = version.get_full_path()
-                    destination = os.path.join(path_to_paper_version, file_name)
-
-                    shutil.copyfile(original_file, destination)
-    
-    if books:
-
-        # TODO
-        # Create a txt/exel etc. file for all books (not book files)?
-        pass
-
-    return JsonResponse({"message": "ok"})
-
-
-
 
 
 # Is there a way to send request without forms in create and rename workspace functions?

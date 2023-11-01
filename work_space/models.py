@@ -36,7 +36,7 @@ class WorkSpace(models.Model):
 
     def get_friendly_path(self):
         """Returns a path to the user-friendly version of space directory"""
-        return f"{FRIENDLY_DIRS_ROOT}/{self.title}"
+        return f"{FRIENDLY_DIRS_ROOT}/{self.pk}"
 
 
     def get_base_dir(self):
