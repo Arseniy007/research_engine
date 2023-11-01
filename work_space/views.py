@@ -3,11 +3,11 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-import shutil
 import os
+import shutil
 
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
-from .friendly_directory import create_friendly_dir, delete_temporary_dir
+from .friendly_dir import create_friendly_dir, delete_temporary_dir
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
 from paper_work.forms import NewPaperForm
@@ -74,7 +74,7 @@ def archive_work_space(request, space_id):
     return JsonResponse({"message": "ok"})
 
 
-@delete_temporary_dir
+#@delete_temporary_dir
 @login_required(redirect_field_name=None)
 def download_work_space(request, space_id):
     """Download archived (zip) file of the whole work space directory"""
@@ -89,7 +89,8 @@ def download_work_space(request, space_id):
         return JsonResponse({"message": "Empty Work Space"})
 
     # Create zip file of the directory
-    zip_file = shutil.make_archive(space.title, "zip", root_dir=user_friendly_dir, base_dir=space.title)
+    saving_destination = os.path.join(space.get_friendly_path(), space.title)
+    zip_file = shutil.make_archive(root_dir=user_friendly_dir, base_dir=space.title, base_name=saving_destination, format="zip")
 
     # Open and send it
     return FileResponse(open(zip_file, "rb"))

@@ -1,10 +1,15 @@
+from django.http import JsonResponse
+from functools import wraps
+
 import shutil
 import os
 
 from utils.verification import check_work_space
 
+
 def delete_temporary_dir(function):
     """Decorator which deletes user-friendly dir after zip file has been sent"""
+    @wraps(function)
     def wrapper(request, space_id):
 
         # Call function
@@ -16,8 +21,11 @@ def delete_temporary_dir(function):
 
         if temporary_dir:
             # Delete it
-            return shutil.rmtree(temporary_dir)
+            shutil.rmtree(temporary_dir)
+        
+        return JsonResponse({"message": "ok"})    
     return wrapper
+
             
 
 def create_friendly_dir(work_space):
