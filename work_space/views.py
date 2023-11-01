@@ -7,7 +7,7 @@ import shutil
 import os
 
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
-from .friendly_directory import create_friendly_dir
+from .friendly_directory import create_friendly_dir, delete_temporary_dir
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
 from paper_work.forms import NewPaperForm
@@ -74,6 +74,7 @@ def archive_work_space(request, space_id):
     return JsonResponse({"message": "ok"})
 
 
+@delete_temporary_dir
 @login_required(redirect_field_name=None)
 def download_work_space(request, space_id):
     """Download archived (zip) file of the whole work space directory"""

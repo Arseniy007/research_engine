@@ -1,6 +1,24 @@
 import shutil
 import os
 
+from utils.verification import check_work_space
+
+def delete_temporary_dir(function):
+    """Decorator which deletes user-friendly dir after zip file has been sent"""
+    def wrapper(request, space_id):
+
+        # Call function
+        function(request, space_id)
+
+        # Get path to a temporary dir
+        space = check_work_space(space_id, request.user)
+        temporary_dir = space.get_friendly_path()
+
+        if temporary_dir:
+            # Delete it
+            return shutil.rmtree(temporary_dir)
+    return wrapper
+            
 
 def create_friendly_dir(work_space):
     """Creates user-friendly directory for future zip-archiving and downloading"""
@@ -56,7 +74,6 @@ def create_friendly_dir(work_space):
                     destination = os.path.join(path_to_paper_version, version.file_name())
                     original_file = version.get_full_path()
                     shutil.copyfile(original_file, destination)
-    
     if books:
         # TODO
         # Create a txt/exel etc. file for all books (not book files)?
