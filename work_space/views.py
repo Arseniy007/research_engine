@@ -11,14 +11,16 @@ from .friendly_dir import create_friendly_dir
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
 from paper_work.forms import NewPaperForm
-from research_engine.settings import MEDIA_ROOT
+from research_engine.settings import FRIENDLY_TMP_ROOT
 from utils.verification import check_work_space, check_invitation, space_ownership_required
 
 
 @login_required(redirect_field_name=None)
 def index(request):
 
-    return render(request, "work_space/index.html", {"form": NewWorkSpaceForm, "spaces": WorkSpace.objects.all()})
+    return render(request, "work_space/index.html", {"form": NewWorkSpaceForm, 
+                                                     "spaces": WorkSpace.objects.all(),
+                                                     "form_invitation": ReceiveInvitationForm()})
 
 
 @login_required(redirect_field_name=None)
@@ -96,7 +98,7 @@ def download_work_space(request, space_id):
         return FileResponse(open(zip_file, "rb"))
     finally:
         # Delete whole dir (with zip file inside)
-        shutil.rmtree(user_friendly_dir)
+        shutil.rmtree(FRIENDLY_TMP_ROOT)
 
 
 @login_required(redirect_field_name=None)
@@ -163,7 +165,11 @@ def receive_invitation(request):
         new_work_space = invitation.work_space
         new_work_space.guests.add(request.user)
 
-        return JsonResponse({"message": "ok"})
+        # Delete invitation code
+        invitation.delete()
+
+        link = reverse("work_space:space", args=(new_work_space.pk,))
+        return redirect(link)
 
     else:
         print(form.errors)

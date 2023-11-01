@@ -131,7 +131,7 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = 'uploads'
 
-FRIENDLY_DIRS_ROOT = f'{MEDIA_ROOT}/friendly_dirs'
+FRIENDLY_TMP_ROOT = f'{MEDIA_ROOT}/friendly_dirs'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

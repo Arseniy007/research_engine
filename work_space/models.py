@@ -2,7 +2,7 @@ from django.db import models
 
 import os
 
-from research_engine.settings import MEDIA_ROOT, FRIENDLY_DIRS_ROOT
+from research_engine.settings import MEDIA_ROOT, FRIENDLY_TMP_ROOT
 from user_management.models import User
 
 
@@ -26,7 +26,7 @@ class WorkSpace(models.Model):
 
     def create_friendly_dir(self):
         """Creates directory for future zip-archiving and downloading"""
-        return os.mkdir(self.get_friendly_path())
+        return os.makedirs(self.get_friendly_path(), exist_ok=True)
     
 
     def get_path(self):
@@ -36,7 +36,7 @@ class WorkSpace(models.Model):
 
     def get_friendly_path(self):
         """Returns a path to the user-friendly version of space directory"""
-        return f"{FRIENDLY_DIRS_ROOT}/{self.pk}"
+        return f"{FRIENDLY_TMP_ROOT}/{self.pk}"
 
 
     def get_base_dir(self):

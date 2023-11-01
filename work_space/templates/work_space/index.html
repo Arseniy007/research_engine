@@ -19,6 +19,15 @@
         {% endfor %}
     </ul>
 
+
+    <form action="{% url 'work_space:receive_invitation' %}" method="post">
+        {% csrf_token %} 
+        {{ form_invitation }}
+        <button type="submit">Receive</button>
+    </form>
+
+
+
 {% endblock %}
 
 {% block script %}
