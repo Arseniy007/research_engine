@@ -61,4 +61,5 @@ class Comment(models.Model):
     def __str__(self):
         """Disolay comment text"""
         return self.text
-    
+
+    # TODO

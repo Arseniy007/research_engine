@@ -1,32 +1,6 @@
-from django.http import JsonResponse
-from functools import wraps
-
 import shutil
 import os
 
-from utils.verification import check_work_space
-
-
-def delete_temporary_dir(function):
-    """Decorator which deletes user-friendly dir after zip file has been sent"""
-    @wraps(function)
-    def wrapper(request, space_id):
-
-        # Call function
-        function(request, space_id)
-
-        # Get path to a temporary dir
-        space = check_work_space(space_id, request.user)
-        temporary_dir = space.get_friendly_path()
-
-        if temporary_dir:
-            # Delete it
-            shutil.rmtree(temporary_dir)
-        
-        return JsonResponse({"message": "ok"})    
-    return wrapper
-
-            
 
 def create_friendly_dir(work_space):
     """Creates user-friendly directory for future zip-archiving and downloading"""

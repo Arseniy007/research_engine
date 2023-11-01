@@ -18,7 +18,12 @@
             <a href="{% url 'paper_work:paper_space' paper.pk %}">{{ paper }}</a>
         </li>
         {% endfor %}
-    </ul>
+    </ul><br><br>
+
+    <li>
+        <a href="{% url 'work_space:download_space' space.pk %}">Donwload space</a>
+    </li>
+    
    
 
 {% endblock %}
