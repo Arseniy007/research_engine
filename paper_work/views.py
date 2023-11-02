@@ -9,7 +9,8 @@ from .forms import NewPaperForm, RenamePaperForm
 from file_handling.forms import NewPaperVersionForm
 from .models import Paper
 from file_handling.models import PaperVersion
-from utils.verification import authorship_required, check_paper, check_work_space
+from utils.decorators import authorship_required
+from utils.verification import check_paper, check_work_space
 
 
 @login_required(redirect_field_name=None)

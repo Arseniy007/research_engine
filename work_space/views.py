@@ -12,7 +12,8 @@ from .invitation_generator import generate_invitation
 from .models import WorkSpace
 from paper_work.forms import NewPaperForm
 from research_engine.settings import FRIENDLY_TMP_ROOT
-from utils.verification import check_work_space, check_invitation, space_ownership_required
+from utils.decorators import space_ownership_required
+from utils.verification import check_work_space, check_invitation
 
 
 @login_required(redirect_field_name=None)
@@ -197,5 +198,3 @@ def leave_work_space(request, space_id):
 
 # Comments? Each one has only one version of paper?
 
-# Resctructure work space diretory efore sending its version to the user?
-# Mkdir - restructure and then (probably using some decorator) - delete it after it's been sent

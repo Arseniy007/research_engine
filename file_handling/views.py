@@ -10,7 +10,8 @@ import textract
 
 from .forms import NewPaperVersionForm
 from .models import PaperVersion
-from utils.verification import authorship_required, check_paper, check_file
+from utils.decorators import authorship_required
+from utils.verification import check_paper, check_file
 
 
 @login_required(redirect_field_name=None)

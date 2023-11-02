@@ -7,7 +7,8 @@ from django.urls import reverse
 
 from .forms import NewBookForm, AlterBookForm
 from .models import Book
-from utils.verification import book_ownership_required, check_book, check_work_space
+from utils.decorators import book_ownership_required
+from utils.verification import check_book, check_work_space
 
 
 @login_required(redirect_field_name=None)
