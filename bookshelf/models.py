@@ -14,55 +14,71 @@ class Author(models.Model):
     def __str__(self):
         """Display authors name"""
         return f"{self.last_name} {self.first_name}"
+    
 
-
-class Book(models.Model):
-
-    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="books")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
-
-    author = models.ManyToManyField(Author, related_name="authors")
+class CommonInfo(models.Model):
 
     title = models.CharField(max_length=100)
-
-    publishing_house = models.CharField(max_length=20)
-
-    city = models.CharField(max_length=20, blank=True)
     year = models.IntegerField(blank=True)
 
-    link = models.CharField(max_length=40, blank=True)
+    link_to_text = models.CharField(max_length=40, blank=True)
 
+    class Meta:
+        abstract = True
 
+    
     def __str__(self):
         """Display book title"""
         return self.title
-    
 
 
-class Journal(Book):
+class Book(CommonInfo):
 
-    pass
+    related_name = "books"
 
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name=related_name)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name=related_name)
 
+    author = models.ManyToManyField(Author, related_name=related_name)
 
-class Article(Book):
+    publishing_house = models.CharField(max_length=20)
+    city = models.CharField(max_length=20, blank=True)
 
-    pass
-
+    is_edited = models.BooleanField(default=False)
 
 
 class Chapter(Book):
 
+    pages = models.CharField(max_length=20)
+
+
+class Journal(CommonInfo):
+
+    related_name = "journals"
+
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name=related_name)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name=related_name)
+
+    author = models.ManyToManyField(Author, related_name=related_name)
+
     pass
 
 
-class Website(Book):
+class Article(Journal):
 
-    pass
-
-
+    pages = models.CharField(max_length=20)
 
 
+class Website(CommonInfo):
+
+    related_name = "websites"
+
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name=related_name)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name=related_name)
+
+    author = models.ManyToManyField(Author, related_name=related_name)
+
+    link = models.CharField(max_length=40, blank=True)
 
 
 class Quote(models.Model):
@@ -76,6 +92,12 @@ class Quote(models.Model):
         """Display quotes text"""
         return self.text
 
+
+"""
+class EditedBook(CommonInfo):
+
+    pass
+"""
 
 
 # Page - Integerfield??

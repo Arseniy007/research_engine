@@ -19,6 +19,9 @@ def add_book(request, space_id):
 
     form = NewBookForm("#TODO")
 
+    # Create Book-form and test it and quoting functions!
+    # APA then MLA
+
 
     pass
 
@@ -39,6 +42,8 @@ def alter_book_info(request, book_id):
     # TODO
 
     book = check_book(book_id, request.user)
+
+    form = AlterBookForm("#TODO")
 
     pass
 

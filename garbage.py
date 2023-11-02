@@ -245,6 +245,25 @@ def test_restructure_dir(request, space_id):
 
 
 
+from user_management.models import User
+
+from work_space.models import WorkSpace
+
+from bookshelf.models import Author, Book
+
+from bookshelf.quoting import quote_book_apa
+
+user = User.objects.get(pk=1)
+
+space = WorkSpace.objects.get(pk=2)
+
+author = Author.objects.get(pk=1)
+
+book = Book.objects.get(pk=2)
+
+
+
+quote_book_apa(book)
 
 
 
