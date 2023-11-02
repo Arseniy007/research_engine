@@ -20,6 +20,22 @@
         {% endfor %}
     </ul><br><br>
 
+
+    <form action="{% url 'bookshelf:add_book' space.pk %}" method="post">
+        {% csrf_token %} 
+        {{ book_form }}
+        <button  type="submit">Add Book</button>
+    </form>
+
+    <ul>
+        {% for book in books %}
+        <li>
+           {{ book }}
+        </li>
+        {% endfor %}
+    </ul><br><br>
+
+
     <li>
         <a href="{% url 'work_space:download_space' space.pk %}">Donwload space</a>
     </li>

@@ -8,13 +8,69 @@ class Author(models.Model):
 
     last_name = models.CharField(max_length=30)
     first_name = models.CharField(max_length=30)
-    initials = models.CharField(max_length=10)
+    #initials = models.CharField(max_length=10)
 
     
     def __str__(self):
         """Display authors name"""
         return f"{self.last_name} {self.first_name}"
     
+
+
+class BookAbstractModel(models.Model):
+
+    related_name = "books"
+
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name=related_name)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name=related_name)
+
+    title = models.CharField(max_length=100)
+    year = models.IntegerField(blank=True)
+    link_to_text = models.CharField(max_length=40, blank=True)
+    publishing_house = models.CharField(max_length=20)
+
+
+    class Meta:
+        abstract = True
+
+
+class Book(BookAbstractModel):
+
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="books")
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="books")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
+
+
+    def __str__(self):
+        return f"{self.author.last_name} {self.author.first_name[0]}. ({self.year}). {self.title}. {self.publishing_house}"
+
+
+class MultipleAuthorsBook(BookAbstractModel):
+
+    authors = models.ManyToManyField(Author,related_name="multiple_authors_book")
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="multiple_authors_book")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="multiple_authors_book")
+
+
+class EditedBook(BookAbstractModel):
+
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="edited_books")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="edited_books")
+    authors = models.ManyToManyField(Author,related_name="edited_books")
+    edition = models.CharField(max_length=10)
+
+
+
+
+
+
+
+
+"""
+class Chapter(BookAbstractModel):
+
+    pages = models.CharField(max_length=20)
+
 
 class CommonInfo(models.Model):
 
@@ -28,7 +84,7 @@ class CommonInfo(models.Model):
 
     
     def __str__(self):
-        """Display book title"""
+        '''Display book title''''''
         return self.title
 
 
@@ -42,14 +98,22 @@ class Book(CommonInfo):
     author = models.ManyToManyField(Author, related_name=related_name)
 
     publishing_house = models.CharField(max_length=20)
-    city = models.CharField(max_length=20, blank=True)
+    #city = models.CharField(max_length=20, blank=True)
 
     is_edited = models.BooleanField(default=False)
 
 
-class Chapter(Book):
+    def __str__(self):
+        
+        author = self.author.all()[0]
+        return f"{author.last_name} {author.first_name} ({self.year}). {self.title}"
 
-    pages = models.CharField(max_length=20)
+
+
+
+
+
+
 
 
 class Journal(CommonInfo):
@@ -89,15 +153,14 @@ class Quote(models.Model):
 
     
     def __str__(self):
-        """Display quotes text"""
+        '''Display quotes text'''
         return self.text
+    
 
 
 """
-class EditedBook(CommonInfo):
 
-    pass
-"""
 
 
 # Page - Integerfield??
+# on delete moderls cascade?

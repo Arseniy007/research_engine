@@ -7,6 +7,7 @@ import os
 import shutil
 
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
+from bookshelf.forms import NewBookForm
 from .friendly_dir import create_friendly_dir
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
@@ -108,7 +109,11 @@ def work_space(request, space_id):
 
     space = check_work_space(space_id, request.user)
 
-    return render(request, "work_space/work_space.html", {"space": space, "papers": space.papers.all(), "form": NewPaperForm()})
+    return render(request, "work_space/work_space.html", {"space": space, 
+                                                          "papers": space.papers.all(),
+                                                          "books": space.books.all(),
+                                                          "form": NewPaperForm(),
+                                                          "book_form": NewBookForm})
 
 
 @space_ownership_required
