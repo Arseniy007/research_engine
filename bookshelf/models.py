@@ -24,7 +24,7 @@ class Book(models.Model):
     title = models.CharField(max_length=100)
 
     author = models.CharField(max_length=70)
-    multiple_authors = models.BooleanField(default=False)
+    #multiple_authors = models.BooleanField(default=False)
 
     year = models.IntegerField(blank=True)
     publishing_house = models.CharField(max_length=20)
@@ -56,19 +56,17 @@ class Book(models.Model):
 
             for i in range(1, len(name)):
                 initials += f"{name[i][0]}."
-            
+
             authors_name.append(f"{last_name} {initials}")
                 
         if len(authors_name) == 1:
             author = authors_name[0]
         else:
-            author = "/".join(authors_name)
+            author = ", ".join(authors_name)
 
-    
+        # See quoting.py
+
         return f"{author} ({self.year}). {self.title}. {self.publishing_house}."
-
-       
-
 
 
     def quote_mla(self):
@@ -271,4 +269,4 @@ class Quote(models.Model):
 
 
 # Page - Integerfield??
-# on delete moderls cascade?
+# on delete models cascade?

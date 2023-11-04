@@ -42,6 +42,7 @@ class AlterBookForm(forms.ModelForm):
     pass
 
 
+"""
 class NewQuoteForm(forms.ModelForm):
     class Meta:
         model = ""
@@ -49,3 +50,4 @@ class NewQuoteForm(forms.ModelForm):
         exclude = []
     
      # add exsta fields here
+"""

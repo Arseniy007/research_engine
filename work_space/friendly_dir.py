@@ -1,6 +1,8 @@
 import shutil
 import os
 
+from bookshelf.quoting import quote_book_apa, quote_book_mla
+
 
 def create_friendly_dir(work_space):
     """Creates user-friendly directory for future zip-archiving and downloading"""
@@ -67,8 +69,10 @@ def create_friendly_dir(work_space):
         # with both mla and apa citations!
         # and then also folder with all books (filenames?)
 
-        
+        books_apa = [book.quote_apa() for book in books]
+        books_mla = [book.quote_mla() for book in books]
 
+        # TODO
 
 
         pass

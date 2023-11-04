@@ -43,7 +43,6 @@ def add_book(request, space_id):
     else:
         print(form.errors)
         # TODO
-        return JsonResponse({"message": "error"})
         pass
 
 
