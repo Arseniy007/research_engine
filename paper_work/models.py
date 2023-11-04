@@ -25,7 +25,7 @@ class Paper(models.Model):
 
     def get_path(self):
         """Returns a path to the paper directory"""
-        return f"{MEDIA_ROOT}/work_space_{self.work_space.pk}/papers/user_{self.user.pk}/paper_{self.pk}"
+        return f"{self.work_space.get_path()}/papers/user_{self.user.pk}/paper_{self.pk}"
     
 
     def create_directory(self):

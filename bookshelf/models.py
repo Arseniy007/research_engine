@@ -37,6 +37,11 @@ class Book(models.Model):
         return self.title
     
 
+    def get_path(self):
+        """Returns a path to the book directory"""
+        return f"{self.work_space.get_path()}/books/user_{self.user.pk}/book_{self.pk}"
+
+
     def quote_apa(self):
 
         pass

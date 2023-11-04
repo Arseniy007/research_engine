@@ -8,17 +8,20 @@ class NewBookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = "__all__"
-        exclude = ["user", "work_space", "author", "is_edited"]
+        exclude = ["user", "work_space", "author", "is_edited", "file"]
 
 
     author_last_name = forms.CharField(max_length=40)
     author_first_name = forms.CharField(max_length=40)
-    file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
-    
- 
 
-    #widgets = {"file": forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS})}
-    pass
+
+class UploadBookForm(forms.Form):
+
+    file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
+
+
+
+
 
 
 class AlterBookForm(forms.ModelForm):

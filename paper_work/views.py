@@ -40,7 +40,7 @@ def create_paper(request, space_id):
 @authorship_required
 @login_required(redirect_field_name=None)
 def delete_paper(request, paper_id):
-    """Deletes added paper and all releted info"""
+    """Deletes added paper and all related info"""
 
     # Check if user has right to delete this paper
     paper = check_paper(paper_id, request.user)

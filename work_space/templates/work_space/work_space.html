@@ -30,7 +30,7 @@
     <ul>
         {% for book in books %}
         <li>
-           {{ book }}
+           <a href="{% url 'bookshelf:book_space' book.pk %}">{{ book }}</a>
         </li>
         {% endfor %}
     </ul><br><br>

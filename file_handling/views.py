@@ -18,14 +18,13 @@ from utils.verification import check_paper, check_file
 def upload_file(request, paper_id):
     """Upload .pdf/.docx file to the given paper"""
 
-    paper = check_paper(paper_id, request.user)
     form = NewPaperVersionForm(request.POST, request.FILES)
 
     if form.is_valid():
 
         # Get and save new file
-        file = form.cleaned_data["file"]
-        new_version = PaperVersion(user=request.user, paper=paper, file=file)
+        paper = check_paper(paper_id, request.user)
+        new_version = PaperVersion(user=request.user, paper=paper, file=form.cleaned_data["file"])
         new_version.save()
         
     else:
