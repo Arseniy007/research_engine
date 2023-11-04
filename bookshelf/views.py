@@ -5,8 +5,6 @@ from django.urls import reverse
 
 import shutil
 
-from django.core.exceptions import PermissionDenied
-
 from .forms import NewBookForm, UploadBookForm, AlterBookForm
 from .models import Book
 from utils.decorators import book_ownership_required
