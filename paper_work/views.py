@@ -46,7 +46,8 @@ def delete_paper(request, paper_id):
     paper = check_paper(paper_id, request.user)
     
     # Delete paper directory with all files inside
-    shutil.rmtree(paper.get_path())
+    if paper.versions.all():
+        shutil.rmtree(paper.get_path())
 
     # Delete paper from the db
     paper.delete()

@@ -66,6 +66,11 @@ def create_friendly_dir(work_space):
         # Create a txt/exel etc. file for all books (not book files)
         # with both mla and apa citations!
         # and then also folder with all books (filenames?)
+
+        
+
+
+
         pass
     
     # Return path to the whole dir

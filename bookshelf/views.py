@@ -5,6 +5,8 @@ from django.urls import reverse
 
 import shutil
 
+from django.core.exceptions import PermissionDenied
+
 from .forms import NewBookForm, UploadBookForm, AlterBookForm
 from .models import Book
 from utils.decorators import book_ownership_required
@@ -25,11 +27,16 @@ def add_book(request, space_id):
         space = check_work_space(space_id, request.user)
 
         title = form.cleaned_data["title"]
-        #author_last_name = form.cleaned_data["author_last_name"]
-        #author_first_name = form.cleaned_data["author_first_name"]
+
+        author_last_name = form.cleaned_data["author_last_name"]
+        author_first_name = form.cleaned_data["author_first_name"]
+        author_second_name = form.cleaned_data["author_second_name"]
+
+        author = f"{author_last_name} {author_first_name} {author_second_name}"
+        
         year, publishing_house = form.cleaned_data["year"], form.cleaned_data["publishing_house"]
 
-        new_book = Book(user=request.user, work_space=space, title=title, author="s", year=year, publishing_house=publishing_house)
+        new_book = Book(user=request.user, work_space=space, title=title, author=author, year=year, publishing_house=publishing_house)
         new_book.save()
 
         link = reverse("work_space:space", args=(space.pk,))
@@ -38,6 +45,7 @@ def add_book(request, space_id):
     else:
         print(form.errors)
         # TODO
+        return JsonResponse({"message": "error"})
         pass
 
 
@@ -71,7 +79,8 @@ def delete_book(request, book_id):
     book = check_book(book_id, request.user)
 
     # Delete paper directory with all files inside
-    shutil.rmtree(book.get_path())
+    if book.file:
+        shutil.rmtree(book.get_path())
 
     # Delete book from the db
     book.delete()

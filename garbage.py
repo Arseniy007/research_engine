@@ -237,7 +237,20 @@ def test_restructure_dir(request, space_id):
 
 
 
+"""
+   if len(name) != 2:
 
+                last_name, first_name = name[0], name[1]
+                return f"{last_name} {first_name[0]}. ({self.year}). {self.title}. {self.publishing_house}."
+        
+            else:
+                last_name, first_name, second_name = name[0], name[1], name[2]
+                return f"{last_name} {first_name[0]}. {second_name[0]}. ({self.year}). {self.title}. {self.publishing_house}."
+
+
+
+
+"""
 
 
 
