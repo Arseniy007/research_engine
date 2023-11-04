@@ -1,14 +1,14 @@
+import shutil
+
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-import shutil
-
 from .forms import NewPaperForm, RenamePaperForm
 from file_handling.forms import NewPaperVersionForm
-from .models import Paper
 from file_handling.models import PaperVersion
+from .models import Paper
 from utils.decorators import authorship_required
 from utils.verification import check_paper, check_work_space
 

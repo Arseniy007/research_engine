@@ -1,12 +1,12 @@
+from office_word_count import Counter
+import shutil
+import textract
+from binascii import hexlify
+
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
-from binascii import hexlify
-from office_word_count import Counter
-import shutil
-import textract
 
 from .forms import NewPaperVersionForm
 from .models import PaperVersion

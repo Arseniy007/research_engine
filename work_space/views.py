@@ -1,13 +1,13 @@
+import os
+import shutil
+
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-import os
-import shutil
-
-from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
 from bookshelf.forms import NewBookForm
+from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
 from .friendly_dir import create_friendly_dir
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
@@ -202,4 +202,3 @@ def leave_work_space(request, space_id):
 # Is there a way to send request without forms in create and rename workspace functions?
 
 # Comments? Each one has only one version of paper?
-

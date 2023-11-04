@@ -1,4 +1,6 @@
-from django.db import models
+import os
+
+from django.db import models 
 
 from user_management.models import User
 from work_space.models import WorkSpace
@@ -30,7 +32,7 @@ class Book(models.Model):
     publishing_house = models.CharField(max_length=20)
 
     file = models.FileField(upload_to=saving_path, blank=True)
-    link_to_text = models.CharField(max_length=40, blank=True)
+    link = models.CharField(max_length=40, blank=True)
 
     
     def __str__(self):
@@ -40,39 +42,15 @@ class Book(models.Model):
     def get_path(self):
         """Returns a path to the book directory"""
         return f"{self.work_space.get_path()}/books/user_{self.user.pk}/book_{self.pk}"
+    
+
+    def get_path_to_file(self):
+        """Returns a path to the book file"""
+
+        return os.path.join(self.get_path(), os.path.basename(self.file.name))
 
 
-    def quote_apa(self):
-        """Makes qoute following APA standarts"""
-
-        authors = self.author.split(",")
-        authors_name = []
-
-        for one in authors:
-
-            name = one.split()
-            last_name = name[0]
-            initials = ""
-
-            for i in range(1, len(name)):
-                initials += f"{name[i][0]}."
-
-            authors_name.append(f"{last_name} {initials}")
-                
-        if len(authors_name) == 1:
-            author = authors_name[0]
-        else:
-            author = ", ".join(authors_name)
-
-        # See quoting.py
-
-        return f"{author} ({self.year}). {self.title}. {self.publishing_house}."
-
-
-    def quote_mla(self):
-
-        pass
-
+    
 
 
 

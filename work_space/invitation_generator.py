@@ -12,7 +12,7 @@ POPULATION = ascii_lowercase + ascii_uppercase + digits
 LENGTH_OF_STRING = 15
 
 
-def generate_invitation(space):
+def generate_invitation(space: object):
     '''Generates random invitation code and creates its object'''
 
     # Make sure invitation texts never repeat

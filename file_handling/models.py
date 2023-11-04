@@ -1,6 +1,6 @@
-from django.db import models
-
 import os
+
+from django.db import models
 
 from research_engine.settings import MEDIA_ROOT, SAVING_TIME_FORMAT
 from user_management.models import User

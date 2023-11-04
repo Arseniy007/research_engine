@@ -1,6 +1,6 @@
-from django.db import models
-
 import os
+
+from django.db import models
 
 from file_handling.models import PaperVersion
 from research_engine.settings import MEDIA_ROOT

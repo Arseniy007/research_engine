@@ -4,7 +4,7 @@ import os
 from bookshelf.quoting import quote_book_apa, quote_book_mla
 
 
-def create_friendly_dir(work_space):
+def create_friendly_dir(work_space: object):
     """Creates user-friendly directory for future zip-archiving and downloading"""
 
     # Get all books and papers in given work space
@@ -67,10 +67,10 @@ def create_friendly_dir(work_space):
         # TODO
         # Create a txt/exel etc. file for all books (not book files)
         # with both mla and apa citations!
-        # and then also folder with all books (filenames?)
+        # and then also folder with all books (filenames?) --- if there are such files!
 
-        books_apa = [book.quote_apa() for book in books]
-        books_mla = [book.quote_mla() for book in books]
+        books_apa = [quote_book_apa(book) for book in books]
+        books_mla = [quote_book_mla(book) for book in books]
 
         # TODO
 
