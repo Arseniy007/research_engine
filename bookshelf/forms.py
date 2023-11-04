@@ -1,5 +1,6 @@
 from django import forms
 
+from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
 from .models import Book
 
 
@@ -11,16 +12,12 @@ class NewBookForm(forms.ModelForm):
 
 
     author_last_name = forms.CharField(max_length=40)
-    author_first_name = forms.CharField(max_length=40) 
+    author_first_name = forms.CharField(max_length=40)
+    file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
     
-    # add exsta fields here
+ 
 
-    """
-    widgets = {
-    
-            "name": Textarea(attrs={"cols": 80, "rows": 20}),
-    }
-    """
+    #widgets = {"file": forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS})}
     pass
 
 

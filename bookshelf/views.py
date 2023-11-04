@@ -15,24 +15,22 @@ from utils.verification import check_book, check_work_space
 def add_book(request, space_id):
     # TODO
 
-    form = NewBookForm(request.POST)
+    form = NewBookForm(request.POST, request.FILES)
 
     if form.is_valid():
 
         space = check_work_space(space_id, request.user)
 
         title = form.cleaned_data["title"]
-        author_last_name = form.cleaned_data["author_last_name"]
-        author_first_name = form.cleaned_data["author_first_name"]
+        #author_last_name = form.cleaned_data["author_last_name"]
+        #author_first_name = form.cleaned_data["author_first_name"]
+        file = form.cleaned_data["file"]
         year, publishing_house = form.cleaned_data["year"], form.cleaned_data["publishing_house"]
-
-        #new_author = Author(last_name=author_last_name, first_name=author_first_name)
-        #new_author.save()
 
         new_book = Book(user=request.user, work_space=space, title=title, author="s", year=year, publishing_house=publishing_house)
         new_book.save()
-
-
+        new_book.file = file
+        new_book.save(update_fields=("file",))
 
         link = reverse("work_space:space", args=(space.pk,))
         return redirect(link)

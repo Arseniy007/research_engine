@@ -8,7 +8,7 @@ from work_space.models import WorkSpace
 # Lastname, firstname(, senond name) / Lastname, firstname(, senond name) /..
 
 def saving_path(instance, filename):
-    """File will be uploaded to xyz"""
+    """File will be uploaded to MEDIA_ROOT/work_space_<id>/books/user_<id>/book_<id>/<filename>"""
 
     space_path = instance.work_space.get_base_dir()
     user_id, book_id = instance.user.pk, instance.pk

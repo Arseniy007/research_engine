@@ -1,7 +1,5 @@
 from django import forms
 
-from research_engine.settings import ACCEPTED_PAPER_FORMATS
-
 
 class NewPaperForm(forms.Form):
     

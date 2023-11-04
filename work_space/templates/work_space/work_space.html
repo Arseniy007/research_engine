@@ -21,7 +21,7 @@
     </ul><br><br>
 
 
-    <form action="{% url 'bookshelf:add_book' space.pk %}" method="post">
+    <form enctype="multipart/form-data" action="{% url 'bookshelf:add_book' space.pk %}" method="post">
         {% csrf_token %} 
         {{ book_form }}
         <button  type="submit">Add Book</button>
