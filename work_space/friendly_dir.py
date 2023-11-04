@@ -28,11 +28,16 @@ def create_friendly_dir(work_space):
 
         for author in authors:
 
-            author_name = f"{author.last_name} {author.first_name}"
+            if len(set(authors)) != 1:
 
-            # Create new "user" dirs inside "papers" dir
-            author_root = os.path.join(papers_root, author_name)
-            os.makedirs(author_root, exist_ok=True)
+                # Create new "user" dirs inside "papers" dir if there are multiple users
+                author_name = f"{author.last_name} {author.first_name}"
+                author_root = os.path.join(papers_root, author_name)
+                os.makedirs(author_root, exist_ok=True)
+
+            else:
+                # Don't create author dir if there is only one user
+                author_root = papers_root
 
             # Get all user papers
             author_papers = papers.filter(user=author)

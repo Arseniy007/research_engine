@@ -51,7 +51,9 @@ def delete_book(request, book_id):
 
     book = check_book(book_id, request.user)
 
-    pass
+    book.delete()
+
+    return JsonResponse({"message": "ok"})
 
 
 @book_ownership_required

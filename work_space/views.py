@@ -37,7 +37,7 @@ def create_work_space(request):
         title = form.cleaned_data["title"]
         new_space = WorkSpace(owner=request.user, title=title)
         new_space.save()
-        new_space.create_directory()
+        new_space.create_dir()
 
         # Redirect user to the new work space
         new_space_id = WorkSpace.objects.get(owner=request.user, title=title).pk
