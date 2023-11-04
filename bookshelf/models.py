@@ -4,6 +4,118 @@ from user_management.models import User
 from work_space.models import WorkSpace
 
 
+# Author field:
+# Lastname, firstname(, senond name) / Lastname, firstname(, senond name) /..
+
+def saving_path(instance, filename):
+    """File will be uploaded to xyz"""
+
+    space_path = instance.work_space.get_base_dir()
+    user_id, book_id = instance.user.pk, instance.pk
+
+    return f"{space_path}/books/user_{user_id}/book_{book_id}/{filename}"
+
+
+class Book(models.Model):
+
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="books")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
+
+    title = models.CharField(max_length=100)
+
+    author = models.CharField(max_length=70)
+    multiple_authors = models.BooleanField(default=False)
+
+    year = models.IntegerField(blank=True)
+    publishing_house = models.CharField(max_length=20)
+
+    file = models.FileField(upload_to=saving_path, blank=True)
+    link_to_text = models.CharField(max_length=40, blank=True)
+
+    
+    def __str__(self):
+        return self.title
+    
+
+    def quote_apa(self):
+
+        pass
+
+
+    def quote_mla(self):
+
+        pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+    """
+    def author_last_name(self):
+
+        if self.multiple_authors:
+
+            authors = self.author.split("/")
+            pass
+
+        else:
+            return self.author.split()[0]
+    """
+
+
+
+
+"""
+
+class EditedBook(Book):
+
+    #work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="edited_books")
+    #user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="edited_books")
+    #authors = models.ManyToManyField(,related_name="edited_books")
+    #edition = models.CharField(max_length=10)
+
+
+class Book(Text):
+
+    pass
+
+    def __str__(self):
+        return f"{self.author_last_name} {self.author_first_name[0]}. ({self.year}). {self.title}. {self.publishing_house}"
+
+class MultipleAuthorsBook(Text):
+
+    authors = models.ManyToManyField(Author,related_name="multiple_authors_book")
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="multiple_authors_book")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="multiple_authors_book")
+
+#author_last_name = models.CharField(max_length=30)
+#author_first_name = models.CharField(max_length=30)
+#author_second_name = models.CharField(max_length=30, blank=True)
+
 class Author(models.Model):
 
     last_name = models.CharField(max_length=30)
@@ -12,10 +124,8 @@ class Author(models.Model):
 
     
     def __str__(self):
-        """Display authors name"""
+        '''Display authors name'''
         return f"{self.last_name} {self.first_name}"
-    
-
 
 class BookAbstractModel(models.Model):
 
@@ -34,39 +144,8 @@ class BookAbstractModel(models.Model):
         abstract = True
 
 
-class Book(BookAbstractModel):
-
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="books")
-    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="books")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
 
 
-    def __str__(self):
-        return f"{self.author.last_name} {self.author.first_name[0]}. ({self.year}). {self.title}. {self.publishing_house}"
-
-
-class MultipleAuthorsBook(BookAbstractModel):
-
-    authors = models.ManyToManyField(Author,related_name="multiple_authors_book")
-    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="multiple_authors_book")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="multiple_authors_book")
-
-
-class EditedBook(BookAbstractModel):
-
-    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="edited_books")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="edited_books")
-    authors = models.ManyToManyField(Author,related_name="edited_books")
-    edition = models.CharField(max_length=10)
-
-
-
-
-
-
-
-
-"""
 class Chapter(BookAbstractModel):
 
     pages = models.CharField(max_length=20)

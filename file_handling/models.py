@@ -9,10 +9,10 @@ from user_management.models import User
 def saving_path(instance, filename):
     """File will be uploaded to MEDIA_ROOT/work_space_<id>/papers/user_<id>/paper_<id>/file_<id>/<filename>"""
 
-    space_id, user_id = instance.paper.work_space.pk, instance.paper.user.pk
+    space_path, user_id = instance.paper.work_space.get_base_dir(), instance.paper.user.pk
     paper_id, saving_time = instance.paper.pk, instance.get_saving_time()
 
-    return f"work_space_{space_id}/papers/user_{user_id}/paper_{paper_id}/{saving_time}/{filename}"
+    return f"{space_path}/papers/user_{user_id}/paper_{paper_id}/{saving_time}/{filename}"
 
 
 class PaperVersion(models.Model):
