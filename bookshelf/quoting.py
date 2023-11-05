@@ -6,7 +6,7 @@ def quote_book_apa(book: object):
     """Makes qoute following APA standarts"""
 
     # TODO
-    # Check (maybe using re module) unwanted spaces/dots/etc.
+    # Check (maybe using re module) unwanted spaces/dots/etc. - separate func!
 
     authors = book.author.split(",")
     authors_name = []
@@ -34,7 +34,25 @@ def quote_book_mla(book: object):
     """Makes qoute following MLA standarts"""
     # TODO
 
-    pass
+    authors = book.author.split(",")
+    authors_name = []
+
+    for one in authors:
+
+        name = one.split()
+        last_name = name[0]
+        try:
+            first_name = name[1]
+        except IndexError:
+            first_name = ""
+
+        authors_name.append(f"{last_name}, {first_name}")
+
+    
+    author = authors_name[0]
+    
+    
+    return f"{author}. {book.title}. {book.publishing_house}, {book.year}"
 
 
 # bunch of other functions related to websites, journals, articles etc.

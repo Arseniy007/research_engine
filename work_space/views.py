@@ -113,7 +113,7 @@ def work_space(request, space_id):
                                                           "papers": space.papers.all(),
                                                           "books": space.books.all(),
                                                           "form": NewPaperForm(),
-                                                          "book_form": NewBookForm})
+                                                          "book_form": NewBookForm()})
 
 
 @space_ownership_required

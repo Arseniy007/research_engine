@@ -1,9 +1,11 @@
 from django.http import Http404
 
+from typing import Callable
+
 from .verification import check_work_space, check_book, check_paper
 
 
-def space_ownership_required(func: function):
+def space_ownership_required(func: Callable):
     """Checks if current user is owner of the work_space"""
     def wrapper(request, space_id):
 
@@ -15,7 +17,7 @@ def space_ownership_required(func: function):
     return wrapper
 
 
-def book_ownership_required(func: function):
+def book_ownership_required(func: Callable):
     """Checks if current user added this book"""
     def wrapper(request, book_id):
 
@@ -27,7 +29,7 @@ def book_ownership_required(func: function):
     return wrapper
 
 
-def authorship_required(func: function):
+def authorship_required(func: Callable):
     """Checks if current user is author of the paper"""
     def wrapper(request, paper_id):
         

@@ -68,9 +68,38 @@ def create_friendly_dir(work_space: object):
         # Create a txt/exel etc. file for all books (not book files)
         # with both mla and apa citations!
         # and then also folder with all books (filenames?) --- if there are such files!
+        
+        # Create new "books" dir
+        books_root = os.path.join(root_path, "books")
+        os.makedirs(books_root, exist_ok=True)
 
-        books_apa = [quote_book_apa(book) for book in books]
-        books_mla = [quote_book_mla(book) for book in books]
+        # Get, quote and sort alphabetically all books
+        books_apa = sorted([quote_book_apa(book) for book in books])
+        books_mla = sorted([quote_book_mla(book) for book in books])
+
+        # Get paths to new .txt files
+        apa_file_path = os.path.join(books_root, "books_apa.txt")
+        mla_file_path = os.path.join(books_root, "books_mla.txt")
+
+        # Create two new .txt files and write all books arrays into them
+        with open(apa_file_path, "w") as apa_file, open(mla_file_path, "w") as mla_file:
+            book_counter = 1
+
+            for i in range(1, len(books)):
+
+                apa_file.write(f"{book_counter}. {books_apa[i]}\n")
+                mla_file.write(f"{book_counter}. {books_mla[i]}\n")
+                book_counter += 1
+
+
+        book_files = [book.file for book in books]
+
+        if any(book_files):
+            
+             # TODO
+            pass
+
+
 
         # TODO
 
