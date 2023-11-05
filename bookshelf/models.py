@@ -39,6 +39,11 @@ class Book(models.Model):
         return self.title
     
 
+    def file_name(self):
+        """Returns only the name of file without trailing dirs"""
+        return os.path.basename(self.file.name)
+    
+
     def get_path(self):
         """Returns a path to the book directory"""
         return f"{self.work_space.get_path()}/books/user_{self.user.pk}/book_{self.pk}"
@@ -46,8 +51,9 @@ class Book(models.Model):
 
     def get_path_to_file(self):
         """Returns a path to the book file"""
-
         return os.path.join(self.get_path(), os.path.basename(self.file.name))
+
+
 
 
     

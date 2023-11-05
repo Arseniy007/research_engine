@@ -1,10 +1,10 @@
-import shutil
 import os
+import shutil
 
 from bookshelf.quoting import quote_book_apa, quote_book_mla
 
 
-def create_friendly_dir(work_space: object):
+def create_friendly_dir(work_space: object) -> str:
     """Creates user-friendly directory for future zip-archiving and downloading"""
 
     # Get all books and papers in given work space
@@ -20,7 +20,6 @@ def create_friendly_dir(work_space: object):
     root_path = os.path.join(original_path, work_space.title)
 
     if papers:
-
         # Create new "papers" dir
         papers_root = os.path.join(root_path, "papers")
         os.makedirs(papers_root, exist_ok=True)
@@ -31,7 +30,6 @@ def create_friendly_dir(work_space: object):
         for author in authors:
 
             if len(set(authors)) != 1:
-
                 # Create new "user" dirs inside "papers" dir if there are multiple users
                 author_name = f"{author.last_name} {author.first_name}"
                 author_root = os.path.join(papers_root, author_name)
@@ -45,7 +43,6 @@ def create_friendly_dir(work_space: object):
             author_papers = papers.filter(user=author)
 
             for author_paper in author_papers:
-
                 # Create new "paper" dirs inside "user" dir
                 path_to_paper = os.path.join(author_root, author_paper.title)
                 os.makedirs(path_to_paper, exist_ok=True)
@@ -54,7 +51,6 @@ def create_friendly_dir(work_space: object):
                 versions = author_paper.versions.all()
 
                 for version in versions:
-
                     # Create new "paper-file" dirs inside "paper" dir
                     path_to_paper_version = os.path.join(path_to_paper, version.get_saving_time())
                     os.makedirs(path_to_paper_version, exist_ok=True)
@@ -63,12 +59,8 @@ def create_friendly_dir(work_space: object):
                     destination = os.path.join(path_to_paper_version, version.file_name())
                     original_file = version.get_full_path()
                     shutil.copyfile(original_file, destination)
+
     if books:
-        # TODO
-        # Create a txt/exel etc. file for all books (not book files)
-        # with both mla and apa citations!
-        # and then also folder with all books (filenames?) --- if there are such files!
-        
         # Create new "books" dir
         books_root = os.path.join(root_path, "books")
         os.makedirs(books_root, exist_ok=True)
@@ -81,30 +73,31 @@ def create_friendly_dir(work_space: object):
         apa_file_path = os.path.join(books_root, "books_apa.txt")
         mla_file_path = os.path.join(books_root, "books_mla.txt")
 
-        # Create two new .txt files and write all books arrays into them
+        # Create two new .txt files
         with open(apa_file_path, "w") as apa_file, open(mla_file_path, "w") as mla_file:
+
             book_counter = 1
-
-            for i in range(1, len(books)):
-
+            for i in range(len(books)):
+                # Write books arrays into both files
                 apa_file.write(f"{book_counter}. {books_apa[i]}\n")
                 mla_file.write(f"{book_counter}. {books_mla[i]}\n")
                 book_counter += 1
 
+        # Get array with only books which files were uploaded
+        books_with_files = [book for book in books if book.file]
 
-        book_files = [book.file for book in books]
+        if any(books_with_files):
 
-        if any(book_files):
-            
-             # TODO
-            pass
+            # Create new "books-files" dir
+            book_files_root = os.path.join(books_root, "files")
+            os.makedirs(book_files_root, exist_ok=True)
 
+            for book in books_with_files:
 
-
-        # TODO
-
-
-        pass
+                # Copy original book file into new "books-file" dir
+                destination = os.path.join(book_files_root, book.file_name())
+                original_file = book.get_path_to_file()
+                shutil.copyfile(original_file, destination)
     
     # Return path to the whole dir
     return original_path
