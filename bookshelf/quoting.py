@@ -1,8 +1,9 @@
 # Here comment how mla and apa differs from each other
-#import re
+# import re
+from .models import Book
 
 
-def quote_book_apa(book: object):
+def quote_book_apa(book: Book):
     """Makes qoute following APA standarts"""
 
     # TODO
@@ -30,7 +31,7 @@ def quote_book_apa(book: object):
     return f"{author} ({book.year}). {book.title}. {book.publishing_house}"
 
 
-def quote_book_mla(book: object):
+def quote_book_mla(book: Book):
     """Makes qoute following MLA standarts"""
     # TODO
 
@@ -50,7 +51,6 @@ def quote_book_mla(book: object):
 
     
     author = authors_name[0]
-    
     
     return f"{author}. {book.title}. {book.publishing_house}, {book.year}"
 

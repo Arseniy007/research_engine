@@ -2,9 +2,10 @@ import os
 import shutil
 
 from bookshelf.quoting import quote_book_apa, quote_book_mla
+from work_space.models import WorkSpace
 
 
-def create_friendly_dir(work_space: object) -> str:
+def create_friendly_dir(work_space: WorkSpace) -> str:
     """Creates user-friendly directory for future zip-archiving and downloading"""
 
     # Get all books and papers in given work space

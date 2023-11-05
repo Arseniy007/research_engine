@@ -109,7 +109,6 @@ def quote_book(request, book_id):
     pass
 
 
-
 @login_required(redirect_field_name=None)
 def book_space(request, book_id):
     # Delete later
