@@ -6,9 +6,6 @@ from user_management.models import User
 from work_space.models import WorkSpace
 
 
-# Author field:
-# Lastname, firstname(, senond name) / Lastname, firstname(, senond name) /..
-
 def saving_path(instance, filename):
     """File will be uploaded to MEDIA_ROOT/work_space_<id>/books/user_<id>/book_<id>/<filename>"""
 
@@ -28,7 +25,7 @@ class Book(models.Model):
     author = models.CharField(max_length=70)
     #multiple_authors = models.BooleanField(default=False)
 
-    year = models.IntegerField(blank=True)
+    year = models.CharField(max_length=5, blank=True)
     publishing_house = models.CharField(max_length=20)
 
     file = models.FileField(upload_to=saving_path, blank=True)
@@ -55,11 +52,18 @@ class Book(models.Model):
 
 
 
+"""
+class Quote(models.Model):
+
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="quotes")
+    page = models.IntegerField()
+    text = models.TextField()
 
     
-
-
-
+    def __str__(self):
+        '''Display quotes text'''
+        return self.text
+"""
 
 
 
@@ -85,17 +89,17 @@ class Book(models.Model):
 
 
 
-    """
-    def author_last_name(self):
+"""
+def author_last_name(self):
 
-        if self.multiple_authors:
+    if self.multiple_authors:
 
-            authors = self.author.split("/")
-            pass
+        authors = self.author.split("/")
+        pass
 
-        else:
-            return self.author.split()[0]
-    """
+    else:
+        return self.author.split()[0]
+"""
 
 
 

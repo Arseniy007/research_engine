@@ -31,7 +31,6 @@ class AlterBookForm(forms.ModelForm):
 
     """
     widgets = {
-    
             "name": Textarea(attrs={"cols": 80, "rows": 20}),
     }
     """

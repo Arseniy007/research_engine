@@ -3,6 +3,10 @@
 from .models import Book
 
 
+# Author field:
+# Lastname, firstname(, senond name) / Lastname, firstname(, senond name) /..
+
+
 def quote_book_apa(book: Book):
     """Makes qoute following APA standarts"""
 
