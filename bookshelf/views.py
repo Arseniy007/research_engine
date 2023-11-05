@@ -18,6 +18,8 @@ def add_book(request, space_id):
 
     # deal with authors here!
 
+    # Have another func with re module to fix all possible problems?
+
     form = NewBookForm(request.POST)
 
     if form.is_valid():
