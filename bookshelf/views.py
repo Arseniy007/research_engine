@@ -90,14 +90,30 @@ def delete_book(request, book_id):
 @book_ownership_required
 @login_required(redirect_field_name=None)
 def alter_book_info(request, book_id):
-    # TODO
+    """Allow user to change all book related info"""
 
-    book = check_book(book_id, request.user)
+    form = AlterBookForm(request.POST)
 
-    form = AlterBookForm("#TODO")
+    if form.is_valid():
+        
+        # Check book and get its attrs
+        book = check_book(book_id, request.user)
+        params = ("title", "author", "year", "publishing_house", "link")
 
-    pass
+        # Set new attr if was submitted
+        for param in params:
+            if form.cleaned_data[param]:
+                setattr(book, param, form.cleaned_data[param])
 
+        book.save(update_fields=params)
+
+        link = reverse("bookshelf:book_space", args=(book_id,))
+        return redirect(link)
+
+    else:
+        print(form.errors)
+        # TODO
+        pass
 
 
 @login_required(redirect_field_name=None)
@@ -105,9 +121,7 @@ def quote_book(request, book_id):
     # TODO
 
     book = check_book(book_id, request.user)
-
     # Do I need it?
-
     pass
 
 
@@ -117,6 +131,15 @@ def book_space(request, book_id):
 
     book = check_book(book_id, request.user)
 
-    form = UploadBookForm()
+    upload_form = UploadBookForm()
 
-    return render(request, "bookshelf/book_space.html", {"book": book, "form": form})
+    alter_form = AlterBookForm(initial={
+                                        "title": book.title, 
+                                        "author": book.author, 
+                                        "year": book.year, 
+                                        "publishing_house": book.publishing_house,
+                                        "file": book.file
+                                        })
+
+
+    return render(request, "bookshelf/book_space.html", {"book": book, "upload_form": upload_form, "alter_form": alter_form})

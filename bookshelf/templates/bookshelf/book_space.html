@@ -8,12 +8,19 @@
 
     <form enctype="multipart/form-data" action="{% url 'bookshelf:upload_book' book.pk %}" method="post">
         {% csrf_token %} 
-        {{ form }}
+        {{ upload_form }}
         <button type="submit">Upload Book</button>
     </form>
 
    
-    </ul><br><br>
+    </ul><br><br><br>
+
+    <form action="{% url 'bookshelf:alter_book' book.pk %}" method="post">
+        {% csrf_token %} 
+        {{ alter_form }}
+        <button type="submit">Alter Book Info</button>
+    </form>
+
 
 {% endblock %}
 

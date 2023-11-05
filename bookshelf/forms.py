@@ -21,15 +21,11 @@ class UploadBookForm(forms.Form):
     file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
 
 
-
-
-
-
 class AlterBookForm(forms.ModelForm):
     class Meta:
-        model = ""
+        model = Book
         fields = "__all__"
-        exclude = ["user"]
+        exclude = ["user", "work_space", "multiple_authors"]
     
     # add exsta fields here
 
