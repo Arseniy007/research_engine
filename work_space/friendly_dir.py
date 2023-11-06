@@ -99,6 +99,26 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
                 destination = os.path.join(book_files_root, book.file_name())
                 original_file = book.get_path_to_file()
                 shutil.copyfile(original_file, destination)
-    
+
+        # Get array with only books with quotes
+        books_with_quotes = [book for book in books if book.quotes.all()]
+
+        if any(books_with_quotes):
+            
+            # Get paths to new .txt file
+            quotes_file = os.path.join(books_root, "quotes.txt")
+
+            # Create file and write in all quotes
+            with open(quotes_file, "w") as file:
+
+                for book in books_with_quotes:
+                    # Write every book title
+                    file.write(f"\t{book}\n\n\n")
+                    book_quotes = book.quotes.all()
+                    # Write all its quotes
+                    for quote in book_quotes:
+                        file.write(f"{quote}\n\n")
+                    file.write("\n\n")
+
     # Return path to the whole dir
     return original_path

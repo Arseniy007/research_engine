@@ -60,7 +60,7 @@ class Quote(models.Model):
     
     def __str__(self):
         '''Display quotes text'''
-        return f"{self.text} (p. {self.page})"
+        return f'"{self.text}" (p. {self.page})'
 
 
 
