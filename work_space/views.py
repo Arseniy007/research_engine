@@ -204,9 +204,6 @@ def leave_comment(request, space_id):
 
     
 
-
-
-
 # Is there a way to send request without forms in create and rename workspace functions?
 
 # Comments? Each one has only one version of paper?
