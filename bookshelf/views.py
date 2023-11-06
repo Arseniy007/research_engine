@@ -16,28 +16,12 @@ def add_book(request, space_id):
     """Add new book info to the work space"""
     # TODO
 
-    # deal with authors here!
-
-    # Have another func with re module to fix all possible problems?
-
     form = NewBookForm(request.POST)
 
     if form.is_valid():
 
         space = check_work_space(space_id, request.user)
-
-        title = form.cleaned_data["title"]
-
-        author_last_name = form.cleaned_data["author_last_name"]
-        author_first_name = form.cleaned_data["author_first_name"]
-        author_second_name = form.cleaned_data["author_second_name"]
-
-        author = f"{author_last_name} {author_first_name} {author_second_name}"
-        
-        year, publishing_house = form.cleaned_data["year"], form.cleaned_data["publishing_house"]
-
-        new_book = Book(user=request.user, work_space=space, title=title, author=author, year=year, publishing_house=publishing_house)
-        new_book.save()
+        form.save_form(request.user, space)
 
         link = reverse("work_space:space", args=(space.pk,))
         return redirect(link)
@@ -98,14 +82,7 @@ def alter_book_info(request, book_id):
         
         # Check book and get its attrs
         book = check_book(book_id, request.user)
-        params = ("title", "author", "year", "publishing_house", "link")
-
-        # Set new attr if was submitted
-        for param in params:
-            if form.cleaned_data[param]:
-                setattr(book, param, form.cleaned_data[param])
-
-        book.save(update_fields=params)
+        form.save_form(book)
 
         link = reverse("bookshelf:book_space", args=(book_id,))
         return redirect(link)
