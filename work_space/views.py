@@ -199,6 +199,17 @@ def leave_work_space(request, space_id):
     return JsonResponse({"message": "ok"})
 
 
+@login_required(redirect_field_name=None)
+def leave_comment(request, space_id):
+    # TODO
+
+    space = check_work_space(space_id, request.user)
+
+    
+
+
+
+
 # Is there a way to send request without forms in create and rename workspace functions?
 
 # Comments? Each one has only one version of paper?

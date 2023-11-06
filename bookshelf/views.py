@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .forms import NewBookForm, UploadBookForm, AlterBookForm, NewQuoteForm
-from .models import Book
 from utils.decorators import book_ownership_required, quote_ownership_required
 from utils.verification import check_book, check_work_space, check_quote
 
@@ -152,13 +151,10 @@ def book_space(request, book_id):
     # Delete later
 
     book = check_book(book_id, request.user)
-
-    upload_form = UploadBookForm()
-
-    quote_form = NewQuoteForm()
-
     quotes = book.quotes.all()
 
+    upload_form = UploadBookForm()
+    quote_form = NewQuoteForm()
     alter_form = AlterBookForm(initial={
                                         "title": book.title, 
                                         "author": book.author, 
