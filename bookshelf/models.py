@@ -51,8 +51,6 @@ class Book(models.Model):
         return os.path.join(self.get_path(), os.path.basename(self.file.name))
 
 
-
-"""
 class Quote(models.Model):
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="quotes")
@@ -62,8 +60,9 @@ class Quote(models.Model):
     
     def __str__(self):
         '''Display quotes text'''
-        return self.text
-"""
+        return f"{self.text} (p. {self.page})"
+
+
 
 
 

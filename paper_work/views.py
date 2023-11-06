@@ -9,7 +9,7 @@ from .forms import NewPaperForm, RenamePaperForm
 from file_handling.forms import NewPaperVersionForm
 from file_handling.models import PaperVersion
 from .models import Paper
-from utils.decorators import authorship_required
+from utils.decorators import paper_authorship_required
 from utils.verification import check_paper, check_work_space
 
 
@@ -37,7 +37,7 @@ def create_paper(request, space_id):
     return redirect(reverse("user_management:error_page"))
 
 
-@authorship_required
+@paper_authorship_required
 @login_required(redirect_field_name=None)
 def delete_paper(request, paper_id):
     """Deletes added paper and all related info"""
@@ -69,7 +69,7 @@ def paper_space(request, paper_id):
     return render(request, "paper_work/paper_space.html", {"form": NewPaperVersionForm(), "paper": paper, "paper_versions": paper_versions, "links": links, "rename_form": RenamePaperForm()})
 
 
-@authorship_required
+@paper_authorship_required
 @login_required(redirect_field_name=None)
 def archive_paper(request, paper_id):
     """Mark paper is archived"""
@@ -84,7 +84,7 @@ def archive_paper(request, paper_id):
     return JsonResponse({"message": "ok"})
 
 
-@authorship_required
+@paper_authorship_required
 @login_required(redirect_field_name=None)
 def rename_paper(request, paper_id):
 
@@ -105,7 +105,7 @@ def rename_paper(request, paper_id):
     return redirect(reverse("user_management:error_page"))
         
 
-@authorship_required
+@paper_authorship_required
 @login_required(redirect_field_name=None)
 def finish_paper(request, paper_id):
     """Mark given paper as finished"""
@@ -120,7 +120,7 @@ def finish_paper(request, paper_id):
     return JsonResponse({"message": "ok"})
 
 
-@authorship_required
+@paper_authorship_required
 @login_required(redirect_field_name=None)
 def publish_paper(request, paper_id):
     """Mark paper as published so it appers at the account page"""
@@ -136,7 +136,7 @@ def publish_paper(request, paper_id):
     return JsonResponse({"message": "erro"})
 
 
-@authorship_required
+@paper_authorship_required
 @login_required(redirect_field_name=None)
 def get_all_published_papers(request):
     """Return all papers marked as published to show display them at the account page"""

@@ -10,7 +10,7 @@ from django.urls import reverse
 
 from .forms import NewPaperVersionForm
 from .models import PaperVersion
-from utils.decorators import authorship_required
+from utils.decorators import paper_authorship_required
 from utils.verification import check_paper, check_file
 
 
@@ -35,7 +35,7 @@ def upload_file(request, paper_id):
     return JsonResponse({"message": "ok"})
 
 
-@authorship_required
+@paper_authorship_required
 @login_required(redirect_field_name=None)
 def delete_file(request, file_id):
 
@@ -88,7 +88,7 @@ def get_file_info(request, file_id):
     return JsonResponse(response)
 
 
-@authorship_required
+@paper_authorship_required
 @login_required(redirect_field_name=None)
 def clear_file_history(request, paper_id):
     """Delete all files related to given paper"""

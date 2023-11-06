@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
 
-from bookshelf.models import Book
+from bookshelf.models import Book, Quote
 from file_handling.models import PaperVersion
 from paper_work.models import Paper
 from work_space.models import WorkSpace, Invitation
@@ -16,7 +16,7 @@ def check_work_space(space_id, user):
         raise Http404
     else:
         if space.owner != user and user not in space.guests.all():
-            raise Http404
+            raise PermissionDenied
         return space
         
 
@@ -45,7 +45,7 @@ def check_file(file_id, user):
 
 
 def check_book(book_id, user):
-    """Checks if book exists and user added it"""
+    """Checks if book exists"""
 
     try:
         book = Book.objects.get(pk=book_id)
@@ -54,6 +54,18 @@ def check_book(book_id, user):
     else:
         check_work_space(book.work_space.pk, user)
         return book
+    
+
+def check_quote(quote_id, user):
+    """Checks if quote exists and user added it"""
+
+    try:
+        quote = Quote.objects.get(pk=quote_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_book(quote.book.pk, user)
+        return quote
 
 
 def check_invitation(invitation_code):

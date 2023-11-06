@@ -6,20 +6,41 @@
 
     <h3>{{ book }}</h3>
 
-    <form enctype="multipart/form-data" action="{% url 'bookshelf:upload_book' book.pk %}" method="post">
+    <form enctype="multipart/form-data" action="{% url 'bookshelf:upload_book_file' book.pk %}" method="post">
         {% csrf_token %} 
         {{ upload_form }}
         <button type="submit">Upload Book</button>
     </form>
 
    
-    </ul><br><br><br>
+    <br><br><br>
+    <br><br><br>
 
     <form action="{% url 'bookshelf:alter_book' book.pk %}" method="post">
         {% csrf_token %} 
-        {{ alter_form }}
+        {{ alter_form.as_p }}
         <button type="submit">Alter Book Info</button>
     </form>
+
+    <br><br><br>
+    <br><br><br>
+    <br><br><br>
+
+    <form action="{% url 'bookshelf:add_quote' book.pk %}" method="post">
+        {% csrf_token %} 
+        {{ quote_form }}
+        <button type="submit">Alter Book Info</button>
+    </form>
+
+
+    <h3>Quotes</h3>
+    <ul>
+        {% for quote in quotes %}
+        <li>{{ quote }}
+            <a href="{% url 'bookshelf:delete_quote' quote.pk %}">Delete quote</a>
+        </li>
+        {% endfor %}
+    </ul>
 
 
 {% endblock %}

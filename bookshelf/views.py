@@ -5,10 +5,10 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .forms import NewBookForm, UploadBookForm, AlterBookForm
+from .forms import NewBookForm, UploadBookForm, AlterBookForm, NewQuoteForm
 from .models import Book
-from utils.decorators import book_ownership_required
-from utils.verification import check_book, check_work_space
+from utils.decorators import book_ownership_required, quote_ownership_required
+from utils.verification import check_book, check_work_space, check_quote
 
 
 @login_required(redirect_field_name=None)
@@ -33,20 +33,23 @@ def add_book(request, space_id):
 
 
 @login_required(redirect_field_name=None)
-def upload_book(request, book_id):
+def upload_book_file(request, book_id):
     """Upload .pdf/.docx file of the given book"""
 
     form = UploadBookForm(request.POST, request.FILES)
 
     if form.is_valid():
-
         # Get and save new file
         book = check_book(book_id, request.user)
-        book.file = form.cleaned_data["file"]
-        book.save(update_fields=("file",))
+
+        # In case user alredy uploaded a file - delete it first
+        if book.file:
+            shutil.rmtree(book.get_path())
+
+        form.save_form(book)
 
         return JsonResponse({"message": "ok"})
-        
+    
     else:
         print(form.errors)
         # TODO
@@ -103,6 +106,48 @@ def quote_book(request, book_id):
 
 
 @login_required(redirect_field_name=None)
+def add_quote(request, book_id):
+    """Saves quote from given book"""
+
+    form = NewQuoteForm(request.POST)
+
+    if form.is_valid():
+
+        book = check_book(book_id, request.user)
+        form.save_form(book)
+
+        link = reverse("bookshelf:book_space", args=(book_id,))
+        return redirect(link)
+
+    else:
+        print(form.errors)
+        # TODO
+        pass
+
+
+@quote_ownership_required
+@login_required(redirect_field_name=None)
+def delete_quote(request, quote_id):
+    """Delete added quote"""
+
+    # Check quote and if user has right to deletion
+    quote = check_quote(quote_id, request.user)
+
+    # Delete quote from the db
+    quote.delete()
+
+    link = reverse("bookshelf:book_space", args=(quote.book.pk,))
+    return redirect(link)
+
+
+@quote_ownership_required
+@login_required(redirect_field_name=None)
+def alter_quote(request, quote_id):
+
+    pass
+
+
+@login_required(redirect_field_name=None)
 def book_space(request, book_id):
     # Delete later
 
@@ -110,13 +155,20 @@ def book_space(request, book_id):
 
     upload_form = UploadBookForm()
 
+    quote_form = NewQuoteForm()
+
+    quotes = book.quotes.all()
+
     alter_form = AlterBookForm(initial={
                                         "title": book.title, 
                                         "author": book.author, 
                                         "year": book.year, 
                                         "publishing_house": book.publishing_house,
-                                        "file": book.file
                                         })
 
 
-    return render(request, "bookshelf/book_space.html", {"book": book, "upload_form": upload_form, "alter_form": alter_form})
+    return render(request, "bookshelf/book_space.html", {"book": book, 
+                                                         "upload_form": upload_form, 
+                                                         "alter_form": alter_form, 
+                                                         "quote_form": quote_form,
+                                                         "quotes": quotes})
