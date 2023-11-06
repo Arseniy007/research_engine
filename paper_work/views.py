@@ -23,13 +23,10 @@ def create_paper(request, space_id):
 
         # Save new paper to db
         space = check_work_space(space_id, request.user)
-        title = form.cleaned_data["title"]
-        new_paper = Paper(work_space=space, user=request.user, title=title)
-        new_paper.save()
+        new_paper = form.save_paper(space, request.user)
 
         # Redirect user to the new paper-space
-        saved_paper = Paper.objects.get(user=request.user, title=title)
-        link = reverse("paper_work:paper_space", args=(saved_paper.pk,))
+        link = reverse("paper_work:paper_space", args=(new_paper.pk,))
         return redirect(link)
         
     # TODO
@@ -92,11 +89,9 @@ def rename_paper(request, paper_id):
 
     if form.is_valid():
 
+        # Update papers name
         paper = check_paper(paper_id, request.user)
-        new_title = form.cleaned_data["new_title"]
-
-        paper.title = new_title
-        paper.save(update_fields=("title",))
+        form.save_new_name(paper)
 
         return JsonResponse({"message": "ok"})
 
@@ -146,11 +141,9 @@ def get_all_published_papers(request):
     if not papers:
         return JsonResponse({"message": "none"})
 
-
     files = [paper.get_last_file_id() for paper in papers]
     # TODO
     pass
-
 
 
 

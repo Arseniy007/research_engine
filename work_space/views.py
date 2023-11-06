@@ -34,14 +34,11 @@ def create_work_space(request):
     if form.is_valid():
 
         # Save new work space to the db and create its directory
-        title = form.cleaned_data["title"]
-        new_space = WorkSpace(owner=request.user, title=title)
-        new_space.save()
+        new_space = form.save_work_space(request.user)
         new_space.create_dir()
 
         # Redirect user to the new work space
-        new_space_id = WorkSpace.objects.get(owner=request.user, title=title).pk
-        link_to_work_space = reverse("work_space:space", args=(new_space_id,))
+        link_to_work_space = reverse("work_space:space", args=(new_space.pk,))
         return redirect(link_to_work_space)
 
     # TODO

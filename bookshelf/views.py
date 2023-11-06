@@ -20,7 +20,7 @@ def add_book(request, space_id):
     if form.is_valid():
 
         space = check_work_space(space_id, request.user)
-        form.save_form(request.user, space)
+        form.save_book(request.user, space)
 
         link = reverse("work_space:space", args=(space.pk,))
         return redirect(link)
@@ -45,7 +45,7 @@ def upload_book_file(request, book_id):
         if book.file:
             shutil.rmtree(book.get_path())
 
-        form.save_form(book)
+        form.save_file(book)
 
         return JsonResponse({"message": "ok"})
     
@@ -84,7 +84,7 @@ def alter_book_info(request, book_id):
         
         # Check book and get its attrs
         book = check_book(book_id, request.user)
-        form.save_form(book)
+        form.save_book(book)
 
         link = reverse("bookshelf:book_space", args=(book_id,))
         return redirect(link)
@@ -113,7 +113,7 @@ def add_quote(request, book_id):
     if form.is_valid():
 
         book = check_book(book_id, request.user)
-        form.save_form(book)
+        form.save_quote(book)
 
         link = reverse("bookshelf:book_space", args=(book_id,))
         return redirect(link)

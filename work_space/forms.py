@@ -1,9 +1,19 @@
 from django import forms
 
+from .models import WorkSpace, Comment
+from user_management.models import User
+
 
 class NewWorkSpaceForm(forms.Form):
 
     title = forms.CharField(max_length=50)
+
+
+    def save_work_space(self, user: User):
+        """Sace new WorkSpace object"""
+        new_work_space = WorkSpace(user=user, title=self.cleaned_data["title"])
+        new_work_space.save()
+        return new_work_space
 
 
 class RenameWorkSpaceForm(forms.Form):
@@ -14,4 +24,14 @@ class RenameWorkSpaceForm(forms.Form):
 class ReceiveInvitationForm(forms.Form):
 
     code = forms.CharField(max_length=15)
-    
+
+
+class NewCommentForm(forms.Form):
+
+    text = forms.Textarea()
+
+
+    def save_comment(self, space: WorkSpace, user: User):
+        """Save new Comment object"""
+        new_comment = Comment(work_space=space, user=user, text=self.cleaned_data["text"])
+        new_comment.save()

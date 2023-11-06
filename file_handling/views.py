@@ -24,8 +24,7 @@ def upload_file(request, paper_id):
 
         # Get and save new file
         paper = check_paper(paper_id, request.user)
-        new_version = PaperVersion(user=request.user, paper=paper, file=form.cleaned_data["file"])
-        new_version.save()
+        form.save_new_file(paper, request.user)
         
     else:
         print(form.errors)

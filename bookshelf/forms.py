@@ -21,7 +21,7 @@ class NewBookForm(forms.ModelForm):
     author_second_name = forms.CharField(max_length=40)
 
 
-    def save_form(self, user: User, space: WorkSpace):
+    def save_book(self, user: User, space: WorkSpace):
 
         # deal with authors here!
 
@@ -32,8 +32,6 @@ class NewBookForm(forms.ModelForm):
         author_last_name = self.cleaned_data["author_last_name"].strip(". ")
         author_first_name = self.cleaned_data["author_first_name"].strip(". ")
         author_second_name = self.cleaned_data["author_second_name"].strip(". ")
-
-
 
         author = f"{author_last_name} {author_first_name} {author_second_name}"
         
@@ -49,8 +47,8 @@ class UploadBookForm(forms.Form):
     file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
 
     
-    def save_form(self, book: Book):
-
+    def save_file(self, book: Book):
+       """Save new book-file"""
        book.file = self.cleaned_data["file"]
        book.save(update_fields=("file",))
 
@@ -62,7 +60,7 @@ class AlterBookForm(forms.ModelForm):
         exclude = ["user", "work_space", "multiple_authors", "file"]
 
 
-    def save_form(self, book: Book):
+    def save_book(self, book: Book):
 
         params = ("title", "author", "year", "publishing_house", "link")
 
@@ -74,7 +72,6 @@ class AlterBookForm(forms.ModelForm):
         book.save(update_fields=params)
     
 
-
 class NewQuoteForm(forms.ModelForm):
     class Meta:
         model = Quote
@@ -82,10 +79,7 @@ class NewQuoteForm(forms.ModelForm):
         exclude = ["book"]
     
 
-    def save_form(self, book: Book):
-
-        page = self.cleaned_data["page"]
-        text = self.cleaned_data["text"]
-
-        new_quote = Quote(book=book, page=page, text=text)
+    def save_quote(self, book: Book):
+        """Save new Quote object"""
+        new_quote = Quote(book=book, page=self.cleaned_data["page"], text=self.cleaned_data["text"])
         new_quote.save()
