@@ -1,17 +1,20 @@
 import os
 import shutil
 
-from bookshelf.quoting import quote_book_apa, quote_book_mla
+from bookshelf.quoting_apa import quote_source_apa
+from bookshelf.quoting_mla import quote_source_mla
 from work_space.models import WorkSpace
 
+
+# Much to be done!
 
 def create_friendly_dir(work_space: WorkSpace) -> str:
     """Creates user-friendly directory for future zip-archiving and downloading"""
 
     # Get all books and papers in given work space
-    papers, books = work_space.papers.all(), work_space.books.all()
+    papers, sources = work_space.papers.all(), work_space.sources.all()
 
-    if not papers and not books:
+    if not papers and not sources:
         # In case work space is empty
         return False
         
@@ -61,14 +64,18 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
                     original_file = version.get_full_path()
                     shutil.copyfile(original_file, destination)
 
-    if books:
+    if sources:
+
+        # Sources!!!!
+        # Variables!!!!
+
         # Create new "books" dir
         books_root = os.path.join(root_path, "books")
         os.makedirs(books_root, exist_ok=True)
 
         # Get, quote and sort alphabetically all books
-        books_apa = sorted([quote_book_apa(book) for book in books])
-        books_mla = sorted([quote_book_mla(book) for book in books])
+        books_apa = sorted([quote_source_apa(source) for source in sources])
+        books_mla = sorted([quote_source_mla(source) for source in sources])
 
         # Get paths to new .txt files
         apa_file_path = os.path.join(books_root, "books_apa.txt")
@@ -78,32 +85,32 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
         with open(apa_file_path, "w") as apa_file, open(mla_file_path, "w") as mla_file:
 
             book_counter = 1
-            for i in range(len(books)):
+            for i in range(len(sources)):
                 # Write books arrays into both files
                 apa_file.write(f"{book_counter}. {books_apa[i]}\n")
                 mla_file.write(f"{book_counter}. {books_mla[i]}\n")
                 book_counter += 1
 
         # Get array with only books which files were uploaded
-        books_with_files = [book for book in books if book.file]
+        sources_with_files = [source for source in sources if source.file]
 
-        if any(books_with_files):
+        if any(sources_with_files):
 
             # Create new "books-files" dir
             book_files_root = os.path.join(books_root, "files")
             os.makedirs(book_files_root, exist_ok=True)
 
-            for book in books_with_files:
+            for source in sources_with_files:
 
                 # Copy original book file into new "books-file" dir
-                destination = os.path.join(book_files_root, book.file_name())
-                original_file = book.get_path_to_file()
+                destination = os.path.join(book_files_root, source.file_name())
+                original_file = source.get_path_to_file()
                 shutil.copyfile(original_file, destination)
 
         # Get array with only books with quotes
-        books_with_quotes = [book for book in books if book.quotes.all()]
+        sources_with_quotes = [source for source in sources if source.quotes.all()]
 
-        if any(books_with_quotes):
+        if any(sources_with_quotes):
             
             # Get paths to new .txt file
             quotes_file = os.path.join(books_root, "quotes.txt")
@@ -111,10 +118,10 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
             # Create file and write in all quotes
             with open(quotes_file, "w") as file:
 
-                for book in books_with_quotes:
+                for source in sources_with_quotes:
                     # Write every book title
-                    file.write(f"\t{book}\n\n\n")
-                    book_quotes = book.quotes.all()
+                    file.write(f"\t{source}\n\n\n")
+                    book_quotes = source.quotes.all()
                     # Write all its quotes
                     for quote in book_quotes:
                         file.write(f"{quote}\n\n")

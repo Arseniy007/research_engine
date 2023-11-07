@@ -108,7 +108,7 @@ def work_space(request, space_id):
 
     return render(request, "work_space/work_space.html", {"space": space, 
                                                           "papers": space.papers.all(),
-                                                          "books": space.books.all(),
+                                                          "books": space.sources.all(),
                                                           "form": NewPaperForm(),
                                                           "book_form": NewSourceForm()})
 

@@ -151,7 +151,7 @@ def source_space(request, source_id):
     # Delete later
 
     source = check_source(source_id, request.user)
-    #quotes = source.quotes.all()
+    quotes = source.quotes.all()
 
     upload_form = UploadSourceForm()
     quote_form = NewQuoteForm()
@@ -159,7 +159,7 @@ def source_space(request, source_id):
                                         "title": source.title, 
                                         "author": source.author, 
                                         "year": source.year, 
-                                        "publishing_house": source.publishing_house,
+                                        "publishing_house": "Test",
                                         })
 
 
@@ -167,4 +167,4 @@ def source_space(request, source_id):
                                                          "upload_form": upload_form, 
                                                          "alter_form": alter_form, 
                                                          "quote_form": quote_form,
-                                                         "quotes": None})
+                                                         "quotes": quotes})

@@ -29,16 +29,12 @@ def source_ownership_required(func: Callable):
     return wrapper
 
 
-
-
-
-
 def quote_ownership_required(func: Callable):
     """Checks if current user added book to which given quote belongs"""
     def wrapper(request, quote_id):
 
         quote = check_quote(quote_id, request.user)
-        if quote.book.user != request.user:
+        if quote.source.user != request.user:
             raise PermissionDenied
         
         return func(request, quote_id)

@@ -3,7 +3,7 @@ import re
 from django import forms
 
 from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
-from .models import Book, Quote
+from .models import Book, Quote, Source
 
 from user_management.models import User
 from work_space.models import WorkSpace
@@ -76,12 +76,12 @@ class NewQuoteForm(forms.ModelForm):
     class Meta:
         model = Quote
         fields = "__all__"
-        exclude = ["content_type", "object_id"]
+        exclude = ["source"]
 
         # TODO qury set of books, articles and websites
     
 
-    def save_quote(self, book: Book):
+    def save_quote(self, source: Source):
         """Save new Quote object"""
-        new_quote = Quote(book=book, page=self.cleaned_data["page"], text=self.cleaned_data["text"])
+        new_quote = Quote(source=source, page=self.cleaned_data["page"], text=self.cleaned_data["text"])
         new_quote.save()

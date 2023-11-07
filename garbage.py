@@ -294,7 +294,7 @@ from work_space.models import WorkSpace
 
 from bookshelf.models import Author, Book
 
-from bookshelf.quoting import quote_book_apa
+from bookshelf.quoting_apa import quote_book_apa
 
 user = User.objects.get(pk=1)
 
@@ -554,5 +554,21 @@ class Book(Source):
     def get_path_to_file(self):
         '''Returns a path to the book file'''
         return os.path.join(self.get_path(), os.path.basename(self.file.name))
+
+        
+
+class Quote(models.Model):
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name="quotes")
+    object_id = models.PositiveIntegerField()
+    source = GenericForeignKey("content_type", "object_id")
+    page = models.IntegerField()
+    text = models.TextField()
+
+    
+    def __str__(self):
+        '''Display quotes text'''
+        return f'"{self.text}" (p. {self.page})'
+
 
 """

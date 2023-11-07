@@ -23,8 +23,8 @@ class Source(models.Model):
     Using _cast_ method one can access child class of any source-objects
     """
 
-    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="books")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="sources")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sources")
 
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=70, blank=True)
@@ -54,6 +54,7 @@ class Source(models.Model):
     
 
     def cast(self):
+        """Get objgect class (Book / Article / Website / etc.)"""
         return self.real_type.get_object_for_this_type(pk=self.pk)
     
 
@@ -96,24 +97,21 @@ class Website(Source):
     date = models.DateField()
 
 
-"""
-class Chapter(Source):
+class ChapterFromEditedBook(Source):
 
     chapter_title = models.CharField(max_length=50)
     chapter_author = models.CharField(max_length=70)
     edition = models.IntegerField(blank=True)
     pages = models.CharField(max_length=20)
 
-"""
+
 class Quote(models.Model):
 
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name="quotes")
-    object_id = models.PositiveIntegerField()
-    source = GenericForeignKey("content_type", "object_id")
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="quotes")
     page = models.IntegerField()
     text = models.TextField()
 
     
     def __str__(self):
-        '''Display quotes text'''
+        """Display quotes text"""
         return f'"{self.text}" (p. {self.page})'
