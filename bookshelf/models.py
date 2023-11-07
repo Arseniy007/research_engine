@@ -59,14 +59,6 @@ class Book(Source):
         return os.path.join(self.get_path(), os.path.basename(self.file.name))
 
 
-class Chapter(Book):
-
-    chapter_title = models.CharField(max_length=50)
-    chapter_author = models.CharField(max_length=70)
-    edition = models.IntegerField(blank=True)
-    pages = models.CharField(max_length=20)
-
-
 class Article(Source):
 
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="articles")
@@ -90,6 +82,14 @@ class Website(Source):
     website_title = models.CharField(max_length=50)
     page_url = models.CharField(max_length=50)
     date = models.DateField()
+
+
+class Chapter(Source):
+
+    chapter_title = models.CharField(max_length=50)
+    chapter_author = models.CharField(max_length=70)
+    edition = models.IntegerField(blank=True)
+    pages = models.CharField(max_length=20)
 
 
 class Quote(models.Model):
