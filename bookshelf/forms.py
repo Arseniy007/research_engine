@@ -76,7 +76,7 @@ class NewQuoteForm(forms.ModelForm):
     class Meta:
         model = Quote
         fields = "__all__"
-        exclude = ["book"]
+        exclude = ["content_type", "object_id"]
     
 
     def save_quote(self, book: Book):

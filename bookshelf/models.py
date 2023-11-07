@@ -1,6 +1,8 @@
 import os
 
 from django.db import models 
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 from user_management.models import User
 from work_space.models import WorkSpace
@@ -58,6 +60,13 @@ class Book(CommonInfo):
         return os.path.join(self.get_path(), os.path.basename(self.file.name))
 
 
+class Chapter(Book):
+
+    chapter_title = models.CharField(max_length=50)
+    chapter_author = models.CharField(max_length=70)
+    edition = models.IntegerField(blank=True)
+    pages = models.CharField(max_length=20)
+
 
 class Article(CommonInfo):
 
@@ -65,22 +74,29 @@ class Article(CommonInfo):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="articles")
 
     journal_title = models.CharField(max_length=50)
-    journal_electronic = models.BooleanField(default=False)
-    link_to_journal = models.CharField(max_length=40, blank=True)
+    volume_number = models.IntegerField()
+    journal_number = models.IntegerField()
     pages = models.CharField(max_length=20)
 
-    # TODO
+    is_electronic = models.BooleanField(default=False)
+    link_to_journal = models.CharField(max_length=40, blank=True)
 
-    pass
+ 
+class Website(models.Model):
 
-
-
-
+    author = models.CharField(max_length=70, blank=True)
+    has_author = models.BooleanField(default=False)
+    page_title = models.CharField(max_length=50)
+    website_title = models.CharField(max_length=50)
+    page_url = models.CharField(max_length=50)
+    date = models.DateField()
 
 
 class Quote(models.Model):
 
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="quotes")
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name="quotes")
+    object_id = models.PositiveIntegerField()
+    source = GenericForeignKey("content_type", "object_id")
     page = models.IntegerField()
     text = models.TextField()
 
@@ -88,6 +104,3 @@ class Quote(models.Model):
     def __str__(self):
         '''Display quotes text'''
         return f'"{self.text}" (p. {self.page})'
-
-
-
