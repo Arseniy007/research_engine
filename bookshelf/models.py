@@ -15,23 +15,29 @@ def saving_path(instance, filename):
     return f"{space_path}/books/user_{user_id}/book_{book_id}/{filename}"
 
 
-class Book(models.Model):
-
-    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="books")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
+class CommonInfo(models.Model):
 
     title = models.CharField(max_length=100)
-
     author = models.CharField(max_length=70)
     #multiple_authors = models.BooleanField(default=False)
 
     year = models.CharField(max_length=5, blank=True)
-    publishing_house = models.CharField(max_length=20)
 
     file = models.FileField(upload_to=saving_path, blank=True)
     link = models.CharField(max_length=40, blank=True)
 
-    
+    class Meta:
+        abstract = True
+
+
+class Book(CommonInfo):
+
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="books")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
+
+    publishing_house = models.CharField(max_length=20)
+
+
     def __str__(self):
         """Display book title"""
         return self.title
@@ -52,6 +58,26 @@ class Book(models.Model):
         return os.path.join(self.get_path(), os.path.basename(self.file.name))
 
 
+
+class Article(CommonInfo):
+
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="articles")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="articles")
+
+    journal_title = models.CharField(max_length=50)
+    journal_electronic = models.BooleanField(default=False)
+    link_to_journal = models.CharField(max_length=40, blank=True)
+    pages = models.CharField(max_length=20)
+
+    # TODO
+
+    pass
+
+
+
+
+
+
 class Quote(models.Model):
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="quotes")
@@ -62,3 +88,6 @@ class Quote(models.Model):
     def __str__(self):
         '''Display quotes text'''
         return f'"{self.text}" (p. {self.page})'
+
+
+

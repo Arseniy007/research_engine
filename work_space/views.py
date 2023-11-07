@@ -202,7 +202,27 @@ def leave_comment(request, space_id):
 
     space = check_work_space(space_id, request.user)
 
+
+@login_required(redirect_field_name=None)
+def alter_comment(request, comment_id):
+    # TODO
+
+    pass
+
+
+@login_required(redirect_field_name=None)
+def delete_comment(request, comment_id):
+    # TODO
+
+    pass
+
     
+
+
+
+
+
+
 
 # Is there a way to send request without forms in create and rename workspace functions?
 
