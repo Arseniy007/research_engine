@@ -17,13 +17,14 @@ def saving_path(instance, filename):
     return f"{space_path}/books/user_{user_id}/book_{book_id}/{filename}"
 
 
-# should be real class! Source! with one verification func and one decorator!
-
 class Source(models.Model):
     """
     An abstract base class for all possible sources: books, articles, chapters, websites etc.
     Using _cast_ method one can access child class of any source-objects
     """
+
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="books")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
 
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=70, blank=True)
@@ -35,6 +36,11 @@ class Source(models.Model):
     link = models.CharField(max_length=40, blank=True)
 
     real_type = models.ForeignKey(ContentType, editable=False, on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        '''Display book title'''
+        return self.title
 
 
     def save(self, *args, **kwargs):
@@ -49,19 +55,6 @@ class Source(models.Model):
 
     def cast(self):
         return self.real_type.get_object_for_this_type(pk=self.pk)
-
-
-class Book(Source):
-
-    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="books")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
-
-    publishing_house = models.CharField(max_length=20)
-
-
-    def __str__(self):
-        """Display book title"""
-        return self.title
     
 
     def file_name(self):
@@ -79,10 +72,12 @@ class Book(Source):
         return os.path.join(self.get_path(), os.path.basename(self.file.name))
     
 
-class Article(Source):
+class Book(Source):
 
-    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="articles")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="articles")
+    publishing_house = models.CharField(max_length=20)
+
+
+class Article(Source):
 
     journal_title = models.CharField(max_length=50)
     volume_number = models.IntegerField()
@@ -95,15 +90,13 @@ class Article(Source):
  
 class Website(Source):
 
-    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="websites")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="websites")
-
     has_author = models.BooleanField(default=False)
     website_title = models.CharField(max_length=50)
     page_url = models.CharField(max_length=50)
     date = models.DateField()
 
 
+"""
 class Chapter(Source):
 
     chapter_title = models.CharField(max_length=50)
@@ -111,7 +104,7 @@ class Chapter(Source):
     edition = models.IntegerField(blank=True)
     pages = models.CharField(max_length=20)
 
-
+"""
 class Quote(models.Model):
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name="quotes")

@@ -6,7 +6,7 @@
 
     <h3>{{ book }}</h3>
 
-    <form enctype="multipart/form-data" action="{% url 'bookshelf:upload_book_file' book.pk %}" method="post">
+    <form enctype="multipart/form-data" action="{% url 'bookshelf:upload_source_file' source.pk %}" method="post">
         {% csrf_token %} 
         {{ upload_form }}
         <button type="submit">Upload Book</button>
@@ -16,7 +16,7 @@
     <br><br><br>
     <br><br><br>
 
-    <form action="{% url 'bookshelf:alter_book' book.pk %}" method="post">
+    <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post">
         {% csrf_token %} 
         {{ alter_form.as_p }}
         <button type="submit">Alter Book Info</button>
@@ -26,7 +26,7 @@
     <br><br><br>
     <br><br><br>
 
-    <form action="{% url 'bookshelf:add_quote' book.pk %}" method="post">
+    <form action="{% url 'bookshelf:add_quote' source.pk %}" method="post">
         {% csrf_token %} 
         {{ quote_form }}
         <button type="submit">Alter Book Info</button>

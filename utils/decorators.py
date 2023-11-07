@@ -2,7 +2,7 @@ from django.core.exceptions import PermissionDenied
 
 from typing import Callable
 
-from .verification import check_work_space, check_book, check_paper, check_quote, check_article, check_source
+from .verification import check_work_space, check_paper, check_quote, check_source
 
 
 def space_ownership_required(func: Callable):
@@ -17,45 +17,20 @@ def space_ownership_required(func: Callable):
     return wrapper
 
 
-
 def source_ownership_required(func: Callable):
     """Checks if current user added this source"""
-    def wrapper(*args, **kwargs):
+    def wrapper(request, source_id):
         
-        user = args[0].user
-        source_id = kwargs[0]
-
-        source = check_source(source_id, user)
-        if source.user != args.user:
+        source = check_source(source_id, request.user)
+        if source.user != request.user:
             raise PermissionDenied
     
-        return func(*args, **kwargs)
+        return func(request, source_id)
     return wrapper
 
 
 
-def article_ownership_required(func: Callable):
-    """Checks if current user added this article"""
-    def wrapper(request, article_id):
 
-        article = check_article(article_id, request.user)
-        if article.user != request.user:
-            raise PermissionDenied
-        
-        return func(request, article_id)
-    return wrapper
-
-
-def book_ownership_required(func: Callable):
-    """Checks if current user added this book"""
-    def wrapper(request, book_id):
-
-        book = check_book(book_id, request.user)
-        if book.user != request.user:
-            raise PermissionDenied
-        
-        return func(request, book_id)
-    return wrapper
 
 
 def quote_ownership_required(func: Callable):

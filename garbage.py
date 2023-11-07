@@ -470,3 +470,89 @@ class Quote(models.Model):
 
 """
 
+"""
+def check_book(book_id, user):
+    '''Checks if book exists'''
+
+    try:
+        book = Book.objects.get(pk=book_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(book.work_space.pk, user)
+        return book
+    
+
+def check_article(article_id, user):
+    '''Checks if article exists'''
+
+    try:
+        article = Article.objects.get(pk=article_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(article.work_space.pk, user)
+        return article
+    
+
+def check_website(website_id, user):
+    '''Checls if website exists'''
+
+    try:
+        website = Website.objects.get(pk=website_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(website.work_space.pk, user)
+        return website
+
+        
+
+
+def article_ownership_required(func: Callable):
+    '''Checks if current user added this article'''
+    def wrapper(request, article_id):
+
+        article = check_article(article_id, request.user)
+        if article.user != request.user:
+            raise PermissionDenied
+        
+        return func(request, article_id)
+    return wrapper
+
+
+def book_ownership_required(func: Callable):
+    '''Checks if current user added this book'''
+    def wrapper(request, book_id):
+
+        book = check_book(book_id, request.user)
+        if book.user != request.user:
+            raise PermissionDenied
+        
+        return func(request, book_id)
+    return wrapper
+
+
+class Book(Source):
+
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="sources")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sources")
+
+    publishing_house = models.CharField(max_length=20, blank=True)
+
+
+    def __str__(self):
+        '''Display book title'''
+        return self.title
+    
+
+    def get_path(self):
+        '''Returns a path to the book directory'''
+        return f"{self.work_space.get_path()}/books/user_{self.user.pk}/book_{self.pk}"
+    
+
+    def get_path_to_file(self):
+        '''Returns a path to the book file'''
+        return os.path.join(self.get_path(), os.path.basename(self.file.name))
+
+"""

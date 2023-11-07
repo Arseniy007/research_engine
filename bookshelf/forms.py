@@ -9,7 +9,7 @@ from user_management.models import User
 from work_space.models import WorkSpace
 
 
-class NewBookForm(forms.ModelForm):
+class NewSourceForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = "__all__"
@@ -21,7 +21,7 @@ class NewBookForm(forms.ModelForm):
     author_second_name = forms.CharField(max_length=40)
 
 
-    def save_book(self, user: User, space: WorkSpace):
+    def save_source(self, user: User, space: WorkSpace):
 
         # deal with authors here!
 
@@ -42,7 +42,7 @@ class NewBookForm(forms.ModelForm):
 
 
 
-class UploadBookForm(forms.Form):
+class UploadSourceForm(forms.Form):
 
     file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
 
@@ -53,7 +53,7 @@ class UploadBookForm(forms.Form):
        book.save(update_fields=("file",))
 
 
-class AlterBookForm(forms.ModelForm):
+class AlterSourceForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = "__all__"

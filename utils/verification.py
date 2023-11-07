@@ -46,59 +46,29 @@ def check_file(file_id, user):
 
 
 def check_source(source_id, user):
+    """Checks source (every type) ans its work space ="""
 
     try:
         source = Source.objects.get(pk=source_id)
     except ObjectDoesNotExist:
         raise Http404
-    
     else:
         source_type = type(source.cast())
+
         match source_type:
             case Book():
-                return check_book(source_id, user)
+                space_id = source.book.work_space.pk
+                check_work_space(space_id, user)
             case Article():
-                return check_article(source_id, user)
+                space_id = source.article.work_space.pk
+                check_work_space(space_id, user)
             case Website():
-                return check_website(source_id, user)
+                space_id = source.website.work_space.pk
+                check_work_space(space_id, user)
             case _:
                 raise Http404
-
-
-def check_book(book_id, user):
-    """Checks if book exists"""
-
-    try:
-        book = Book.objects.get(pk=book_id)
-    except ObjectDoesNotExist:
-        raise Http404
-    else:
-        check_work_space(book.work_space.pk, user)
-        return book
-    
-
-def check_article(article_id, user):
-    """Checks if article exists"""
-
-    try:
-        article = Article.objects.get(pk=article_id)
-    except ObjectDoesNotExist:
-        raise Http404
-    else:
-        check_work_space(article.work_space.pk, user)
-        return article
-    
-
-def check_website(website_id, user):
-    """Checls if website exists"""
-
-    try:
-        website = Website.objects.get(pk=website_id)
-    except ObjectDoesNotExist:
-        raise Http404
-    else:
-        check_work_space(website.work_space.pk, user)
-        return website
+    finally:
+        return source
 
 
 

@@ -21,7 +21,7 @@
     </ul><br><br>
 
 
-    <form enctype="multipart/form-data" action="{% url 'bookshelf:add_book' space.pk %}" method="post">
+    <form enctype="multipart/form-data" action="{% url 'bookshelf:add_source' space.pk %}" method="post">
         {% csrf_token %} 
         {{ book_form }}
         <button  type="submit">Add Book</button>
@@ -30,7 +30,7 @@
     <ul>
         {% for book in books %}
         <li>
-           <a href="{% url 'bookshelf:book_space' book.pk %}">{{ book }}</a>
+           <a href="{% url 'bookshelf:source_space' book.pk %}">{{ book }}</a>
         </li>
         {% endfor %}
     </ul><br><br>

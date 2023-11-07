@@ -5,22 +5,22 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .forms import NewBookForm, UploadBookForm, AlterBookForm, NewQuoteForm
-from utils.decorators import book_ownership_required, quote_ownership_required, source_ownership_required
-from utils.verification import check_book, check_work_space, check_quote
+from .forms import NewSourceForm, UploadSourceForm, AlterSourceForm, NewQuoteForm
+from utils.decorators import source_ownership_required, quote_ownership_required
+from utils.verification import check_source, check_work_space, check_quote
 
 
 @login_required(redirect_field_name=None)
-def add_book(request, space_id):
-    """Add new book info to the work space"""
+def add_source(request, space_id):
+    """Add new source info to the work space"""
     # TODO
 
-    form = NewBookForm(request.POST)
+    form = NewSourceForm(request.POST)
 
     if form.is_valid():
 
         space = check_work_space(space_id, request.user)
-        form.save_book(request.user, space)
+        form.save_source(request.user, space)
 
         link = reverse("work_space:space", args=(space.pk,))
         return redirect(link)
@@ -32,20 +32,20 @@ def add_book(request, space_id):
 
 
 @login_required(redirect_field_name=None)
-def upload_book_file(request, book_id):
-    """Upload .pdf/.docx file of the given book"""
+def upload_source_file(request, source_id):
+    """Upload .pdf/.docx file of the given source"""
 
-    form = UploadBookForm(request.POST, request.FILES)
+    form = UploadSourceForm(request.POST, request.FILES)
 
     if form.is_valid():
         # Get and save new file
-        book = check_book(book_id, request.user)
+        source = check_source(source_id, request.user)
 
-        # In case user alredy uploaded a file - delete it first
-        if book.file:
-            shutil.rmtree(book.get_path())
+        # In case user alrewedy uploaded a file - delete it first
+        if source.file:
+            shutil.rmtree(source.get_path())
 
-        form.save_file(book)
+        form.save_file(source)
 
         return JsonResponse({"message": "ok"})
     
@@ -55,38 +55,38 @@ def upload_book_file(request, book_id):
         pass
 
 
-@book_ownership_required
+@source_ownership_required
 @login_required(redirect_field_name=None)
-def delete_book(request, book_id):
-    """Deletes added book and all related info"""
+def delete_source(request, source_id):
+    """Deletes added source and all related info"""
 
     # Check if user has right to delete this paper
-    book = check_book(book_id, request.user)
+    source = check_source(source_id, request.user)
 
     # Delete paper directory with all files inside
-    if book.file:
-        shutil.rmtree(book.get_path())
+    if source.file:
+        shutil.rmtree(source.get_path())
 
-    # Delete book from the db
-    book.delete()
+    # Delete source from the db
+    source.delete()
 
     return JsonResponse({"message": "ok"})
 
 
 @source_ownership_required
 @login_required(redirect_field_name=None)
-def alter_book_info(request, book_id):
-    """Allow user to change all book related info"""
+def alter_source_info(request, source_id):
+    """Allow user to change all source related info"""
 
-    form = AlterBookForm(request.POST)
+    form = AlterSourceForm(request.POST)
 
     if form.is_valid():
         
-        # Check book and get its attrs
-        book = check_book(book_id, request.user)
-        form.save_book(book)
+        # Check source and get its attrs
+        source = check_source(source_id, request.user)
+        form.save_source(source)
 
-        link = reverse("bookshelf:book_space", args=(book_id,))
+        link = reverse("sourceshelf:source_space", args=(source_id,))
         return redirect(link)
 
     else:
@@ -96,26 +96,26 @@ def alter_book_info(request, book_id):
 
 
 @login_required(redirect_field_name=None)
-def quote_book(request, book_id):
+def quote_sourse(request, source_id):
     # TODO
 
-    book = check_book(book_id, request.user)
+    source = check_source(source_id, request.user)
     # Do I need it?
     pass
 
 
 @login_required(redirect_field_name=None)
-def add_quote(request, book_id):
-    """Saves quote from given book"""
+def add_quote(request, source_id):
+    """Saves quote from given source"""
 
     form = NewQuoteForm(request.POST)
 
     if form.is_valid():
 
-        book = check_book(book_id, request.user)
-        form.save_quote(book)
+        source = check_source(source_id, request.user)
+        form.save_quote(source)
 
-        link = reverse("bookshelf:book_space", args=(book_id,))
+        link = reverse("bookshelf:source_space", args=(source_id,))
         return redirect(link)
 
     else:
@@ -135,7 +135,7 @@ def delete_quote(request, quote_id):
     # Delete quote from the db
     quote.delete()
 
-    link = reverse("bookshelf:book_space", args=(quote.book.pk,))
+    link = reverse("bookshelf:source_space", args=(quote.source.pk,))
     return redirect(link)
 
 
@@ -147,23 +147,23 @@ def alter_quote(request, quote_id):
 
 
 @login_required(redirect_field_name=None)
-def book_space(request, book_id):
+def source_space(request, source_id):
     # Delete later
 
-    book = check_book(book_id, request.user)
-    #quotes = book.quotes.all()
+    source = check_source(source_id, request.user)
+    #quotes = source.quotes.all()
 
-    upload_form = UploadBookForm()
+    upload_form = UploadSourceForm()
     quote_form = NewQuoteForm()
-    alter_form = AlterBookForm(initial={
-                                        "title": book.title, 
-                                        "author": book.author, 
-                                        "year": book.year, 
-                                        "publishing_house": book.publishing_house,
+    alter_form = AlterSourceForm(initial={
+                                        "title": source.title, 
+                                        "author": source.author, 
+                                        "year": source.year, 
+                                        "publishing_house": source.publishing_house,
                                         })
 
 
-    return render(request, "bookshelf/book_space.html", {"book": book, 
+    return render(request, "bookshelf/book_space.html", {"source": source, 
                                                          "upload_form": upload_form, 
                                                          "alter_form": alter_form, 
                                                          "quote_form": quote_form,
