@@ -2,7 +2,7 @@ from django.core.exceptions import PermissionDenied
 
 from typing import Callable
 
-from .verification import check_work_space, check_book, check_paper, check_quote
+from .verification import check_work_space, check_book, check_paper, check_quote, check_article
 
 
 def space_ownership_required(func: Callable):
@@ -14,6 +14,18 @@ def space_ownership_required(func: Callable):
             raise PermissionDenied
         
         return func(request, space_id)
+    return wrapper
+
+
+def article_ownership_required(func: Callable):
+    """Checks if current user added this article"""
+    def wrapper(request, article_id):
+
+        article = check_article(article_id, request.user)
+        if article.user != request.user:
+            raise PermissionDenied
+        
+        return func(request, article_id)
     return wrapper
 
 

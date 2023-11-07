@@ -84,6 +84,9 @@ class Article(CommonInfo):
  
 class Website(models.Model):
 
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="websites")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="websites")
+
     author = models.CharField(max_length=70, blank=True)
     has_author = models.BooleanField(default=False)
     page_title = models.CharField(max_length=50)

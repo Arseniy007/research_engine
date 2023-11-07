@@ -77,6 +77,8 @@ class NewQuoteForm(forms.ModelForm):
         model = Quote
         fields = "__all__"
         exclude = ["content_type", "object_id"]
+
+        # TODO qury set of books, articles and websites
     
 
     def save_quote(self, book: Book):
