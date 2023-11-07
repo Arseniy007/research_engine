@@ -17,22 +17,21 @@ def saving_path(instance, filename):
     return f"{space_path}/books/user_{user_id}/book_{book_id}/{filename}"
 
 
-class CommonInfo(models.Model):
+# should be real class! Source! with one verification func and one decorator!
+
+class Source(models.Model):
 
     title = models.CharField(max_length=100)
-    author = models.CharField(max_length=70)
-    #multiple_authors = models.BooleanField(default=False)
+    author = models.CharField(max_length=70, blank=True)
+    multiple_authors = models.BooleanField(default=False)
 
     year = models.CharField(max_length=5, blank=True)
 
     file = models.FileField(upload_to=saving_path, blank=True)
     link = models.CharField(max_length=40, blank=True)
 
-    class Meta:
-        abstract = True
 
-
-class Book(CommonInfo):
+class Book(Source):
 
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="books")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
@@ -68,7 +67,7 @@ class Chapter(Book):
     pages = models.CharField(max_length=20)
 
 
-class Article(CommonInfo):
+class Article(Source):
 
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="articles")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="articles")
@@ -82,14 +81,12 @@ class Article(CommonInfo):
     link_to_journal = models.CharField(max_length=40, blank=True)
 
  
-class Website(models.Model):
+class Website(Source):
 
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="websites")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="websites")
 
-    author = models.CharField(max_length=70, blank=True)
     has_author = models.BooleanField(default=False)
-    page_title = models.CharField(max_length=50)
     website_title = models.CharField(max_length=50)
     page_url = models.CharField(max_length=50)
     date = models.DateField()
