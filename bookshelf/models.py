@@ -20,6 +20,10 @@ def saving_path(instance, filename):
 # should be real class! Source! with one verification func and one decorator!
 
 class Source(models.Model):
+    """
+    An abstract base class for all possible sources: books, articles, chapters, websites etc.
+    Using _cast_ method one can access child class of any source-objects
+    """
 
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=70, blank=True)
@@ -29,6 +33,22 @@ class Source(models.Model):
 
     file = models.FileField(upload_to=saving_path, blank=True)
     link = models.CharField(max_length=40, blank=True)
+
+    real_type = models.ForeignKey(ContentType, editable=False, on_delete=models.CASCADE)
+
+
+    def save(self, *args, **kwargs):
+        if self._state.adding:
+            self.real_type = self.get_real_type()
+        super(Source, self).save(*args, **kwargs)
+
+
+    def get_real_type(self):
+        return ContentType.objects.get_for_model(type(self))
+    
+
+    def cast(self):
+        return self.real_type.get_object_for_this_type(pk=self.pk)
 
 
 class Book(Source):
@@ -57,7 +77,7 @@ class Book(Source):
     def get_path_to_file(self):
         """Returns a path to the book file"""
         return os.path.join(self.get_path(), os.path.basename(self.file.name))
-
+    
 
 class Article(Source):
 
@@ -71,6 +91,10 @@ class Article(Source):
 
     is_electronic = models.BooleanField(default=False)
     link_to_journal = models.CharField(max_length=40, blank=True)
+
+    def get_object_type(self):
+
+        return type(self)
 
  
 class Website(Source):

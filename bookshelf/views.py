@@ -151,7 +151,7 @@ def book_space(request, book_id):
     # Delete later
 
     book = check_book(book_id, request.user)
-    quotes = book.quotes.all()
+    #quotes = book.quotes.all()
 
     upload_form = UploadBookForm()
     quote_form = NewQuoteForm()
@@ -167,4 +167,4 @@ def book_space(request, book_id):
                                                          "upload_form": upload_form, 
                                                          "alter_form": alter_form, 
                                                          "quote_form": quote_form,
-                                                         "quotes": quotes})
+                                                         "quotes": None})
