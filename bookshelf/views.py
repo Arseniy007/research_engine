@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .forms import NewBookForm, UploadBookForm, AlterBookForm, NewQuoteForm
-from utils.decorators import book_ownership_required, quote_ownership_required
+from utils.decorators import book_ownership_required, quote_ownership_required, source_ownership_required
 from utils.verification import check_book, check_work_space, check_quote
 
 
@@ -73,7 +73,7 @@ def delete_book(request, book_id):
     return JsonResponse({"message": "ok"})
 
 
-@book_ownership_required
+@source_ownership_required
 @login_required(redirect_field_name=None)
 def alter_book_info(request, book_id):
     """Allow user to change all book related info"""

@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
 
-from bookshelf.models import Article, Book, Quote, Website
+from bookshelf.models import Source, Article, Book, Quote, Website
 from file_handling.models import PaperVersion
 from paper_work.models import Paper
 from work_space.models import WorkSpace, Invitation
@@ -44,6 +44,27 @@ def check_file(file_id, user):
         return file
 
 
+
+def check_source(source_id, user):
+
+    try:
+        source = Source.objects.get(pk=source_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    
+    else:
+        source_type = type(source.cast())
+        match source_type:
+            case Book():
+                return check_book(source_id, user)
+            case Article():
+                return check_article(source_id, user)
+            case Website():
+                return check_website(source_id, user)
+            case _:
+                raise Http404
+
+
 def check_book(book_id, user):
     """Checks if book exists"""
 
@@ -78,6 +99,25 @@ def check_website(website_id, user):
     else:
         check_work_space(website.work_space.pk, user)
         return website
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def check_quote(quote_id, user):

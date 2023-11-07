@@ -92,10 +92,6 @@ class Article(Source):
     is_electronic = models.BooleanField(default=False)
     link_to_journal = models.CharField(max_length=40, blank=True)
 
-    def get_object_type(self):
-
-        return type(self)
-
  
 class Website(Source):
 
