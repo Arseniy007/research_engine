@@ -1,4 +1,4 @@
-from .models import Source, Book, Article, Website
+from .models import Source, Article, Book, Chapter, Website
 
 # Author field:
 # Lastname, firstname(, senond name) / Lastname, firstname(, senond name) /..
@@ -16,6 +16,8 @@ def quote_source_apa(source: Source):
             return quote_book_apa(source.book)
         case Article():
             return quote_article_apa(source.article)
+        case Chapter():
+            return quote_chapter_apa(source.chapter)
         case Website():
             return quote_website_apa(source.website)
         case _:
@@ -52,16 +54,24 @@ def quote_book_apa(book: Book):
 
 
 
-
 def quote_article_apa(article: Article):
     # TODO
 
+    return "Article apa"
     pass
+
+
+def quote_chapter_apa(chapter: Chapter):
+    # TODO
+
+    return "Chapter apa"
 
 
 
 def quote_website_apa(website: Website):
     # TODO
+
+    return "Website apa"
 
     pass
 

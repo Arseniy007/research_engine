@@ -1,4 +1,4 @@
-from .models import Source, Book, Article, Website
+from .models import Source, Book, Article, Chapter, Website
 
 
 def quote_source_mla(source: Source):
@@ -10,6 +10,8 @@ def quote_source_mla(source: Source):
             return quote_book_mla(source.book)
         case Article():
             return quote_article_mla(source.article)
+        case Chapter():
+            return quote_chapter_mla(source.chapter)
         case Website():
             return quote_website_mla(source.website)
         case _:
@@ -33,7 +35,6 @@ def quote_book_mla(source: Source):
             first_name = ""
 
         authors_name.append(f"{last_name}, {first_name}")
-
     
     author = authors_name[0]
     
@@ -42,9 +43,14 @@ def quote_book_mla(source: Source):
 
 def quote_article_mla(article: Article):
 
-    pass
+    return "Article mla"
+
+
+def quote_chapter_mla(chapter: Chapter):
+
+    return "Chapter mla"
 
 
 def quote_website_mla(website: Website):
 
-    pass
+    return "Website mla"

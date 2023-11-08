@@ -32,13 +32,11 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
         authors = [paper.user for paper in papers]
 
         for author in authors:
-
             if len(set(authors)) != 1:
                 # Create new "user" dirs inside "papers" dir if there are multiple users
                 author_name = f"{author.last_name} {author.first_name}"
                 author_root = os.path.join(papers_root, author_name)
                 os.makedirs(author_root, exist_ok=True)
-
             else:
                 # Don't create author dir if there is only one user
                 author_root = papers_root
@@ -53,7 +51,6 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
 
                 # Get all paper-related files
                 versions = author_paper.versions.all()
-
                 for version in versions:
                     # Create new "paper-file" dirs inside "paper" dir
                     path_to_paper_version = os.path.join(path_to_paper, version.get_saving_time())
@@ -65,7 +62,6 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
                     shutil.copyfile(original_file, destination)
 
     if sources:
-
         # Sources!!!!
         # Variables!!!!
 
@@ -74,8 +70,8 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
         os.makedirs(books_root, exist_ok=True)
 
         # Get, quote and sort alphabetically all books
-        books_apa = sorted([quote_source_apa(source) for source in sources])
-        books_mla = sorted([quote_source_mla(source) for source in sources])
+        sources_apa = sorted([quote_source_apa(source) for source in sources])
+        sources_mla = sorted([quote_source_mla(source) for source in sources])
 
         # Get paths to new .txt files
         apa_file_path = os.path.join(books_root, "books_apa.txt")
@@ -86,22 +82,20 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
 
             book_counter = 1
             for i in range(len(sources)):
-                # Write books arrays into both files
-                apa_file.write(f"{book_counter}. {books_apa[i]}\n")
-                mla_file.write(f"{book_counter}. {books_mla[i]}\n")
+                # Write sources arrays into both files
+                apa_file.write(f"{book_counter}. {sources_apa[i]}\n")
+                mla_file.write(f"{book_counter}. {sources_mla[i]}\n")
                 book_counter += 1
 
         # Get array with only books which files were uploaded
         sources_with_files = [source for source in sources if source.file]
 
         if any(sources_with_files):
-
             # Create new "books-files" dir
             book_files_root = os.path.join(books_root, "files")
             os.makedirs(book_files_root, exist_ok=True)
 
             for source in sources_with_files:
-
                 # Copy original book file into new "books-file" dir
                 destination = os.path.join(book_files_root, source.file_name())
                 original_file = source.get_path_to_file()

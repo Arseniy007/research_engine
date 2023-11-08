@@ -60,7 +60,7 @@ class AlterSourceForm(forms.ModelForm):
         exclude = ["user", "work_space", "multiple_authors", "file"]
 
 
-    def save_book(self, book: Book):
+    def save_source(self, book: Book):
 
         params = ("title", "author", "year", "publishing_house", "link")
 

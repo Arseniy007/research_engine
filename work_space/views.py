@@ -50,7 +50,7 @@ def create_work_space(request):
 @login_required(redirect_field_name=None)
 def delete_work_space(request, space_id):
 
-    # Check if user has right to delete this paper
+    # Check if user has right to delete this work space
     space = check_work_space(space_id, request.user)
 
     # Delete work pace directory with all files inside

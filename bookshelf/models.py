@@ -1,7 +1,6 @@
 import os
 
 from django.db import models 
-from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 from user_management.models import User
@@ -44,6 +43,7 @@ class Source(models.Model):
 
 
     def save(self, *args, **kwargs):
+        """Custom save func with obj real type storing"""
         if self._state.adding:
             self.real_type = self.get_real_type()
         super(Source, self).save(*args, **kwargs)
@@ -88,21 +88,23 @@ class Article(Source):
     is_electronic = models.BooleanField(default=False)
     link_to_journal = models.CharField(max_length=40, blank=True)
 
+
+class Chapter(Source):
+
+    chapter_title = models.CharField(max_length=50)
+    chapter_author = models.CharField(max_length=70)
+    edition = models.IntegerField(blank=True)
+    pages = models.CharField(max_length=20)
+    
+    # edited vs normal book
  
+
 class Website(Source):
 
     has_author = models.BooleanField(default=False)
     website_title = models.CharField(max_length=50)
     page_url = models.CharField(max_length=50)
     date = models.DateField()
-
-
-class ChapterFromEditedBook(Source):
-
-    chapter_title = models.CharField(max_length=50)
-    chapter_author = models.CharField(max_length=70)
-    edition = models.IntegerField(blank=True)
-    pages = models.CharField(max_length=20)
 
 
 class Quote(models.Model):
