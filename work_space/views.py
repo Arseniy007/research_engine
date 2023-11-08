@@ -6,7 +6,7 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from bookshelf.forms import NewSourceForm
+from bookshelf.forms import NewBookForm, NewArticleForm, NewChapterForm, NewWebsiteForm
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
 from .friendly_dir import create_friendly_dir
 from .invitation_generator import generate_invitation
@@ -110,7 +110,10 @@ def work_space(request, space_id):
                                                           "papers": space.papers.all(),
                                                           "books": space.sources.all(),
                                                           "form": NewPaperForm(),
-                                                          "book_form": NewSourceForm()})
+                                                          "book_form": NewBookForm(),
+                                                          "article_form": NewArticleForm(),
+                                                          "chapter_form": NewChapterForm(),
+                                                          "website_form": NewWebsiteForm()})
 
 
 @space_ownership_required

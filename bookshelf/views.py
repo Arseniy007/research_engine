@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .forms import NewSourceForm, UploadSourceForm, AlterSourceForm, NewQuoteForm
+from .forms import NewBookForm, UploadSourceForm, AlterSourceForm, NewQuoteForm
 from utils.decorators import source_ownership_required, quote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote
 
@@ -15,7 +15,7 @@ def add_source(request, space_id):
     """Add new source info to the work space"""
     # TODO
 
-    form = NewSourceForm(request.POST)
+    form = NewBookForm(request.POST)
 
     if form.is_valid():
 

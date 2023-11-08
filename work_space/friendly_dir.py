@@ -60,7 +60,7 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
                     destination = os.path.join(path_to_paper_version, version.file_name())
                     original_file = version.get_full_path()
                     shutil.copyfile(original_file, destination)
-
+                    
     if sources:
         # Sources!!!!
         # Variables!!!!

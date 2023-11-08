@@ -1,20 +1,20 @@
-import re
-
+#import re
 from django import forms
 
 from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
-from .models import Book, Quote, Source
+from .models import Article, Book, Chapter, Quote, Source, Website
 
 from user_management.models import User
 from work_space.models import WorkSpace
 
 
+EXCLUDED_FIELDS = ("user", "work_space", "file", "real_type", "author", "multiple_authors")
+
+
 class NewSourceForm(forms.ModelForm):
     class Meta:
-        model = Book
-        fields = "__all__"
-        exclude = ["user", "work_space", "author", "multiple_authors", "file"]
-
+        model = Source
+        fields = ("title", "year", "link")
 
     author_last_name = forms.CharField(max_length=40)
     author_first_name = forms.CharField(max_length=40)
@@ -41,16 +41,55 @@ class NewSourceForm(forms.ModelForm):
         new_book.save()
 
 
+class NewBookForm(forms.Form):
+
+    publishing_house = forms.CharField(max_length=30)
+
+
+class NewArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = "__all__"
+        exclude = EXCLUDED_FIELDS
+
+
+class NewChapterForm(forms.ModelForm):
+    class Meta:
+        model = Chapter
+        fields = "__all__"
+        exclude = EXCLUDED_FIELDS
+
+
+
+
+class NewWebsiteForm(forms.ModelForm):
+    class Meta:
+        model = Website
+        fields = "__all__"
+        exclude = EXCLUDED_FIELDS
+    
+
+
+
+
+
+
+
+
+
+
+
+
 
 class UploadSourceForm(forms.Form):
 
     file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
 
     
-    def save_file(self, book: Book):
-       """Save new book-file"""
-       book.file = self.cleaned_data["file"]
-       book.save(update_fields=("file",))
+    def save_file(self, source: Source):
+       """Save new source-file"""
+       source.file = self.cleaned_data["file"]
+       source.save(update_fields=("file",))
 
 
 class AlterSourceForm(forms.ModelForm):
