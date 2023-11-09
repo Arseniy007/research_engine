@@ -780,4 +780,19 @@ class NewWebsiteForm(forms.ModelForm):
         <button  type="submit">Add Website</button>
     </form><br><br><br>
 
+      title = clean_text_data(self.cleaned_data["title"])
+
+        author_last_name = clean_text_data(self.cleaned_data["author_last_name"])
+        author_first_name = clean_text_data(self.cleaned_data["author_first_name"])
+        author_second_name = clean_text_data(self.cleaned_data["author_second_name"])
+
+        author = f"{author_last_name} {author_first_name} {author_second_name}"
+        
+        year = self.cleaned_data["year"]
+
+        common_info["author"] = author
+        common_info["title"] = title
+        common_info["year"] = year
+
+
 """

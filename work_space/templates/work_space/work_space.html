@@ -6,7 +6,7 @@
     <style>
         .website, .article, .book, .chapter
         {
-            display: none;
+            display: block;
         }
     </style>
 
@@ -27,10 +27,10 @@
     </ul><br><br>
 
     <h3>Source form</h3>
-    <form enctype="multipart/form-data" action="{% url 'bookshelf:add_source' space.pk %}" method="post">
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post">
         {% csrf_token %} 
         {{ source_form.as_p }}
-        <button  type="submit">Add Source</button>
+        <button type="submit">Add Source</button>
     </form><br><br><br>
    
 

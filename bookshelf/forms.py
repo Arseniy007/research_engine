@@ -8,7 +8,13 @@ from user_management.models import User
 from work_space.models import WorkSpace
 
 
-CHOICES = ((Book(), "Book"),(Article(), "Article"), (Chapter(), "Chapter"), (Website(), "Website"),)
+CHOICES = (("Book", "Book"), ("Article", "Article"), ("Chapter", "Chapter"), ("Website", "Website"),)
+COMMON_FIELDS = ("title", "author_last_name", "author_first_name", "author_second_name", "year", "link")
+
+
+def clean_text_data(data):
+
+    return data.strip("., ")
 
 
 class FieldClass:
@@ -22,9 +28,9 @@ class FieldClass:
 
 class NewSourceForm(forms.Form):
 
-    source_type = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={"required": True}))
+    source_type = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={"required": False}))
 
-    # Cross-type fileds
+    # Cross-type fields
     title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.common_fields}))
     author_last_name = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.common_fields}))
     author_first_name = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.common_fields}))
@@ -61,46 +67,60 @@ class NewSourceForm(forms.Form):
         # deal with authors here!
         # Have another func with re module to fix all possible problems?
 
-        # Need to be able to figure out whoch type was selected and then create it and only it
-
-
         source_type = self.cleaned_data["source_type"]
         if not source_type:
             return False
 
+        common_info: dict = {}
+
+        for field in COMMON_FIELDS:
+            common_info[field] = clean_text_data(self.cleaned_data[field])
+
+
+        common_info["author"] = f"{common_info['author_last_name']} {'author_first_name'} {'author_second_name'}"
+
+
         # Here call other func (or methods!)
         match source_type:
-            case Book():
-                pass
-            case Article():
-                pass
-            case Chapter():
-                pass
-            case Website():
-                pass
+            case "Book":
+                self.save_book(user, space, common_info)
+            case "Article":
+                self.save_article(user, space, common_info)
+            case "Chapter":
+                self.save_chapter(user, space, common_info)
+            case "Website":
+                self.save_website(user, space, common_info)
             case _:
-                pass
+                print("error")
 
-        
-        title = self.cleaned_data["title"].strip("., ")
+                
+    def save_book(self, user: User, space: WorkSpace, common_info: dict):
+        # TODO
 
-        author_last_name = self.cleaned_data["author_last_name"].strip("., ")
-        author_first_name = self.cleaned_data["author_first_name"].strip("., ")
-        author_second_name = self.cleaned_data["author_second_name"].strip("., ")
+        publishing_house = clean_text_data(self.cleaned_data["publishing_house"])
 
-        author = f"{author_last_name} {author_first_name} {author_second_name}"
-        
-        year, publishing_house = self.cleaned_data["year"].strip(". "), self.cleaned_data["publishing_house"].strip(". ")
-
-        new_book = Book(user=user, work_space=space, title=title, author=author, year=year, publishing_house=publishing_house)
+        new_book = Book(user=user, work_space=space, 
+                        title=common_info["title"], 
+                        author=common_info["author"], 
+                        year=common_info["year"], publishing_house=publishing_house)
         new_book.save()
+        
+        return print("book")
 
 
+    def save_article(self, user: User, space: WorkSpace, common_info: dict):
+        # TODO
+        return print("article")
+        
+
+    def save_chapter(self, user: User, space: WorkSpace, common_info: dict):
+        # TODO
+        return print("chapter")
 
 
-
-
-
+    def save_website(self, user: User, space: WorkSpace, common_info: dict):
+        # TODO
+        return print("website")
 
 
 
