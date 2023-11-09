@@ -50,11 +50,12 @@ class Source(models.Model):
 
 
     def get_real_type(self):
+        """Get object type"""
         return ContentType.objects.get_for_model(type(self))
     
 
     def cast(self):
-        """Get objgect class (Book / Article / Website / etc.)"""
+        """Get object class (Book / Article / Website / etc.)"""
         return self.real_type.get_object_for_this_type(pk=self.pk)
     
 
@@ -69,7 +70,7 @@ class Source(models.Model):
     
 
     def get_path_to_file(self):
-        """Returns a path to the book file"""
+        """Returns a path to the sourcefile"""
         return os.path.join(self.get_path(), os.path.basename(self.file.name))
     
 

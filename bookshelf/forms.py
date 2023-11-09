@@ -8,12 +8,12 @@ from user_management.models import User
 from work_space.models import WorkSpace
 
 
-CHOICES = ((Book, "Book"),(Article, "Article"), (Chapter, "Chapter"), (Website, "Website"),)
+CHOICES = ((Book(), "Book"),(Article(), "Article"), (Chapter(), "Chapter"), (Website(), "Website"),)
 
 
 class FieldClass:
 
-    all_classes = "book article chapter website"
+    common_fields = "common_fields"
     book_class = "book"
     article_class = "article"
     chapter_class = "chapter"
@@ -22,15 +22,15 @@ class FieldClass:
 
 class NewSourceForm(forms.Form):
 
-    source_type = forms.ChoiceField(choices=CHOICES)
+    source_type = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={"required": True}))
 
     # Cross-type fileds
-    title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.all_classes}))
-    author_last_name = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.all_classes}))
-    author_first_name = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.all_classes}))
-    author_second_name = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.all_classes}))
-    year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.all_classes}))
-    link = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.all_classes}))
+    title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.common_fields}))
+    author_last_name = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.common_fields}))
+    author_first_name = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.common_fields}))
+    author_second_name = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.common_fields}))
+    year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.common_fields}))
+    link = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.common_fields}))
 
     # Book field:
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
@@ -64,12 +64,29 @@ class NewSourceForm(forms.Form):
         # Need to be able to figure out whoch type was selected and then create it and only it
 
 
+        source_type = self.cleaned_data["source_type"]
+        if not source_type:
+            return False
 
-        title = self.cleaned_data["title"].strip(". ")
+        # Here call other func (or methods!)
+        match source_type:
+            case Book():
+                pass
+            case Article():
+                pass
+            case Chapter():
+                pass
+            case Website():
+                pass
+            case _:
+                pass
 
-        author_last_name = self.cleaned_data["author_last_name"].strip(". ")
-        author_first_name = self.cleaned_data["author_first_name"].strip(". ")
-        author_second_name = self.cleaned_data["author_second_name"].strip(". ")
+        
+        title = self.cleaned_data["title"].strip("., ")
+
+        author_last_name = self.cleaned_data["author_last_name"].strip("., ")
+        author_first_name = self.cleaned_data["author_first_name"].strip("., ")
+        author_second_name = self.cleaned_data["author_second_name"].strip("., ")
 
         author = f"{author_last_name} {author_first_name} {author_second_name}"
         
@@ -109,6 +126,8 @@ class AlterSourceForm(forms.ModelForm):
         model = Book
         fields = "__all__"
         exclude = ["user", "work_space", "multiple_authors", "file"]
+
+    # Probably gonna change that later
 
 
     def save_source(self, book: Book):
