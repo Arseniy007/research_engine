@@ -8,17 +8,38 @@ from user_management.models import User
 from work_space.models import WorkSpace
 
 
-EXCLUDED_FIELDS = ("user", "work_space", "file", "real_type", "author", "multiple_authors")
-
-
 class NewSourceForm(forms.ModelForm):
     class Meta:
         model = Source
         fields = ("title", "year", "link")
 
+    # Add multiple authors later!
     author_last_name = forms.CharField(max_length=40)
     author_first_name = forms.CharField(max_length=40)
     author_second_name = forms.CharField(max_length=40)
+
+    # Book field:
+    publishing_house = forms.CharField(max_length=50)
+
+    # Article fields:
+    journal_title = forms.CharField(max_length=50)
+    volume_number = forms.IntegerField()
+    journal_number = forms.IntegerField()
+    pages = forms.CharField(max_length=20)
+    is_electronic = forms.BooleanField()
+    link_to_journal = forms.CharField(max_length=40)
+
+    # Chapter fields:
+    chapter_title = forms.CharField(max_length=50)
+    chapter_author = forms.CharField(max_length=70)
+    edition = forms.IntegerField()
+    pages = forms.CharField(max_length=20)
+
+    # Website fields:
+    has_author = forms.BooleanField()
+    website_title = forms.CharField(max_length=50)
+    page_url = forms.CharField(max_length=50)
+    date = forms.DateField()
 
 
     def save_source(self, user: User, space: WorkSpace):
@@ -41,33 +62,7 @@ class NewSourceForm(forms.ModelForm):
         new_book.save()
 
 
-class NewBookForm(forms.Form):
 
-    publishing_house = forms.CharField(max_length=30)
-
-
-class NewArticleForm(forms.ModelForm):
-    class Meta:
-        model = Article
-        fields = "__all__"
-        exclude = EXCLUDED_FIELDS
-
-
-class NewChapterForm(forms.ModelForm):
-    class Meta:
-        model = Chapter
-        fields = "__all__"
-        exclude = EXCLUDED_FIELDS
-
-
-
-
-class NewWebsiteForm(forms.ModelForm):
-    class Meta:
-        model = Website
-        fields = "__all__"
-        exclude = EXCLUDED_FIELDS
-    
 
 
 

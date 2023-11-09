@@ -20,30 +20,13 @@
         {% endfor %}
     </ul><br><br>
 
-    <h3>Book form</h3>
+    <h3>Source form</h3>
     <form enctype="multipart/form-data" action="{% url 'bookshelf:add_source' space.pk %}" method="post">
         {% csrf_token %} 
-        {{ book_form }}
-        <button  type="submit">Add Book</button>
+        {{ source_form }}
+        <button  type="submit">Add Source</button>
     </form><br><br><br>
-    <h3>Article form</h3>
-    <form enctype="multipart/form-data" action="{% url 'bookshelf:add_source' space.pk %}" method="post">
-        {% csrf_token %} 
-        {{ article_form }}
-        <button  type="submit">Add Article</button>
-    </form><br><br><br>
-    <h3>Chapter form</h3>
-    <form enctype="multipart/form-data" action="{% url 'bookshelf:add_source' space.pk %}" method="post">
-        {% csrf_token %} 
-        {{ chapter_form }}
-        <button  type="submit">Add Chapter</button>
-    </form><br><br><br>
-    <h3>Website form</h3>
-    <form enctype="multipart/form-data" action="{% url 'bookshelf:add_source' space.pk %}" method="post">
-        {% csrf_token %} 
-        {{ website_form }}
-        <button  type="submit">Add Website</button>
-    </form><br><br><br>
+   
 
 
 
