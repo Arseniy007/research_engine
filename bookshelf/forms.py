@@ -8,45 +8,62 @@ from user_management.models import User
 from work_space.models import WorkSpace
 
 
-class NewSourceForm(forms.ModelForm):
-    class Meta:
-        model = Source
-        fields = ("title", "year", "link")
+CHOICES = ((Book, "Book"),(Article, "Article"), (Chapter, "Chapter"), (Website, "Website"),)
 
-    # Add multiple authors later!
-    author_last_name = forms.CharField(max_length=40)
-    author_first_name = forms.CharField(max_length=40)
-    author_second_name = forms.CharField(max_length=40)
+
+class FieldClass:
+
+    all_classes = "book article chapter website"
+    book_class = "book"
+    article_class = "article"
+    chapter_class = "chapter"
+    website_class = "website"
+
+
+class NewSourceForm(forms.Form):
+
+    source_type = forms.ChoiceField(choices=CHOICES)
+
+    # Cross-type fileds
+    title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.all_classes}))
+    author_last_name = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.all_classes}))
+    author_first_name = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.all_classes}))
+    author_second_name = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.all_classes}))
+    year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.all_classes}))
+    link = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.all_classes}))
 
     # Book field:
-    publishing_house = forms.CharField(max_length=50)
+    publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
 
     # Article fields:
-    journal_title = forms.CharField(max_length=50)
-    volume_number = forms.IntegerField()
-    journal_number = forms.IntegerField()
-    pages = forms.CharField(max_length=20)
-    is_electronic = forms.BooleanField()
-    link_to_journal = forms.CharField(max_length=40)
+    journal_title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
+    volume_number = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
+    journal_number = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
+    pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
+    is_electronic = forms.BooleanField(widget=forms.CheckboxInput(attrs={"class": FieldClass.article_class}))
+    link_to_journal = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
 
     # Chapter fields:
-    chapter_title = forms.CharField(max_length=50)
-    chapter_author = forms.CharField(max_length=70)
-    edition = forms.IntegerField()
-    pages = forms.CharField(max_length=20)
+    chapter_title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
+    chapter_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
+    edition = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.chapter_class}))
+    pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
 
     # Website fields:
-    has_author = forms.BooleanField()
-    website_title = forms.CharField(max_length=50)
-    page_url = forms.CharField(max_length=50)
-    date = forms.DateField()
+    has_author = forms.BooleanField(widget=forms.CheckboxInput(attrs={"class": FieldClass.website_class}))
+    website_title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.website_class}))
+    page_url = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.website_class}))
+    date = forms.DateField(widget=forms.DateInput(attrs={"class": FieldClass.website_class}))
 
 
     def save_source(self, user: User, space: WorkSpace):
 
         # deal with authors here!
-
         # Have another func with re module to fix all possible problems?
+
+        # Need to be able to figure out whoch type was selected and then create it and only it
+
+
 
         title = self.cleaned_data["title"].strip(". ")
 

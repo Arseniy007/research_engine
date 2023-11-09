@@ -3,6 +3,12 @@
 
 {% block body %}
 
+    <style>
+        .website, .article, .book
+        {
+            display: none;
+        }
+    </style>
 
     <h3>{{ space }}</h3>
 
@@ -23,7 +29,7 @@
     <h3>Source form</h3>
     <form enctype="multipart/form-data" action="{% url 'bookshelf:add_source' space.pk %}" method="post">
         {% csrf_token %} 
-        {{ source_form }}
+        {{ source_form.as_p }}
         <button  type="submit">Add Source</button>
     </form><br><br><br>
    
