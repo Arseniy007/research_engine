@@ -5,8 +5,6 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from django.http import Http404
-
 from .forms import NewSourceForm, UploadSourceForm, AlterSourceForm, NewQuoteForm
 from utils.decorators import source_ownership_required, quote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote
