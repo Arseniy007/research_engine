@@ -4,9 +4,9 @@
 {% block body %}
 
     <style>
-        .website, .article, .book, .chapter
+        #book_form, #article_form, #chapter_form, #website_form, #source_type_form
         {
-            display: block;
+            display: none;
         }
     </style>
 
@@ -48,9 +48,69 @@
 
     <li>
         <a href="{% url 'work_space:download_space' space.pk %}">Donwload space</a>
-    </li>
+    </li><br><br><br>
     
-   
+
+
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="source_type_form">
+        {% csrf_token %} 
+        {{ source_type_form.as_p }}
+        <button type="submit">Add Book</button>
+    </form><br><br><br>
+
+    <button id="book_button" type="submit">book</button>
+    <button id="article_button" type="submit">article</button>
+    <button id="chapter_button" type="submit">chapter</button>
+    <button id="website_button" type="submit">website</button>
+
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book_form">
+        {% csrf_token %} 
+        {{ book_form.as_p }}
+        <button type="submit">Add Book</button>
+    </form><br><br><br>
+
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article_form">
+        {% csrf_token %} 
+        {{ article_form.as_p }}
+        <button type="submit">Add Book</button>
+    </form><br><br><br>
+
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter_form">
+        {% csrf_token %} 
+        {{ chapter_form.as_p }}
+        <button type="submit">Add Book</button>
+    </form><br><br><br>
+
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="website_form">
+        {% csrf_token %} 
+        {{ website_form.as_p }}
+        <button type="submit">Add Book</button>
+    </form><br><br><br>
+
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const book_button = document.getElementById('book_button');
+            const article_button = document.getElementById('article_button');
+            const chapter_button = document.getElementById('chapter_button');
+            const website_button = document.getElementById('website_button');
+
+            function show_form(type) {
+
+                let form = document.getElementById(`${type}_form`);
+
+                form.style.display = 'block';
+            }
+
+            book_button.addEventListener('click', () => show_form(book_button.innerHTML));
+            article_button.addEventListener('click', () => show_form(article_button.innerHTML));
+            chapter_button.addEventListener('click', () => show_form(chapter_button.innerHTML));
+            website_button.addEventListener('click', () => show_form(website_button.innerHTML));
+  
+        });
+    </script>
 
 {% endblock %}
 

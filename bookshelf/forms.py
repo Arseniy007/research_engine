@@ -18,7 +18,6 @@ def clean_text_data(data):
 
 
 class FieldClass:
-
     common_fields = "common_fields"
     book_class = "book"
     article_class = "article"

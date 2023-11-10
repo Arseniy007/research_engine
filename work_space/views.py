@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from bookshelf.forms import NewSourceForm
+from bookshelf.forms_test import BookForm, ArticleForm, ChapterForm, WebsiteForm, SourceTypeForm
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
 from .friendly_dir import create_friendly_dir
 from .invitation_generator import generate_invitation
@@ -110,7 +111,12 @@ def work_space(request, space_id):
                                                           "papers": space.papers.all(),
                                                           "books": space.sources.all(),
                                                           "form": NewPaperForm(),
-                                                          "source_form": NewSourceForm()})
+                                                          "source_form": NewSourceForm(),
+                                                          "book_form": BookForm(),
+                                                          "article_form": ArticleForm(),
+                                                          "chapter_form": ChapterForm(),
+                                                          "website_form": WebsiteForm(),
+                                                          "source_type_form": SourceTypeForm()})
 
 
 @space_ownership_required
