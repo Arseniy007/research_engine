@@ -52,11 +52,6 @@
     
 
 
-    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="source_type_form">
-        {% csrf_token %} 
-        {{ source_type_form.as_p }}
-        <button type="submit">Add Book</button>
-    </form><br><br><br>
 
     <button id="book_button" type="submit">book</button>
     <button id="article_button" type="submit">article</button>
@@ -65,7 +60,7 @@
 
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book_form">
         {% csrf_token %} 
-        {{ book_form.as_p }}
+        {{ book_form }}
         <button type="submit">Add Book</button>
     </form><br><br><br>
 
