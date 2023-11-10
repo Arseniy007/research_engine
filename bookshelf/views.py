@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm
 from .forms_test import NewSourceForm, UploadSourceForm, AlterSourceForm, NewQuoteForm
 from utils.decorators import source_ownership_required, quote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote
@@ -17,10 +18,21 @@ def add_source(request, space_id):
 
     form = NewSourceForm(request.POST)
 
+    if "book" in request.POST:
+        form = BookForm(request.POST)
+    elif "article" in request.POST:
+        form = ArticleForm(request.POST)
+    elif "chapter" in request.POST:
+        form = ChapterForm(request.POST)
+    elif "website" in request.POST:
+        form = WebsiteForm(request.POST)
+    else:
+        print("error")
+
     if form.is_valid():
 
         space = check_work_space(space_id, request.user)
-        form.save_source(request.user, space)
+        form.save_form(request.user, space)
 
         link = reverse("work_space:space", args=(space.pk,))
         return redirect(link)

@@ -85,8 +85,6 @@ class Article(Source):
     volume_number = models.IntegerField()
     journal_number = models.IntegerField()
     pages = models.CharField(max_length=20)
-
-    is_electronic = models.BooleanField(default=False)
     link_to_journal = models.CharField(max_length=40, blank=True)
 
 
@@ -102,7 +100,6 @@ class Chapter(Source):
 
 class Website(Source):
 
-    has_author = models.BooleanField(default=False)
     website_title = models.CharField(max_length=50)
     page_url = models.CharField(max_length=50)
     date = models.DateField()

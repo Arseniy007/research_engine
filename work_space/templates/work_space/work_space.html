@@ -26,12 +26,7 @@
         {% endfor %}
     </ul><br><br>
 
-    <h3>Source form</h3>
-    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post">
-        {% csrf_token %} 
-        {{ source_form.as_p }}
-        <button type="submit">Add Source</button>
-    </form><br><br><br>
+    
    
 
 
@@ -58,29 +53,34 @@
     <button id="chapter_button" type="submit">chapter</button>
     <button id="website_button" type="submit">website</button>
 
+
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book_form">
         {% csrf_token %} 
-        {{ book_form }}
-        <button type="submit">Add Book</button>
+        {{ book_form.as_p }}
+        <button value="book" name="book" type="submit">Add Book</button>
     </form><br><br><br>
 
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article_form">
         {% csrf_token %} 
         {{ article_form.as_p }}
-        <button type="submit">Add Book</button>
+        <button value="article" name="article" type="submit">Add Article</button>
     </form><br><br><br>
+
 
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter_form">
         {% csrf_token %} 
         {{ chapter_form.as_p }}
-        <button type="submit">Add Book</button>
+        <button value="chapter" name="chapter" type="submit">Add Chapter</button>
     </form><br><br><br>
+
 
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="website_form">
         {% csrf_token %} 
         {{ website_form.as_p }}
-        <button type="submit">Add Book</button>
+        <button value="website" name="website" type="submit">Add Website</button>
     </form><br><br><br>
+
+
 
 
     <script>

@@ -979,3 +979,36 @@ class NewQuoteForm(forms.ModelForm):
 
 
 """
+
+"""
+
+<h3>Source form</h3>
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post">
+        {% csrf_token %} 
+        {{ source_form.as_p }}
+        <button type="submit">Add Source</button>
+    </form><br><br><br>
+
+
+
+     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="website_form">
+        {% csrf_token %} 
+        {{ website_form.as_p }}
+        <button value="website" type="submit">Add Website</button>
+    </form><br><br><br>
+
+        <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book_form">
+        {% csrf_token %} 
+        {{ book_form.as_p }}
+        <button value="book" type="submit">Add Book</button>
+    </form><br><br><br>
+
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article_form">
+        {% csrf_token %} 
+        {{ article_form.as_p }}
+        <button value="article" type="submit">Add Article</button>
+    </form><br><br><br>
+
+
+
+"""
