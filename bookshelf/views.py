@@ -143,7 +143,7 @@ def delete_quote(request, quote_id):
 
     # Check quote and if user has right to deletion
     quote = check_quote(quote_id, request.user)
-
+    
     # Delete quote from the db
     quote.delete()
 

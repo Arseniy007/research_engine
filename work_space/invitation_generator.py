@@ -19,14 +19,11 @@ def generate_invitation(space: object):
     while True:
         # Generate random string
         invitation_code = "".join([SystemRandom().choice(POPULATION) for _ in range(LENGTH_OF_STRING)])
-
         try:
             new_invitation = Invitation(code=invitation_code, work_space=space)
-
         except IntegrityError:
             # Generate new code in case of repetition
             continue
-
         else:
             new_invitation.save()
             return invitation_code

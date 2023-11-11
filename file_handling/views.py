@@ -5,7 +5,7 @@ from binascii import hexlify
 
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse
 
 from .forms import NewPaperVersionForm
