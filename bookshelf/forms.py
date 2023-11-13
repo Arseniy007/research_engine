@@ -1,7 +1,12 @@
 from django import forms
+from django.forms import BaseFormSet
 
 from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
 from .models import Article, Book, Chapter, Quote, Source, Website
+
+
+from convenient_formsets import ConvenientBaseFormSet
+from django.forms import formset_factory
 
 from user_management.models import User
 from work_space.models import WorkSpace
@@ -20,6 +25,22 @@ WEBSITE_FIELDS = ("website_title", "page_author", "page_title", "page_url", "dat
 def clean_text_data(data: str):
 
     return data.strip("., ")
+
+
+#class BaseArticleFormSet(BaseFormSet):
+    #ordering_widget = forms.HiddenInput()
+
+
+
+class AuthorForm(forms.Form):
+
+    last_name = forms.CharField()
+    first_name = forms.CharField()
+    second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+
+
+AuthorFormSet = formset_factory(AuthorForm, formset=ConvenientBaseFormSet, can_delete=True, can_order=True)
+
 
 
 class FieldClass:
@@ -48,6 +69,8 @@ class BookForm(forms.Form):
     author_last_name = CommonFields().author_last_name
     author_first_name = CommonFields().author_first_name
     author_second_name = CommonFields().author_second_name
+    for i in range(22):
+        second_author = forms.CharField(label=False, widget=forms.TextInput(attrs={"class": "hidden"}))
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
     year = CommonFields().year
     link = CommonFields().link

@@ -3,12 +3,75 @@
 
 {% block body %}
 
+    {% block head %}
+        {{ author_formset.media }}
+    {% endblock %}
+
+
     <style>
-        #book_form, #article_form, #chapter_form, #website_form, #source_type_form
+        #book_form, #article_form, #chapter_form, #website_form, #source_type_form, .hidden
         {
             display: none;
         }
     </style>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const book_button = document.getElementById('book_button');
+            const article_button = document.getElementById('article_button');
+            const chapter_button = document.getElementById('chapter_button');
+            const website_button = document.getElementById('website_button');
+
+            function show_form(type) {
+
+                let form = document.getElementById(`${type}_form`);
+
+                form.style.display = 'block';
+            }
+
+            book_button.addEventListener('click', () => show_form(book_button.innerHTML));
+            article_button.addEventListener('click', () => show_form(article_button.innerHTML));
+            chapter_button.addEventListener('click', () => show_form(chapter_button.innerHTML));
+            website_button.addEventListener('click', () => show_form(website_button.innerHTML));
+
+
+            const add_author_button = document.getElementById('add_author');
+
+
+            const hidden = document.getElementsByClassName('hidden');
+
+            for (i=0; i<hidden.length; i++) {
+                hidden[i].style.display = 'block';
+            }
+
+           
+
+
+        
+            window.addEventListener('load', function(event) {
+                new ConvenientFormset({
+                    'formsetPrefix': '{{ author_formset.prefix }}',
+                    'formsContainerSelector': '#author-formset #author-forms-container',
+                    'formSelector': '.author-form',
+
+                    'canAddForms': true,
+                    'addFormButtonSelector': '#author-formset #add-form-button',
+                    'emptyFormTemplateSelector': '#author-formset #empty-form-template',
+
+                    'canDeleteForms': true,
+                    'deleteFormButtonSelector': '#delete-form-button',
+
+                    'canOrderForms': true,
+                    'moveFormDownButtonSelector': '#move-form-down-button',
+                    'moveFormUpButtonSelector': '#move-form-up-button',
+                });
+            });
+        
+
+        });
+    </script>
+
 
     <h3>{{ space }}</h3>
 
@@ -83,29 +146,44 @@
 
 
 
-    <script>
+    <div id="author-formset">
+        <div id="author-forms-container">
+            {% for author_form in author_formset.forms %}
+                <div class="author-form">
+                    {{ author_form.last_name }}
+                    {{ author_form.first_name }}
+                    {{ author_form.second_name }}
+                    {% if author_formset.can_delete %}
+                        {{ author_form.DELETE }}
+                        <input type="button" id="delete-form-button" value="Delete">
+                    {% endif %}
+                    {% if author_formset.can_order %}
+                        {{ author_form.ORDER }}
+                        <input type="button" id="move-form-up-button" value="Move up">
+                        <input type="button" id="move-form-down-button" value="Move down">
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div><input type="button" id="add-form-button" value="Add another"></div>
+        <template id="empty-form-template">
+            <div class="author-form">
+                {{ author_formset.empty_form.last_name }}
+                {{ author_formset.empty_form.first_name }}
+                {{ author_formset.empty_form.second_name }}
+                {% if author_formset.can_delete %}
+                    <input type="button" id="delete-form-button" value="Delete">
+                {% endif %}
+                {% if author_formset.can_order %}
+                    {{ author_form.ORDER }}
+                    <input type="button" id="move-form-up-button" value="Move up">
+                    <input type="button" id="move-form-down-button" value="Move down">
+                {% endif %}
+            </div>
+        </template>
+        {{ author_formset.management_form }}
+    </div>
 
-        document.addEventListener('DOMContentLoaded', function() {
-
-            const book_button = document.getElementById('book_button');
-            const article_button = document.getElementById('article_button');
-            const chapter_button = document.getElementById('chapter_button');
-            const website_button = document.getElementById('website_button');
-
-            function show_form(type) {
-
-                let form = document.getElementById(`${type}_form`);
-
-                form.style.display = 'block';
-            }
-
-            book_button.addEventListener('click', () => show_form(book_button.innerHTML));
-            article_button.addEventListener('click', () => show_form(article_button.innerHTML));
-            chapter_button.addEventListener('click', () => show_form(chapter_button.innerHTML));
-            website_button.addEventListener('click', () => show_form(website_button.innerHTML));
-  
-        });
-    </script>
 
 {% endblock %}
 

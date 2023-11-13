@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'paper_work',
     'work_space',
     'user_management',
+    'convenient_formsets',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

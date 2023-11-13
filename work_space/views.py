@@ -2,12 +2,15 @@ import os
 import shutil
 
 from django.contrib.auth.decorators import login_required
+from django.forms import formset_factory
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from convenient_formsets import ConvenientBaseFormSet
+
 from bookshelf.forms_test import NewSourceForm
-from bookshelf.forms import BookForm, ArticleForm, ChapterForm, WebsiteForm
+from bookshelf.forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AuthorForm
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
 from .friendly_dir import create_friendly_dir
 from .invitation_generator import generate_invitation
@@ -107,6 +110,10 @@ def work_space(request, space_id):
 
     space = check_work_space(space_id, request.user)
 
+   # author_formset = AuthorFormSet(prefix="author-formset")
+
+
+
     return render(request, "work_space/work_space.html", {"space": space, 
                                                           "papers": space.papers.all(),
                                                           "books": space.sources.all(),
@@ -115,7 +122,16 @@ def work_space(request, space_id):
                                                           "book_form": BookForm(),
                                                           "article_form": ArticleForm(),
                                                           "chapter_form": ChapterForm(),
-                                                          "website_form": WebsiteForm()})
+                                                          "website_form": WebsiteForm(),
+                                                          })
+
+
+def test(request):
+
+    AuthorFormSet = formset_factory(AuthorForm, formset=ConvenientBaseFormSet, can_delete=True, can_order=True)
+    author_formset = AuthorFormSet(prefix="author-formset")
+
+    return render(request, "work_space/test.html", {"author_formset": author_formset})
 
 
 @space_ownership_required

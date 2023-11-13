@@ -1011,4 +1011,12 @@ class NewQuoteForm(forms.ModelForm):
 
 
 
+        <form action="{% url 'bookshelf:add_source' space.pk %}" method="post">
+        {% csrf_token %} 
+        {{ author_formset }}
+        <button id="add_author">Add Author</button>
+        <button type="submit">Submit authors</button>
+    </form>
+
+
 """
