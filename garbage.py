@@ -1251,4 +1251,44 @@ class NewQuoteForm(forms.ModelForm):
         new_quote = Quote(source=source, page=self.cleaned_data["page"], text=self.cleaned_data["text"])
         new_quote.save()
 
+        
+    <div id="author-formset">
+        <div id="author-forms-container">
+            {% for author_form in author_formset.forms %}
+                <div class="author-form">
+                    {{ author_form.last_name }}
+                    {{ author_form.first_name }}
+                    {{ author_form.second_name }}
+                    {% if author_formset.can_delete %}
+                        {{ author_form.DELETE }}
+                        <input type="button" id="delete-form-button" value="Delete">
+                    {% endif %}
+                    {% if author_formset.can_order %}
+                        {{ author_form.ORDER }}
+                        <input type="button" id="move-form-up-button" value="Move up">
+                        <input type="button" id="move-form-down-button" value="Move down">
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div><input type="button" id="add-form-button" value="Add another"></div>
+        <template id="empty-form-template">
+            <div class="author-form">
+                {{ author_formset.empty_form.last_name }}
+                {{ author_formset.empty_form.first_name }}
+                {{ author_formset.empty_form.second_name }}
+                {% if author_formset.can_delete %}
+                    <input type="button" id="delete-form-button" value="Delete">
+                {% endif %}
+                {% if author_formset.can_order %}
+                    {{ author_form.ORDER }}
+                    <input type="button" id="move-form-up-button" value="Move up">
+                    <input type="button" id="move-form-down-button" value="Move down">
+                {% endif %}
+            </div>
+        </template>
+        {{ author_formset.management_form }}
+    </div>
+
+
 """

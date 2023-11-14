@@ -38,7 +38,7 @@ class AuthorForm(forms.Form):
     second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
 
 
-AuthorFormSet = formset_factory(AuthorForm, formset="", can_delete=True, can_order=True)
+#AuthorFormSet = formset_factory(AuthorForm, formset="", can_delete=True, can_order=True)
 
 
 
@@ -68,8 +68,7 @@ class BookForm(forms.Form):
     author_last_name = CommonFields().author_last_name
     author_first_name = CommonFields().author_first_name
     author_second_name = CommonFields().author_second_name
-    for i in range(22):
-        second_author = forms.CharField(label=False, widget=forms.TextInput(attrs={"class": "hidden"}))
+    second_author = forms.CharField(widget=forms.TextInput(attrs={"class": "hidden"}))
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
     year = CommonFields().year
     link = CommonFields().link

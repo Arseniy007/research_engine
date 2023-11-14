@@ -2,12 +2,9 @@ import os
 import shutil
 
 from django.contrib.auth.decorators import login_required
-from django.forms import formset_factory
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
-
 
 from bookshelf.forms_test import NewSourceForm
 from bookshelf.forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AuthorForm
@@ -128,10 +125,10 @@ def work_space(request, space_id):
 
 def test(request):
 
-    AuthorFormSet = formset_factory(AuthorForm, formset="", can_delete=True, can_order=True)
-    author_formset = AuthorFormSet(prefix="author-formset")
-
-    return render(request, "work_space/test.html", {"author_formset": author_formset})
+    #AuthorFormSet = formset_factory(AuthorForm, formset="", can_delete=True, can_order=True)
+    #author_formset = AuthorFormSet(prefix="author-formset")
+    pass
+    #return render(request, "work_space/test.html", {"author_formset": author_formset})
 
 
 @space_ownership_required
