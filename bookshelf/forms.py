@@ -5,7 +5,6 @@ from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
 from .models import Article, Book, Chapter, Quote, Source, Website
 
 
-from convenient_formsets import ConvenientBaseFormSet
 from django.forms import formset_factory
 
 from user_management.models import User
@@ -39,7 +38,7 @@ class AuthorForm(forms.Form):
     second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
 
 
-AuthorFormSet = formset_factory(AuthorForm, formset=ConvenientBaseFormSet, can_delete=True, can_order=True)
+AuthorFormSet = formset_factory(AuthorForm, formset="", can_delete=True, can_order=True)
 
 
 

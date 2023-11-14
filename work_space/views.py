@@ -7,7 +7,7 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from convenient_formsets import ConvenientBaseFormSet
+
 
 from bookshelf.forms_test import NewSourceForm
 from bookshelf.forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AuthorForm
@@ -128,7 +128,7 @@ def work_space(request, space_id):
 
 def test(request):
 
-    AuthorFormSet = formset_factory(AuthorForm, formset=ConvenientBaseFormSet, can_delete=True, can_order=True)
+    AuthorFormSet = formset_factory(AuthorForm, formset="", can_delete=True, can_order=True)
     author_formset = AuthorFormSet(prefix="author-formset")
 
     return render(request, "work_space/test.html", {"author_formset": author_formset})
