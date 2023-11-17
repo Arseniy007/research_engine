@@ -43,7 +43,24 @@ def quote_book_mla(source: Source):
 
 def quote_article_mla(article: Article):
 
-    return "Article mla"
+    authors = article.author.split(",")
+    authors_name = []
+
+    for one in authors:
+
+        name = one.split()
+        last_name = name[0]
+        try:
+            first_name = name[1]
+        except IndexError:
+            first_name = ""
+
+        authors_name.append(f"{last_name}, {first_name}")
+    
+    author = authors_name[0]
+
+    return f"""{author}. "{article.title}" {article.journal_title}, vol. {article.volume}, no. {article.issue}, 
+                {article.year}, pp. {article.year}."""
 
 
 def quote_chapter_mla(chapter: Chapter):

@@ -1323,4 +1323,6 @@ ARTICLE_FIELDS = ("journal_title", "article_title", "author_last_name",
 CHAPTER_FIELDS = ("chapter_title", "chapter_author", "book_title", "book_author", "edition", "pages")
 WEBSITE_FIELDS = ("website_title", "page_author", "page_title", "page_url", "date")
 
+#multiple_authors = models.BooleanField(default=False)
+
 """

@@ -24,16 +24,11 @@ class Source(models.Model):
 
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="sources")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sources")
-
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=70, blank=True)
-    #multiple_authors = models.BooleanField(default=False)
-
     year = models.CharField(max_length=5, blank=True)
-
     file = models.FileField(upload_to=saving_path, blank=True)
     link = models.CharField(max_length=40, blank=True)
-
     real_type = models.ForeignKey(ContentType, editable=False, on_delete=models.CASCADE)
 
 
@@ -82,8 +77,8 @@ class Book(Source):
 class Article(Source):
 
     journal_title = models.CharField(max_length=50)
-    volume_number = models.IntegerField()
-    journal_number = models.IntegerField()
+    volume = models.IntegerField()
+    issue = models.IntegerField()
     pages = models.CharField(max_length=20)
     link_to_journal = models.CharField(max_length=40, blank=True)
 

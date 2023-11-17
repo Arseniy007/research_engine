@@ -5,7 +5,6 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-
 from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AlterEndnoteForm, UploadSourceForm, AlterSourceForm, NewQuoteForm
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
@@ -25,7 +24,8 @@ def add_source(request, space_id):
     elif "website" in request.POST:
         form = WebsiteForm(request.POST)
     else:
-        print("error")
+        # TODO
+        pass
 
     if form.is_valid():
 
@@ -137,12 +137,6 @@ def alter_source_endnote(request, endnote_id):
         print(form.errors)
         # TODO
         pass
-
-    
-
-
-
-
 
 
 @login_required(redirect_field_name=None)

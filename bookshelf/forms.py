@@ -15,13 +15,11 @@ CHOICES = (("Book", "Book"), ("Article", "Article"), ("Chapter", "Chapter"), ("W
 
 def save_endnotes(source: Source):
     """Creates and saves new Endnote obj for given source"""
-
     endnotes = Endnote(source=source, apa=quote_source_apa(source), mla=quote_source_mla(source))
     return endnotes.save()
 
 
 def clean_text_data(data: str):
-
     return data.strip("., ")
 
 
@@ -76,8 +74,8 @@ class ArticleForm(forms.Form):
     author_last_name = forms.CharField()
     author_first_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
     author_second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
-    volume_number = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
-    journal_number = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
+    volume = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
+    issue = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
     link_to_journal = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
@@ -98,8 +96,8 @@ class ArticleForm(forms.Form):
         author = f"{data['author_last_name']} {data['author_first_name']} {data['author_second_name']}"
 
         new_article = Article(work_space=space, user=user, title=data["article_title"], author=author, year=data["year"], 
-                              link=data["link"], journal_title=data["journal_title"], volume_number=data["volume_number"], 
-                              journal_number=data["journal_number"], pages=data["pages"], link_to_journal=data["link_to_journal"])
+                              link=data["link"], journal_title=data["journal_title"], volume=data["volume"], 
+                              issue=data["issue"], pages=data["pages"], link_to_journal=data["link_to_journal"])
         
         new_article.save()
         return save_endnotes(new_article)
@@ -226,7 +224,6 @@ class NewQuoteForm(forms.ModelForm):
         """Save new Quote object"""
         new_quote = Quote(source=source, page=self.cleaned_data["page"], text=self.cleaned_data["text"])
         new_quote.save()
-
 
 
 class AlterEndnoteForm(forms.Form):
