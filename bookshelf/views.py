@@ -116,6 +116,27 @@ def quote_sourse(request, source_id):
     pass
 
 
+@source_ownership_required
+@login_required(redirect_field_name=None)
+def alter_source_footnote(request, source_id):
+    # TODO
+
+
+    
+
+    source = check_source(source_id, request.user)
+
+    
+
+
+
+    pass
+
+
+
+
+
+
 @login_required(redirect_field_name=None)
 def add_quote(request, source_id):
     """Saves quote from given source"""

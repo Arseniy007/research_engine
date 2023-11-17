@@ -27,7 +27,7 @@ class Source(models.Model):
 
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=70, blank=True)
-    multiple_authors = models.BooleanField(default=False)
+    #multiple_authors = models.BooleanField(default=False)
 
     year = models.CharField(max_length=5, blank=True)
 
@@ -115,3 +115,14 @@ class Quote(models.Model):
     def __str__(self):
         """Display quotes text"""
         return f'"{self.text}" (p. {self.page})'
+
+
+class Endnote(models.Model):
+
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="endnotes")
+    endnote = models.CharField(max_length=50)
+
+
+    def __str__(self):
+        """Display footnote text"""
+        return self.endnote
