@@ -1,17 +1,18 @@
 from django import forms
-from django.forms import BaseFormSet
 
 from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
 from .models import Article, Book, Chapter, Quote, Source, Website, Endnote
 
-#from django.forms import formset_factory
-
 from user_management.models import User
 from work_space.models import WorkSpace
 
+from .quoting_apa import quote_book_apa
+from .quoting_mla import quote_book_mla
+
 
 CHOICES = (("Book", "Book"), ("Article", "Article"), ("Chapter", "Chapter"), ("Website", "Website"),)
-BOOK_FIELDS = ("book_title", "author_last_name", "author_first_name", "author_second_name", "pulishing_house", "year", "link")
+
+BOOK_FIELDS = ("title", "author_last_name", "author_first_name", "author_second_name", "publishing_house", "year", "link")
 ARTICLE_FIELDS = ("journal_title", "article_title", "author_last_name", 
                   "author_first_name", "author_second_name", "volume_number", 
                   "journal_number", "pages", " is_electronic", "link_to_journal")
@@ -25,18 +26,6 @@ def clean_text_data(data: str):
     return data.strip("., ")
 
 
-
-class AuthorForm(forms.Form):
-
-    last_name = forms.CharField()
-    first_name = forms.CharField()
-    second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
-
-
-
-
-
-
 class FieldClass:
 
     common_fields = "common_fields"
@@ -46,28 +35,16 @@ class FieldClass:
     website_class = "website"
 
 
-class CommonFields(forms.Form):
-
-    def __init__(self):
-        self.title = forms.CharField()
-        self.author_last_name = forms.CharField()
-        self.author_first_name = forms.CharField()
-        self.author_second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
-        self.year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.common_fields}))
-        self.link = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
-
-
 class BookForm(forms.Form):
 
-    book_title = CommonFields().title
-    author_last_name = CommonFields().author_last_name
-    author_first_name = CommonFields().author_first_name
-    author_second_name = CommonFields().author_second_name
-    second_author = forms.CharField(widget=forms.TextInput(attrs={"class": "hidden"}))
+    title = forms.CharField()
+    author_last_name = forms.CharField()
+    author_first_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+    author_second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+    #second_author = forms.CharField(widget=forms.TextInput(attrs={"class": "hidden"}))
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
-    year = CommonFields().year
-    link = CommonFields().link
-
+    year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
+    link = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
 
     def save_form(self, user: User, space: WorkSpace):
         # TODO
@@ -82,16 +59,21 @@ class BookForm(forms.Form):
         new_book = Book(work_space=space, user=user, title=data["title"], 
                         author=author, year=data["year"], link=data["link"], 
                         publishing_house=data["publishing_house"])
-        return new_book.save()
+        new_book.save()
+
+        apa_endnote, mla_endnote = quote_book_apa(new_book), quote_book_mla(new_book)
+
+        endnotes = Endnote(source=new_book, apa_text=apa_endnote, mla_text=mla_endnote)
+        return endnotes.save()
 
 
 class ArticleForm(forms.Form):
 
-    journal_title = CommonFields().title
+    journal_title = forms.CharField()
     article_title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
-    author_last_name = CommonFields().author_last_name
-    author_first_name = CommonFields().author_first_name
-    author_second_name = CommonFields().author_second_name
+    author_last_name = forms.CharField()
+    author_first_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+    author_second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
     volume_number = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
     journal_number = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
@@ -118,9 +100,9 @@ class ArticleForm(forms.Form):
 
 class ChapterForm(forms.Form):
 
-    chapter_title = CommonFields().title
+    chapter_title = forms.CharField()
     chapter_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
-    book_title = CommonFields().title
+    book_title = forms.CharField()
     book_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     edition = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.chapter_class}))
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
@@ -145,9 +127,9 @@ class ChapterForm(forms.Form):
 
 class WebsiteForm(forms.Form):
 
-    website_title = CommonFields().title
+    website_title = forms.CharField()
     page_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
-    page_title = CommonFields().title
+    page_title = forms.CharField()
     page_url = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.website_class}))
     date = forms.DateField(widget=forms.DateInput(attrs={"class": FieldClass.website_class}))
 

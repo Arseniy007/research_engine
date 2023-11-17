@@ -5,10 +5,12 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from bookshelf.models import Endnote
+
 from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AlterEndnoteForm
 from .forms_test import NewSourceForm, UploadSourceForm, AlterSourceForm, NewQuoteForm
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
-from utils.verification import check_source, check_work_space, check_quote, check_endnote
+from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
 
 
 @login_required(redirect_field_name=None)
@@ -196,7 +198,7 @@ def source_space(request, source_id):
     source = check_source(source_id, request.user)
     quotes = source.quotes.all()
 
-    endnotes = source.endnote.all()
+    endnotes = get_endnotes(source)
 
     upload_form = UploadSourceForm()
     quote_form = NewQuoteForm()

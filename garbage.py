@@ -1293,4 +1293,21 @@ class NewQuoteForm(forms.ModelForm):
     #ordering_widget = forms.HiddenInput()
 #AuthorFormSet = formset_factory(AuthorForm, formset="", can_delete=True, can_order=True)
 
+class AuthorForm(forms.Form):
+
+    last_name = forms.CharField()
+    first_name = forms.CharField()
+    second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+
+    class CommonFields(forms.Form):
+
+    def __init__(self):
+        self.title = forms.CharField()
+        self.author_last_name = forms.CharField()
+        self.author_first_name = forms.CharField()
+        self.author_second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+        self.year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.common_fields}))
+        self.link = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+
+#from django.forms import formset_factory
 """

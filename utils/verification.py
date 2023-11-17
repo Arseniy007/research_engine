@@ -73,6 +73,15 @@ def check_endnote(endnote_id, user):
         return endnote
 
 
+def get_endnotes(source: Source):
+    """Get endnote for given source"""
+
+    try:
+        return Endnote.objects.get(source=source)
+    except ObjectDoesNotExist:
+        raise Http404
+
+
 def check_quote(quote_id, user):
     """Checks if quote exists"""
     try:

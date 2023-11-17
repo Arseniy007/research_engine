@@ -108,7 +108,6 @@
         {% csrf_token %} 
         {{ book_form.as_p }}
         <button value="book" name="book" type="submit">Add Book</button>
-        <button value="add_auhtor" name="add_author" id="add_author">Add Author</button>
     </form><br><br><br>
 
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article_form">
