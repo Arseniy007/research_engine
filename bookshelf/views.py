@@ -7,8 +7,8 @@ from django.urls import reverse
 
 from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AlterEndnoteForm
 from .forms_test import NewSourceForm, UploadSourceForm, AlterSourceForm, NewQuoteForm
-from utils.decorators import source_ownership_required, quote_ownership_required
-from utils.verification import check_source, check_work_space, check_quote
+from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
+from utils.verification import check_source, check_work_space, check_quote, check_endnote
 
 
 @login_required(redirect_field_name=None)
@@ -116,24 +116,31 @@ def quote_sourse(request, source_id):
     pass
 
 
-@source_ownership_required
+@endnote_ownership_required
 @login_required(redirect_field_name=None)
-def alter_source_endnote(request, source_id):
+def alter_source_endnote(request, endnote_id):
     # TODO
 
     form = AlterEndnoteForm(request.POST)
 
     if form.is_valid():
 
-        source = check_source(source_id, request.user)
+        #source = check_source(source_id, request.user)
 
-        quoting_type = form.quoting_type
+        endnote = check_endnote(endnote_id, request.user)
+
+        form.save(endnote)
+
+        # TODO
+
+        return redirect("")
+
+    else:
+        print(form.errors)
+        # TODO
+        pass
 
     
-
-
-
-    pass
 
 
 

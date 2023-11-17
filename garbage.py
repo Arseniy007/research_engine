@@ -1289,6 +1289,8 @@ class NewQuoteForm(forms.ModelForm):
         </template>
         {{ author_formset.management_form }}
     </div>
-
+#class BaseArticleFormSet(BaseFormSet):
+    #ordering_widget = forms.HiddenInput()
+#AuthorFormSet = formset_factory(AuthorForm, formset="", can_delete=True, can_order=True)
 
 """

@@ -2,7 +2,7 @@ from django.core.exceptions import PermissionDenied
 
 from typing import Callable
 
-from .verification import check_work_space, check_paper, check_quote, check_source
+from .verification import check_work_space, check_paper, check_quote, check_source, check_endnote
 
 
 def space_ownership_required(func: Callable):
@@ -26,6 +26,18 @@ def source_ownership_required(func: Callable):
             raise PermissionDenied
     
         return func(request, source_id)
+    return wrapper
+
+
+def endnote_ownership_required(func: Callable):
+    """Checks if current user added book to which given endnote belongs"""
+    def wrapper(request, endnote_id):
+
+        endnote = check_endnote(endnote_id, request.user)
+        if endnote.source.user != request.user:
+            raise PermissionDenied
+        
+        return func(request, endnote_id)
     return wrapper
 
 

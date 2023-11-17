@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
 
-from bookshelf.models import Source, Article, Book, Quote, Website
+from bookshelf.models import Source, Article, Book, Quote, Website, Endnote
 from file_handling.models import PaperVersion
 from paper_work.models import Paper
 from work_space.models import WorkSpace, Invitation
@@ -60,6 +60,17 @@ def check_source(source_id, user):
                 pass
     finally:
         return source
+
+
+def check_endnote(endnote_id, user):
+
+    try:
+        endnote = Endnote.objects.get(pk=endnote_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(endnote.source.work_space.pk, user)
+        return endnote
 
 
 def check_quote(quote_id, user):

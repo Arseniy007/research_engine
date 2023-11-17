@@ -4,8 +4,7 @@ from django.forms import BaseFormSet
 from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
 from .models import Article, Book, Chapter, Quote, Source, Website, Endnote
 
-
-from django.forms import formset_factory
+#from django.forms import formset_factory
 
 from user_management.models import User
 from work_space.models import WorkSpace
@@ -26,10 +25,6 @@ def clean_text_data(data: str):
     return data.strip("., ")
 
 
-#class BaseArticleFormSet(BaseFormSet):
-    #ordering_widget = forms.HiddenInput()
-
-
 
 class AuthorForm(forms.Form):
 
@@ -38,7 +33,7 @@ class AuthorForm(forms.Form):
     second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
 
 
-#AuthorFormSet = formset_factory(AuthorForm, formset="", can_delete=True, can_order=True)
+
 
 
 
@@ -231,13 +226,19 @@ class NewQuoteForm(forms.ModelForm):
 
 
 class AlterEndnoteForm(forms.ModelForm):
-    class Meta:
-        model = Endnote
-        fields = ("text")
+
+    QUOTING_TYPES = (("APA", "APA"), ("MLA", "MLA"))
+
+    quoting_type = forms.ChoiceField(max_length=3, choices=QUOTING_TYPES, widget=forms.HiddenInput())
+    new_text = forms.CharField()
 
     
     def save_endnote(self, endnote: Endnote):
         "Alter text field in Endnote obj"
 
-        endnote.text = self.cleaned_data["text"]
-        endnote.save(update_fields=("text",))
+        if self.quoting_type == "APA":
+            endnote.apa_text = self.cleaned_data["new_text"]
+            endnote.save(update_fields=("apa_text",))
+        else:
+            endnote.mla_text = self.cleaned_data["new_text"]
+            endnote.save(update_fields=("mla_text",))
