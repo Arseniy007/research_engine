@@ -2,7 +2,7 @@ from django import forms
 from django.forms import BaseFormSet
 
 from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
-from .models import Article, Book, Chapter, Quote, Source, Website
+from .models import Article, Book, Chapter, Quote, Source, Website, Endnote
 
 
 from django.forms import formset_factory
@@ -227,3 +227,17 @@ class NewQuoteForm(forms.ModelForm):
         """Save new Quote object"""
         new_quote = Quote(source=source, page=self.cleaned_data["page"], text=self.cleaned_data["text"])
         new_quote.save()
+
+
+
+class AlterEndnoteForm(forms.ModelForm):
+    class Meta:
+        model = Endnote
+        fields = ("text")
+
+    
+    def save_endnote(self, endnote: Endnote):
+        "Alter text field in Endnote obj"
+
+        endnote.text = self.cleaned_data["text"]
+        endnote.save(update_fields=("text",))

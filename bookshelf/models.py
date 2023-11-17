@@ -120,9 +120,6 @@ class Quote(models.Model):
 class Endnote(models.Model):
 
     source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="endnotes")
-    endnote = models.CharField(max_length=50)
-
-
-    def __str__(self):
-        """Display footnote text"""
-        return self.endnote
+    apa_text = models.CharField(max_length=50)
+    mla_text = models.CharField(max_length=50)
+    

@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm
+from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AlterEndnoteForm
 from .forms_test import NewSourceForm, UploadSourceForm, AlterSourceForm, NewQuoteForm
 from utils.decorators import source_ownership_required, quote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote
@@ -118,13 +118,16 @@ def quote_sourse(request, source_id):
 
 @source_ownership_required
 @login_required(redirect_field_name=None)
-def alter_source_footnote(request, source_id):
+def alter_source_endnote(request, source_id):
     # TODO
 
+    form = AlterEndnoteForm(request.POST)
 
-    
+    if form.is_valid():
 
-    source = check_source(source_id, request.user)
+        source = check_source(source_id, request.user)
+
+        quoting_type = form.quoting_type
 
     
 
