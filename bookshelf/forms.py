@@ -1,18 +1,12 @@
 from django import forms
 
-from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
 from .models import Article, Book, Chapter, Quote, Source, Website, Endnote
-
-from user_management.models import User
-from work_space.models import WorkSpace
-
-from utils.verification import check_link
-
 from .quoting_apa import quote_source_apa
 from .quoting_mla import quote_source_mla
-
-
-CHOICES = (("Book", "Book"), ("Article", "Article"), ("Chapter", "Chapter"), ("Website", "Website"),)
+from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
+from user_management.models import User
+from utils.verification import check_link
+from work_space.models import WorkSpace
 
 
 def save_endnotes(source: Source):
@@ -22,7 +16,7 @@ def save_endnotes(source: Source):
 
 
 def clean_text_data(data: str):
-    return data.strip("., ")
+    return data.strip(""".,'" """)
 
 
 class FieldClass:
@@ -46,6 +40,7 @@ class BookForm(forms.Form):
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
 
     def save_form(self, user: User, space: WorkSpace):
+        """Custom save func for Book obj"""
         # TODO
 
         data: dict = {}
@@ -83,6 +78,7 @@ class ArticleForm(forms.Form):
 
 
     def save_form(self, user: User, space: WorkSpace):
+        """Custom save func for Article obj"""
         # TODO
         
         data: dict = {}
@@ -117,6 +113,7 @@ class ChapterForm(forms.Form):
 
 
     def save_form(self, user: User, space: WorkSpace):
+        """Custom save func for Chapter obj"""
         # TODO
 
         data: dict = {}
@@ -149,6 +146,7 @@ class WebsiteForm(forms.Form):
 
 
     def save_form(self, user: User, space: WorkSpace):
+        """Custom save func for Website obj"""
         # TODO
 
         data: dict = {}
@@ -188,13 +186,30 @@ class UploadSourceForm(forms.Form):
        source.save(update_fields=("file",))
 
 
+class AddLinkForm(forms.Form):
+
+    link = forms.CharField()
+
+
+    def save_link(self, source: Source):
+        """Checks and saves link for given source"""
+        link = self.cleaned_data["link"]
+        if not check_link(link):
+            return False
+        
+        source.link = link
+        source.save(update_fields=("link",))
+        return True
+
+
 class AlterSourceForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = "__all__"
         exclude = ["user", "work_space", "multiple_authors", "file"]
 
-    # Probably gonna change that later
+    # Probably gonna chaned that later
+    # TODO
 
 
     def save_source(self, book: Book):
@@ -209,7 +224,7 @@ class AlterSourceForm(forms.ModelForm):
         book.save(update_fields=params)
     
 
-class NewQuoteForm(forms.ModelForm):
+class NewQuoteForm(forms.ModelForm):#
     class Meta:
         model = Quote
         fields = "__all__"
@@ -226,6 +241,8 @@ class NewQuoteForm(forms.ModelForm):
 
 class AlterEndnoteForm(forms.Form):
 
+    # TODO
+
     apa = forms.CharField(widget=forms.Textarea)
     mla = forms.CharField(widget=forms.Textarea)
 
@@ -235,19 +252,3 @@ class AlterEndnoteForm(forms.Form):
         endnote.apa = self.cleaned_data["apa"]
         endnote.mla = self.cleaned_data["mla"]
         return endnote.save(update_fields=("apa", "mla",))
-
-
-class AddLinkForm(forms.Form):
-
-    link = forms.CharField()
-
-
-    def save_link(self, source: Source):
-        """Checks and saves link for given source"""
-        link = self.cleaned_data["link"]
-        if not check_link(link):
-            return False
-        
-        source.link = link
-        source.save(update_fields=("link",))
-        return True

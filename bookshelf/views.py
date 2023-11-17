@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AlterEndnoteForm, UploadSourceForm, AlterSourceForm, NewQuoteForm, AddLinkForm
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
-from utils.verification import check_source, check_work_space, check_quote, check_endnote, check_link, get_endnotes
+from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
 
 
 @login_required(redirect_field_name=None)

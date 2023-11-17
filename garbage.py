@@ -1347,5 +1347,7 @@ WEBSITE_FIELDS = ("website_title", "page_author", "page_title", "page_url", "dat
     source = check_source(source_id, request.user)
     # Do I need it?
     pass
+    
+    CHOICES = (("Book", "Book"), ("Article", "Article"), ("Chapter", "Chapter"), ("Website", "Website"),)
 
 """
