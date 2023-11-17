@@ -125,15 +125,15 @@ def alter_source_endnote(request, endnote_id):
 
     if form.is_valid():
 
-        #source = check_source(source_id, request.user)
-
         endnote = check_endnote(endnote_id, request.user)
+        form.save_endnote(endnote)
 
-        form.save(endnote)
+        source = check_source(endnote.source.pk, request.user)
+
+        link = reverse("bookshelf:source_space", args=(source.pk,))
+        return redirect(link)
 
         # TODO
-
-        return redirect("")
 
     else:
         print(form.errors)
@@ -196,6 +196,8 @@ def source_space(request, source_id):
     source = check_source(source_id, request.user)
     quotes = source.quotes.all()
 
+    endnotes = source.endnote.all()
+
     upload_form = UploadSourceForm()
     quote_form = NewQuoteForm()
     alter_form = AlterSourceForm(initial={
@@ -210,4 +212,5 @@ def source_space(request, source_id):
                                                          "upload_form": upload_form, 
                                                          "alter_form": alter_form, 
                                                          "quote_form": quote_form,
-                                                         "quotes": quotes})
+                                                         "quotes": quotes,
+                                                         "endnotes": endnotes})

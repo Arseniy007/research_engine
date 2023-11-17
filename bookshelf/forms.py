@@ -225,11 +225,11 @@ class NewQuoteForm(forms.ModelForm):
 
 
 
-class AlterEndnoteForm(forms.ModelForm):
+class AlterEndnoteForm(forms.Form):
 
     QUOTING_TYPES = (("APA", "APA"), ("MLA", "MLA"))
 
-    quoting_type = forms.ChoiceField(max_length=3, choices=QUOTING_TYPES, widget=forms.HiddenInput())
+    quoting_type = forms.ChoiceField(choices=QUOTING_TYPES, widget=forms.HiddenInput())
     new_text = forms.CharField()
 
     
