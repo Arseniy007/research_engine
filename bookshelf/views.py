@@ -39,31 +39,7 @@ def add_source(request, space_id):
         print(form.errors)
         # TODO
         return JsonResponse({"message": "error"})
-
-
-@login_required(redirect_field_name=None)
-def upload_source_file(request, source_id):
-    """Upload .pdf/.docx file of the given source"""
-
-    form = UploadSourceForm(request.POST, request.FILES)
-
-    if form.is_valid():
-        # Get and save new file
-        source = check_source(source_id, request.user)
-
-        # In case user alrewedy uploaded a file - delete it first
-        if source.file:
-            shutil.rmtree(source.get_path())
-
-        form.save_file(source)
-
-        return JsonResponse({"message": "ok"})
     
-    else:
-        print(form.errors)
-        # TODO
-        pass
-
 
 @source_ownership_required
 @login_required(redirect_field_name=None)
@@ -81,6 +57,29 @@ def delete_source(request, source_id):
     source.delete()
 
     return JsonResponse({"message": "ok"})
+
+
+@login_required(redirect_field_name=None)
+def upload_source_file(request, source_id):
+    """Upload .pdf/.docx file of the given source"""
+
+    form = UploadSourceForm(request.POST, request.FILES)
+
+    if form.is_valid():
+        # Get and save new file
+        source = check_source(source_id, request.user)
+
+        # In case user alrewedy uploaded a file - delete it first
+        if source.file:
+            shutil.rmtree(source.get_path())
+        form.save_file(source)
+
+        return JsonResponse({"message": "ok"})
+    
+    else:
+        print(form.errors)
+        # TODO
+        pass
 
 
 @source_ownership_required
@@ -105,18 +104,9 @@ def alter_source_info(request, source_id):
         pass
 
 
-@login_required(redirect_field_name=None)
-def quote_sourse(request, source_id):
-    # TODO
-
-    source = check_source(source_id, request.user)
-    # Do I need it?
-    pass
-
-
 @endnote_ownership_required
 @login_required(redirect_field_name=None)
-def alter_source_endnote(request, endnote_id):
+def alter_endnote(request, endnote_id):
     # TODO
 
     form = AlterEndnoteForm(request.POST)
@@ -164,7 +154,7 @@ def add_quote(request, source_id):
 def delete_quote(request, quote_id):
     """Delete added quote"""
 
-    # Check quote and if user has right to deletion
+    # Check quote and if user has right to a deletion
     quote = check_quote(quote_id, request.user)
     
     # Delete quote from the db
@@ -190,6 +180,8 @@ def source_space(request, source_id):
 
     endnotes = get_endnotes(source)
 
+    endnote_form = AlterEndnoteForm(initial={"apa": endnotes.apa, "mla": endnotes.mla})
+
     upload_form = UploadSourceForm()
     quote_form = NewQuoteForm()
     alter_form = AlterSourceForm(initial={
@@ -205,4 +197,5 @@ def source_space(request, source_id):
                                                          "alter_form": alter_form, 
                                                          "quote_form": quote_form,
                                                          "quotes": quotes,
-                                                         "endnotes": endnotes})
+                                                         "endnotes": endnotes,
+                                                         "endnote_form": endnote_form})

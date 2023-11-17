@@ -1325,4 +1325,27 @@ WEBSITE_FIELDS = ("website_title", "page_author", "page_title", "page_url", "dat
 
 #multiple_authors = models.BooleanField(default=False)
 
+    def save_endnote(self, endnote: Endnote):
+        "Alter text field in Endnote obj"
+
+            QUOTING_TYPES = (("APA", "APA"), ("MLA", "MLA"))
+
+    quoting_type = forms.ChoiceField(choices=QUOTING_TYPES, widget=forms.HiddenInput())
+
+        if self.quoting_type == "APA":
+            endnote.apa = self.cleaned_data["new_text"]
+            endnote.save(update_fields=("apa",))
+        else:
+            endnote.mla = self.cleaned_data["new_text"]
+            endnote.save(update_fields=("mla",))
+
+
+    @login_required(redirect_field_name=None)
+    def quote_sourse(request, source_id):
+    # TODO
+
+    source = check_source(source_id, request.user)
+    # Do I need it?
+    pass
+
 """

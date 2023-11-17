@@ -20,6 +20,12 @@
         <li>{{ endnotes.mla }}</li>
     </ul>
 
+    <form action="{% url 'bookshelf:alter_endnote' endnotes.pk %}" method="post">
+        {% csrf_token %} 
+        {{ endnote_form }}
+        <button type="submit">Alter Endnotes</button>
+    </form>
+
    
     <br><br><br>
     <br><br><br>

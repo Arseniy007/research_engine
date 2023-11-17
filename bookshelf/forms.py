@@ -38,11 +38,11 @@ class BookForm(forms.Form):
 
     title = forms.CharField()
     author_last_name = forms.CharField()
-    author_first_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
-    author_second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+    author_first_name = forms.CharField(required=False)
+    author_second_name = forms.CharField(required=False)
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
-    link = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+    link = forms.CharField(required=False)
 
     def save_form(self, user: User, space: WorkSpace):
         # TODO
@@ -72,14 +72,14 @@ class ArticleForm(forms.Form):
     journal_title = forms.CharField()
     article_title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
     author_last_name = forms.CharField()
-    author_first_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
-    author_second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+    author_first_name = forms.CharField(required=False)
+    author_second_name = forms.CharField(required=False)
     volume = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
     issue = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
     link_to_journal = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
-    link = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+    link = forms.CharField(required=False)
 
 
     def save_form(self, user: User, space: WorkSpace):
@@ -114,7 +114,7 @@ class ChapterForm(forms.Form):
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     edition = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.chapter_class}))
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
-    link = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+    link = forms.CharField(required=False)
 
 
     def save_form(self, user: User, space: WorkSpace):
@@ -147,7 +147,7 @@ class WebsiteForm(forms.Form):
     page_title = forms.CharField()
     page_url = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.website_class}))
     date = forms.DateField(widget=forms.DateInput(attrs={"class": FieldClass.website_class}))
-    link = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
+    link = forms.CharField(required=False)
 
 
     def save_form(self, user: User, space: WorkSpace):
@@ -228,18 +228,12 @@ class NewQuoteForm(forms.ModelForm):
 
 class AlterEndnoteForm(forms.Form):
 
-    QUOTING_TYPES = (("APA", "APA"), ("MLA", "MLA"))
+    apa = forms.CharField(widget=forms.Textarea)
+    mla = forms.CharField(widget=forms.Textarea)
 
-    quoting_type = forms.ChoiceField(choices=QUOTING_TYPES, widget=forms.HiddenInput())
-    new_text = forms.CharField()
 
-    
     def save_endnote(self, endnote: Endnote):
-        "Alter text field in Endnote obj"
-
-        if self.quoting_type == "APA":
-            endnote.apa = self.cleaned_data["new_text"]
-            endnote.save(update_fields=("apa",))
-        else:
-            endnote.mla = self.cleaned_data["new_text"]
-            endnote.save(update_fields=("mla",))
+        """Alter text field in Endnote obj"""
+        endnote.apa = self.cleaned_data["apa"]
+        endnote.mla = self.cleaned_data["mla"]
+        return endnote.save(update_fields=("apa", "mla",))

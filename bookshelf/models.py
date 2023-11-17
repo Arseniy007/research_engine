@@ -100,6 +100,13 @@ class Website(Source):
     date = models.DateField()
 
 
+class Endnote(models.Model):
+
+    source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    apa = models.CharField(max_length=50)
+    mla = models.CharField(max_length=50)
+
+
 class Quote(models.Model):
 
     source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="quotes")
@@ -110,10 +117,3 @@ class Quote(models.Model):
     def __str__(self):
         """Display quotes text"""
         return f'"{self.text}" (p. {self.page})'
-
-
-class Endnote(models.Model):
-
-    source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="endnote")
-    apa = models.CharField(max_length=50)
-    mla = models.CharField(max_length=50)
