@@ -6,6 +6,8 @@ from .models import Article, Book, Chapter, Quote, Source, Website, Endnote
 from user_management.models import User
 from work_space.models import WorkSpace
 
+from utils.verification import check_link
+
 from .quoting_apa import quote_source_apa
 from .quoting_mla import quote_source_mla
 
@@ -42,7 +44,6 @@ class BookForm(forms.Form):
     author_second_name = forms.CharField(required=False)
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
-    link = forms.CharField(required=False)
 
     def save_form(self, user: User, space: WorkSpace):
         # TODO
@@ -79,7 +80,6 @@ class ArticleForm(forms.Form):
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
     link_to_journal = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
-    link = forms.CharField(required=False)
 
 
     def save_form(self, user: User, space: WorkSpace):
@@ -114,7 +114,6 @@ class ChapterForm(forms.Form):
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     edition = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.chapter_class}))
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
-    link = forms.CharField(required=False)
 
 
     def save_form(self, user: User, space: WorkSpace):
@@ -147,7 +146,6 @@ class WebsiteForm(forms.Form):
     page_title = forms.CharField()
     page_url = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.website_class}))
     date = forms.DateField(widget=forms.DateInput(attrs={"class": FieldClass.website_class}))
-    link = forms.CharField(required=False)
 
 
     def save_form(self, user: User, space: WorkSpace):
@@ -237,3 +235,19 @@ class AlterEndnoteForm(forms.Form):
         endnote.apa = self.cleaned_data["apa"]
         endnote.mla = self.cleaned_data["mla"]
         return endnote.save(update_fields=("apa", "mla",))
+
+
+class AddLinkForm(forms.Form):
+
+    link = forms.CharField()
+
+
+    def save_link(self, source: Source):
+        """Checks and saves link for given source"""
+        link = self.cleaned_data["link"]
+        if not check_link(link):
+            return False
+        
+        source.link = link
+        source.save(update_fields=("link",))
+        return True

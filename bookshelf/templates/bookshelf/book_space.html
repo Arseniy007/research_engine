@@ -14,6 +14,15 @@
 
     <br><br>
 
+    <h4>Add link</h4>
+    <form action="{% url 'bookshelf:add_link' source.pk %}" method="post">
+        {% csrf_token %} 
+        {{ link_form }}
+        <button type="submit">Add</button>
+    </form>
+
+    <br><br>
+
     <h4>Endnotes</h4>
     <ul>
         <li>{{ endnotes.apa }}</li>
@@ -33,7 +42,7 @@
     <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post">
         {% csrf_token %} 
         {{ alter_form.as_p }}
-        <button type="submit">Alter Book Info</button>
+        <button type="submit">Alter Source Info</button>
     </form>
 
     <br><br><br>
@@ -43,7 +52,7 @@
     <form action="{% url 'bookshelf:add_quote' source.pk %}" method="post">
         {% csrf_token %} 
         {{ quote_form }}
-        <button type="submit">Alter Book Info</button>
+        <button type="submit">Alter Quote</button>
     </form>
 
 

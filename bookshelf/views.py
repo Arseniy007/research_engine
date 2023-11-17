@@ -5,9 +5,9 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AlterEndnoteForm, UploadSourceForm, AlterSourceForm, NewQuoteForm
+from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AlterEndnoteForm, UploadSourceForm, AlterSourceForm, NewQuoteForm, AddLinkForm
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
-from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
+from utils.verification import check_source, check_work_space, check_quote, check_endnote, check_link, get_endnotes
 
 
 @login_required(redirect_field_name=None)
@@ -76,6 +76,26 @@ def upload_source_file(request, source_id):
 
         return JsonResponse({"message": "ok"})
     
+    else:
+        print(form.errors)
+        # TODO
+        pass
+
+
+@login_required(redirect_field_name=None)
+def add_link_to_source(request, source_id):
+    """Adds link to a given source"""
+
+    form = AddLinkForm(request.POST)
+
+    if form.is_valid():
+
+        source = check_source(source_id, request.user)
+
+        if not form.save_link(source):
+            return JsonResponse({"message": "error"})
+        return JsonResponse({"message": "ok"})
+
     else:
         print(form.errors)
         # TODO
@@ -184,6 +204,7 @@ def source_space(request, source_id):
 
     upload_form = UploadSourceForm()
     quote_form = NewQuoteForm()
+    link_form = AddLinkForm()
     alter_form = AlterSourceForm(initial={
                                         "title": source.title, 
                                         "author": source.author, 
@@ -198,4 +219,5 @@ def source_space(request, source_id):
                                                          "quote_form": quote_form,
                                                          "quotes": quotes,
                                                          "endnotes": endnotes,
-                                                         "endnote_form": endnote_form})
+                                                         "endnote_form": endnote_form,
+                                                         "link_form": link_form})

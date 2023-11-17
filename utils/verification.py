@@ -1,6 +1,8 @@
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
 
+import requests
+
 from bookshelf.models import Source, Article, Book, Quote, Website, Endnote
 from file_handling.models import PaperVersion
 from paper_work.models import Paper
@@ -93,9 +95,19 @@ def check_quote(quote_id, user):
         return quote
 
 
-def check_invitation(invitation_code):
+def check_invitation(invitation_code: str):
     """Checks if invitation exists"""
     try:
         return Invitation.objects.get(code=invitation_code)
     except ObjectDoesNotExist:
         raise Http404
+
+
+def check_link(link: str) -> bool:
+    """Checks if given link is indeed a link and gets you to a real webpage"""
+    try: 
+        response = requests.get(link)
+    except requests.exceptions.RequestException:
+        return False
+    else:
+        return response.ok
