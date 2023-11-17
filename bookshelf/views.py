@@ -5,10 +5,8 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from bookshelf.models import Endnote
 
-from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AlterEndnoteForm
-from .forms_test import NewSourceForm, UploadSourceForm, AlterSourceForm, NewQuoteForm
+from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AlterEndnoteForm, UploadSourceForm, AlterSourceForm, NewQuoteForm
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
 
@@ -17,8 +15,6 @@ from utils.verification import check_source, check_work_space, check_quote, chec
 def add_source(request, space_id):
     """Add new source info to the work space"""
     # TODO
-
-    form = NewSourceForm(request.POST)
 
     if "book" in request.POST:
         form = BookForm(request.POST)

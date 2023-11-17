@@ -6,19 +6,18 @@ from .models import Article, Book, Chapter, Quote, Source, Website, Endnote
 from user_management.models import User
 from work_space.models import WorkSpace
 
-from .quoting_apa import quote_book_apa
-from .quoting_mla import quote_book_mla
+from .quoting_apa import quote_source_apa
+from .quoting_mla import quote_source_mla
 
 
 CHOICES = (("Book", "Book"), ("Article", "Article"), ("Chapter", "Chapter"), ("Website", "Website"),)
 
-BOOK_FIELDS = ("title", "author_last_name", "author_first_name", "author_second_name", "publishing_house", "year", "link")
-ARTICLE_FIELDS = ("journal_title", "article_title", "author_last_name", 
-                  "author_first_name", "author_second_name", "volume_number", 
-                  "journal_number", "pages", " is_electronic", "link_to_journal")
 
-CHAPTER_FIELDS = ("chapter_title", "chapter_author", "book_title", "book_author", "edition", "pages")
-WEBSITE_FIELDS = ("website_title", "page_author", "page_title", "page_url", "date")
+def save_endnotes(source: Source):
+    """Creates and saves new Endnote obj for given source"""
+
+    endnotes = Endnote(source=source, apa=quote_source_apa(source), mla=quote_source_mla(source))
+    return endnotes.save()
 
 
 def clean_text_data(data: str):
@@ -37,11 +36,12 @@ class FieldClass:
 
 class BookForm(forms.Form):
 
+    source_type = forms.CharField(initial="book", widget=forms.HiddenInput())
+
     title = forms.CharField()
     author_last_name = forms.CharField()
     author_first_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
     author_second_name = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
-    #second_author = forms.CharField(widget=forms.TextInput(attrs={"class": "hidden"}))
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
     link = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
@@ -51,8 +51,11 @@ class BookForm(forms.Form):
 
         data: dict = {}
 
-        for field in BOOK_FIELDS:
-            data[field] = clean_text_data(self.cleaned_data[field])
+        for field in self.fields:
+            info = self.cleaned_data[field]
+            if type(info) == str:
+                info = clean_text_data(info)
+            data[field] = info
 
         author = f"{data['author_last_name']} {data['author_first_name']} {data['author_second_name']}"
         
@@ -61,13 +64,12 @@ class BookForm(forms.Form):
                         publishing_house=data["publishing_house"])
         new_book.save()
 
-        apa_endnote, mla_endnote = quote_book_apa(new_book), quote_book_mla(new_book)
-
-        endnotes = Endnote(source=new_book, apa_text=apa_endnote, mla_text=mla_endnote)
-        return endnotes.save()
+        return save_endnotes(new_book)
 
 
 class ArticleForm(forms.Form):
+
+    source_type = forms.CharField(initial="article", widget=forms.HiddenInput())
 
     journal_title = forms.CharField()
     article_title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
@@ -77,7 +79,9 @@ class ArticleForm(forms.Form):
     volume_number = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
     journal_number = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
+    year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
     link_to_journal = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
+    link = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
 
 
     def save_form(self, user: User, space: WorkSpace):
@@ -85,27 +89,34 @@ class ArticleForm(forms.Form):
         
         data: dict = {}
 
-        for field in ARTICLE_FIELDS:
-            data[field] = clean_text_data(self.cleaned_data[field])
+        for field in self.fields:
+            info = self.cleaned_data[field]
+            if type(info) == str:
+                info = clean_text_data(info)
+            data[field] = info
 
         author = f"{data['author_last_name']} {data['author_first_name']} {data['author_second_name']}"
 
-        new_article = Article(work_space=space, user=user, title=data["title"], author=author, year=data["year"], 
-                              link=data["link"],journal_title=data["journal_title"], article_title=data["article_title"], 
-                              volume_number=data["volume_number"], journal_number=data["journal_number"], pages=data["pages"],
-                              link_to_journal=data["link_to_journal"])
+        new_article = Article(work_space=space, user=user, title=data["article_title"], author=author, year=data["year"], 
+                              link=data["link"], journal_title=data["journal_title"], volume_number=data["volume_number"], 
+                              journal_number=data["journal_number"], pages=data["pages"], link_to_journal=data["link_to_journal"])
         
-        return new_article.save()
+        new_article.save()
+        return save_endnotes(new_article)
 
 
 class ChapterForm(forms.Form):
+
+    source_type = forms.CharField(initial="chapter", widget=forms.HiddenInput())
 
     chapter_title = forms.CharField()
     chapter_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     book_title = forms.CharField()
     book_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
+    year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     edition = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.chapter_class}))
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
+    link = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
 
 
     def save_form(self, user: User, space: WorkSpace):
@@ -113,25 +124,32 @@ class ChapterForm(forms.Form):
 
         data: dict = {}
 
-        for field in CHAPTER_FIELDS:
-            data[field] = clean_text_data(str(self.cleaned_data[field]))
+        for field in self.fields:
+            info = self.cleaned_data[field]
+            if type(info) == str:
+                info = clean_text_data(info)
+            data[field] = info
         
         
         new_chapter = Chapter(work_space=space, user=user, title=data["book_title"], author=data["book_author"], 
                               chapter_title=data["chapter_title"], chapter_author=data["chapter_author"],
-                              edition = data["edition"], pages=data["pages"])
+                              edition = data["edition"], pages=data["pages"], link=data["link"])
         
-        return new_chapter.save()
+        new_chapter.save()
+        return save_endnotes(new_chapter)
 
         
 
 class WebsiteForm(forms.Form):
+
+    source_type = forms.CharField(initial="website", widget=forms.HiddenInput())
 
     website_title = forms.CharField()
     page_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     page_title = forms.CharField()
     page_url = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.website_class}))
     date = forms.DateField(widget=forms.DateInput(attrs={"class": FieldClass.website_class}))
+    link = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
 
 
     def save_form(self, user: User, space: WorkSpace):
@@ -139,13 +157,17 @@ class WebsiteForm(forms.Form):
 
         data: dict = {}
 
-        for field in WEBSITE_FIELDS:
-            data[field] = clean_text_data(self.cleaned_data[field])
+        for field in self.fields:
+            info = self.cleaned_data[field]
+            if type(info) == str:
+                info = clean_text_data(info)
+            data[field] = info
 
         new_website = Website(work_space=space, user=user, title=data["page_title"], author = data["page_author"], 
                               website_title=data["website_title"], page_url=data["page_url"], date=data["date"])
         
-        return new_website.save()
+        new_website.save()
+        return save_endnotes(new_website)
         
 
 
@@ -219,8 +241,8 @@ class AlterEndnoteForm(forms.Form):
         "Alter text field in Endnote obj"
 
         if self.quoting_type == "APA":
-            endnote.apa_text = self.cleaned_data["new_text"]
-            endnote.save(update_fields=("apa_text",))
+            endnote.apa = self.cleaned_data["new_text"]
+            endnote.save(update_fields=("apa",))
         else:
-            endnote.mla_text = self.cleaned_data["new_text"]
-            endnote.save(update_fields=("mla_text",))
+            endnote.mla = self.cleaned_data["new_text"]
+            endnote.save(update_fields=("mla",))

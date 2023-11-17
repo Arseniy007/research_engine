@@ -1309,5 +1309,18 @@ class AuthorForm(forms.Form):
         self.year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.common_fields}))
         self.link = forms.CharField(widget=forms.TextInput(attrs={"required": False}))
 
+        
+    #second_author = forms.CharField(widget=forms.TextInput(attrs={"class": "hidden"}))
+
+
 #from django.forms import formset_factory
+
+BOOK_FIELDS = ("title", "author_last_name", "author_first_name", "author_second_name", "publishing_house", "year", "link")
+ARTICLE_FIELDS = ("journal_title", "article_title", "author_last_name", 
+                  "author_first_name", "author_second_name", "volume_number", 
+                  "journal_number", "pages", " is_electronic", "link_to_journal")
+
+CHAPTER_FIELDS = ("chapter_title", "chapter_author", "book_title", "book_author", "edition", "pages")
+WEBSITE_FIELDS = ("website_title", "page_author", "page_title", "page_url", "date")
+
 """

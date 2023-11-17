@@ -120,5 +120,5 @@ class Quote(models.Model):
 class Endnote(models.Model):
 
     source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="endnote")
-    apa_text = models.CharField(max_length=50)
-    mla_text = models.CharField(max_length=50)
+    apa = models.CharField(max_length=50)
+    mla = models.CharField(max_length=50)
