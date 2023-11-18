@@ -227,10 +227,7 @@ class AlterSourceForm(forms.ModelForm):
 class NewQuoteForm(forms.ModelForm):#
     class Meta:
         model = Quote
-        fields = "__all__"
-        exclude = ["source"]
-
-        # TODO qury set of books, articles and websites
+        fields = ["text", "page"]
     
 
     def save_quote(self, source: Source):

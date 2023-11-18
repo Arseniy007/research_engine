@@ -110,14 +110,15 @@ class Quote(models.Model):
     source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="quotes")
     page = models.IntegerField()
     text = models.TextField()
-    apa_citation = models.CharField(max_length=20)
-    mla_citation = models.CharField(max_length=20) 
+    apa = models.CharField(max_length=20)
+    mla = models.CharField(max_length=20) 
     
-    # here schould be custum save func that generates citation (both apa and mla?)
+
     def save(self, *args, **kwargs):
-        # TODO
-        #"apa" = self.apa_citation
-        #"mla" = self.mla_citation
+        """Custom save method that stores apa & mla in-text citations"""
+        author_last_name = self.source.author.split()[0]
+        self.apa = f"({author_last_name}, {self.source.year}, p. {self.page})"
+        self.mla = f"({author_last_name} {self.page})"
         super(Quote, self).save(*args, **kwargs)
 
 

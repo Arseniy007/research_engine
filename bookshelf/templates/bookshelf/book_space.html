@@ -59,7 +59,7 @@
     <h3>Quotes</h3>
     <ul>
         {% for quote in quotes %}
-        <li>{{ quote }}
+        <li>{{ quote }} | Quote apa: {{ quote.apa }} | Quote mla: {{ quote.mla }}
             <a href="{% url 'bookshelf:delete_quote' quote.pk %}">Delete quote</a>
         </li>
         {% endfor %}
