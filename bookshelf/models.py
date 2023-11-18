@@ -9,10 +9,8 @@ from work_space.models import WorkSpace
 
 def saving_path(instance, filename):
     """File will be uploaded to MEDIA_ROOT/work_space_<id>/books/user_<id>/book_<id>/<filename>"""
-
     space_path = instance.work_space.get_base_dir()
     user_id, book_id = instance.user.pk, instance.pk
-
     return f"{space_path}/books/user_{user_id}/book_{book_id}/{filename}"
 
 
@@ -112,8 +110,18 @@ class Quote(models.Model):
     source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="quotes")
     page = models.IntegerField()
     text = models.TextField()
-
+    apa_citation = models.CharField(max_length=20)
+    mla_citation = models.CharField(max_length=20) 
     
+    # here schould be custum save func that generates citation (both apa and mla?)
+    def save(self, *args, **kwargs):
+        # TODO
+        #"apa" = self.apa_citation
+        #"mla" = self.mla_citation
+        super(Quote, self).save(*args, **kwargs)
+
+
     def __str__(self):
         """Display quotes text"""
+        # TODO
         return f'"{self.text}" (p. {self.page})'

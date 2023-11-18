@@ -90,6 +90,3 @@ def quote_website_apa(website: Website):
     # TODO
 
     return "Website apa"
-
-    pass
-
