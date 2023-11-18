@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <style>
+        .two_2, .three, .four, .five
+        {
+            display: none;
+        }
+    </style>
+
+    <script>
+         document.addEventListener('DOMContentLoaded', function() {
+
+
+            const one_button = document.getElementById('one_button');
+
+            one_button.addEventListener('click', function() {
+
+                let new_div = document.getElementsByClassName('two_2')[0];
+                console.log(new_div);
+
+                new_div.style.display = 'block';
+
+            })
+            
+
+    
+
+
+
+
+
+
+
+
+
+        });
+    </script>
+
+
+    <br>
+    <form action="{% url 'lobby:lobby' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Send</button>
+    </form><br><br>
+
+    <h3>New:</h3>
+    <form action="{% url 'lobby:lobby' %}" method="post">
+
+        
+        <div class="one">
+            <label for="id_one">One:</label>
+            <input id="one" type="text" required>
+            <button type="button" id="one_button">Add</button>
+        </div>
+        <div class="two_2">
+            <label for="id_two">Two:</label>
+            <input id="two" type="text" required>
+            <button id="two_button">Add</button>
+        </div>
+        <div class="three">
+            <label for="id_three">Three:</label>
+            <input id="three" type="text" required>
+            <button id="three_button">Add</button>
+        </div>
+
+
+        <button type="submit">Send</button>
+    </form>
+    
+
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'user_management/script.js' %}"></script>
+{% endblock %}

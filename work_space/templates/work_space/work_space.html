@@ -9,7 +9,7 @@
 
 
     <style>
-        #book_form, #article_form, #chapter_form, #website_form, #source_type_form, .hidden
+        #book_form, #article_form, #chapter_form, #website_form, #source_type_form, .hidden, #second_author
         {
             display: none;
         }
@@ -36,18 +36,15 @@
             website_button.addEventListener('click', () => show_form(website_button.innerHTML));
 
 
-            const add_author_button = document.getElementById('add_author');
+          
+            const first_button = document.getElementById('first_button');
+            first_button.addEventListener('click', function() {
 
-            add_author_button.addEventListener('click', function() {
+                let new_div = document.getElementById('second_author');
 
-                const hidden = document.getElementsByClassName('hidden');
-
-                for (i=0; i<hidden.length; i++) {
-                    hidden[i].style.display = 'block';
-                }
+                new_div.style.display = 'block';
 
             })
-           
 
            
 
@@ -118,7 +115,25 @@
 
 
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter_form">
-        {% csrf_token %} 
+        {% csrf_token %}
+        <div id="first_author">
+            <label for="id_fist_author_last_name">Author Last Name:</label>
+            <input id="first_author_last_name" type="text">
+            <label for="id_fist_author_first_name">Author First Name:</label>
+            <input id="first_author_first_name" type="text">
+            <label for="id_fist_author_second_name">Author Second Name:</label>
+            <input id="first_author_second_name" type="text">
+            <button id="first_button" type="button">Add Author(s)</button>
+        </div>
+        <div id="second_author">
+            <label for="id_second_author_last_name">Author Last Name:</label>
+            <input id="second_author_last_name" type="text">
+            <label for="id_second_author_first_name">Author First Name:</label>
+            <input id="second_author_first_name" type="text">
+            <label for="id_second_author_second_name">Author Second Name:</label>
+            <input id="second_author_second_name" type="text">
+            <button id="second_button" type="button">Add Author(s)</button>
+        </div>
         {{ chapter_form.as_p }}
         <button value="chapter" name="chapter" type="submit">Add Chapter</button>
     </form><br><br><br>

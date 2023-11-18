@@ -104,7 +104,7 @@ class ChapterForm(forms.Form):
     source_type = forms.CharField(initial="chapter", widget=forms.HiddenInput())
 
     chapter_title = forms.CharField()
-    chapter_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
+    #chapter_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     book_title = forms.CharField()
     book_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
@@ -224,7 +224,7 @@ class AlterSourceForm(forms.ModelForm):
         book.save(update_fields=params)
     
 
-class NewQuoteForm(forms.ModelForm):#
+class NewQuoteForm(forms.ModelForm):
     class Meta:
         model = Quote
         fields = ["text", "page"]
