@@ -9,6 +9,10 @@ from utils.verification import check_link
 from work_space.models import WorkSpace
 
 
+# Delete all author related fields!
+# Add author as an arg to all saving methods!
+
+
 def save_endnotes(source: Source):
     """Creates and saves new Endnote obj for given source"""
     endnotes = Endnote(source=source, apa=quote_source_apa(source), mla=quote_source_mla(source))

@@ -15,6 +15,12 @@ def add_source(request, space_id):
     """Add new source info to the work space"""
     # TODO
 
+    # Deal with authors outside forms, then validating forms, then saving them with custom save method with author as an arg
+    author = request.POST.get("test")
+    print(author)
+
+    # Here author_dealing func that handlels all the possobilities
+
     if "book" in request.POST:
         form = BookForm(request.POST)
     elif "article" in request.POST:
@@ -30,7 +36,7 @@ def add_source(request, space_id):
     if form.is_valid():
 
         space = check_work_space(space_id, request.user)
-        form.save_form(request.user, space)
+        #form.save_form(request.user, space)
 
         link = reverse("work_space:space", args=(space.pk,))
         return redirect(link)
