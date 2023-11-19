@@ -12,6 +12,8 @@ from work_space.models import WorkSpace
 # Delete all author related fields!
 # Add author as an arg to all saving methods!
 
+# get initials as separate func! (or method)
+
 
 def save_endnotes(source: Source):
     """Creates and saves new Endnote obj for given source"""
@@ -35,15 +37,15 @@ class FieldClass:
 class BookForm(forms.Form):
 
     source_type = forms.CharField(initial="book", widget=forms.HiddenInput())
+    number_of_authors = forms.IntegerField(widget=forms.HiddenInput(attrs={"name": "number_of_authors", 
+                                                                                      "class": "final_number_of_authors"}))
 
     title = forms.CharField()
-    author_last_name = forms.CharField()
-    author_first_name = forms.CharField(required=False)
-    author_second_name = forms.CharField(required=False)
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
 
-    def save_form(self, user: User, space: WorkSpace):
+
+    def save_form(self, user: User, space: WorkSpace, author: str):
         """Custom save func for Book obj"""
         # TODO
 
@@ -68,12 +70,10 @@ class BookForm(forms.Form):
 class ArticleForm(forms.Form):
 
     source_type = forms.CharField(initial="article", widget=forms.HiddenInput())
+    number_of_authors = forms.IntegerField(initial=1, widget=forms.HiddenInput(attrs={"name": "number_of_authors"}))
 
     journal_title = forms.CharField()
     article_title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
-    author_last_name = forms.CharField()
-    author_first_name = forms.CharField(required=False)
-    author_second_name = forms.CharField(required=False)
     volume = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
     issue = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
@@ -81,7 +81,7 @@ class ArticleForm(forms.Form):
     link_to_journal = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
 
 
-    def save_form(self, user: User, space: WorkSpace):
+    def save_form(self, user: User, space: WorkSpace, author: str):
         """Custom save func for Article obj"""
         # TODO
         
@@ -106,17 +106,18 @@ class ArticleForm(forms.Form):
 class ChapterForm(forms.Form):
 
     source_type = forms.CharField(initial="chapter", widget=forms.HiddenInput())
+    number_of_authors = forms.IntegerField(initial=1, widget=forms.HiddenInput(attrs={"name": "number_of_authors"}))
+
+    # chapter authors + book authors!
 
     chapter_title = forms.CharField()
-    #chapter_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     book_title = forms.CharField()
-    book_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     edition = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.chapter_class}))
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
 
 
-    def save_form(self, user: User, space: WorkSpace):
+    def save_form(self, user: User, space: WorkSpace, author: str):
         """Custom save func for Chapter obj"""
         # TODO
 
@@ -141,15 +142,17 @@ class ChapterForm(forms.Form):
 class WebsiteForm(forms.Form):
 
     source_type = forms.CharField(initial="website", widget=forms.HiddenInput())
+    number_of_authors = forms.IntegerField(initial=1, widget=forms.HiddenInput(attrs={"name": "number_of_authors"}))
+
+    # page authors!
 
     website_title = forms.CharField()
-    page_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     page_title = forms.CharField()
     page_url = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.website_class}))
     date = forms.DateField(widget=forms.DateInput(attrs={"class": FieldClass.website_class}))
 
 
-    def save_form(self, user: User, space: WorkSpace):
+    def save_form(self, user: User, space: WorkSpace, author: str):
         """Custom save func for Website obj"""
         # TODO
 

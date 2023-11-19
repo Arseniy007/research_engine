@@ -1,60 +1,21 @@
 {% extends "layout.html" %}
 {% load static %}
 
-{% block body %}
+{% block script %}
+    <script src="{% static 'work_space/script.js' %}"></script>
+{% endblock %}
 
-    {% block head %}
-        {{ author_formset.media }}
-    {% endblock %}
+
+{% block body %}
 
 
     <style>
-        #book_form, #article_form, #chapter_form, #website_form, #source_type_form, .hidden, #second_author
+        #book_form, #article_form, #chapter_form, #website_form, #second_author
         {
             display: none;
         }
     </style>
-    <script>
-
-        document.addEventListener('DOMContentLoaded', function() {
-
-            const book_button = document.getElementById('book_button');
-            const article_button = document.getElementById('article_button');
-            const chapter_button = document.getElementById('chapter_button');
-            const website_button = document.getElementById('website_button');
-
-            function show_form(type) {
-
-                let form = document.getElementById(`${type}_form`);
-
-                form.style.display = 'block';
-            }
-
-            book_button.addEventListener('click', () => show_form(book_button.innerHTML));
-            article_button.addEventListener('click', () => show_form(article_button.innerHTML));
-            chapter_button.addEventListener('click', () => show_form(chapter_button.innerHTML));
-            website_button.addEventListener('click', () => show_form(website_button.innerHTML));
-
-
-          
-            const first_button = document.getElementById('first_button');
-            first_button.addEventListener('click', function() {
-
-                let new_div = document.getElementById('second_author');
-
-                new_div.style.display = 'block';
-
-            })
-
-           
-
-
-        
-
-        
-
-        });
-    </script>
+    
 
 
     <h3>{{ space }}</h3>
@@ -95,42 +56,45 @@
 
 
 
-    <button id="book_button" type="submit">book</button>
-    <button id="article_button" type="submit">article</button>
-    <button id="chapter_button" type="submit">chapter</button>
-    <button id="website_button" type="submit">website</button>
+    <button class="show_form_button" id="book" type="button">book</button>
+    <button class="show_form_button" id="article" type="button">article</button>
+    <button class="show_form_button" id="chapter" type="button">chapter</button>
+    <button class="show_form_button" id="website" type="button">website</button>
 
 
-    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book_form">
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book_form" class="source_form">
+        <div class="author_div"></div>
         {% csrf_token %} 
         {{ book_form.as_p }}
         <button value="book" name="book" type="submit">Add Book</button>
     </form><br><br><br>
 
-    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article_form">
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article_form" class="source_form">
+        <div class="author_div"></div>
         {% csrf_token %} 
         {{ article_form.as_p }}
         <button value="article" name="article" type="submit">Add Article</button>
     </form><br><br><br>
 
 
-    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter_form">
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter_form" class="source_form">
         {% csrf_token %}
+        <div class="author_div"></div>
         <div id="first_author">
-            <label for="id_fist_author_last_name">Author Last Name:</label>
-            <input id="first_author_last_name" name="test" type="text">
-            <label for="id_fist_author_first_name">Author First Name:</label>
+            <label for="fist_author_last_name">Author Last Name:</label>
+            <input id="first_author_last_name" type="text">
+            <label for="fist_author_first_name">Author First Name:</label>
             <input id="first_author_first_name" type="text">
-            <label for="id_fist_author_second_name">Author Second Name:</label>
+            <label for="fist_author_second_name">Author Second Name:</label>
             <input id="first_author_second_name" type="text">
             <button id="first_button" type="button">Add Author(s)</button>
         </div>
         <div id="second_author">
-            <label for="id_second_author_last_name">Author Last Name:</label>
+            <label for="second_author_last_name">Author Last Name:</label>
             <input id="second_author_last_name" type="text">
-            <label for="id_second_author_first_name">Author First Name:</label>
+            <label for="second_author_first_name">Author First Name:</label>
             <input id="second_author_first_name" type="text">
-            <label for="id_second_author_second_name">Author Second Name:</label>
+            <label for="second_author_second_name">Author Second Name:</label>
             <input id="second_author_second_name" type="text">
             <button id="second_button" type="button">Add Author(s)</button>
         </div>
@@ -139,7 +103,8 @@
     </form><br><br><br>
 
 
-    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="website_form">
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="website_form" class="source_form">
+        <div class="author_div"></div>
         {% csrf_token %} 
         {{ website_form.as_p }}
         <button value="website" name="website" type="submit">Add Website</button>
@@ -151,8 +116,4 @@
     
 
 
-{% endblock %}
-
-{% block script %}
-    <script src="{% static 'user_management/script.js' %}"></script>
 {% endblock %}

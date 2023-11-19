@@ -16,8 +16,12 @@ def add_source(request, space_id):
     # TODO
 
     # Deal with authors outside forms, then validating forms, then saving them with custom save method with author as an arg
-    author = request.POST.get("test")
-    print(author)
+    authors = request.POST.get("number_of_authors")
+    print(authors)
+
+    #number_of_authors = request.POST.get("number_of_authors")
+
+
 
     # Here author_dealing func that handlels all the possobilities
 

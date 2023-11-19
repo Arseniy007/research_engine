@@ -1350,4 +1350,134 @@ WEBSITE_FIELDS = ("website_title", "page_author", "page_title", "page_url", "dat
     
     CHOICES = (("Book", "Book"), ("Article", "Article"), ("Chapter", "Chapter"), ("Website", "Website"),)
 
+
+    author_last_name = forms.CharField()
+    author_first_name = forms.CharField(required=False)
+    author_second_name = forms.CharField(required=False)
+
+    #chapter_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
+
+     book_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
+
+     #page_author = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
+
+     function show_form(type) {
+
+                let form = document.getElementById(`${type}_form`);
+
+                form.style.display = 'block';
+            }
+
+            book_button.addEventListener('click', () => show_form(book_button.innerHTML));
+            article_button.addEventListener('click', () => show_form(article_button.innerHTML));
+            chapter_button.addEventListener('click', () => show_form(chapter_button.innerHTML));
+            website_button.addEventListener('click', () => show_form(website_button.innerHTML));
+
+                        const book_button = document.getElementById('book_button');
+            const article_button = document.getElementById('article_button');
+            const chapter_button = document.getElementById('chapter_button');
+            const website_button = document.getElementById('website_button');
+
 """
+
+"""
+<script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+
+
+
+
+
+
+            
+
+
+
+            const show_form_buttons = document.getElementsByClassName('show_form_button');
+           
+            const number_of_buttons = show_form_buttons.length;
+            console.log(number_of_buttons);
+            
+
+            for (let i = 0; i < number_of_buttons; i++) {
+
+                let button = show_form_buttons[i];
+   
+
+                button.addEventListener('click', () => show_and_hide_forms(`${button.id}_form`));
+
+
+            
+            }
+
+
+            
+
+
+
+
+          
+            const first_button = document.getElementById('first_button');
+            first_button.addEventListener('click', function() {
+
+                let new_div = document.getElementById('second_author');
+
+                new_div.style.display = 'block';
+
+            })
+
+
+
+
+           // New staff
+
+            let authors_divs = document.getElementsByClassName('authors_div');
+            const number_of_divs = authors_divs.length;
+
+            for (let i = 0; i < number_of_divs; i++) {
+
+                let div = authors_divs[i];
+
+                div.innerHTML = `
+                <div class="author_${i}">
+                    <label>Author Last Name: <input id="author_last_name_${i}" type="text"></label>
+                    <label>Author First Name: <input id="author_first_name_${i}" type="text"></label>
+                    <label>Author Second Name: <input id="author_second_name_${i}" type="text"></label>
+                    <button id="add_author_button_${i}" type="button">Add Author(s)</button>
+                </div>`;
+
+                let add_button = document.querySelector(`#add_author_button_${i}`);
+                add_button.addEventListener('click', function() {
+
+                    add_button.style.display = 'none';
+
+                    let new_div = document.createElement('div');
+
+                    new_div.className = ""
+
+                })
+            }
+
+
+
+function show_and_hide_forms(form_id) {
+
+    let all_forms = document.querySelector('.source_form');
+    const number_of_forms = all_forms.length;
+
+    for (let i = 0; i < number_of_forms; i++) {
+        all_forms[i].style.display = 'none';
+    }
+
+    document.querySelector(`#${form_id}`).style.display = 'block';
+
+};
+        
+
+        });
+    </script>
+
+
+    """
