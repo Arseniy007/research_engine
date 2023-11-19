@@ -8,20 +8,13 @@ from user_management.models import User
 from utils.verification import check_link
 from work_space.models import WorkSpace
 
-from .validation import clean_text_data
+from .create_source import clean_text_data, save_endnotes
 
 
 # Delete all author related fields!
 # Add author as an arg to all saving methods!
 
 # get initials as separate func! (or method)
-
-
-
-def save_endnotes(source: Source):
-    """Creates and saves new Endnote obj for given source"""
-    endnotes = Endnote(source=source, apa=quote_source_apa(source), mla=quote_source_mla(source))
-    return endnotes.save()
 
 
 class FieldClass:
@@ -37,32 +30,10 @@ class BookForm(forms.Form):
 
     source_type = forms.CharField(initial="book", widget=forms.HiddenInput())
     number_of_authors = forms.IntegerField(widget=forms.HiddenInput(attrs={"name": "number_of_authors", 
-                                                                                      "class": "final_number_of_authors"}))
-
+                                                                            "class": "final_number_of_authors"}))
     title = forms.CharField()
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
-
-
-    def save_form(self, user: User, space: WorkSpace, author: str):
-        """Custom save func for Book obj"""
-        # TODO
-
-        data: dict = {}
-
-        for field in self.fields:
-            info = self.cleaned_data[field]
-            if type(info) == str:
-                info = clean_text_data(info)
-            data[field] = info
-        
-        new_book = Book(work_space=space, user=user, title=data["title"], 
-                        author=author, year=data["year"], 
-                        publishing_house=data["publishing_house"])
-        
-        new_book.save()
-
-        return save_endnotes(new_book)
 
 
 class ArticleForm(forms.Form):
@@ -77,26 +48,6 @@ class ArticleForm(forms.Form):
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
     link_to_journal = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
-
-
-    def save_form(self, user: User, space: WorkSpace, author: str):
-        """Custom save func for Article obj"""
-        # TODO
-        
-        data: dict = {}
-
-        for field in self.fields:
-            info = self.cleaned_data[field]
-            if type(info) == str:
-                info = clean_text_data(info)
-            data[field] = info
-
-        new_article = Article(work_space=space, user=user, title=data["article_title"], author=author, year=data["year"], 
-                              journal_title=data["journal_title"], volume=data["volume"], 
-                              issue=data["issue"], pages=data["pages"], link_to_journal=data["link_to_journal"])
-        
-        new_article.save()
-        return save_endnotes(new_article)
 
 
 class ChapterForm(forms.Form):

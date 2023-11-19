@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .validation import clean_author_data
+from .create_source import clean_author_data, create_source
 
 from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AlterEndnoteForm, UploadSourceForm, AlterSourceForm, NewQuoteForm, AddLinkForm
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
@@ -16,9 +16,7 @@ from utils.verification import check_source, check_work_space, check_quote, chec
 def add_source(request, space_id):
     """Add new source info to the work space"""
     # TODO
-    # Deal with authors outside forms, then validating forms, then saving them with custom save method with author as an arg
-    # Here author_dealing func that handlels all the possobilities
-
+    
     author = clean_author_data(request.POST)
  
     if "book" in request.POST:
@@ -36,7 +34,7 @@ def add_source(request, space_id):
     if form.is_valid():
 
         space = check_work_space(space_id, request.user)
-        form.save_form(request.user, space, author)
+        create_source(request.user, space, form, author)
 
         link = reverse("work_space:space", args=(space.pk,))
         return redirect(link)
