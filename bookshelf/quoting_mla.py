@@ -43,7 +43,7 @@ def quote_book_mla(source: Source):
 
 def quote_article_mla(article: Article):
 
-    authors = article.author.split(",")
+    authors = article.author.split(", ")
     authors_name = []
 
     for one in authors:

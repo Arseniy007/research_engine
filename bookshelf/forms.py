@@ -8,6 +8,8 @@ from user_management.models import User
 from utils.verification import check_link
 from work_space.models import WorkSpace
 
+from .validation import clean_text_data
+
 
 # Delete all author related fields!
 # Add author as an arg to all saving methods!
@@ -15,14 +17,11 @@ from work_space.models import WorkSpace
 # get initials as separate func! (or method)
 
 
+
 def save_endnotes(source: Source):
     """Creates and saves new Endnote obj for given source"""
     endnotes = Endnote(source=source, apa=quote_source_apa(source), mla=quote_source_mla(source))
     return endnotes.save()
-
-
-def clean_text_data(data: str):
-    return data.strip(""".,'" """)
 
 
 class FieldClass:
@@ -56,12 +55,11 @@ class BookForm(forms.Form):
             if type(info) == str:
                 info = clean_text_data(info)
             data[field] = info
-
-        author = f"{data['author_last_name']} {data['author_first_name']} {data['author_second_name']}"
         
         new_book = Book(work_space=space, user=user, title=data["title"], 
-                        author=author, year=data["year"], link=data["link"], 
+                        author=author, year=data["year"], 
                         publishing_house=data["publishing_house"])
+        
         new_book.save()
 
         return save_endnotes(new_book)
@@ -93,10 +91,8 @@ class ArticleForm(forms.Form):
                 info = clean_text_data(info)
             data[field] = info
 
-        author = f"{data['author_last_name']} {data['author_first_name']} {data['author_second_name']}"
-
         new_article = Article(work_space=space, user=user, title=data["article_title"], author=author, year=data["year"], 
-                              link=data["link"], journal_title=data["journal_title"], volume=data["volume"], 
+                              journal_title=data["journal_title"], volume=data["volume"], 
                               issue=data["issue"], pages=data["pages"], link_to_journal=data["link_to_journal"])
         
         new_article.save()
