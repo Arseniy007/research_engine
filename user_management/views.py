@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
 from .forms import ChangePasswordForm
 from .models import User
 

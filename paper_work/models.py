@@ -1,9 +1,6 @@
 import os
-
 from django.db import models
-
 from file_handling.models import PaperVersion
-from research_engine.settings import MEDIA_ROOT
 from user_management.models import User
 from work_space.models import WorkSpace
 

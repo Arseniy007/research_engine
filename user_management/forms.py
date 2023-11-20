@@ -2,7 +2,6 @@ from django import forms
 
 
 class ChangePasswordForm(forms.Form):
-
     old_password = forms.CharField(label=False, widget=forms.PasswordInput(attrs={
         "placeholder": "Old password",
         "autocomplete": "off",

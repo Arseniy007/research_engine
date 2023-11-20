@@ -1,12 +1,10 @@
 from django import forms
-
 from .models import Paper
 from user_management.models import User
 from work_space.models import WorkSpace
 
 
 class NewPaperForm(forms.Form):
-    
     title = forms.CharField(max_length=50)
 
 
@@ -18,7 +16,6 @@ class NewPaperForm(forms.Form):
 
 
 class RenamePaperForm(forms.Form):
-
     title = forms.CharField(max_length=50)
 
 

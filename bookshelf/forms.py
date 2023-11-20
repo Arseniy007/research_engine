@@ -1,5 +1,4 @@
 from django import forms
-
 from .models import Book, Quote, Source, Endnote
 from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
 from utils.verification import check_link

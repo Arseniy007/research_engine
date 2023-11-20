@@ -1,8 +1,6 @@
 import os
-
 from django.db import models 
 from django.contrib.contenttypes.models import ContentType
-
 from user_management.models import User
 from work_space.models import WorkSpace
 
@@ -84,8 +82,6 @@ class Chapter(Source):
     edition = models.CharField(max_length=10)
     pages = models.CharField(max_length=20)
     
-    # edited vs normal book
- 
 
 class Website(Source):
 

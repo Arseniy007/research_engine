@@ -1,9 +1,7 @@
 import os
 import shutil
-
 from utils.verification import get_endnotes
 from work_space.models import WorkSpace
-
 
 # Much to be done!
 

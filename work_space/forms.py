@@ -1,11 +1,9 @@
 from django import forms
-
 from .models import WorkSpace, Comment
 from user_management.models import User
 
 
 class NewWorkSpaceForm(forms.Form):
-
     title = forms.CharField(max_length=50)
 
 
@@ -17,17 +15,14 @@ class NewWorkSpaceForm(forms.Form):
 
 
 class RenameWorkSpaceForm(forms.Form):
-
     new_title = forms.CharField(max_length=50)
 
 
 class ReceiveInvitationForm(forms.Form):
-
     code = forms.CharField(max_length=15)
 
 
 class NewCommentForm(forms.Form):
-
     text = forms.Textarea()
 
 

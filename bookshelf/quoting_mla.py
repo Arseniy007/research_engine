@@ -63,7 +63,7 @@ def quote_book_mla(book: Book) -> str:
     """Create mla endnote for given book"""
 
     author = format_authors_mla(book.author)
-    return f"{author} {book.title}. {'PH'}, {book.year}."
+    return f"{author} {book.title}. {book.publishing_house}, {book.year}."
 
 
 def quote_article_mla(article: Article) -> str:

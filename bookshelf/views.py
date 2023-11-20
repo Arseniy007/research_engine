@@ -1,13 +1,10 @@
 import shutil
-
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
-from .create_source import clean_author_data, create_source
-
 from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AlterEndnoteForm, UploadSourceForm, AlterSourceForm, NewQuoteForm, AddLinkForm
+from .source_creation import clean_author_data, create_source
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
 
@@ -191,7 +188,13 @@ def delete_quote(request, quote_id):
 @login_required(redirect_field_name=None)
 def alter_quote(request, quote_id):
 
-    pass
+    # Check quote and if user has right to a deletion
+    quote = check_quote(quote_id, request.user)
+
+    # TODO
+
+    link = reverse("bookshelf:source_space", args=(quote.source.pk,))
+    return redirect(link)
 
 
 @login_required(redirect_field_name=None)
@@ -216,7 +219,7 @@ def source_space(request, source_id):
                                         })
 
 
-    return render(request, "bookshelf/book_space.html", {"source": source, 
+    return render(request, "bookshelf/source_space.html", {"source": source, 
                                                          "upload_form": upload_form, 
                                                          "alter_form": alter_form, 
                                                          "quote_form": quote_form,

@@ -1,11 +1,9 @@
 import os
 import shutil
-
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
 from bookshelf.forms import BookForm, ArticleForm, ChapterForm, WebsiteForm
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
 from .friendly_dir import create_friendly_dir
@@ -229,14 +227,5 @@ def delete_comment(request, comment_id):
 
     pass
 
-    
-
-
-
-
-
-
-
-# Is there a way to send request without forms in create and rename workspace functions?
 
 # Comments? Each one has only one version of paper?

@@ -1,9 +1,7 @@
-#### Here should be something
 from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm
 from .models import Article, Book, Chapter, Source, Website, Endnote
 from .quoting_apa import quote_source_apa
 from .quoting_mla import quote_source_mla
-
 from user_management.models import User
 from work_space.models import WorkSpace
 
@@ -26,9 +24,9 @@ def clean_author_data(data) -> str | bool:
         first_name = data.get(f"first_name_{i}")
         second_name = data.get(f"second_name_{i}")
 
+        # Return if last_name field was somehow left blank
         if not last_name:
-            # TODO
-            pass
+            return False
 
         last_name = clean_text_data(last_name)
         if not first_name:
@@ -70,6 +68,8 @@ def create_source(user: User, space: WorkSpace, form, author):
 
 def create_book_obj(user: User, space: WorkSpace, form: BookForm, author):
     """Validate Bookform and create Book obj"""
+
+    # Iterate through all fields and clean its data
     data: dict = {}
     for field in form.fields:
         info = form.cleaned_data[field]
@@ -77,15 +77,19 @@ def create_book_obj(user: User, space: WorkSpace, form: BookForm, author):
             info = clean_text_data(info)
         data[field] = info
 
+    # Create and save new Book obj
     new_book = Book(work_space=space, user=user, title=data["title"], author=author, year=data["year"], 
                     publishing_house=data["publishing_house"])
     
     new_book.save()
+    # Create new Endnote obj with Foreign key to this Book obj
     return save_endnotes(new_book)
 
 
-def create_article_obj(user: User, space: WorkSpace, form: ArticleForm, author):
+def create_article_obj(user: User, space: WorkSpace, form: ArticleForm, author: str):
     """Validate Articleform and create Article obj"""
+
+    # Iterate through all fields and clean its data
     data: dict = {}
     for field in form.fields:
         info = form.cleaned_data[field]
@@ -93,53 +97,50 @@ def create_article_obj(user: User, space: WorkSpace, form: ArticleForm, author):
             info = clean_text_data(info)
         data[field] = info
 
+    # Create and save new Article obj
     new_article = Article(work_space=space, user=user, title=data["article_title"], author=author, year=data["year"], 
                             journal_title=data["journal_title"], volume=data["volume"], 
                             issue=data["issue"], pages=data["pages"], link_to_journal=data["link_to_journal"])
-    
     new_article.save()
+    # Create new Endnote obj with Foreign key to this Article obj
     return save_endnotes(new_article)
 
 
-
-
-
-def create_chapter_obj(user: User, space: WorkSpace, form: ChapterForm, author):
+def create_chapter_obj(user: User, space: WorkSpace, form: ChapterForm, book_author: str, chapter_author: str):
     """Validate Chapterform and create Chapter obj"""
 
+    # Iterate through all fields and clean its data
     data: dict = {}
-
     for field in form.fields:
         info = form.cleaned_data[field]
         if type(info) == str:
             info = clean_text_data(info)
         data[field] = info
     
-    new_chapter = Chapter(work_space=space, user=user, title=data["book_title"], author=data["book_author"], 
-                            chapter_title=data["chapter_title"], chapter_author=data["chapter_author"],
-                            edition = data["edition"], pages=data["pages"], link=data["link"])
-    
+    # Create and save new Chapter obj
+    new_chapter = Chapter(work_space=space, user=user, title=data["book_title"], author=book_author, 
+                            chapter_title=data["chapter_title"], chapter_author=chapter_author,
+                            edition = data["edition"], pages=data["pages"])
     new_chapter.save()
+    # Create new Endnote obj with Foreign key to this Chapter obj
     return save_endnotes(new_chapter)
 
 
-
- 
-
-
-def create_website_obj(user: User, space: WorkSpace, form: WebsiteForm, author):
+def create_website_obj(user: User, space: WorkSpace, form: WebsiteForm, author: str | None):
     """Validate Websiteform and create Website obj"""
 
+    # Iterate through all fields and clean its data
     data: dict = {}
-
     for field in form.fields:
         info = form.cleaned_data[field]
         if type(info) == str:
             info = clean_text_data(info)
         data[field] = info
 
+    # Create and save new Website obj
     new_website = Website(work_space=space, user=user, title=data["page_title"], author = data["page_author"], 
                             website_title=data["website_title"], page_url=data["page_url"], date=data["date"])
     
     new_website.save()
+    # Create new Endnote obj with Foreign key to this Website obj
     return save_endnotes(new_website)
