@@ -213,7 +213,7 @@ def source_space(request, source_id):
     link_form = AddLinkForm()
     alter_form = AlterSourceForm(initial={
                                         "title": source.title, 
-                                        "author": source.author, 
+                                        "author": source.author,
                                         "year": source.year, 
                                         "publishing_house": "Test",
                                         })
