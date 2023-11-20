@@ -104,9 +104,40 @@ def create_article_obj(user: User, space: WorkSpace, form: ArticleForm, author):
 
 
 def create_chapter_obj(user: User, space: WorkSpace, form, author):
-    pass
+
+    data: dict = {}
+
+    for field in form.fields:
+        info = form.cleaned_data[field]
+        if type(info) == str:
+            info = clean_text_data(info)
+        data[field] = info
+    
+    
+    new_chapter = Chapter(work_space=space, user=user, title=data["book_title"], author=data["book_author"], 
+                            chapter_title=data["chapter_title"], chapter_author=data["chapter_author"],
+                            edition = data["edition"], pages=data["pages"], link=data["link"])
+    
+    new_chapter.save()
+    return save_endnotes(new_chapter)
+
+
+
+ 
 
 
 def create_website_obj(user: User, space: WorkSpace, form, author):
-    pass
 
+    data: dict = {}
+
+    for field in form.fields:
+        info = form.cleaned_data[field]
+        if type(info) == str:
+            info = clean_text_data(info)
+        data[field] = info
+
+    new_website = Website(work_space=space, user=user, title=data["page_title"], author = data["page_author"], 
+                            website_title=data["website_title"], page_url=data["page_url"], date=data["date"])
+    
+    new_website.save()
+    return save_endnotes(new_website)

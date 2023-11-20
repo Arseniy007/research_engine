@@ -1,20 +1,8 @@
 from django import forms
 
-from .models import Article, Book, Chapter, Quote, Source, Website, Endnote
-from .quoting_apa import quote_source_apa
-from .quoting_mla import quote_source_mla
+from .models import Book, Quote, Source, Endnote
 from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
-from user_management.models import User
 from utils.verification import check_link
-from work_space.models import WorkSpace
-
-from .create_source import clean_text_data, save_endnotes
-
-
-# Delete all author related fields!
-# Add author as an arg to all saving methods!
-
-# get initials as separate func! (or method)
 
 
 class FieldClass:
@@ -64,28 +52,6 @@ class ChapterForm(forms.Form):
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
 
 
-    def save_form(self, user: User, space: WorkSpace, author: str):
-        """Custom save func for Chapter obj"""
-        # TODO
-
-        data: dict = {}
-
-        for field in self.fields:
-            info = self.cleaned_data[field]
-            if type(info) == str:
-                info = clean_text_data(info)
-            data[field] = info
-        
-        
-        new_chapter = Chapter(work_space=space, user=user, title=data["book_title"], author=data["book_author"], 
-                              chapter_title=data["chapter_title"], chapter_author=data["chapter_author"],
-                              edition = data["edition"], pages=data["pages"], link=data["link"])
-        
-        new_chapter.save()
-        return save_endnotes(new_chapter)
-
-        
-
 class WebsiteForm(forms.Form):
 
     source_type = forms.CharField(initial="website", widget=forms.HiddenInput())
@@ -99,23 +65,7 @@ class WebsiteForm(forms.Form):
     date = forms.DateField(widget=forms.DateInput(attrs={"class": FieldClass.website_class}))
 
 
-    def save_form(self, user: User, space: WorkSpace, author: str):
-        """Custom save func for Website obj"""
-        # TODO
 
-        data: dict = {}
-
-        for field in self.fields:
-            info = self.cleaned_data[field]
-            if type(info) == str:
-                info = clean_text_data(info)
-            data[field] = info
-
-        new_website = Website(work_space=space, user=user, title=data["page_title"], author = data["page_author"], 
-                              website_title=data["website_title"], page_url=data["page_url"], date=data["date"])
-        
-        new_website.save()
-        return save_endnotes(new_website)
         
 
 
