@@ -79,7 +79,6 @@ class Article(Source):
 
 
 class Chapter(Source):
-
     chapter_title = models.CharField(max_length=50)
     chapter_author = models.CharField(max_length=70)
     edition = models.CharField(max_length=10)
