@@ -32,7 +32,6 @@ def create_work_space(request):
     form = NewWorkSpaceForm(request.POST)
 
     if form.is_valid():
-
         # Save new work space to the db and create its directory
         new_space = form.save_work_space(request.user)
         new_space.create_dir()
@@ -137,7 +136,6 @@ def rename_work_space(request, space_id):
     form = RenameWorkSpaceForm(request.POST)
 
     if form.is_valid():
-
         space = check_work_space(space_id, request.user)
 
         new_title = form.cleaned_data["new_title"]
@@ -175,7 +173,6 @@ def receive_invitation(request):
     form = ReceiveInvitationForm(request.POST)
 
     if form.is_valid():
-
         # Check invitation code
         invitation_code = form.cleaned_data["code"]
         invitation = check_invitation(invitation_code)

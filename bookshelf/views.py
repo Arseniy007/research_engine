@@ -22,7 +22,7 @@ def add_source(request, space_id):
 
     if not author:
         # TODO
-        pass
+        return JsonResponse({"message": "error"})
     
     # Get future source type
     if "book" in request.POST:
@@ -35,10 +35,9 @@ def add_source(request, space_id):
         form = WebsiteForm(request.POST)
     else:
         # TODO
-        pass
+        return JsonResponse({"message": "error"})
 
     if form.is_valid():
-        
         space = check_work_space(space_id, request.user)
         create_source(request.user, space, form, author)
 
@@ -99,13 +98,11 @@ def add_link_to_source(request, source_id):
     form = AddLinkForm(request.POST)
 
     if form.is_valid():
-
         source = check_source(source_id, request.user)
-
         if not form.save_link(source):
             return JsonResponse({"message": "error"})
         return JsonResponse({"message": "ok"})
-
+    
     else:
         print(form.errors)
         # TODO
@@ -120,7 +117,6 @@ def alter_source_info(request, source_id):
     form = AlterSourceForm(request.POST)
 
     if form.is_valid():
-        
         # Check source and get its attrs
         source = check_source(source_id, request.user)
         form.save_source(source)
@@ -142,12 +138,10 @@ def alter_endnote(request, endnote_id):
     form = AlterEndnoteForm(request.POST)
 
     if form.is_valid():
-
         endnote = check_endnote(endnote_id, request.user)
         form.save_endnote(endnote)
 
         source = check_source(endnote.source.pk, request.user)
-
         link = reverse("bookshelf:source_space", args=(source.pk,))
         return redirect(link)
 
@@ -166,7 +160,6 @@ def add_quote(request, source_id):
     form = NewQuoteForm(request.POST)
 
     if form.is_valid():
-
         source = check_source(source_id, request.user)
         form.save_quote(source)
 

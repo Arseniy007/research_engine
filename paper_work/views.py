@@ -20,7 +20,6 @@ def create_paper(request, space_id):
     form = NewPaperForm(request.POST)
 
     if form.is_valid():
-
         # Save new paper to db
         space = check_work_space(space_id, request.user)
         new_paper = form.save_paper(space, request.user)
@@ -88,7 +87,6 @@ def rename_paper(request, paper_id):
     form = RenamePaperForm(request.POST)
 
     if form.is_valid():
-
         # Update papers name
         paper = check_paper(paper_id, request.user)
         form.save_new_name(paper)

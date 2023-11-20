@@ -21,7 +21,6 @@ def upload_file(request, paper_id):
     form = NewPaperVersionForm(request.POST, request.FILES)
 
     if form.is_valid():
-
         # Get and save new file
         paper = check_paper(paper_id, request.user)
         form.save_new_file(paper, request.user)
