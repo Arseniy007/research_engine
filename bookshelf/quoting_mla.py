@@ -1,6 +1,10 @@
 from .models import Source, Book, Article, Chapter, Website
 
 
+def format_author_mla(author_field: str) -> str:
+    pass
+
+
 def quote_source_mla(source: Source):
     """Get source type and call corresponding func"""
 
@@ -22,7 +26,7 @@ def quote_book_mla(source: Source):
     """Makes qoute following MLA standarts"""
     # TODO
 
-    authors = source.author.split(",")
+    authors = source.author.split(", ")
     authors_name = []
 
     for one in authors:
@@ -38,7 +42,7 @@ def quote_book_mla(source: Source):
     
     author = authors_name[0]
     
-    return f"{author}. {source.title}. {'PH'}, {source.year}"
+    return f"{author}. {source.title}. {'PH'}, {source.year}."
 
 
 def quote_article_mla(article: Article):

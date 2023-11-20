@@ -1,10 +1,9 @@
 from .models import Source, Article, Book, Chapter, Website
 
-# Author field:
-# Lastname, firstname(, senond name) / Lastname, firstname(, senond name) /..
 
-# Here comment how mla and apa differs from each other
-# import re
+def format_author_apa(author_field: str) -> str:
+    pass
+
 
 
 def quote_source_apa(source: Source):
@@ -30,7 +29,7 @@ def quote_book_apa(book: Book):
     # TODO
     # Check (maybe using re module) unwanted spaces/dots/etc. - separate func!
 
-    authors = book.author.split(",")
+    authors = book.author.split(", ")
     authors_name = []
 
     for one in authors:
@@ -49,13 +48,13 @@ def quote_book_apa(book: Book):
     else:
         author = ", ".join(authors_name)
 
-    return f"{author} ({book.year}). {book.title}. {book.publishing_house}"
+    return f"{author} ({book.year}). {book.title}. {book.publishing_house}."
 
 
 def quote_article_apa(article: Article):
     # TODO
 
-    authors = article.author.split(",")
+    authors = article.author.split(", ")
     authors_name = []
 
     for one in authors:

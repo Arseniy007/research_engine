@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let button = show_form_buttons[i];
         button.addEventListener('click', () => show_and_load_form(`${button.id}_form`));
     }
-
     const forms = document.getElementsByClassName('source_form');
     const number_of_forms = forms.length;
 
@@ -20,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function show_and_load_form(form_id) {
-
     // Hide all forms and show the one that user clicked on
     hide_all_forms();
     let form = document.querySelector(`#${form_id}`);
@@ -33,41 +31,47 @@ function show_and_load_form(form_id) {
     author_div.innerHTML = create_author_fields(number_of_authors);
 
     load_new_fields(author_div, number_of_authors);
-    
 }
 
 function load_new_fields (author_div, author_number) {
-
     const add_author_button = author_div.querySelector(`#add_author_button_${author_number}`);
     const delete_author_button = author_div.querySelector(`#delete_author_button_${author_number}`);
 
     if (delete_author_button) {
-
         delete_author_button.addEventListener('click', function() {
-
             const author_fields = author_div.querySelector(`#author_fields_${author_number - 1}`);
             console.log(author_fields);
-            
             author_fields.remove();
-    
         })
     }
-
     author_number++;
-
     add_author_button.addEventListener('click', function() {
 
         const new_fields = document.createElement('div');
         new_fields.innerHTML = create_author_fields(author_number);
         author_div.append(new_fields);
         load_new_fields(author_div, author_number)
-
     })
 }
 
 
-function create_author_fields(author_number) {
+function count_and_set_authors_number(form) {
+    const final_number_of_authors = form.getElementsByClassName('author').length;
+    form.querySelector('.final_number_of_authors').value = final_number_of_authors;
+    console.log(form.querySelector('.final_number_of_authors').value)
+}
 
+
+function hide_all_forms() {
+    let all_forms = document.getElementsByClassName('source_form');
+    const number_of_forms = all_forms.length;
+    for (let i = 0; i < number_of_forms; i++) {
+        all_forms[i].style.display = 'none';
+    }
+}
+
+
+function create_author_fields(author_number) {
     if (author_number != 1) {
         return `
         <div class="author" id="author_fields_${author_number}">
@@ -88,20 +92,3 @@ function create_author_fields(author_number) {
         </div>`;
     }
 }
-
-
-function count_and_set_authors_number(form) {
-    const final_number_of_authors = form.getElementsByClassName('author').length;
-    form.querySelector('.final_number_of_authors').value = final_number_of_authors;
-    console.log(form.querySelector('.final_number_of_authors').value)
-}
-
-
-function hide_all_forms() {
-    let all_forms = document.getElementsByClassName('source_form');
-    const number_of_forms = all_forms.length;
-    for (let i = 0; i < number_of_forms; i++) {
-        all_forms[i].style.display = 'none';
-    }
-}
-

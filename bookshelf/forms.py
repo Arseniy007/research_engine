@@ -4,17 +4,21 @@ from .models import Book, Quote, Source, Endnote
 from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
 from utils.verification import check_link
 
-
+# Do I need this?
 class FieldClass:
-
-    common_fields = "common_fields"
     book_class = "book"
     article_class = "article"
     chapter_class = "chapter"
     website_class = "website"
 
 
-class BookForm(forms.Form):
+class CommonFields(forms.Form):
+    number_of_authors = forms.IntegerField(widget=forms.HiddenInput(attrs={
+        "name": "number_of_authors", 
+        "class": "final_number_of_authors"}))
+
+
+class BookForm(CommonFields):
 
     source_type = forms.CharField(initial="book", widget=forms.HiddenInput())
     number_of_authors = forms.IntegerField(widget=forms.HiddenInput(attrs={"name": "number_of_authors", 
@@ -24,10 +28,9 @@ class BookForm(forms.Form):
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
 
 
-class ArticleForm(forms.Form):
+class ArticleForm(CommonFields):
 
     source_type = forms.CharField(initial="article", widget=forms.HiddenInput())
-    number_of_authors = forms.IntegerField(initial=1, widget=forms.HiddenInput(attrs={"name": "number_of_authors"}))
 
     journal_title = forms.CharField()
     article_title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
@@ -38,10 +41,9 @@ class ArticleForm(forms.Form):
     link_to_journal = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
 
 
-class ChapterForm(forms.Form):
+class ChapterForm(CommonFields):
 
     source_type = forms.CharField(initial="chapter", widget=forms.HiddenInput())
-    number_of_authors = forms.IntegerField(initial=1, widget=forms.HiddenInput(attrs={"name": "number_of_authors"}))
 
     # chapter authors + book authors!
 
@@ -52,10 +54,9 @@ class ChapterForm(forms.Form):
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
 
 
-class WebsiteForm(forms.Form):
+class WebsiteForm(CommonFields):
 
     source_type = forms.CharField(initial="website", widget=forms.HiddenInput())
-    number_of_authors = forms.IntegerField(initial=1, widget=forms.HiddenInput(attrs={"name": "number_of_authors"}))
 
     # page authors!
 
@@ -80,10 +81,9 @@ class WebsiteForm(forms.Form):
 
 
 class UploadSourceForm(forms.Form):
-
     file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
 
-    
+
     def save_file(self, source: Source):
        """Save new source-file"""
        source.file = self.cleaned_data["file"]
@@ -91,7 +91,6 @@ class UploadSourceForm(forms.Form):
 
 
 class AddLinkForm(forms.Form):
-
     link = forms.CharField()
 
 

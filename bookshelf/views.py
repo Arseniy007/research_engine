@@ -17,12 +17,14 @@ def add_source(request, space_id):
     """Add new source info to the work space"""
     # TODO
 
+    # Get and validate author(s) fields
     author = clean_author_data(request.POST)
 
     if not author:
         # TODO
         pass
- 
+    
+    # Get future source type
     if "book" in request.POST:
         form = BookForm(request.POST)
     elif "article" in request.POST:
@@ -36,7 +38,7 @@ def add_source(request, space_id):
         pass
 
     if form.is_valid():
-
+        
         space = check_work_space(space_id, request.user)
         create_source(request.user, space, form, author)
 
