@@ -42,7 +42,7 @@ def format_one_author_mla(author: str) -> str:
     return f"{last_name}, {first_name} {second_name}"
     
 
-def quote_source_mla(source: Source) -> Callable:
+def quote_source_mla(source: Source) -> Callable | bool:
     """Get source type and call corresponding func"""
 
     source_type: type(object) = source.cast()

@@ -58,7 +58,7 @@ def format_one_author_apa(author: str) -> str:
     return f"{last_name}, {first_name[0]}. {second_name[0]}."
     
 
-def quote_source_apa(source: Source) -> Callable:
+def quote_source_apa(source: Source) -> Callable | bool:
     """Get source type and call corresponding func"""
 
     source_type: type(object) = source.cast()
