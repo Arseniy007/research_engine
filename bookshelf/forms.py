@@ -19,7 +19,6 @@ class CommonFields(forms.Form):
 
 
 class BookForm(CommonFields):
-
     source_type = forms.CharField(initial="book", widget=forms.HiddenInput())
     number_of_authors = forms.IntegerField(widget=forms.HiddenInput(attrs={"name": "number_of_authors", 
                                                                             "class": "final_number_of_authors"}))
@@ -29,7 +28,6 @@ class BookForm(CommonFields):
 
 
 class ArticleForm(CommonFields):
-
     source_type = forms.CharField(initial="article", widget=forms.HiddenInput())
 
     journal_title = forms.CharField()
@@ -42,7 +40,6 @@ class ArticleForm(CommonFields):
 
 
 class ChapterForm(CommonFields):
-
     source_type = forms.CharField(initial="chapter", widget=forms.HiddenInput())
 
     # chapter authors + book authors!

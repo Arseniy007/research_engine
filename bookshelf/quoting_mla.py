@@ -1,3 +1,4 @@
+from typing import Callable
 from .models import Source, Article, Book, Chapter, Website
 
 
@@ -20,7 +21,7 @@ def format_authors_mla(author_field: str) -> str:
     return f"{first_author}, et. al."
 
 
-def format_one_author_mla(author: str) ->str:
+def format_one_author_mla(author: str) -> str:
     """Format one author like this: 'Donn, John'"""
 
     names: list = author.split()
@@ -41,7 +42,7 @@ def format_one_author_mla(author: str) ->str:
     return f"{last_name}, {first_name} {second_name}"
     
 
-def quote_source_mla(source: Source):
+def quote_source_mla(source: Source) -> Callable:
     """Get source type and call corresponding func"""
 
     source_type: type(object) = source.cast()
@@ -58,14 +59,14 @@ def quote_source_mla(source: Source):
             return None
 
 
-def quote_book_mla(book: Book):
+def quote_book_mla(book: Book) -> str:
     """Create mla endnote for given book"""
 
     author = format_authors_mla(book.author)
     return f"{author} {book.title}. {'PH'}, {book.year}."
 
 
-def quote_article_mla(article: Article):
+def quote_article_mla(article: Article) -> str:
     """Create mla endnote for given article"""
 
     author = format_authors_mla(article.author)
@@ -73,13 +74,13 @@ def quote_article_mla(article: Article):
                 {article.year}, pp. {article.year}."""
 
 
-def quote_chapter_mla(chapter: Chapter):
+def quote_chapter_mla(chapter: Chapter) -> str:
     """Create mla endnote for given chapter"""
 
     return "Chapter mla"
 
 
-def quote_website_mla(website: Website):
+def quote_website_mla(website: Website) -> str:
     """Create mla endnote for given website"""
 
     return "Website mla"

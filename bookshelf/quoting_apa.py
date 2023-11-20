@@ -1,3 +1,4 @@
+from typing import Callable
 from .models import Source, Article, Book, Chapter, Website
 
 
@@ -9,15 +10,20 @@ def format_authors_apa(author_field: str) -> str:
     first_author = format_one_author_apa(authors[0])
 
     if number_of_authors == 1:
-        # Return Donn, J.
+        # Return "Donn, J."
         return first_author
     
     second_author = format_one_author_apa(authors[1])
     if number_of_authors == 2:
-        # Return Donn, J. & Tolkin, J.R.
+        # Return "Donn, J. & Tolkin, J.R."
         return f"{first_author} & {second_author}"
     
-    # If there are more thean 2 authors
+    if number_of_authors == 3:
+        # Return "Donn, J., Tolkin, J.R. & Rowling J.K."
+        third_author = format_authors_apa(authors[2])
+        return f"{first_author}, {second_author} & {third_author}"
+
+    # If there are more thean 3 authors
     other_authors: list = []
     for i in range(2, number_of_authors):
         other_author = format_one_author_apa(authors[i])
@@ -27,8 +33,8 @@ def format_authors_apa(author_field: str) -> str:
     last_author = other_authors.pop(-1)
 
     # Return "Donn J., Tolkien J.R., & Rowling J. K."
-    other_authors = ", ".join(other_authors)
-    return f"{other_authors}, & {last_author}"
+    other_authors = ", ".join(sorted(other_authors))
+    return f"{first_author}, {second_author}, {other_authors} & {last_author}"
 
 
 def format_one_author_apa(author: str) -> str:
@@ -52,7 +58,7 @@ def format_one_author_apa(author: str) -> str:
     return f"{last_name}, {first_name[0]}. {second_name[0]}."
     
 
-def quote_source_apa(source: Source):
+def quote_source_apa(source: Source) -> Callable:
     """Get source type and call corresponding func"""
 
     source_type: type(object) = source.cast()
@@ -69,27 +75,27 @@ def quote_source_apa(source: Source):
             return None
 
 
-def quote_book_apa(book: Book):
+def quote_book_apa(book: Book) -> str:
     """Create apa endnote for given book"""
 
     author = format_authors_apa(book.author)
     return f"{author} ({book.year}). {book.title}. {book.publishing_house}."
 
 
-def quote_article_apa(article: Article):
+def quote_article_apa(article: Article) -> str:
     "Create apa endnote for given article"
 
     author = format_authors_apa(article.author)
     return f"""{author} ({article.year}). "{article.title}" {article.journal_title}, {article.volume}({article.issue}), {article.pages}."""
 
 
-def quote_chapter_apa(chapter: Chapter):
+def quote_chapter_apa(chapter: Chapter) -> str:
     """Create apa endnote for given chapter"""
     # TODO
     return "Chapter apa"
 
 
-def quote_website_apa(website: Website):
+def quote_website_apa(website: Website) -> str:
     """Create apa endnote for given website"""
     # TODO
     return "Website apa"
