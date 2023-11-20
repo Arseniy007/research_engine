@@ -1,4 +1,4 @@
-from .models import Source, Book, Article, Chapter, Website
+from .models import Source, Article, Book, Chapter, Website
 
 
 def format_author_mla(author_field: str) -> str:
