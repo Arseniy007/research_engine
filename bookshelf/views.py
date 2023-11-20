@@ -16,8 +16,12 @@ from utils.verification import check_source, check_work_space, check_quote, chec
 def add_source(request, space_id):
     """Add new source info to the work space"""
     # TODO
-    
+
     author = clean_author_data(request.POST)
+
+    if not author:
+        # TODO
+        pass
  
     if "book" in request.POST:
         form = BookForm(request.POST)

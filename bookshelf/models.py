@@ -19,7 +19,7 @@ class Source(models.Model):
     An abstract base class for all possible sources: books, articles, chapters, websites etc.
     Using _cast_ method one can access child class of any source-objects
     """
-
+    real_type = models.ForeignKey(ContentType, editable=False, on_delete=models.CASCADE)
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="sources")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sources")
     title = models.CharField(max_length=100)
@@ -27,8 +27,7 @@ class Source(models.Model):
     year = models.CharField(max_length=5, blank=True)
     file = models.FileField(upload_to=saving_path, blank=True)
     link = models.CharField(max_length=40, blank=True)
-    real_type = models.ForeignKey(ContentType, editable=False, on_delete=models.CASCADE)
-
+    
 
     def __str__(self):
         '''Display book title'''
@@ -68,15 +67,13 @@ class Source(models.Model):
     
 
 class Book(Source):
-
     publishing_house = models.CharField(max_length=20)
 
 
 class Article(Source):
-
     journal_title = models.CharField(max_length=50)
-    volume = models.IntegerField()
-    issue = models.IntegerField()
+    volume = models.CharField(max_length=10)
+    issue = models.CharField(max_length=10)
     pages = models.CharField(max_length=20)
     link_to_journal = models.CharField(max_length=40, blank=True)
 
@@ -85,7 +82,7 @@ class Chapter(Source):
 
     chapter_title = models.CharField(max_length=50)
     chapter_author = models.CharField(max_length=70)
-    edition = models.IntegerField(blank=True)
+    edition = models.CharField(max_length=10)
     pages = models.CharField(max_length=20)
     
     # edited vs normal book
@@ -99,14 +96,12 @@ class Website(Source):
 
 
 class Endnote(models.Model):
-
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
     apa = models.CharField(max_length=50)
     mla = models.CharField(max_length=50)
 
 
 class Quote(models.Model):
-
     source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="quotes")
     page = models.IntegerField()
     text = models.TextField()

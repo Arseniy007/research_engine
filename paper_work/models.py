@@ -9,7 +9,6 @@ from work_space.models import WorkSpace
 
 
 class Paper(models.Model):
-
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="papers")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50, unique=True)

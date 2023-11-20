@@ -16,7 +16,6 @@ def saving_path(instance, filename):
 
 
 class PaperVersion(models.Model):
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     paper = models.ForeignKey("paper_work.Paper", on_delete=models.CASCADE, related_name="versions")
     saving_time = models.DateTimeField(auto_now_add=True)

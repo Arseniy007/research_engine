@@ -8,14 +8,13 @@ from user_management.models import User
 from work_space.models import WorkSpace
 
 
-def clean_author_data(data):
+def clean_author_data(data) -> str | bool:
     """Get, clean and validate all author-related form-field"""
     try:
         number_of_authors = int(data.get("number_of_authors"))
     except ValueError:
-        # TODO
-        pass
-
+        return False
+    
     authors: list = []
     for i in range(number_of_authors):
         last_name = data.get(f"last_name_{i}")
@@ -25,8 +24,8 @@ def clean_author_data(data):
         if not last_name:
             # TODO
             pass
+
         last_name = clean_text_data(last_name)
-        
         if not first_name:
             author = last_name
         else:
@@ -52,7 +51,7 @@ def save_endnotes(source: Source):
 
 
 def create_source(user: User, space: WorkSpace, form, author):
-
+    """Get future source type and call right func"""
     match form:
         case BookForm():
             return create_book_obj(user, space, form, author)
@@ -65,6 +64,7 @@ def create_source(user: User, space: WorkSpace, form, author):
 
 
 def create_book_obj(user: User, space: WorkSpace, form: BookForm, author):
+    """Validate Bookform and create Book obj"""
     
     data: dict = {}
 
@@ -85,6 +85,7 @@ def create_book_obj(user: User, space: WorkSpace, form: BookForm, author):
 
 
 def create_article_obj(user: User, space: WorkSpace, form: ArticleForm, author):
+    """Validate Articleform and create Article obj"""
     
     data: dict = {}
 
@@ -104,6 +105,7 @@ def create_article_obj(user: User, space: WorkSpace, form: ArticleForm, author):
 
 
 def create_chapter_obj(user: User, space: WorkSpace, form, author):
+    """Validate Chapterform and create Chapter obj"""
 
     data: dict = {}
 
@@ -127,6 +129,7 @@ def create_chapter_obj(user: User, space: WorkSpace, form, author):
 
 
 def create_website_obj(user: User, space: WorkSpace, form, author):
+    """Validate Websiteform and create Website obj"""
 
     data: dict = {}
 
