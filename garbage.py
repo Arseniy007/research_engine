@@ -1803,6 +1803,18 @@ function hide_all_forms() {
     }
 }
 
+   # Interate through every aurhor
+    for one in authors:
+        name = one.split()
+        last_name = name[0]
+        # Get initials
+        initials = ""
+        # Iterate through first and second names
+        for i in range(1, len(name)):
+            initials += f"{name[i][0]}."
+            
+        authors_name.append(f"{last_name} {initials}")
+    return ", ".join(authors_name)
 
 
 """

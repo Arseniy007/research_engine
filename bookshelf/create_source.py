@@ -73,7 +73,9 @@ def create_book_obj(user: User, space: WorkSpace, form: BookForm, author):
     data: dict = {}
     for field in form.fields:
         info = form.cleaned_data[field]
-        data[field] = clean_text_data(info)
+        if type(info) == str:
+            info = clean_text_data(info)
+        data[field] = info
 
     new_book = Book(work_space=space, user=user, title=data["title"], author=author, year=data["year"], 
                     publishing_house=data["publishing_house"])
@@ -87,7 +89,9 @@ def create_article_obj(user: User, space: WorkSpace, form: ArticleForm, author):
     data: dict = {}
     for field in form.fields:
         info = form.cleaned_data[field]
-        data[field] = clean_text_data(info)
+        if type(info) == str:
+            info = clean_text_data(info)
+        data[field] = info
 
     new_article = Article(work_space=space, user=user, title=data["article_title"], author=author, year=data["year"], 
                             journal_title=data["journal_title"], volume=data["volume"], 
@@ -107,7 +111,9 @@ def create_chapter_obj(user: User, space: WorkSpace, form: ChapterForm, author):
 
     for field in form.fields:
         info = form.cleaned_data[field]
-        data[field] = clean_text_data(info)
+        if type(info) == str:
+            info = clean_text_data(info)
+        data[field] = info
     
     new_chapter = Chapter(work_space=space, user=user, title=data["book_title"], author=data["book_author"], 
                             chapter_title=data["chapter_title"], chapter_author=data["chapter_author"],

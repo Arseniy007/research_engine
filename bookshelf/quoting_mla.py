@@ -16,7 +16,7 @@ def format_authors_mla(author_field: str) -> str:
         second_author = format_one_author_mla(authors[1])
         return f"{first_author} and {second_author}"
     
-    # If there is more than 2 authors:
+    # If there are more then 2 authors:
     return f"{first_author}, et. al."
 
 
@@ -62,14 +62,14 @@ def quote_book_mla(book: Book):
     """Create mla endnote for given book"""
 
     author = format_authors_mla(book.author)
-    return f"{author}. {book.title}. {'PH'}, {book.year}."
+    return f"{author} {book.title}. {'PH'}, {book.year}."
 
 
 def quote_article_mla(article: Article):
     """Create mla endnote for given article"""
 
     author = format_authors_mla(article.author)
-    return f"""{author}. "{article.title}" {article.journal_title}, vol. {article.volume}, no. {article.issue}, 
+    return f"""{author} "{article.title}" {article.journal_title}, vol. {article.volume}, no. {article.issue}, 
                 {article.year}, pp. {article.year}."""
 
 

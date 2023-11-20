@@ -4,21 +4,31 @@ from .models import Source, Article, Book, Chapter, Website
 def format_authors_apa(author_field: str) -> str:
     """Format author(s) like this: 'Donn J., Marx K.'"""
 
-    authors = author_field.split(", ")
-    authors_name = []
+    authors: list = author_field.split(", ")
+    number_of_authors = len(authors)
+    first_author = format_one_author_apa(authors[0])
 
-    # Interate through every aurhor
-    for one in authors:
-        name = one.split()
-        last_name = name[0]
-        # Get initials
-        initials = ""
-        # Iterate through first and second names
-        for i in range(1, len(name)):
-            initials += f"{name[i][0]}."
-            
-        authors_name.append(f"{last_name} {initials}")
-    return ", ".join(authors_name)
+    if number_of_authors == 1:
+        # Return Donn, J.
+        return first_author
+    
+    second_author = format_one_author_apa(authors[1])
+    if number_of_authors == 2:
+        # Return Donn, J. & Tolkin, J.R.
+        return f"{first_author} & {second_author}"
+    
+    # If there are more thean 2 authors
+    other_authors: list = []
+    for i in range(2, number_of_authors):
+        other_author = format_one_author_apa(authors[i])
+        other_authors.append(other_author)
+
+    # Get last author and delete it from other_authors array
+    last_author = other_authors.pop(-1)
+
+    # Return "Donn J., Tolkien J.R., & Rowling J. K."
+    other_authors = ", ".join(other_authors)
+    return f"{other_authors}, & {last_author}"
 
 
 def format_one_author_apa(author: str) -> str:
@@ -39,7 +49,7 @@ def format_one_author_apa(author: str) -> str:
     
     # Return "Tolkin J.R."
     second_name = names[2]
-    return f"{last_name} {first_name[0]}. {second_name[0]}."
+    return f"{last_name}, {first_name[0]}. {second_name[0]}."
     
 
 def quote_source_apa(source: Source):
