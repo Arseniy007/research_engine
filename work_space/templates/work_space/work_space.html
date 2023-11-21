@@ -78,27 +78,10 @@
 
 
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter_form" class="source_form">
+        <div id="chapter_author_div"></div>
         {% csrf_token %}
-        <div class="author_div"></div>
-        <div id="first_author">
-            <label for="fist_author_last_name">Author Last Name:</label>
-            <input id="first_author_last_name" type="text">
-            <label for="fist_author_first_name">Author First Name:</label>
-            <input id="first_author_first_name" type="text">
-            <label for="fist_author_second_name">Author Second Name:</label>
-            <input id="first_author_second_name" type="text">
-            <button id="first_button" type="button">Add Author(s)</button>
-        </div>
-        <div id="second_author">
-            <label for="second_author_last_name">Author Last Name:</label>
-            <input id="second_author_last_name" type="text">
-            <label for="second_author_first_name">Author First Name:</label>
-            <input id="second_author_first_name" type="text">
-            <label for="second_author_second_name">Author Second Name:</label>
-            <input id="second_author_second_name" type="text">
-            <button id="second_button" type="button">Add Author(s)</button>
-        </div>
         {{ chapter_form.as_p }}
+        <div class="author_div"></div>
         <button value="chapter" name="chapter" type="submit">Add Chapter</button>
     </form><br><br><br>
 

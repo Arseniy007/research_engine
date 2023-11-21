@@ -41,12 +41,14 @@ class ArticleForm(CommonFields):
 class ChapterForm(CommonFields):
     source_type = forms.CharField(initial="chapter", widget=forms.HiddenInput())
 
-    # chapter authors + book authors!
+    number_of_chapter_authors = forms.IntegerField(widget=forms.HiddenInput(attrs={
+        "name": "number_of_chapter_authors", 
+        "class": "final_number_of_chapter_authors"}))
 
     chapter_title = forms.CharField()
     book_title = forms.CharField()
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
-    edition = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.chapter_class}))
+    edition = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
 
 

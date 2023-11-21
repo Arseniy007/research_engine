@@ -33,10 +33,16 @@ def add_source(request, space_id):
     else:
         # TODO
         return JsonResponse({"message": "error"})
+    
+    print("test")
 
     if form.is_valid():
         space = check_work_space(space_id, request.user)
-        create_source(request.user, space, form, author)
+        if type(form) == ChapterForm:
+            chapter_author = clean_author_data(request.POST, chapter_author=True)
+            create_source(request.user, space, form, author, chapter_author=chapter_author)
+        else:
+            create_source(request.user, space, form, author)
 
         link = reverse("work_space:space", args=(space.pk,))
         return redirect(link)

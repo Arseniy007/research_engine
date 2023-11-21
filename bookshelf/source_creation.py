@@ -10,19 +10,27 @@ def clean_text_data(data: str):
     return data.strip(""".,'" """).capitalize()
 
 
-def clean_author_data(data) -> str | bool:
+def clean_author_data(data, chapter_author=False) -> str | bool:
     """Get, clean and validate all author-related form-field"""
     try:
         # Get number of authors
-        number_of_authors = int(data.get("number_of_authors"))
+        if chapter_author:
+            number_of_authors = int(data.get("number_of_chapter_authors"))
+        else:
+            number_of_authors = int(data.get("number_of_authors"))
     except ValueError:
         return False
     
     authors: list = []
     for i in range(number_of_authors):
-        last_name = data.get(f"last_name_{i}")
-        first_name = data.get(f"first_name_{i}")
-        second_name = data.get(f"second_name_{i}")
+        if chapter_author:
+            last_name = data.get(f"chapter_last_name_{i}")
+            first_name = data.get(f"chapter_first_name_{i}")
+            second_name = data.get(f"chapter_second_name_{i}")
+        else:
+            last_name = data.get(f"last_name_{i}")
+            first_name = data.get(f"first_name_{i}")
+            second_name = data.get(f"second_name_{i}")
 
         # Return if last_name field was somehow left blank
         if not last_name:
@@ -53,7 +61,7 @@ def save_endnotes(source: Source):
     return endnotes.save()
 
 
-def create_source(user: User, space: WorkSpace, form, author):
+def create_source(user: User, space: WorkSpace, form, author, chapter_author=None):
     """Get future source type and call right func"""
     match form:
         case BookForm():
@@ -61,7 +69,7 @@ def create_source(user: User, space: WorkSpace, form, author):
         case ArticleForm():
             return create_article_obj(user, space, form, author)
         case ChapterForm():
-            return create_chapter_obj(user, space, form, author)
+            return create_chapter_obj(user, space, form, author, chapter_author)
         case WebsiteForm():
             return create_website_obj(user, space, form, author)
 
