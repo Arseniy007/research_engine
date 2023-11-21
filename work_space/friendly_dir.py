@@ -80,8 +80,8 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
             book_counter = 1
             for i in range(len(sources)):
                 # Write sources arrays into both files
-                apa_file.write(f"{book_counter}. {sources_apa[i]}\n")
-                mla_file.write(f"{book_counter}. {sources_mla[i]}\n")
+                apa_file.write(f"{book_counter}. {sources_apa[i]}\n\n")
+                mla_file.write(f"{book_counter}. {sources_mla[i]}\n\n")
                 book_counter += 1
 
         # Get array with only books which files were uploaded

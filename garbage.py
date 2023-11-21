@@ -1816,5 +1816,7 @@ function hide_all_forms() {
         authors_name.append(f"{last_name} {initials}")
     return ", ".join(authors_name)
 
+    
+    
 
 """

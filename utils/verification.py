@@ -79,7 +79,6 @@ def check_endnote(endnote_id, user):
 
 def get_endnotes(source: Source):
     """Get endnote for given source"""
-
     try:
         return Endnote.objects.get(source=source)
     except ObjectDoesNotExist:

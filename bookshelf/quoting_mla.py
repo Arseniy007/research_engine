@@ -4,7 +4,6 @@ from .models import Source, Article, Book, Chapter, Website
 
 def format_authors_mla(author_field: str) -> str:
     """Format author(s) like this: 'Donn, John and Marx, Karl'"""
-    
     authors: list = author_field.split(", ")
     number_of_authors = len(authors)
     first_author = format_one_author_mla(authors[0])
@@ -23,7 +22,6 @@ def format_authors_mla(author_field: str) -> str:
 
 def format_one_author_mla(author: str) -> str:
     """Format one author like this: 'Donn, John'"""
-
     names: list = author.split()
     last_name = names[0]
     names_length = len(names)
@@ -31,7 +29,7 @@ def format_one_author_mla(author: str) -> str:
     # Return "Homer"
     if names_length == 1:
         return last_name
-    
+
     # Return "Donn, John"
     first_name = names[1]
     if names_length == 2:
@@ -61,26 +59,31 @@ def quote_source_mla(source: Source) -> Callable | bool:
 
 def quote_book_mla(book: Book) -> str:
     """Create mla endnote for given book"""
-
     author = format_authors_mla(book.author)
     return f"{author} {book.title}. {book.publishing_house}, {book.year}."
 
 
 def quote_article_mla(article: Article) -> str:
     """Create mla endnote for given article"""
-
     author = format_authors_mla(article.author)
-    return f"""{author} "{article.title}" {article.journal_title}, vol. {article.volume}, no. {article.issue}, 
-                {article.year}, pp. {article.year}."""
+    result: str = (
+        f'{author} "{article.title}" {article.journal_title}, vol. {article.volume}, '
+        f'no. {article.issue}, {article.year}, pp. {article.year}.'
+    )
+    return result
 
 
 def quote_chapter_mla(chapter: Chapter) -> str:
     """Create mla endnote for given chapter"""
-
-    return "Chapter mla"
+    book_author = format_authors_mla(chapter.book_author)
+    chapter_author = format_authors_mla(chapter.author)
+    result: str = (
+        f'{chapter_author}. "{chapter.title}." {chapter.book_title}, edited by {book_author}. '
+        f'{chapter.publishing_house}, {chapter.year}, pp. {chapter.pages}.'
+    )
+    return result
 
 
 def quote_website_mla(website: Website) -> str:
     """Create mla endnote for given website"""
-
     return "Website mla"

@@ -126,9 +126,9 @@ def create_chapter_obj(user: User, space: WorkSpace, form: ChapterForm, book_aut
         data[field] = info
     
     # Create and save new Chapter obj
-    new_chapter = Chapter(work_space=space, user=user, title=data["book_title"], author=book_author, 
-                            chapter_title=data["chapter_title"], chapter_author=chapter_author,
-                            edition = data["edition"], pages=data["pages"])
+    new_chapter = Chapter(work_space=space, user=user, author=chapter_author, 
+                            title=data["chapter_title"], book_title=data["book_title"], book_author=book_author,
+                            publishing_house = data["publishing_house"], year=data["year"], edition = data["edition"], pages=data["pages"])
     new_chapter.save()
     # Create new Endnote obj with Foreign key to this Chapter obj
     return save_endnotes(new_chapter)

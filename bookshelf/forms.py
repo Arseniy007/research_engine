@@ -19,8 +19,6 @@ class CommonFields(forms.Form):
 
 class BookForm(CommonFields):
     source_type = forms.CharField(initial="book", widget=forms.HiddenInput())
-    number_of_authors = forms.IntegerField(widget=forms.HiddenInput(attrs={"name": "number_of_authors", 
-                                                                            "class": "final_number_of_authors"}))
     title = forms.CharField()
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
@@ -28,7 +26,6 @@ class BookForm(CommonFields):
 
 class ArticleForm(CommonFields):
     source_type = forms.CharField(initial="article", widget=forms.HiddenInput())
-
     journal_title = forms.CharField()
     article_title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
     volume = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
@@ -39,34 +36,26 @@ class ArticleForm(CommonFields):
 
 
 class ChapterForm(CommonFields):
-    source_type = forms.CharField(initial="chapter", widget=forms.HiddenInput())
-
     number_of_chapter_authors = forms.IntegerField(widget=forms.HiddenInput(attrs={
         "name": "number_of_chapter_authors", 
         "class": "final_number_of_chapter_authors"}))
-
+    source_type = forms.CharField(initial="chapter", widget=forms.HiddenInput())
     chapter_title = forms.CharField()
     book_title = forms.CharField()
+    publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     edition = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
 
 
 class WebsiteForm(CommonFields):
-
     source_type = forms.CharField(initial="website", widget=forms.HiddenInput())
-
-    # page authors!
-
     website_title = forms.CharField()
     page_title = forms.CharField()
     page_url = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.website_class}))
     date = forms.DateField(widget=forms.DateInput(attrs={"class": FieldClass.website_class}))
 
-
-
-        
-
+    # page authors!
 
 
 

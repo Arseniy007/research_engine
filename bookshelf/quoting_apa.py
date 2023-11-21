@@ -4,7 +4,6 @@ from .models import Source, Article, Book, Chapter, Website
 
 def format_authors_apa(author_field: str) -> str:
     """Format author(s) like this: 'Donn J., Marx K.'"""
-
     authors: list = author_field.split(", ")
     number_of_authors = len(authors)
     first_author = format_one_author_apa(authors[0])
@@ -39,7 +38,6 @@ def format_authors_apa(author_field: str) -> str:
 
 def format_one_author_apa(author: str) -> str:
     """Format one author like this: 'Donn J.'"""
-
     names: list = author.split()
     last_name = names[0]
     names_length = len(names)
@@ -77,22 +75,30 @@ def quote_source_apa(source: Source) -> Callable | bool:
 
 def quote_book_apa(book: Book) -> str:
     """Create apa endnote for given book"""
-
     author = format_authors_apa(book.author)
     return f"{author} ({book.year}). {book.title}. {book.publishing_house}."
 
 
 def quote_article_apa(article: Article) -> str:
     "Create apa endnote for given article"
-
     author = format_authors_apa(article.author)
-    return f"""{author} ({article.year}). "{article.title}" {article.journal_title}, {article.volume}({article.issue}), {article.pages}."""
+    result: str = (
+        f'{author} ({article.year}). "{article.title}" {article.journal_title}, '
+        f'{article.volume}({article.issue}), {article.pages}.'
+    )
+    return result
 
 
 def quote_chapter_apa(chapter: Chapter) -> str:
     """Create apa endnote for given chapter"""
-    # TODO
-    return "Chapter apa"
+    book_author = format_authors_apa(chapter.book_author)
+    chapter_author = format_authors_apa(chapter.author)
+    result: str = (
+        f"{chapter_author} ({chapter.year}). {chapter.title}. "
+        f"In {book_author} (Eds.), {chapter.book_title} "
+        f"({chapter.edition} ed., pp. {chapter.pages}). {chapter.publishing_house}."
+    )
+    return result
 
 
 def quote_website_apa(website: Website) -> str:
