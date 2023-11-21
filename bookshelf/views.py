@@ -13,13 +13,6 @@ from utils.verification import check_source, check_work_space, check_quote, chec
 def add_source(request, space_id):
     """Add new source info to the work space"""
 
-    # Get and validate author(s) fields
-    author = clean_author_data(request.POST)
-
-    if not author:
-        # TODO
-        return JsonResponse({"message": "error"})
-    
     # Get future source type
     if "book" in request.POST:
         form = BookForm(request.POST)
@@ -33,10 +26,15 @@ def add_source(request, space_id):
         # TODO
         return JsonResponse({"message": "error"})
     
-    print("test")
-
     if form.is_valid():
         space = check_work_space(space_id, request.user)
+
+        # Get and validate author(s) fields
+        author = clean_author_data(request.POST)
+        if not author and type(form) != WebsiteForm:
+            # TODO
+            return JsonResponse({"message": "error"})
+
         if type(form) == ChapterForm:
             chapter_author = clean_author_data(request.POST, chapter_author=True)
             if not chapter_author:
@@ -69,7 +67,6 @@ def delete_source(request, source_id):
 
     # Delete source from the db
     source.delete()
-
     return JsonResponse({"message": "ok"})
 
 
