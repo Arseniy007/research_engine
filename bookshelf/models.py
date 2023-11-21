@@ -85,10 +85,9 @@ class Chapter(Source):
     
 
 class Website(Source):
-
     website_title = models.CharField(max_length=50)
     page_url = models.CharField(max_length=50)
-    date = models.DateField()
+    date = models.CharField(max_length=20)
 
 
 class Endnote(models.Model):

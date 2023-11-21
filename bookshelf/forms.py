@@ -50,26 +50,14 @@ class ChapterForm(CommonFields):
 
 class WebsiteForm(CommonFields):
     source_type = forms.CharField(initial="website", widget=forms.HiddenInput())
-    website_title = forms.CharField()
     page_title = forms.CharField()
+    website_title = forms.CharField()
     page_url = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.website_class}))
-    date = forms.DateField(widget=forms.DateInput(attrs={"class": FieldClass.website_class}))
-
-    # page authors!
-
-
-
-
-
-
-
-
-
+    date = forms.DateField(widget=forms.DateInput(attrs={"type": "date", "class": FieldClass.website_class}))
 
 
 class UploadSourceForm(forms.Form):
     file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
-
 
     def save_file(self, source: Source):
        """Save new source-file"""
@@ -79,7 +67,6 @@ class UploadSourceForm(forms.Form):
 
 class AddLinkForm(forms.Form):
     link = forms.CharField()
-
 
     def save_link(self, source: Source):
         """Checks and saves link for given source"""

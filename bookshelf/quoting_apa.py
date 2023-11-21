@@ -1,4 +1,5 @@
 from typing import Callable
+from .dates import format_date
 from .models import Source, Article, Book, Chapter, Website
 
 
@@ -54,7 +55,7 @@ def format_one_author_apa(author: str) -> str:
     # Return "Tolkin J.R."
     second_name = names[2]
     return f"{last_name}, {first_name[0]}. {second_name[0]}."
-    
+
 
 def quote_source_apa(source: Source) -> Callable | bool:
     """Get source type and call corresponding func"""
@@ -104,4 +105,14 @@ def quote_chapter_apa(chapter: Chapter) -> str:
 def quote_website_apa(website: Website) -> str:
     """Create apa endnote for given website"""
     # TODO
-    return "Website apa"
+
+    if website.author == "No author":
+        pass
+    else:
+        author = format_authors_apa(website.author)
+    date = format_date(website.date, "apa")
+
+    # 6. Del, c. I. (2020, June 29). How not to kill your houseplants, according to botanists.
+    # Apartment therapy. Www.apartmenttherapy.com/houseplant-tips-botanists-36710191
+
+    return f"{author} ({date}). {website.title}. {website.website_title}. {website.page_url}"

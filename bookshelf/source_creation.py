@@ -1,8 +1,10 @@
+from .dates import validate_date
 from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm
 from .models import Article, Book, Chapter, Source, Website, Endnote
 from .quoting_apa import quote_source_apa
 from .quoting_mla import quote_source_mla
 from user_management.models import User
+from utils.verification import check_link
 from work_space.models import WorkSpace
 
 
@@ -145,10 +147,18 @@ def create_website_obj(user: User, space: WorkSpace, form: WebsiteForm, author: 
             info = clean_text_data(info)
         data[field] = info
 
+    if not author:
+        author = "No author"
+
+    # Checks date and if a given page url is indeed a link and gets you to a real webpage
+    page_url, date = data["page_url"], data["date"]
+    if not check_link(page_url) or not validate_date(date):
+        # TODO
+        pass
+
     # Create and save new Website obj
-    new_website = Website(work_space=space, user=user, title=data["page_title"], author = data["page_author"], 
-                            website_title=data["website_title"], page_url=data["page_url"], date=data["date"])
-    
+    new_website = Website(work_space=space, user=user, title=data["page_title"], author=author, 
+                            website_title=data["website_title"], page_url=page_url, date=date)
     new_website.save()
     # Create new Endnote obj with Foreign key to this Website obj
     return save_endnotes(new_website)

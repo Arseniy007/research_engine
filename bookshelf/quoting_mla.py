@@ -1,4 +1,5 @@
 from typing import Callable
+from .dates import format_date
 from .models import Source, Article, Book, Chapter, Website
 
 
@@ -86,4 +87,15 @@ def quote_chapter_mla(chapter: Chapter) -> str:
 
 def quote_website_mla(website: Website) -> str:
     """Create mla endnote for given website"""
-    return "Website mla"
+    # TODO
+    
+    if website.author == "No author":
+        pass
+    else:
+        author = format_authors_mla(website.author)
+    date = format_date(website.date, "mla")
+
+     # 6. Del, c. I. (2020, June 29). How not to kill your houseplants, according to botanists.
+    # Apartment therapy. Www.apartmenttherapy.com/houseplant-tips-botanists-36710191
+
+    return f'{author}. "{website.title}" {website.website_title}, {date}, {website.page_url}.'

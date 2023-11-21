@@ -1816,7 +1816,20 @@ function hide_all_forms() {
         authors_name.append(f"{last_name} {initials}")
     return ", ".join(authors_name)
 
-    
+    def format_date_apa(date: str):
+
+    MONTHS = {"01": "January", "02": "February", "03": "March", "04": "April", 
+              "05": "May", "06": "June", "07": "July", "08": "August", 
+              "09": "September", "10": "October", "11": "November", "12": "December"}
+    year, month, day = date.split("-")
+
+    # Turn month from num to word
+    month = MONTHS[month]
+
+    # Delete '0' from day
+    if day[0] == "0":
+        day = day[-1]
+    return f"{year}, {month} {day}"
     
 
 """
