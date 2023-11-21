@@ -12,7 +12,6 @@ from utils.verification import check_source, check_work_space, check_quote, chec
 @login_required(redirect_field_name=None)
 def add_source(request, space_id):
     """Add new source info to the work space"""
-    # TODO
 
     # Get and validate author(s) fields
     author = clean_author_data(request.POST)
@@ -40,6 +39,9 @@ def add_source(request, space_id):
         space = check_work_space(space_id, request.user)
         if type(form) == ChapterForm:
             chapter_author = clean_author_data(request.POST, chapter_author=True)
+            if not chapter_author:
+                # TODO
+                return JsonResponse({"message": "error"})
             create_source(request.user, space, form, author, chapter_author=chapter_author)
         else:
             create_source(request.user, space, form, author)

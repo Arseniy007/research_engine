@@ -23,7 +23,6 @@ function show_and_load_form(form_id) {
     // Hide all forms and show the one that user clicked on
     hide_all_forms();
     let form = document.querySelector(`#${form_id}`);
-    console.log(form_id);
     form.style.display = 'block';
 
     // Set number of authors to 1
@@ -55,7 +54,6 @@ function load_new_fields (author_div, author_number) {
         })
     }
     author_number++;
-    
     add_author_button.addEventListener('click', function() {
         const new_fields = document.createElement('div');
         new_fields.innerHTML = create_author_fields(author_number);
@@ -66,11 +64,8 @@ function load_new_fields (author_div, author_number) {
 
 
 function load_new_chapter_fields(chapter_author_div, author_number) {
-
     const add_chapter_author_button = chapter_author_div.querySelector(`#add_chapter_author_button_${author_number}`);
     const delete_chapter_author_button = chapter_author_div.querySelector(`#delete_chapter_author_button_${author_number}`);
-
-    console.log(add_chapter_author_button)
 
     if (delete_chapter_author_button) {
         delete_chapter_author_button.addEventListener('click', function() {
@@ -79,7 +74,6 @@ function load_new_chapter_fields(chapter_author_div, author_number) {
         })
     }
     author_number++;
-
     add_chapter_author_button.addEventListener('click', function() {
         const new_chapter_fields = document.createElement('div');
         new_chapter_fields.innerHTML = create_chapter_author_fields(author_number);
