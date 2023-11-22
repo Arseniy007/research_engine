@@ -104,17 +104,9 @@ def quote_chapter_apa(chapter: Chapter) -> str:
 
 def quote_webpage_apa(webpage: Webpage) -> str:
     """Create apa endnote for given webpage"""
-    
     date = format_date(webpage.date, "apa")
-
     if webpage.author == "No author":
-        return f""
+        return f"{webpage.title}. ({date}). {webpage.website_title}. {webpage.page_url}"
     
     author = format_authors_apa(webpage.author)
     return f"{author} ({date}). {webpage.title}. {webpage.website_title}. {webpage.page_url}"
-    
-
-    # 6. Del, c. I. (2020, June 29). How not to kill your houseplants, according to botanists.
-    # Apartment therapy. Www.apartmenttherapy.com/houseplant-tips-botanists-36710191
-
-   

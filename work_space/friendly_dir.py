@@ -5,12 +5,11 @@ from work_space.models import WorkSpace
 
 # Much to be done!
 
-def create_friendly_dir(work_space: WorkSpace) -> str:
+def create_friendly_dir(work_space: WorkSpace) -> str | bool:
     """Creates user-friendly directory for future zip-archiving and downloading"""
 
-    # Get all books and papers in given work space
+    # Get all sources and papers in given work space
     papers, sources = work_space.papers.all(), work_space.sources.all()
-
     if not papers and not sources:
         # In case work space is empty
         return False
@@ -59,14 +58,11 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
                     shutil.copyfile(original_file, destination)
                     
     if sources:
-        # Sources!!!!
-        # Variables!!!!
-
         # Create new "books" dir
         books_root = os.path.join(root_path, "books")
         os.makedirs(books_root, exist_ok=True)
 
-        # Get, quote and sort alphabetically all books
+        # Get, quote and sort alphabetically all sources
         sources_apa = sorted([get_endnotes(source).apa for source in sources])
         sources_mla = sorted([get_endnotes(source).mla for source in sources])
 
@@ -76,45 +72,42 @@ def create_friendly_dir(work_space: WorkSpace) -> str:
 
         # Create two new .txt files
         with open(apa_file_path, "w") as apa_file, open(mla_file_path, "w") as mla_file:
-
-            book_counter = 1
+            source_counter = 1
             for i in range(len(sources)):
                 # Write sources arrays into both files
-                apa_file.write(f"{book_counter}. {sources_apa[i]}\n\n")
-                mla_file.write(f"{book_counter}. {sources_mla[i]}\n\n")
-                book_counter += 1
+                apa_file.write(f"{source_counter}. {sources_apa[i]}\n\n")
+                mla_file.write(f"{source_counter}. {sources_mla[i]}\n\n")
+                source_counter += 1
 
-        # Get array with only books which files were uploaded
+        # Get array with only sources which files were uploaded
         sources_with_files = [source for source in sources if source.file]
 
         if any(sources_with_files):
-            # Create new "books-files" dir
-            book_files_root = os.path.join(books_root, "files")
-            os.makedirs(book_files_root, exist_ok=True)
+            # Create new "sources-files" dir
+            sources_files_root = os.path.join(books_root, "files")
+            os.makedirs(sources_files_root, exist_ok=True)
 
             for source in sources_with_files:
-                # Copy original book file into new "books-file" dir
-                destination = os.path.join(book_files_root, source.file_name())
+                # Copy original source file into new "sources-file" dir
+                destination = os.path.join(sources_files_root, source.file_name())
                 original_file = source.get_path_to_file()
                 shutil.copyfile(original_file, destination)
 
-        # Get array with only books with quotes
+        # Get array with only sources with quotes
         sources_with_quotes = [source for source in sources if source.quotes.all()]
 
         if any(sources_with_quotes):
-            
             # Get paths to new .txt file
             quotes_file = os.path.join(books_root, "quotes.txt")
 
             # Create file and write in all quotes
             with open(quotes_file, "w") as file:
-
                 for source in sources_with_quotes:
-                    # Write every book title
+                    # Write every source title
                     file.write(f"\t{source}\n\n\n")
-                    book_quotes = source.quotes.all()
+                    source_quotes = source.quotes.all()
                     # Write all its quotes
-                    for quote in book_quotes:
+                    for quote in source_quotes:
                         file.write(f"{quote}\n\n")
                     file.write("\n\n")
 
