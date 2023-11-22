@@ -8,7 +8,7 @@ class FieldClass:
     book_class = "book"
     article_class = "article"
     chapter_class = "chapter"
-    website_class = "website"
+    webpage_class = "webpage"
 
 
 class CommonFields(forms.Form):
@@ -48,12 +48,12 @@ class ChapterForm(CommonFields):
     pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
 
 
-class WebsiteForm(CommonFields):
-    source_type = forms.CharField(initial="website", widget=forms.HiddenInput())
+class WebpageForm(CommonFields):
+    source_type = forms.CharField(initial="webpage", widget=forms.HiddenInput())
     page_title = forms.CharField()
     website_title = forms.CharField()
-    page_url = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.website_class}))
-    date = forms.DateField(widget=forms.DateInput(attrs={"type": "date", "class": FieldClass.website_class}))
+    page_url = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.webpage_class}))
+    date = forms.DateField(widget=forms.DateInput(attrs={"type": "date", "class": FieldClass.webpage_class}))
 
 
 class UploadSourceForm(forms.Form):

@@ -1,9 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
-
 import requests
-
-from bookshelf.models import Source, Article, Book, Quote, Website, Endnote, Chapter
+from bookshelf.models import Source, Article, Book, Quote, Webpage, Endnote, Chapter
 from file_handling.models import PaperVersion
 from paper_work.models import Paper
 from work_space.models import WorkSpace, Invitation
@@ -58,8 +56,8 @@ def check_source(source_id, user):
                 check_work_space(source.article.work_space.pk, user)
             case Chapter():
                 check_work_space(source.chapter.work_space.pk, user)
-            case Website():
-                check_work_space(source.website.work_space.pk, user)
+            case Webpage():
+                check_work_space(source.webpage.work_space.pk, user)
             case _:
                 pass
     finally:

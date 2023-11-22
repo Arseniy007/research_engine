@@ -10,7 +10,7 @@
 
 
     <style>
-        #book_form, #article_form, #chapter_form, #website_form, #second_author
+        #book_form, #article_form, #chapter_form, #webpage_form, #second_author
         {
             display: none;
         }
@@ -59,7 +59,7 @@
     <button class="show_form_button" id="book" type="button">book</button>
     <button class="show_form_button" id="article" type="button">article</button>
     <button class="show_form_button" id="chapter" type="button">chapter</button>
-    <button class="show_form_button" id="website" type="button">website</button>
+    <button class="show_form_button" id="webpage" type="button">webpage</button>
 
 
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book_form" class="source_form">
@@ -86,11 +86,11 @@
     </form><br><br><br>
 
 
-    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="website_form" class="source_form">
+    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="webpage_form" class="source_form">
         <div class="author_div"></div>
         {% csrf_token %} 
-        {{ website_form.as_p }}
-        <button value="website" name="website" type="submit">Add Website</button>
+        {{ webpage_form.as_p }}
+        <button value="webpage" name="webpage" type="submit">Add Webpage</button>
     </form><br><br><br>
 
 

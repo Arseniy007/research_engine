@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm, AlterEndnoteForm, UploadSourceForm, AlterSourceForm, NewQuoteForm, AddLinkForm
+from .forms import BookForm, ArticleForm, ChapterForm, WebpageForm, AlterEndnoteForm, UploadSourceForm, AlterSourceForm, NewQuoteForm, AddLinkForm
 from .source_creation import clean_author_data, create_source
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
@@ -20,8 +20,8 @@ def add_source(request, space_id):
         form = ArticleForm(request.POST)
     elif "chapter" in request.POST:
         form = ChapterForm(request.POST)
-    elif "website" in request.POST:
-        form = WebsiteForm(request.POST)
+    elif "webpage" in request.POST:
+        form = WebpageForm(request.POST)
     else:
         # TODO
         return JsonResponse({"message": "error"})
@@ -31,7 +31,7 @@ def add_source(request, space_id):
 
         # Get and validate author(s) fields
         author = clean_author_data(request.POST)
-        if not author and type(form) != WebsiteForm:
+        if not author and type(form) != WebpageForm:
             # TODO
             return JsonResponse({"message": "error"})
 

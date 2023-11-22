@@ -1,7 +1,5 @@
 from django.core.exceptions import PermissionDenied
-
 from typing import Callable
-
 from .verification import check_work_space, check_paper, check_quote, check_source, check_endnote
 
 

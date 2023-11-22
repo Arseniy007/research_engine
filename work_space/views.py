@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from bookshelf.forms import BookForm, ArticleForm, ChapterForm, WebsiteForm
+from bookshelf.forms import BookForm, ArticleForm, ChapterForm, WebpageForm
 from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
 from .friendly_dir import create_friendly_dir
 from .invitation_generator import generate_invitation
@@ -114,7 +114,7 @@ def work_space(request, space_id):
                                                           "book_form": BookForm(),
                                                           "article_form": ArticleForm(),
                                                           "chapter_form": ChapterForm(),
-                                                          "website_form": WebsiteForm(),
+                                                          "webpage_form": WebpageForm(),
                                                           })
 
 

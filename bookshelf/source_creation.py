@@ -1,6 +1,6 @@
 from .dates import validate_date
-from .forms import BookForm, ArticleForm, ChapterForm, WebsiteForm
-from .models import Article, Book, Chapter, Source, Website, Endnote
+from .forms import BookForm, ArticleForm, ChapterForm, WebpageForm
+from .models import Article, Book, Chapter, Source, Webpage, Endnote
 from .quoting_apa import quote_source_apa
 from .quoting_mla import quote_source_mla
 from user_management.models import User
@@ -8,8 +8,12 @@ from utils.verification import check_link
 from work_space.models import WorkSpace
 
 
-def clean_text_data(data: str):
-    return data.strip(""".,'" """).capitalize()
+def clean_text_data(data: str, url=False):
+    """Cleans given str-field"""
+    cleaned_data = data.strip(""".,'" """)
+    if url:
+        return cleaned_data
+    return cleaned_data.capitalize()
 
 
 def clean_author_data(data, chapter_author=False) -> str | bool:
@@ -72,8 +76,8 @@ def create_source(user: User, space: WorkSpace, form, author, chapter_author=Non
             return create_article_obj(user, space, form, author)
         case ChapterForm():
             return create_chapter_obj(user, space, form, author, chapter_author)
-        case WebsiteForm():
-            return create_website_obj(user, space, form, author)
+        case WebpageForm():
+            return create_webpage_obj(user, space, form, author)
 
 
 def create_book_obj(user: User, space: WorkSpace, form: BookForm, author):
@@ -136,14 +140,16 @@ def create_chapter_obj(user: User, space: WorkSpace, form: ChapterForm, book_aut
     return save_endnotes(new_chapter)
 
 
-def create_website_obj(user: User, space: WorkSpace, form: WebsiteForm, author: str | None):
-    """Validate Websiteform and create Website obj"""
+def create_webpage_obj(user: User, space: WorkSpace, form: WebpageForm, author: str | None):
+    """Validate Webpageform and create Webpage obj"""
 
     # Iterate through all fields and clean its data
     data: dict = {}
     for field in form.fields:
         info = form.cleaned_data[field]
         if type(info) == str:
+            if field == "page_url":
+                info = clean_text_data(info, url=True)
             info = clean_text_data(info)
         data[field] = info
 
@@ -156,9 +162,9 @@ def create_website_obj(user: User, space: WorkSpace, form: WebsiteForm, author: 
         # TODO
         pass
 
-    # Create and save new Website obj
-    new_website = Website(work_space=space, user=user, title=data["page_title"], author=author, 
+    # Create and save new Webpage obj
+    new_webpage = Webpage(work_space=space, user=user, title=data["page_title"], author=author, 
                             website_title=data["website_title"], page_url=page_url, date=date)
-    new_website.save()
-    # Create new Endnote obj with Foreign key to this Website obj
-    return save_endnotes(new_website)
+    new_webpage.save()
+    # Create new Endnote obj with Foreign key to this Webpage obj
+    return save_endnotes(new_webpage)

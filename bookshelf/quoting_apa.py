@@ -1,6 +1,6 @@
 from typing import Callable
 from .dates import format_date
-from .models import Source, Article, Book, Chapter, Website
+from .models import Source, Article, Book, Chapter, Webpage
 
 
 def format_authors_apa(author_field: str) -> str:
@@ -68,8 +68,8 @@ def quote_source_apa(source: Source) -> Callable | bool:
             return quote_article_apa(source.article)
         case Chapter():
             return quote_chapter_apa(source.chapter)
-        case Website():
-            return quote_website_apa(source.website)
+        case Webpage():
+            return quote_webpage_apa(source.webpage)
         case _:
             return None
 
@@ -102,17 +102,19 @@ def quote_chapter_apa(chapter: Chapter) -> str:
     return result
 
 
-def quote_website_apa(website: Website) -> str:
-    """Create apa endnote for given website"""
-    # TODO
+def quote_webpage_apa(webpage: Webpage) -> str:
+    """Create apa endnote for given webpage"""
+    
+    date = format_date(webpage.date, "apa")
 
-    if website.author == "No author":
-        pass
-    else:
-        author = format_authors_apa(website.author)
-    date = format_date(website.date, "apa")
+    if webpage.author == "No author":
+        return f""
+    
+    author = format_authors_apa(webpage.author)
+    return f"{author} ({date}). {webpage.title}. {webpage.website_title}. {webpage.page_url}"
+    
 
     # 6. Del, c. I. (2020, June 29). How not to kill your houseplants, according to botanists.
     # Apartment therapy. Www.apartmenttherapy.com/houseplant-tips-botanists-36710191
 
-    return f"{author} ({date}). {website.title}. {website.website_title}. {website.page_url}"
+   

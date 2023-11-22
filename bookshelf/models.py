@@ -14,7 +14,7 @@ def saving_path(instance, filename):
 
 class Source(models.Model):
     """
-    An abstract base class for all possible sources: books, articles, chapters, websites etc.
+    An abstract base class for all possible sources: books, articles, chapters, webpages etc.
     Using _cast_ method one can access child class of any source-objects
     """
     real_type = models.ForeignKey(ContentType, editable=False, on_delete=models.CASCADE)
@@ -84,7 +84,7 @@ class Chapter(Source):
     pages = models.CharField(max_length=20)
     
 
-class Website(Source):
+class Webpage(Source):
     website_title = models.CharField(max_length=50)
     page_url = models.CharField(max_length=50)
     date = models.CharField(max_length=20)

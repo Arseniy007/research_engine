@@ -1,6 +1,6 @@
 from typing import Callable
 from .dates import format_date
-from .models import Source, Article, Book, Chapter, Website
+from .models import Source, Article, Book, Chapter, Webpage
 
 
 def format_authors_mla(author_field: str) -> str:
@@ -52,8 +52,8 @@ def quote_source_mla(source: Source) -> Callable | bool:
             return quote_article_mla(source.article)
         case Chapter():
             return quote_chapter_mla(source.chapter)
-        case Website():
-            return quote_website_mla(source.website)
+        case Webpage():
+            return quote_webpage_mla(source.webpage)
         case _:
             return None
 
@@ -85,17 +85,11 @@ def quote_chapter_mla(chapter: Chapter) -> str:
     return result
 
 
-def quote_website_mla(website: Website) -> str:
-    """Create mla endnote for given website"""
-    # TODO
+def quote_webpage_mla(webpage: Webpage) -> str:
+    """Create mla endnote for given webpage"""
+    date = format_date(webpage.date, "mla")
+    if webpage.author == "No author":
+        return f'"{webpage.title}" {webpage.website_title}, {date}, {webpage.page_url}.'
     
-    if website.author == "No author":
-        pass
-    else:
-        author = format_authors_mla(website.author)
-    date = format_date(website.date, "mla")
-
-     # 6. Del, c. I. (2020, June 29). How not to kill your houseplants, according to botanists.
-    # Apartment therapy. Www.apartmenttherapy.com/houseplant-tips-botanists-36710191
-
-    return f'{author}. "{website.title}" {website.website_title}, {date}, {website.page_url}.'
+    author = format_authors_mla(webpage.author)
+    return f'{author}. "{webpage.title}" {webpage.website_title}, {date}, {webpage.page_url}.'
