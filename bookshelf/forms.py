@@ -1,7 +1,8 @@
 from django import forms
 from .models import Book, Quote, Source, Endnote
 from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
-from utils.verification import check_link
+from user_management.models import User
+from utils.verification import check_link, check_quote
 
 # Do I need this?
 class FieldClass:
@@ -106,12 +107,25 @@ class NewQuoteForm(forms.ModelForm):
         model = Quote
         fields = ["text", "page"]
     
-
     def save_quote(self, source: Source):
         """Save new Quote object"""
         new_quote = Quote(source=source, page=self.cleaned_data["page"], text=self.cleaned_data["text"])
         new_quote.save()
 
+
+class AlterQuoteForm(forms.Form):
+    class Meta:
+        model = Quote
+        fields = ["text", "page"]
+
+    quote_pk = forms.CharField(widget=forms.HiddenInput())
+
+    def save_altered_quote(self, quote: Quote):
+        quote.text = self.cleaned_data["text"]
+        quote.page = self.cleaned_data["page"]
+        quote.save(update_fields=("text", "page",))
+        
+        
 
 class AlterEndnoteForm(forms.Form):
 

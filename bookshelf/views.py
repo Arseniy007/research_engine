@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import BookForm, ArticleForm, ChapterForm, WebpageForm, AlterEndnoteForm, UploadSourceForm, AlterSourceForm, NewQuoteForm, AddLinkForm
+from .forms import *
 from .source_creation import clean_author_data, create_source
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
@@ -193,13 +193,20 @@ def delete_quote(request, quote_id):
 @login_required(redirect_field_name=None)
 def alter_quote(request, quote_id):
 
-    # Check quote and if user has right to a deletion
-    quote = check_quote(quote_id, request.user)
+    form = AlterQuoteForm(request.POST)
 
-    # TODO
+    if form.is_valid():
+        # Check quote and if user has right to a deletion
+        quote = check_quote(quote_id, request.user)
+        form.save_altered_quote(quote)
 
-    link = reverse("bookshelf:source_space", args=(quote.source.pk,))
-    return redirect(link)
+        link = reverse("bookshelf:source_space", args=(quote.source.pk,))
+        return redirect(link)
+    
+    else:
+        print(form.errors)
+        # TODO
+        pass
 
 
 @login_required(redirect_field_name=None)

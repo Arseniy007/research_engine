@@ -45,7 +45,7 @@ class Source(models.Model):
     
 
     def cast(self):
-        """Get object class (Book / Article / Website / etc.)"""
+        """Get object class (Book / Article / Webpage / etc.)"""
         return self.real_type.get_object_for_this_type(pk=self.pk)
     
 
