@@ -31,6 +31,8 @@ def add_source(request, space_id):
 
         # Get and validate author(s) fields
         author = clean_author_data(request.POST)
+
+        # Webpage is the only obj there author field could be blank
         if not author and type(form) != WebpageForm:
             # TODO
             return JsonResponse({"message": "error"})
@@ -84,7 +86,6 @@ def upload_source_file(request, source_id):
         if source.file:
             shutil.rmtree(source.get_path())
         form.save_file(source)
-
         return JsonResponse({"message": "ok"})
     
     else:

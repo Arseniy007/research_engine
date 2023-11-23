@@ -125,15 +125,10 @@ class AlterQuoteForm(forms.Form):
         quote.page = self.cleaned_data["page"]
         quote.save(update_fields=("text", "page",))
         
-        
 
 class AlterEndnoteForm(forms.Form):
-
-    # TODO
-
     apa = forms.CharField(widget=forms.Textarea)
     mla = forms.CharField(widget=forms.Textarea)
-
 
     def save_endnote(self, endnote: Endnote):
         """Alter text field in Endnote obj"""
