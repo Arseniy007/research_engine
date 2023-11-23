@@ -136,7 +136,7 @@ def alter_source_info(request, source_id):
 @endnote_ownership_required
 @login_required(redirect_field_name=None)
 def alter_endnote(request, endnote_id):
-    # TODO
+    """Alter endnote text"""
 
     form = AlterEndnoteForm(request.POST)
 
@@ -180,7 +180,7 @@ def add_quote(request, source_id):
 def delete_quote(request, quote_id):
     """Delete added quote"""
 
-    # Check quote and if user has right to a deletion
+    # Check quote and if user has right to its deletion
     quote = check_quote(quote_id, request.user)
     
     # Delete quote from the db
@@ -193,11 +193,11 @@ def delete_quote(request, quote_id):
 @quote_ownership_required
 @login_required(redirect_field_name=None)
 def alter_quote(request, quote_id):
+    """Alter quote text / page num."""
 
     form = AlterQuoteForm(request.POST)
 
     if form.is_valid():
-        # Check quote and if user has right to a deletion
         quote = check_quote(quote_id, request.user)
         form.save_altered_quote(quote)
 

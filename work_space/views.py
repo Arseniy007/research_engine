@@ -5,14 +5,14 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from bookshelf.forms import BookForm, ArticleForm, ChapterForm, WebpageForm
-from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm
+from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm, NewCommentForm, AlterCommentForm
 from .friendly_dir import create_friendly_dir
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
 from paper_work.forms import NewPaperForm
 from research_engine.settings import FRIENDLY_TMP_ROOT
-from utils.decorators import space_ownership_required
-from utils.verification import check_work_space, check_invitation
+from utils.decorators import space_ownership_required, comment_authorship_required
+from utils.verification import check_comment, check_invitation, check_work_space
 
 
 @login_required(redirect_field_name=None)
@@ -95,35 +95,6 @@ def download_work_space(request, space_id):
     finally:
         # Delete whole dir (with zip file inside)
         shutil.rmtree(FRIENDLY_TMP_ROOT)
-
-
-@login_required(redirect_field_name=None)
-def work_space(request, space_id):
-    # TODO
-
-    space = check_work_space(space_id, request.user)
-
-   # author_formset = AuthorFormSet(prefix="author-formset")
-
-
-
-    return render(request, "work_space/work_space.html", {"space": space, 
-                                                          "papers": space.papers.all(),
-                                                          "books": space.sources.all(),
-                                                          "form": NewPaperForm(),
-                                                          "book_form": BookForm(),
-                                                          "article_form": ArticleForm(),
-                                                          "chapter_form": ChapterForm(),
-                                                          "webpage_form": WebpageForm(),
-                                                          })
-
-
-def test(request):
-
-    #AuthorFormSet = formset_factory(AuthorForm, formset="", can_delete=True, can_order=True)
-    #author_formset = AuthorFormSet(prefix="author-formset")
-    pass
-    #return render(request, "work_space/test.html", {"author_formset": author_formset})
 
 
 @space_ownership_required
@@ -209,23 +180,77 @@ def leave_work_space(request, space_id):
 
 @login_required(redirect_field_name=None)
 def leave_comment(request, space_id):
+    """Leaves comment in given workspace"""
+
+    form = NewCommentForm(request.POST)
+
+    if form.is_valid():
+        # Create new comment obj
+        space = check_work_space(space_id, request.user)
+        form.save_comment(space, request.user)
+
+        link = reverse("work_space:space", args=(space.pk,))
+        return redirect(link)
+
+    else:
+        print(form.errors)
+        # TODO
+        pass
+
+
+@comment_authorship_required
+@login_required(redirect_field_name=None)
+def delete_comment(request, comment_id):
+    """Deletes added comment"""
+
+    # Check comment and if user has right to its deletion
+    comment = check_comment(comment_id, request.user)
+
+    # Delete comment from the db
+    comment.delete()
+
+    link = reverse("work_space:space", args=(comment.work_space.pk,))
+    return redirect(link)
+
+
+@comment_authorship_required
+@login_required(redirect_field_name=None)
+def alter_comment(request, comment_id):
+    """Alter comment text"""
+    # TODO
+
+    form = AlterCommentForm(request.POST)
+
+    if form.is_valid():
+        comment = check_comment(comment_id, request.user)
+        form.save_altered_comment(comment)
+
+        link = reverse("work_space:space", args=(comment.work_space.pk,))
+        return redirect(link)
+    
+    else:
+        print(form.errors)
+        # TODO
+        pass
+
+
+
+@login_required(redirect_field_name=None)
+def work_space(request, space_id):
     # TODO
 
     space = check_work_space(space_id, request.user)
 
-
-@login_required(redirect_field_name=None)
-def alter_comment(request, comment_id):
-    # TODO
-
-    pass
+   # author_formset = AuthorFormSet(prefix="author-formset")
 
 
-@login_required(redirect_field_name=None)
-def delete_comment(request, comment_id):
-    # TODO
 
-    pass
-
-
-# Comments? Each one has only one version of paper?
+    return render(request, "work_space/work_space.html", {"space": space, 
+                                                          "papers": space.papers.all(),
+                                                          "books": space.sources.all(),
+                                                          "form": NewPaperForm(),
+                                                          "book_form": BookForm(),
+                                                          "article_form": ArticleForm(),
+                                                          "chapter_form": ChapterForm(),
+                                                          "webpage_form": WebpageForm(),
+                                                          })

@@ -4,7 +4,7 @@ import requests
 from bookshelf.models import Source, Article, Book, Quote, Webpage, Endnote, Chapter
 from file_handling.models import PaperVersion
 from paper_work.models import Paper
-from work_space.models import WorkSpace, Invitation
+from work_space.models import Comment, Invitation, WorkSpace
 
 
 def check_work_space(space_id, user):
@@ -16,7 +16,7 @@ def check_work_space(space_id, user):
     else:
         if space.owner != user and user not in space.guests.all():
             raise PermissionDenied
-        return space
+    return space
         
 
 def check_paper(paper_id, user):
@@ -27,7 +27,7 @@ def check_paper(paper_id, user):
         raise Http404
     else:
         check_work_space(paper.work_space.pk, user)
-        return paper
+    return paper
 
 
 def check_file(file_id, user):
@@ -38,7 +38,7 @@ def check_file(file_id, user):
         raise Http404
     else:
         check_paper(file.paper.pk, user)
-        return file
+    return file
 
 
 def check_source(source_id, user):
@@ -65,14 +65,14 @@ def check_source(source_id, user):
 
 
 def check_endnote(endnote_id, user):
-
+    """Checks if endnote exists"""
     try:
         endnote = Endnote.objects.get(pk=endnote_id)
     except ObjectDoesNotExist:
         raise Http404
     else:
         check_work_space(endnote.source.work_space.pk, user)
-        return endnote
+    return endnote
 
 
 def get_endnotes(source: Source):
@@ -91,7 +91,18 @@ def check_quote(quote_id, user):
         raise Http404
     else:
         check_work_space(quote.source.work_space.pk, user)
-        return quote
+    return quote
+    
+
+def check_comment(comment_id, user):
+    """Checks if comments exitst"""
+    try:
+        comment = Comment.objects.get(pk=comment_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(comment.work_space.pk, user)
+    return comment
 
 
 def check_invitation(invitation_code: str):
