@@ -86,7 +86,7 @@ class Chapter(Source):
 
 class Webpage(Source):
     website_title = models.CharField(max_length=50)
-    page_url = models.CharField(max_length=50)
+    page_url = models.CharField(max_length=100)
     date = models.CharField(max_length=20)
 
 

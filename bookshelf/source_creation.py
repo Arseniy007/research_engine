@@ -120,10 +120,7 @@ def save_endnotes(source: Source):
 
 def clean_text_data(data: str, url=False):
     """Cleans given str-field"""
-    cleaned_data = data.strip(""".,'" """)
-    if url:
-        return cleaned_data
-    return cleaned_data.title()
+    return data.strip(""".,'" """)
 
 
 def clean_author_data(data, chapter_author=False) -> str | bool:

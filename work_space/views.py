@@ -25,7 +25,7 @@ def index(request):
 
 @login_required(redirect_field_name=None)
 def create_work_space(request):
-    # TODO
+    """Created new worspace ;)"""
 
     form = NewWorkSpaceForm(request.POST)
 

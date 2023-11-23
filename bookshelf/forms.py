@@ -24,19 +24,19 @@ class CommonFields(forms.Form):
 class BookForm(CommonFields):
     source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "book"}))
     title = forms.CharField()
-    publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
-    year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
+    publishing_house = forms.CharField()
+    year = forms.CharField()
 
 
 class ArticleForm(CommonFields):
     source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "article"}))
     journal_title = forms.CharField()
-    article_title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
-    volume = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
-    issue = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
-    pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
-    year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
-    link_to_journal = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
+    article_title = forms.CharField()
+    volume = forms.IntegerField()
+    issue = forms.IntegerField()
+    pages = forms.CharField()
+    year = forms.CharField()
+    link_to_journal = forms.CharField()
 
 
 class ChapterForm(CommonFields):
@@ -46,18 +46,18 @@ class ChapterForm(CommonFields):
     source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "chapter"}))
     chapter_title = forms.CharField()
     book_title = forms.CharField()
-    publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
-    year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
-    edition = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
-    pages = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.chapter_class}))
+    publishing_house = forms.CharField()
+    year = forms.CharField()
+    edition = forms.CharField()
+    pages = forms.CharField()
 
 
 class WebpageForm(CommonFields):
     source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "webpage"}))
     page_title = forms.CharField()
     website_title = forms.CharField()
-    page_url = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.webpage_class}))
-    date = forms.DateField(widget=forms.DateInput(attrs={"type": "date", "class": FieldClass.webpage_class}))
+    page_url = forms.CharField()
+    date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
 
 
 class UploadSourceForm(forms.Form):

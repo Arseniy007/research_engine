@@ -1,6 +1,6 @@
 from django import forms
 from .dates import validate_date
-from .forms import AlterBookForm, AlterArticleForm, AlterChapterForm, AlterWebpageForm
+from .forms import AlterWebpageForm
 from .models import Article, Book, Chapter, Source, Webpage
 from .source_creation import clean_text_data
 from .quoting_apa import quote_source_apa
@@ -26,25 +26,27 @@ def alter_source(source: Source, form: forms.Form):
 
 def update_source_fields(source: Book | Article | Chapter, form: forms.Form):
     """Alter book / article / chapter objs."""
-    was_updated = False
     for field in form.fields:
+        # Ignrore "source_type" field
         if field != "source_type":
             info = form.cleaned_data[field]
+            # Check if field was indeed altered
             if source.__getattribute__(field) != info:
                 if type(info) == str:
                     info = clean_text_data(info)
+                # Update field and save obj
                 source.__setattr__(field, info)
                 source.save(update_fields=(field,))
-    if was_updated:
-        return update_endnotes(source)
+    return update_endnotes(source)
 
 
 def update_webpage_fields(webpage: Webpage, form: AlterWebpageForm):
     """Alter webpage obj."""
-    was_updated = False
     for field in form.fields:
+        # Ignrore "source_type" field
         if field != "source_type":
             info = form.cleaned_data[field]
+            # Check if field was indeed altered
             if webpage.__getattribute__(field) != info:
                 if type(info) == str:
                     info = clean_text_data(info)
@@ -55,11 +57,11 @@ def update_webpage_fields(webpage: Webpage, form: AlterWebpageForm):
                 elif field == "page_url":
                     if not check_link(info):
                         # TODO
-                        pass  
+                        pass
+                # Update field and save obj
                 webpage.__setattr__(field, info)
                 webpage.save(update_fields=(field,))
-    if was_updated:
-        return update_endnotes(webpage)
+    return update_endnotes(webpage)
 
 
 def update_endnotes(source: Source):

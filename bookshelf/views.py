@@ -64,6 +64,30 @@ def delete_source(request, source_id):
     return JsonResponse({"message": "ok"})
 
 
+@source_ownership_required
+@login_required(redirect_field_name=None)
+def alter_source_info(request, source_id):
+    """Allow user to change all source related info"""
+
+    form = get_type_of_source_form(request.POST, alter_source=True)
+    if not form:
+        return JsonResponse({"message": "error"})
+
+    if form.is_valid():
+        # Check source and get its attrs
+        source = check_source(source_id, request.user)
+        # Alter and save source obj
+        alter_source(source, form)
+
+        link = reverse("bookshelf:source_space", args=(source_id,))
+        return redirect(link)
+
+    else:
+        print(form.errors)
+        # TODO
+        pass
+
+
 @login_required(redirect_field_name=None)
 def upload_source_file(request, source_id):
     """Upload .pdf/.docx file of the given source"""
@@ -98,31 +122,6 @@ def add_link_to_source(request, source_id):
             return JsonResponse({"message": "error"})
         return JsonResponse({"message": "ok"})
     
-    else:
-        print(form.errors)
-        # TODO
-        pass
-
-
-@source_ownership_required
-@login_required(redirect_field_name=None)
-def alter_source_info(request, source_id):
-    """Allow user to change all source related info"""
-
-    form = get_type_of_source_form(request.POST, alter_source=True)
-    if not form:
-        print("no form")
-        return JsonResponse({"message": "error"})
-
-    if form.is_valid():
-        # Check source and get its attrs
-        source = check_source(source_id, request.user)
-        # Alter and save source obj
-        alter_source(source, form)
-
-        link = reverse("bookshelf:source_space", args=(source_id,))
-        return redirect(link)
-
     else:
         print(form.errors)
         # TODO

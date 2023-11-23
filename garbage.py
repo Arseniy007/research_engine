@@ -1930,4 +1930,9 @@ def alter_webpage(webpage: Webpage, form: AlterWebpageForm):
                 webpage.save(update_fields=(field,))
     if was_updated:
         return update_endnotes(webpage)
+
+    return data.strip(., )
+    if url:
+        return cleaned_data
+    return cleaned_data.title()
 """
