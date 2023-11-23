@@ -13,17 +13,8 @@ from utils.verification import check_source, check_work_space, check_quote, chec
 def add_source(request, space_id):
     """Add new source info to the work space"""
 
-    # Get future source type
-    if "book" in request.POST:
-        form = BookForm(request.POST)
-    elif "article" in request.POST:
-        form = ArticleForm(request.POST)
-    elif "chapter" in request.POST:
-        form = ChapterForm(request.POST)
-    elif "webpage" in request.POST:
-        form = WebpageForm(request.POST)
-    else:
-        # TODO
+    form = get_type_of_source_form(request.POST)
+    if not form:
         return JsonResponse({"message": "error"})
     
     if form.is_valid():
@@ -117,7 +108,9 @@ def add_link_to_source(request, source_id):
 def alter_source_info(request, source_id):
     """Allow user to change all source related info"""
 
-    form = AlterSourceForm(request.POST)
+    form = get_type_of_source_form(request.POST, alter_source=True)
+    if not form:
+        return JsonResponse({"message": "error"})
 
     if form.is_valid():
         # Check source and get its attrs

@@ -1857,4 +1857,17 @@ function hide_all_forms() {
 
         def set_initial_book_form(form, book: Book):
             pass
+            
+     # Get form type
+    if "book" in request.POST:
+        form = BookForm(request.POST)
+    elif "article" in request.POST:
+        form = ArticleForm(request.POST)
+    elif "chapter" in request.POST:
+        form = ChapterForm(request.POST)
+    elif "webpage" in request.POST:
+        form = WebpageForm(request.POST)
+    else:
+        # TODO
+        return JsonResponse({"message": "error"})
 """

@@ -115,22 +115,24 @@ class AlterEndnoteForm(forms.Form):
         return endnote.save(update_fields=("apa", "mla",))
 
 
-
-class AlterSourceForm(forms.Form):
-    pass
-
-
-
 class AlterBookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = "__all__"
         exclude = EXCLUDE_FIELDS
+    
+    source_type = forms.CharField(initial="book", widget=forms.HiddenInput())
 
     def set_initials(self, book: Book):
         for field in self.fields:
-            self.fields[field].initial = book.__getattribute__(field)
+            if field != "source_type":
+                self.fields[field].initial = book.__getattribute__(field)
         return self
+    
+    def save_altered_source(self, source: Source):
+        # TODO
+        # Form method or separate fiel func?
+        pass
         
 
 class AlterArticleForm(forms.ModelForm):
@@ -138,10 +140,13 @@ class AlterArticleForm(forms.ModelForm):
         model = Article
         fields = "__all__"
         exclude = EXCLUDE_FIELDS
+    
+    source_type = forms.CharField(initial="article", widget=forms.HiddenInput())
 
     def set_initials(self, article: Article):
         for field in self.fields:
-            self.fields[field].initial = article.__getattribute__(field)
+            if field != "source_type":
+                self.fields[field].initial = article.__getattribute__(field)
         return self
 
 
@@ -151,9 +156,12 @@ class AlterChapterForm(forms.ModelForm):
         fields = "__all__"
         exclude = EXCLUDE_FIELDS
 
+    source_type = forms.CharField(initial="chapter", widget=forms.HiddenInput())
+
     def set_initials(self, chapter: Chapter):
         for field in self.fields:
-            self.fields[field].initial = chapter.__getattribute__(field)
+            if field != "source_type":
+                self.fields[field].initial = chapter.__getattribute__(field)
         return self
 
 
@@ -163,10 +171,38 @@ class AlterWebpageForm(forms.ModelForm):
         fields = "__all__"
         exclude = EXCLUDE_FIELDS
 
+    source_type = forms.CharField(initial="webpage", widget=forms.HiddenInput())
+
     def set_initials(self, webpage: Webpage):
         for field in self.fields:
-            self.fields[field].initial = webpage.__getattribute__(field)
+            if field != "source_type":
+                self.fields[field].initial = webpage.__getattribute__(field)
         return self
+
+
+def get_type_of_source_form(data, alter_source=False):
+    """
+    Based on form hidden imput get obj type and return either obj-creation or obj-alter form.
+    data arg. = request.POST
+    """
+    if "book" in data:
+        if alter_source:
+            return AlterBookForm(data)
+        return BookForm(data)
+    elif "article" in data:
+        if alter_source:
+            return AlterArticleForm(data)
+        return  ArticleForm(data)
+    elif "chapter" in data:
+        if alter_source:
+            return AlterChapterForm(data)
+        return ChapterForm(data)
+    elif "webpage" in data:
+        if alter_source:
+            return AlterWebpageForm(data)
+        return WebpageForm(data)
+    else:
+        return None
 
 
 def get_and_set_alter_form(source: Source):

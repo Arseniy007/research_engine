@@ -13,7 +13,7 @@ def clean_text_data(data: str, url=False):
     cleaned_data = data.strip(""".,'" """)
     if url:
         return cleaned_data
-    return cleaned_data.capitalize()
+    return cleaned_data.title()
 
 
 def clean_author_data(data, chapter_author=False) -> str | bool:
