@@ -9,7 +9,7 @@ from .source_creation import clean_author_data, create_source
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
 
-from django.contrib import messages
+#from django.contrib import messages
 
 
 @login_required(redirect_field_name=None)
@@ -30,7 +30,8 @@ def add_source(request, space_id):
         # Webpage is the only obj there author field could be blank
         if not author and type(form) != WebpageForm:
             # TODO
-            return HttpResponse(status=404)
+            pass
+            #return HttpResponse(status=404)
             #messages.add_message(request, messages.ERROR, "No author provided!") !!!!!! TODO
 
         if type(form) == ChapterForm:
