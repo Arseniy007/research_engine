@@ -241,9 +241,6 @@ def work_space(request, space_id):
 
     space = check_work_space(space_id, request.user)
 
-   # author_formset = AuthorFormSet(prefix="author-formset")
-
-
 
     return render(request, "work_space/work_space.html", {"space": space, 
                                                           "papers": space.papers.all(),
@@ -253,4 +250,6 @@ def work_space(request, space_id):
                                                           "article_form": ArticleForm(),
                                                           "chapter_form": ChapterForm(),
                                                           "webpage_form": WebpageForm(),
+                                                          "comment_form": NewCommentForm(),
+                                                          "comments": space.comments.all()
                                                           })

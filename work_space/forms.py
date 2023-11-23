@@ -22,7 +22,7 @@ class ReceiveInvitationForm(forms.Form):
 
 
 class NewCommentForm(forms.Form):
-    text = forms.Textarea()
+    text = forms.CharField(widget=forms.Textarea())
 
     def save_comment(self, space: WorkSpace, user: User):
         """Save new Comment object"""
@@ -31,7 +31,7 @@ class NewCommentForm(forms.Form):
 
 
 class AlterCommentForm(forms.Form):
-    text = forms.Textarea()
+    text = forms.CharField(widget=forms.Textarea())
 
     def save_altered_comment(self, comment: Comment):
         """Update text field in Comment obj"""

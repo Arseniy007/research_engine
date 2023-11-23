@@ -1,6 +1,6 @@
 import os
 from django.db import models
-from research_engine.settings import MEDIA_ROOT, FRIENDLY_TMP_ROOT
+from research_engine.settings import FRIENDLY_TMP_ROOT, MEDIA_ROOT, SAVING_TIME_FORMAT
 from user_management.models import User
 
 
@@ -39,7 +39,7 @@ class WorkSpace(models.Model):
     def get_base_dir(self):
         """Returns base directory without MEDIA_ROOT"""
         return f"work_space_{self.pk}"
-
+    
 
 class Invitation(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
@@ -47,14 +47,19 @@ class Invitation(models.Model):
 
 
 class Comment(models.Model):
-    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
 
-    def __str__(self):
-        """Disolay comment text"""
-        return self.text
+    def get_creation_time(self):
+        """Return saving time in chosen format"""
+        return self.created.strftime(SAVING_TIME_FORMAT)
 
-    # TODO
+
+    def __str__(self):
+        """Display comment text"""
+        if self.work_space.guests.all():
+            return f'{self.user}: "{self.text}" ({self.get_creation_time()})'
+        return f'"{self.text}" ({self.get_creation_time()})'

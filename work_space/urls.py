@@ -13,5 +13,8 @@ urlpatterns = [
     path("invite_to_space/<int:space_id>", views.invite_to_work_space, name="invite_to_space"),
     path("receive_invitation", views.receive_invitation, name="receive_invitation"),
     path("leave_space/<int:space_id>", views.leave_work_space, name="leave_space"),
-    path("download_space/<int:space_id>", views.download_work_space, name="download_space")
+    path("download_space/<int:space_id>", views.download_work_space, name="download_space"),
+    path("leave_comment/<int:space_id>", views.leave_comment, name="leave_comment"),
+    path("delete_comment/<int:comment_id>", views.delete_comment, name="delete_comment"),
+    path("alter_comment/<int:comment_id>", views.alter_comment, name="alter_comment")
 ]

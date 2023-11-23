@@ -3,13 +3,12 @@ import shutil
 from utils.verification import get_endnotes
 from work_space.models import WorkSpace
 
-# Much to be done!
 
 def create_friendly_dir(work_space: WorkSpace) -> str | bool:
     """Creates user-friendly directory for future zip-archiving and downloading"""
 
     # Get all sources and papers in given work space
-    papers, sources = work_space.papers.all(), work_space.sources.all()
+    papers, sources, comments = work_space.papers.all(), work_space.sources.all(), work_space.comments.all()
     if not papers and not sources:
         # In case work space is empty
         return False
@@ -26,7 +25,6 @@ def create_friendly_dir(work_space: WorkSpace) -> str | bool:
 
         # Get all users
         authors = [paper.user for paper in papers]
-
         for author in authors:
             if len(set(authors)) != 1:
                 # Create new "user" dirs inside "papers" dir if there are multiple users
@@ -39,7 +37,6 @@ def create_friendly_dir(work_space: WorkSpace) -> str | bool:
 
             # Get all user papers
             author_papers = papers.filter(user=author)
-
             for author_paper in author_papers:
                 # Create new "paper" dirs inside "user" dir
                 path_to_paper = os.path.join(author_root, author_paper.title)
@@ -110,6 +107,14 @@ def create_friendly_dir(work_space: WorkSpace) -> str | bool:
                     for quote in source_quotes:
                         file.write(f"{quote}\n\n")
                     file.write("\n\n")
+    if comments:
+        # Get path to new comments.txt file
+        comments_file_path = os.path.join(root_path, "comments.txt")
+
+        # Create file and write in all comments
+        with open(comments_file_path, "w") as comment_file:
+            for comment in comments:
+                comment_file.write(f"{comment}\n\n")
 
     # Return path to the whole dir
     return original_path

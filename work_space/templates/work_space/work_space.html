@@ -7,8 +7,6 @@
 
 
 {% block body %}
-
-
     <style>
         #book_form, #article_form, #chapter_form, #webpage_form, #second_author
         {
@@ -16,8 +14,6 @@
         }
     </style>
     
-
-
     <h3>{{ space }}</h3>
 
     <form action="{% url 'paper_work:create_paper' space.pk %}" method="post">
@@ -34,11 +30,6 @@
         {% endfor %}
     </ul><br><br>
 
-    
-   
-
-
-
 
     <ul>
         {% for book in books %}
@@ -54,46 +45,50 @@
     </li><br><br><br>
     
 
-
-
     <button class="show_form_button" id="book" type="button">book</button>
     <button class="show_form_button" id="article" type="button">article</button>
     <button class="show_form_button" id="chapter" type="button">chapter</button>
     <button class="show_form_button" id="webpage" type="button">webpage</button>
-
-
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book_form" class="source_form">
         <div class="author_div"></div>
         {% csrf_token %} 
         {{ book_form.as_p }}
         <button value="book" name="book" type="submit">Add Book</button>
-    </form><br><br><br>
-
+    </form>
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article_form" class="source_form">
         <div class="author_div"></div>
         {% csrf_token %} 
         {{ article_form.as_p }}
         <button value="article" name="article" type="submit">Add Article</button>
-    </form><br><br><br>
-
-
+    </form>
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter_form" class="source_form">
         <div id="chapter_author_div"></div>
         {% csrf_token %}
         {{ chapter_form.as_p }}
         <div class="author_div"></div>
         <button value="chapter" name="chapter" type="submit">Add Chapter</button>
-    </form><br><br><br>
-
-
+    </form>
     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="webpage_form" class="source_form">
         <div class="author_div"></div>
         {% csrf_token %} 
         {{ webpage_form.as_p }}
         <button value="webpage" name="webpage" type="submit">Add Webpage</button>
-    </form><br><br><br>
+    </form><br><br><br><br>
 
+    <h4>New comment:</h4>
+    <form action="{% url 'work_space:leave_comment' space.pk %}" method="post">
+        {% csrf_token %} 
+        {{ comment_form }}
+        <button type="submit">Add Comment</button>
+    </form>
+    
 
+    <h3>Comments:</h3>
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment }}</li>
+        {% endfor %}
+    </ul>
 
 
     
