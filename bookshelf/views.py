@@ -1,6 +1,6 @@
 import shutil
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import *
@@ -9,6 +9,8 @@ from .source_creation import clean_author_data, create_source
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
 
+from django.contrib import messages
+
 
 @login_required(redirect_field_name=None)
 def add_source(request, space_id):
@@ -16,6 +18,7 @@ def add_source(request, space_id):
 
     form = get_type_of_source_form(request.POST)
     if not form:
+        #messages.add_message(request, messages.ERROR, "No author provided!") !!!!! TODO
         return JsonResponse({"message": "error"})
     
     if form.is_valid():
@@ -27,7 +30,8 @@ def add_source(request, space_id):
         # Webpage is the only obj there author field could be blank
         if not author and type(form) != WebpageForm:
             # TODO
-            return JsonResponse({"message": "error"})
+            return HttpResponse(status=404)
+            #messages.add_message(request, messages.ERROR, "No author provided!") !!!!!! TODO
 
         if type(form) == ChapterForm:
             chapter_author = clean_author_data(request.POST, chapter_author=True)
