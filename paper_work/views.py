@@ -60,7 +60,9 @@ def paper_space(request, paper_id):
 
     links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
 
-    return render(request, "paper_work/paper_space.html", {"form": NewPaperVersionForm(), "paper": paper, "paper_versions": paper_versions, "links": links, "rename_form": RenamePaperForm()})
+    return render(request, "paper_work/paper_space.html", {"form": NewPaperVersionForm(), 
+                                                           "paper": paper, "paper_versions": paper_versions, 
+                                                           "links": links, "rename_form": RenamePaperForm()})
 
 
 @paper_authorship_required
