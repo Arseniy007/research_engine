@@ -35,7 +35,6 @@ def create_book_obj(user: User, space: WorkSpace, form: BookForm, author):
     # Create and save new Book obj
     new_book = Book(work_space=space, user=user, title=data["title"], author=author, year=data["year"], 
                     publishing_house=data["publishing_house"])
-    
     new_book.save()
     # Create new Endnote obj with Foreign key to this Book obj
     return save_endnotes(new_book)
