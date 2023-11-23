@@ -8,65 +8,6 @@ from utils.verification import check_link
 from work_space.models import WorkSpace
 
 
-def clean_text_data(data: str, url=False):
-    """Cleans given str-field"""
-    cleaned_data = data.strip(""".,'" """)
-    if url:
-        return cleaned_data
-    return cleaned_data.title()
-
-
-def clean_author_data(data, chapter_author=False) -> str | bool:
-    """Get, clean and validate all author-related form-field"""
-    try:
-        # Get number of authors
-        if chapter_author:
-            number_of_authors = int(data.get("number_of_chapter_authors"))
-        else:
-            number_of_authors = int(data.get("number_of_authors"))
-    except ValueError:
-        return False
-    
-    authors: list = []
-    for i in range(number_of_authors):
-        if chapter_author:
-            last_name = data.get(f"chapter_last_name_{i}")
-            first_name = data.get(f"chapter_first_name_{i}")
-            second_name = data.get(f"chapter_second_name_{i}")
-        else:
-            last_name = data.get(f"last_name_{i}")
-            first_name = data.get(f"first_name_{i}")
-            second_name = data.get(f"second_name_{i}")
-
-        # Return if last_name field was somehow left blank
-        if not last_name:
-            return False
-
-        last_name = clean_text_data(last_name)
-        if not first_name:
-            # If there is only last name
-            author = last_name
-        else:
-            first_name = clean_text_data(first_name)
-            if second_name:
-                second_name = clean_text_data(second_name)
-                # Case with multiple names
-                author = f"{last_name} {first_name} {second_name}"
-            else:
-                # Case without second names
-                author = f"{last_name} {first_name}"
-            
-        authors.append(author)
-    # Make str from authors list, separating authors by comma
-    return ", ".join(authors)
-
-
-def save_endnotes(source: Source):
-    """Creates and saves new Endnote obj for given source"""
-    endnotes = Endnote(source=source, apa=quote_source_apa(source), mla=quote_source_mla(source))
-    return endnotes.save()
-
-
 def create_source(user: User, space: WorkSpace, form, author, chapter_author=None):
     """Get future source type and call right func"""
     match form:
@@ -169,3 +110,62 @@ def create_webpage_obj(user: User, space: WorkSpace, form: WebpageForm, author: 
     new_webpage.save()
     # Create new Endnote obj with Foreign key to this Webpage obj
     return save_endnotes(new_webpage)
+
+
+def save_endnotes(source: Source):
+    """Creates and saves new Endnote obj for given source"""
+    endnotes = Endnote(source=source, apa=quote_source_apa(source), mla=quote_source_mla(source))
+    return endnotes.save()
+
+
+def clean_text_data(data: str, url=False):
+    """Cleans given str-field"""
+    cleaned_data = data.strip(""".,'" """)
+    if url:
+        return cleaned_data
+    return cleaned_data.title()
+
+
+def clean_author_data(data, chapter_author=False) -> str | bool:
+    """Get, clean and validate all author-related form-field"""
+    try:
+        # Get number of authors
+        if chapter_author:
+            number_of_authors = int(data.get("number_of_chapter_authors"))
+        else:
+            number_of_authors = int(data.get("number_of_authors"))
+    except ValueError:
+        return False
+    
+    authors: list = []
+    for i in range(number_of_authors):
+        if chapter_author:
+            last_name = data.get(f"chapter_last_name_{i}")
+            first_name = data.get(f"chapter_first_name_{i}")
+            second_name = data.get(f"chapter_second_name_{i}")
+        else:
+            last_name = data.get(f"last_name_{i}")
+            first_name = data.get(f"first_name_{i}")
+            second_name = data.get(f"second_name_{i}")
+
+        # Return if last_name field was somehow left blank
+        if not last_name:
+            return False
+
+        last_name = clean_text_data(last_name)
+        if not first_name:
+            # If there is only last name
+            author = last_name
+        else:
+            first_name = clean_text_data(first_name)
+            if second_name:
+                second_name = clean_text_data(second_name)
+                # Case with multiple names
+                author = f"{last_name} {first_name} {second_name}"
+            else:
+                # Case without second names
+                author = f"{last_name} {first_name}"
+            
+        authors.append(author)
+    # Make str from authors list, separating authors by comma
+    return ", ".join(authors)

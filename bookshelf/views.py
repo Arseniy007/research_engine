@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import *
+from .source_alteration import alter_source
 from .source_creation import clean_author_data, create_source
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
@@ -110,14 +111,16 @@ def alter_source_info(request, source_id):
 
     form = get_type_of_source_form(request.POST, alter_source=True)
     if not form:
+        print("no form")
         return JsonResponse({"message": "error"})
 
     if form.is_valid():
         # Check source and get its attrs
         source = check_source(source_id, request.user)
-        form.save_source(source)
+        # Alter and save source obj
+        alter_source(source, form)
 
-        link = reverse("sourceshelf:source_space", args=(source_id,))
+        link = reverse("bookshelf:source_space", args=(source_id,))
         return redirect(link)
 
     else:

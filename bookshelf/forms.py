@@ -22,14 +22,14 @@ class CommonFields(forms.Form):
 
 
 class BookForm(CommonFields):
-    source_type = forms.CharField(initial="book", widget=forms.HiddenInput())
+    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "book"}))
     title = forms.CharField()
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
     year = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
 
 
 class ArticleForm(CommonFields):
-    source_type = forms.CharField(initial="article", widget=forms.HiddenInput())
+    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "article"}))
     journal_title = forms.CharField()
     article_title = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.article_class}))
     volume = forms.IntegerField(widget=forms.NumberInput(attrs={"class": FieldClass.article_class}))
@@ -43,7 +43,7 @@ class ChapterForm(CommonFields):
     number_of_chapter_authors = forms.IntegerField(widget=forms.HiddenInput(attrs={
         "name": "number_of_chapter_authors", 
         "class": "final_number_of_chapter_authors"}))
-    source_type = forms.CharField(initial="chapter", widget=forms.HiddenInput())
+    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "chapter"}))
     chapter_title = forms.CharField()
     book_title = forms.CharField()
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.book_class}))
@@ -53,7 +53,7 @@ class ChapterForm(CommonFields):
 
 
 class WebpageForm(CommonFields):
-    source_type = forms.CharField(initial="webpage", widget=forms.HiddenInput())
+    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "webpage"}))
     page_title = forms.CharField()
     website_title = forms.CharField()
     page_url = forms.CharField(widget=forms.TextInput(attrs={"class": FieldClass.webpage_class}))
@@ -121,19 +121,14 @@ class AlterBookForm(forms.ModelForm):
         fields = "__all__"
         exclude = EXCLUDE_FIELDS
     
-    source_type = forms.CharField(initial="book", widget=forms.HiddenInput())
+    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "book"}))
 
     def set_initials(self, book: Book):
         for field in self.fields:
             if field != "source_type":
                 self.fields[field].initial = book.__getattribute__(field)
         return self
-    
-    def save_altered_source(self, source: Source):
-        # TODO
-        # Form method or separate fiel func?
-        pass
-        
+
 
 class AlterArticleForm(forms.ModelForm):
     class Meta:
@@ -141,7 +136,7 @@ class AlterArticleForm(forms.ModelForm):
         fields = "__all__"
         exclude = EXCLUDE_FIELDS
     
-    source_type = forms.CharField(initial="article", widget=forms.HiddenInput())
+    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "article"}))
 
     def set_initials(self, article: Article):
         for field in self.fields:
@@ -156,7 +151,7 @@ class AlterChapterForm(forms.ModelForm):
         fields = "__all__"
         exclude = EXCLUDE_FIELDS
 
-    source_type = forms.CharField(initial="chapter", widget=forms.HiddenInput())
+    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "chapter"}))
 
     def set_initials(self, chapter: Chapter):
         for field in self.fields:
@@ -171,7 +166,7 @@ class AlterWebpageForm(forms.ModelForm):
         fields = "__all__"
         exclude = EXCLUDE_FIELDS
 
-    source_type = forms.CharField(initial="webpage", widget=forms.HiddenInput())
+    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "webpage"}))
 
     def set_initials(self, webpage: Webpage):
         for field in self.fields:
@@ -185,19 +180,19 @@ def get_type_of_source_form(data, alter_source=False):
     Based on form hidden imput get obj type and return either obj-creation or obj-alter form.
     data arg. = request.POST
     """
-    if "book" in data:
+    if "book" in data["source_type"]:
         if alter_source:
             return AlterBookForm(data)
         return BookForm(data)
-    elif "article" in data:
+    elif "article" in data["source_type"]:
         if alter_source:
             return AlterArticleForm(data)
         return  ArticleForm(data)
-    elif "chapter" in data:
+    elif "chapter" in data["source_type"]:
         if alter_source:
             return AlterChapterForm(data)
         return ChapterForm(data)
-    elif "webpage" in data:
+    elif "webpage" in data["source_type"]:
         if alter_source:
             return AlterWebpageForm(data)
         return WebpageForm(data)

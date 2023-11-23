@@ -1870,4 +1870,64 @@ function hide_all_forms() {
     else:
         # TODO
         return JsonResponse({"message": "error"})
+
+                        if field == "date":
+                    right_date = validate_date(info)
+                    if not right_date:
+                        # TODO
+                        pass
+                elif field == "link"
+
+
+    def alter_article(article: Article, form: AlterArticleForm):
+
+    was_updated = False
+    for field in form.fields:
+        if field != "source_type":
+            info = form.cleaned_data[field]
+            if article.__getattribute__(field) != info:
+                if type(info) == str:
+                    info = clean_text_data(info)
+                article.__setattr__(field, info)
+                article.save(update_fields=(field,))
+    if was_updated:
+        return update_endnotes(article)
+
+
+def alter_chapter(chapter: Chapter, form: AlterChapterForm):
+
+    was_updated = False
+    for field in form.fields:
+        if field != "source_type":
+            info = form.cleaned_data[field]
+            if chapter.__getattribute__(field) != info:
+                if type(info) == str:
+                    info = clean_text_data(info)
+                chapter.__setattr__(field, info)
+                chapter.save(update_fields=(field,))
+    if was_updated:
+        return update_endnotes(chapter)
+
+
+def alter_webpage(webpage: Webpage, form: AlterWebpageForm):
+
+    was_updated = False
+    for field in form.fields:
+        if field != "source_type":
+            info = form.cleaned_data[field]
+            if webpage.__getattribute__(field) != info:
+                if type(info) == str:
+                    info = clean_text_data(info)
+                if field == "date":
+                    if not validate_date(info):
+                        # TODO
+                        pass
+                elif field == "page_url":
+                    if not check_link(info):
+                        # TODO
+                        pass  
+                webpage.__setattr__(field, info)
+                webpage.save(update_fields=(field,))
+    if was_updated:
+        return update_endnotes(webpage)
 """
