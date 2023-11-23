@@ -1,8 +1,11 @@
 from django import forms
-from .models import Book, Quote, Source, Endnote
+from .models import Book, Quote, Source, Endnote, Article, Chapter, Webpage
 from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
-from user_management.models import User
-from utils.verification import check_link, check_quote
+from utils.verification import check_link
+
+
+EXCLUDE_FIELDS = ("user", "work_space", "real_type", "file", "link",)
+
 
 # Do I need this?
 class FieldClass:
@@ -74,33 +77,10 @@ class AddLinkForm(forms.Form):
         link = self.cleaned_data["link"]
         if not check_link(link):
             return False
-        
         source.link = link
         source.save(update_fields=("link",))
         return True
 
-
-class AlterSourceForm(forms.ModelForm):
-    class Meta:
-        model = Book
-        fields = "__all__"
-        exclude = ["user", "work_space", "multiple_authors", "file"]
-
-    # Probably gonna chaned that later
-    # TODO
-
-
-    def save_source(self, book: Book):
-
-        params = ("title", "author", "year", "publishing_house", "link")
-
-        # Set new attr if was submitted
-        for param in params:
-            if self.cleaned_data[param]:
-                setattr(book, param, self.cleaned_data[param])
-
-        book.save(update_fields=params)
-    
 
 class NewQuoteForm(forms.ModelForm):
     class Meta:
@@ -113,12 +93,10 @@ class NewQuoteForm(forms.ModelForm):
         new_quote.save()
 
 
-class AlterQuoteForm(forms.Form):
+class AlterQuoteForm(forms.ModelForm):
     class Meta:
         model = Quote
         fields = ["text", "page"]
-
-    quote_pk = forms.CharField(widget=forms.HiddenInput())
 
     def save_altered_quote(self, quote: Quote):
         quote.text = self.cleaned_data["text"]
@@ -135,3 +113,73 @@ class AlterEndnoteForm(forms.Form):
         endnote.apa = self.cleaned_data["apa"]
         endnote.mla = self.cleaned_data["mla"]
         return endnote.save(update_fields=("apa", "mla",))
+
+
+
+class AlterSourceForm(forms.Form):
+    pass
+
+
+
+class AlterBookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = "__all__"
+        exclude = EXCLUDE_FIELDS
+
+    def set_initials(self, book: Book):
+        for field in self.fields:
+            self.fields[field].initial = book.__getattribute__(field)
+        return self
+        
+
+class AlterArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = "__all__"
+        exclude = EXCLUDE_FIELDS
+
+    def set_initials(self, article: Article):
+        for field in self.fields:
+            self.fields[field].initial = article.__getattribute__(field)
+        return self
+
+
+class AlterChapterForm(forms.ModelForm):
+    class Meta:
+        model = Chapter
+        fields = "__all__"
+        exclude = EXCLUDE_FIELDS
+
+    def set_initials(self, chapter: Chapter):
+        for field in self.fields:
+            self.fields[field].initial = chapter.__getattribute__(field)
+        return self
+
+
+class AlterWebpageForm(forms.ModelForm):
+    class Meta:
+        model = Webpage
+        fields = "__all__"
+        exclude = EXCLUDE_FIELDS
+
+    def set_initials(self, webpage: Webpage):
+        for field in self.fields:
+            self.fields[field].initial = webpage.__getattribute__(field)
+        return self
+
+
+def get_and_set_alter_form(source: Source):
+    """Based on given source type get form and prepopulate it with source info"""
+    source_type = source.cast()
+    match source_type:
+        case Book():
+            return AlterBookForm().set_initials(source.book)
+        case Article():
+            return AlterArticleForm().set_initials(source.article)
+        case Chapter():
+            return AlterChapterForm().set_initials(source.chapter)
+        case Webpage():
+            return AlterWebpageForm().set_initials(source.webpage)
+        case _:
+            return None

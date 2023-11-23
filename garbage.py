@@ -287,7 +287,7 @@ def quote_apa(self):
 
 
 
-
+"""
 from user_management.models import User
 
 from work_space.models import WorkSpace
@@ -306,7 +306,7 @@ book = Book.objects.get(pk=2)
 
 
 quote_book_apa(book)
-
+"""
 
 
 #Old bookshelf models:
@@ -1831,5 +1831,30 @@ function hide_all_forms() {
         day = day[-1]
     return f"{year}, {month} {day}"
     
+    quote_pk = forms.CharField(widget=forms.HiddenInput())
 
+
+    class AlterSourceForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = "__all__"
+        exclude = ["user", "work_space", "multiple_authors", "file"]
+
+    # Probably gonna chaned that later
+    # TODO
+
+
+    def save_source(self, book: Book):
+
+        params = ("title", "author", "year", "publishing_house", "link")
+
+        # Set new attr if was submitted
+        for param in params:
+            if self.cleaned_data[param]:
+                setattr(book, param, self.cleaned_data[param])
+
+        book.save(update_fields=params)
+
+        def set_initial_book_form(form, book: Book):
+            pass
 """

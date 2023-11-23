@@ -224,12 +224,9 @@ def source_space(request, source_id):
     upload_form = UploadSourceForm()
     quote_form = NewQuoteForm()
     link_form = AddLinkForm()
-    alter_form = AlterSourceForm(initial={
-                                        "title": source.title, 
-                                        "author": source.author,
-                                        "year": source.year, 
-                                        "publishing_house": "Test",
-                                        })
+
+    alter_form = get_and_set_alter_form(source)
+    
 
 
     return render(request, "bookshelf/source_space.html", {"source": source, 
