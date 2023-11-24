@@ -9,7 +9,7 @@ from .source_creation import clean_author_data, create_source
 from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
 from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
 
-#from django.contrib import messages
+from django.contrib import messages
 
 
 @login_required(redirect_field_name=None)
@@ -18,7 +18,7 @@ def add_source(request, space_id):
 
     form = get_type_of_source_form(request.POST)
     if not form:
-        #messages.add_message(request, messages.ERROR, "No author provided!") !!!!! TODO
+        messages.add_message(request, messages.ERROR, "Invalid form!")
         return JsonResponse({"message": "error"})
     
     if form.is_valid():
@@ -29,27 +29,24 @@ def add_source(request, space_id):
 
         # Webpage is the only obj there author field could be blank
         if not author and type(form) != WebpageForm:
-            # TODO
-            pass
-            #return HttpResponse(status=404)
-            #messages.add_message(request, messages.ERROR, "No author provided!") !!!!!! TODO
+            messages.add_message(request, messages.ERROR, "No author provided!")
 
         if type(form) == ChapterForm:
             chapter_author = clean_author_data(request.POST, chapter_author=True)
             if not chapter_author:
-                # TODO
-                return JsonResponse({"message": "error"})
-            create_source(request.user, space, form, author, chapter_author=chapter_author)
+                messages.add_message(request, messages.ERROR, "No author provided!")
+            else:
+                create_source(request.user, space, form, author, chapter_author=chapter_author)
+                messages.add_message(request, messages.SUCCESS, "Alles gut!")
         else:
             create_source(request.user, space, form, author)
+            messages.add_message(request, messages.SUCCESS, "Alles gut!")
 
-        link = reverse("work_space:space", args=(space.pk,))
-        return redirect(link)
-    
     else:
-        print(form.errors)
-        # TODO
-        return JsonResponse({"message": "error"})
+        messages.add_message(request, messages.ERROR, "Invalid form!")
+
+    link = reverse("work_space:space", args=(space.pk,))
+    return redirect(link)
     
 
 @source_ownership_required

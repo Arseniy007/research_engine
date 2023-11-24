@@ -1935,4 +1935,9 @@ def alter_webpage(webpage: Webpage, form: AlterWebpageForm):
     if url:
         return cleaned_data
     return cleaned_data.title()
+
+        else:
+        print(form.errors)
+        # TODO
+        return JsonResponse({"message": "error"})
 """
