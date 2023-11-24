@@ -145,8 +145,6 @@ def alter_endnote(request, endnote_id):
         link = reverse("bookshelf:source_space", args=(source.pk,))
         return redirect(link)
 
-        # TODO
-
     else:
         print(form.errors)
         # TODO

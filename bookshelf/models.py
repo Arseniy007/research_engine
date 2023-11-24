@@ -112,7 +112,14 @@ class Quote(models.Model):
         super(Quote, self).save(*args, **kwargs)
 
 
+    def apa_formatted(self):
+        return f'"{self.text}" {self.apa}'
+
+
+    def mla_formatted(self):
+        return f'"{self.text}" {self.mla}'
+
+
     def __str__(self):
         """Display quotes text"""
-        # TODO
-        return f'"{self.text}" (p. {self.page})'
+        return self.apa_formatted()
