@@ -1,13 +1,13 @@
 import shutil
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from .forms import *
 from .source_alteration import alter_source
 from .source_creation import clean_author_data, create_source
-from utils.decorators import source_ownership_required, quote_ownership_required, endnote_ownership_required
-from utils.verification import check_source, check_work_space, check_quote, check_endnote, get_endnotes
+from utils.decorators import endnote_ownership_required, quote_ownership_required, source_ownership_required
+from utils.verification import check_endnote, check_quote, check_source, check_work_space, get_endnotes
 
 from django.contrib import messages
 

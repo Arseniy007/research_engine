@@ -1,6 +1,8 @@
+from typing import Callable
+from django import forms
 from .dates import validate_date
-from .forms import BookForm, ArticleForm, ChapterForm, WebpageForm
-from .models import Article, Book, Chapter, Source, Webpage, Endnote
+from .forms import ArticleForm, BookForm, ChapterForm, WebpageForm
+from .models import Article, Book, Chapter, Endnote, Source, Webpage
 from .quoting_apa import quote_source_apa
 from .quoting_mla import quote_source_mla
 from user_management.models import User
@@ -8,104 +10,83 @@ from utils.verification import check_link
 from work_space.models import WorkSpace
 
 
-def create_source(user: User, space: WorkSpace, form, author, chapter_author=None):
+def create_source(user: User, space: WorkSpace, form: forms.Form, author: str, chapter_author=None) -> Callable | None:
     """Get future source type and call right func"""
-    match form:
-        case BookForm():
-            return create_book_obj(user, space, form, author)
-        case ArticleForm():
-            return create_article_obj(user, space, form, author)
-        case ChapterForm():
-            return create_chapter_obj(user, space, form, author, chapter_author)
-        case WebpageForm():
-            return create_webpage_obj(user, space, form, author)
-
-
-def create_book_obj(user: User, space: WorkSpace, form: BookForm, author):
-    """Validate Bookform and create Book obj"""
 
     # Iterate through all fields and clean its data
-    data: dict = {}
+    cleaned_data: dict = {}
     for field in form.fields:
         info = form.cleaned_data[field]
         if type(info) == str:
             info = clean_text_data(info)
-        data[field] = info
+        cleaned_data[field] = info
+
+    match form:
+        case BookForm():
+            return create_book_obj(user, space, cleaned_data, author)
+        case ArticleForm():
+            return create_article_obj(user, space, cleaned_data, author)
+        case ChapterForm():
+            return create_chapter_obj(user, space, cleaned_data, author, chapter_author)
+        case WebpageForm():
+            return create_webpage_obj(user, space, cleaned_data, author)
+        case _:
+            return None
+
+
+def create_book_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str):
+    """Validate Bookform and create Book obj"""
 
     # Create and save new Book obj
-    new_book = Book(work_space=space, user=user, title=data["title"], author=author, year=data["year"], 
-                    publishing_house=data["publishing_house"])
+    new_book = Book(work_space=space, user=user, author=author, title=cleaned_data["title"], 
+                    year=cleaned_data["year"], publishing_house=cleaned_data["publishing_house"])
     new_book.save()
     # Create new Endnote obj with Foreign key to this Book obj
     return save_endnotes(new_book)
 
 
-def create_article_obj(user: User, space: WorkSpace, form: ArticleForm, author: str):
+def create_article_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str):
     """Validate Articleform and create Article obj"""
 
-    # Iterate through all fields and clean its data
-    data: dict = {}
-    for field in form.fields:
-        info = form.cleaned_data[field]
-        if type(info) == str:
-            info = clean_text_data(info)
-        data[field] = info
-
     # Create and save new Article obj
-    new_article = Article(work_space=space, user=user, title=data["article_title"], author=author, year=data["year"], 
-                            journal_title=data["journal_title"], volume=data["volume"], 
-                            issue=data["issue"], pages=data["pages"], link_to_journal=data["link_to_journal"])
+    new_article = Article(work_space=space, user=user, author=author, title=cleaned_data["article_title"], 
+                          year=cleaned_data["year"], journal_title=cleaned_data["journal_title"], 
+                          volume=cleaned_data["volume"], issue=cleaned_data["issue"], 
+                          pages=cleaned_data["pages"], link_to_journal=cleaned_data["link_to_journal"])
     new_article.save()
     # Create new Endnote obj with Foreign key to this Article obj
     return save_endnotes(new_article)
 
 
-def create_chapter_obj(user: User, space: WorkSpace, form: ChapterForm, book_author: str, chapter_author: str):
+def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_author: str, chapter_author: str):
     """Validate Chapterform and create Chapter obj"""
-
-    # Iterate through all fields and clean its data
-    data: dict = {}
-    for field in form.fields:
-        info = form.cleaned_data[field]
-        if type(info) == str:
-            info = clean_text_data(info)
-        data[field] = info
     
     # Create and save new Chapter obj
-    new_chapter = Chapter(work_space=space, user=user, author=chapter_author, title=data["chapter_title"], 
-                            book_title=data["book_title"], book_author=book_author,
-                            publishing_house = data["publishing_house"], year=data["year"],
-                            edition = data["edition"], pages=data["pages"])
+    new_chapter = Chapter(work_space=space, user=user, author=chapter_author, book_author=book_author, 
+                          title=cleaned_data["chapter_title"], book_title=cleaned_data["book_title"],
+                          publishing_house = cleaned_data["publishing_house"], year=cleaned_data["year"],
+                          edition = cleaned_data["edition"], pages=cleaned_data["pages"])
     new_chapter.save()
     # Create new Endnote obj with Foreign key to this Chapter obj
     return save_endnotes(new_chapter)
 
 
-def create_webpage_obj(user: User, space: WorkSpace, form: WebpageForm, author: str | None):
+def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str | None):
     """Validate Webpageform and create Webpage obj"""
-
-    # Iterate through all fields and clean its data
-    data: dict = {}
-    for field in form.fields:
-        info = form.cleaned_data[field]
-        if type(info) == str:
-            if field == "page_url":
-                info = clean_text_data(info, url=True)
-            info = clean_text_data(info)
-        data[field] = info
 
     if not author:
         author = "No author"
 
     # Checks date and if a given page url is indeed a link and gets you to a real webpage
-    page_url, date = data["page_url"], data["date"]
+    page_url, date = cleaned_data["page_url"], cleaned_data["date"]
     if not check_link(page_url) or not validate_date(date):
         # TODO
         pass
 
     # Create and save new Webpage obj
-    new_webpage = Webpage(work_space=space, user=user, title=data["page_title"], author=author, 
-                            website_title=data["website_title"], page_url=page_url, date=date)
+    new_webpage = Webpage(work_space=space, user=user, author=author, 
+                          page_url=page_url, date=date, title=cleaned_data["page_title"],
+                          website_title=cleaned_data["website_title"])
     new_webpage.save()
     # Create new Endnote obj with Foreign key to this Webpage obj
     return save_endnotes(new_webpage)
@@ -117,7 +98,7 @@ def save_endnotes(source: Source):
     return endnotes.save()
 
 
-def clean_text_data(data: str, url=False):
+def clean_text_data(data: str) -> str:
     """Cleans given str-field"""
     return data.strip(""".,'" """)
 

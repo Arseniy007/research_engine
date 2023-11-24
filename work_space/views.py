@@ -2,16 +2,16 @@ import os
 import shutil
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
-from bookshelf.forms import BookForm, ArticleForm, ChapterForm, WebpageForm
-from .forms import NewWorkSpaceForm, RenameWorkSpaceForm, ReceiveInvitationForm, NewCommentForm, AlterCommentForm
+from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
+from .forms import AlterCommentForm, NewCommentForm, NewWorkSpaceForm, ReceiveInvitationForm, RenameWorkSpaceForm
 from .friendly_dir import create_friendly_dir
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
 from paper_work.forms import NewPaperForm
 from research_engine.settings import FRIENDLY_TMP_ROOT
-from utils.decorators import space_ownership_required, comment_authorship_required
+from utils.decorators import comment_authorship_required, space_ownership_required
 from utils.verification import check_comment, check_invitation, check_work_space
 
 

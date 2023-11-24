@@ -14,7 +14,7 @@ def saving_path(instance, filename):
 
 class Source(models.Model):
     """
-    An abstract base class for all possible sources: books, articles, chapters, webpages etc.
+    A parent base class for all possible sources: books, articles, chapters, webpages etc.
     Using _cast_ method one can access child class of any source-objects
     """
     real_type = models.ForeignKey(ContentType, editable=False, on_delete=models.CASCADE)
@@ -33,7 +33,7 @@ class Source(models.Model):
 
 
     def save(self, *args, **kwargs):
-        """Custom save func with obj real type storing and automatic Endnote obj creation"""
+        """Custom save func with obj real type storing"""
         if self._state.adding:
             self.real_type = self.get_real_type()
         super(Source, self).save(*args, **kwargs)

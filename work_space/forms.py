@@ -1,5 +1,5 @@
 from django import forms
-from .models import WorkSpace, Comment
+from .models import Comment, WorkSpace
 from user_management.models import User
 
 

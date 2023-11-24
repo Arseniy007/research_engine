@@ -1,7 +1,7 @@
 import shutil
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from .forms import NewPaperForm, RenamePaperForm
 from file_handling.forms import NewPaperVersionForm

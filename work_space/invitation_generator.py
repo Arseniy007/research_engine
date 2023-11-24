@@ -1,5 +1,5 @@
-from string import ascii_lowercase, ascii_uppercase, digits
 from random import SystemRandom
+from string import ascii_lowercase, ascii_uppercase, digits
 from django.db import IntegrityError
 from .models import Invitation
 

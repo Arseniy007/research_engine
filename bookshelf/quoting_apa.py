@@ -1,6 +1,6 @@
 from typing import Callable
 from .dates import format_date
-from .models import Source, Article, Book, Chapter, Webpage
+from .models import Article, Book, Chapter, Source, Webpage
 
 
 def format_authors_apa(author_field: str) -> str:

@@ -1,7 +1,7 @@
-from office_word_count import Counter
 import shutil
 import textract
 from binascii import hexlify
+from office_word_count import Counter
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect
@@ -9,7 +9,7 @@ from django.urls import reverse
 from .forms import NewPaperVersionForm
 from .models import PaperVersion
 from utils.decorators import paper_authorship_required
-from utils.verification import check_paper, check_file
+from utils.verification import check_file, check_paper
 
 
 @login_required(redirect_field_name=None)

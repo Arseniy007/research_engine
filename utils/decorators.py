@@ -3,7 +3,7 @@ from typing import Callable
 from .verification import *
 
 
-def space_ownership_required(func: Callable):
+def space_ownership_required(func: Callable) -> Callable:
     """Checks if current user is owner of the work_space"""
     def wrapper(request, space_id):
         space = check_work_space(space_id, request.user)
@@ -13,7 +13,7 @@ def space_ownership_required(func: Callable):
     return wrapper
 
 
-def source_ownership_required(func: Callable):
+def source_ownership_required(func: Callable) -> Callable:
     """Checks if current user added this source"""
     def wrapper(request, source_id):
         source = check_source(source_id, request.user)
@@ -23,7 +23,7 @@ def source_ownership_required(func: Callable):
     return wrapper
 
 
-def endnote_ownership_required(func: Callable):
+def endnote_ownership_required(func: Callable) -> Callable:
     """Checks if current user added book to which given endnote belongs"""
     def wrapper(request, endnote_id):
         endnote = check_endnote(endnote_id, request.user)
@@ -33,7 +33,7 @@ def endnote_ownership_required(func: Callable):
     return wrapper
 
 
-def quote_ownership_required(func: Callable):
+def quote_ownership_required(func: Callable) -> Callable:
     """Checks if current user added book to which given quote belongs"""
     def wrapper(request, quote_id):
         quote = check_quote(quote_id, request.user)
@@ -43,7 +43,7 @@ def quote_ownership_required(func: Callable):
     return wrapper
 
 
-def comment_authorship_required(func: Callable):
+def comment_authorship_required(func: Callable) -> Callable:
     """Checks if current user wrote this comment"""
     def wrapper(request, comment_id):
         comment = check_comment(comment_id, request.user)
@@ -53,7 +53,7 @@ def comment_authorship_required(func: Callable):
     return wrapper
 
 
-def paper_authorship_required(func: Callable):
+def paper_authorship_required(func: Callable) -> Callable:
     """Checks if current user is author of the paper"""
     def wrapper(request, paper_id):
         paper = check_paper(paper_id, request.user)

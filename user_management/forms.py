@@ -19,4 +19,3 @@ class ChangePasswordForm(forms.Form):
         "autocomplete": "off",
         "id": "confirmation"})
     )
-

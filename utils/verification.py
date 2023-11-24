@@ -1,13 +1,15 @@
+import requests
+from requests.exceptions import RequestException
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
-import requests
-from bookshelf.models import Source, Article, Book, Quote, Webpage, Endnote, Chapter
+from bookshelf.models import Article, Book, Chapter, Endnote, Quote, Source, Webpage
 from file_handling.models import PaperVersion
 from paper_work.models import Paper
+from user_management.models import User
 from work_space.models import Comment, Invitation, WorkSpace
 
 
-def check_work_space(space_id, user):
+def check_work_space(space_id: int, user: User) -> WorkSpace:
     """Checks if work_space exists and the user is either its owner or guest"""
     try:
         space = WorkSpace.objects.get(pk=space_id)
@@ -19,7 +21,7 @@ def check_work_space(space_id, user):
     return space
         
 
-def check_paper(paper_id, user):
+def check_paper(paper_id: int, user: User) -> Paper:
     """Checks if user is the author of the given page and page exists"""
     try:
         paper = Paper.objects.get(pk=paper_id)
@@ -30,7 +32,7 @@ def check_paper(paper_id, user):
     return paper
 
 
-def check_file(file_id, user):
+def check_file(file_id: int, user: User) -> PaperVersion:
     """Checks if user is the author of the given paper version and this version exists"""
     try:
         file = PaperVersion.objects.get(pk=file_id)
@@ -41,7 +43,7 @@ def check_file(file_id, user):
     return file
 
 
-def check_source(source_id, user):
+def check_source(source_id: int, user: User) -> Source:
     """Checks source, its type and work space"""
     try:
         source = Source.objects.get(pk=source_id)
@@ -64,7 +66,7 @@ def check_source(source_id, user):
         return source
 
 
-def check_endnote(endnote_id, user):
+def check_endnote(endnote_id: int, user: User) -> Endnote:
     """Checks if endnote exists"""
     try:
         endnote = Endnote.objects.get(pk=endnote_id)
@@ -75,7 +77,7 @@ def check_endnote(endnote_id, user):
     return endnote
 
 
-def get_endnotes(source: Source):
+def get_endnotes(source: Source) -> Endnote:
     """Get endnote for given source"""
     try:
         return Endnote.objects.get(source=source)
@@ -83,7 +85,7 @@ def get_endnotes(source: Source):
         raise Http404
 
 
-def check_quote(quote_id, user):
+def check_quote(quote_id: int, user: User) -> Quote:
     """Checks if quote exists"""
     try:
         quote = Quote.objects.get(pk=quote_id)
@@ -94,7 +96,7 @@ def check_quote(quote_id, user):
     return quote
     
 
-def check_comment(comment_id, user):
+def check_comment(comment_id: int, user: User) -> Comment:
     """Checks if comments exitst"""
     try:
         comment = Comment.objects.get(pk=comment_id)
@@ -105,7 +107,7 @@ def check_comment(comment_id, user):
     return comment
 
 
-def check_invitation(invitation_code: str):
+def check_invitation(invitation_code: str) -> Invitation:
     """Checks if invitation exists"""
     try:
         return Invitation.objects.get(code=invitation_code)
@@ -117,7 +119,7 @@ def check_link(link: str) -> bool:
     """Checks if given link is indeed a link and gets you to a real webpage"""
     try: 
         response = requests.get(link)
-    except requests.exceptions.RequestException:
+    except RequestException:
         return False
     else:
         return response.ok
