@@ -1,0 +1,4 @@
+django
+office_word_count
+requests
+textract
