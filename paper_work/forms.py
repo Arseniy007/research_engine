@@ -7,7 +7,6 @@ from work_space.models import WorkSpace
 class NewPaperForm(forms.Form):
     title = forms.CharField(max_length=50)
 
-
     def save_paper(self, space: WorkSpace, user: User):
         """Save new Paper object"""
         new_paper = Paper(work_space=space, user=user, title=self.cleaned_data["title"])
@@ -17,7 +16,6 @@ class NewPaperForm(forms.Form):
 
 class RenamePaperForm(forms.Form):
     title = forms.CharField(max_length=50)
-
 
     def save_new_name(self, paper: Paper):
         """Updates title of Paper object"""

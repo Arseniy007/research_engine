@@ -16,6 +16,15 @@ class NewWorkSpaceForm(forms.Form):
 class RenameWorkSpaceForm(forms.Form):
     new_title = forms.CharField(max_length=50)
 
+    def set_initial(self, space: WorkSpace):
+        self.fields["new_title"].initial = space.title
+        return self
+    
+
+    def save_new_title(self, space: WorkSpace):
+        space.title = self.cleaned_data["new_title"]
+        return space.save(update_fields=("title",))
+
 
 class ReceiveInvitationForm(forms.Form):
     code = forms.CharField(max_length=15)

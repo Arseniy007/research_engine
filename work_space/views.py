@@ -18,7 +18,7 @@ from utils.verification import check_comment, check_invitation, check_work_space
 @login_required(redirect_field_name=None)
 def index(request):
 
-    return render(request, "work_space/index.html", {"form": NewWorkSpaceForm, 
+    return render(request, "work_space/index.html", {"form": NewWorkSpaceForm(), 
                                                      "spaces": WorkSpace.objects.all(),
                                                      "form_invitation": ReceiveInvitationForm()})
 
@@ -100,17 +100,13 @@ def download_work_space(request, space_id):
 @space_ownership_required
 @login_required(redirect_field_name=None)
 def rename_work_space(request, space_id):
-    # TODO
+    """Allow workspace owner to rename space"""
 
     form = RenameWorkSpaceForm(request.POST)
 
     if form.is_valid():
         space = check_work_space(space_id, request.user)
-
-        new_title = form.cleaned_data["new_title"]
-        space.title = new_title
-        space.save(update_fields=("title",))
-
+        form.save_new_title(space)
         return JsonResponse({"message": "ok"})
 
     else:
@@ -137,7 +133,7 @@ def invite_to_work_space(request, space_id):
 
 @login_required(redirect_field_name=None)
 def receive_invitation(request):
-    '''Adds user as guest to the new work space if they were invited'''
+    """Adds user as guest to the new work space if they were invited"""
 
     form = ReceiveInvitationForm(request.POST)
 
@@ -251,5 +247,6 @@ def work_space(request, space_id):
                                                           "chapter_form": ChapterForm(),
                                                           "webpage_form": WebpageForm(),
                                                           "comment_form": NewCommentForm(),
+                                                          "rename_form": RenameWorkSpaceForm().set_initial(space),
                                                           "comments": space.comments.all()
                                                           })

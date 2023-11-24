@@ -8,7 +8,6 @@ from user_management.models import User
 class NewPaperVersionForm(forms.Form):
     file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
 
-
     def save_new_file(self, paper: Paper, user: User):
         """Saves new PaperVersion object"""
         new_file = PaperVersion(user=user, paper=paper, file=self.cleaned_data["file"])
