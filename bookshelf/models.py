@@ -36,7 +36,7 @@ class Source(models.Model):
         """Custom save func with obj real type storing"""
         if self._state.adding:
             self.real_type = self.get_real_type()
-        super(Source, self).save(*args, **kwargs)
+        return super(Source, self).save(*args, **kwargs)
 
 
     def get_real_type(self):
