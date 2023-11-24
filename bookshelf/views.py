@@ -219,7 +219,7 @@ def source_space(request, source_id):
 
     endnotes = get_endnotes(source)
 
-    endnote_form = AlterEndnoteForm(initial={"apa": endnotes.apa, "mla": endnotes.mla})
+    endnote_form = AlterEndnoteForm().set_initials(endnotes)
 
     upload_form = UploadSourceForm()
     quote_form = NewQuoteForm()

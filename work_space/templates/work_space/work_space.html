@@ -93,6 +93,7 @@
     <ul>
         {% for comment in comments %}
             <li>{{ comment }}</li>
+            <small>{{ comment.created }}</small>
         {% endfor %}
     </ul><br><br><br>
 

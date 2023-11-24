@@ -98,6 +98,13 @@ class AlterQuoteForm(forms.ModelForm):
         model = Quote
         fields = ["text", "page"]
 
+    def set_initials(self, quote: Quote):
+        """Pre-populate fields"""
+        self.fields["text"].initial = quote.text
+        self.fields["page"].initial = quote.page
+        return self 
+
+
     def save_altered_quote(self, quote: Quote):
         quote.text = self.cleaned_data["text"]
         quote.page = self.cleaned_data["page"]
@@ -107,6 +114,13 @@ class AlterQuoteForm(forms.ModelForm):
 class AlterEndnoteForm(forms.Form):
     apa = forms.CharField(widget=forms.Textarea)
     mla = forms.CharField(widget=forms.Textarea)
+
+    def set_initials(self, endnote: Endnote):
+        """Pre-populate fields"""
+        self.fields["apa"].initial = endnote.apa
+        self.fields["mla"].initial = endnote.mla
+        return self
+        
 
     def save_endnote(self, endnote: Endnote):
         """Alter text field in Endnote obj"""
