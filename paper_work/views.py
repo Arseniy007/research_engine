@@ -49,22 +49,6 @@ def delete_paper(request, paper_id):
     return JsonResponse({"message": "ok"})
 
 
-@login_required(redirect_field_name=None)
-def paper_space(request, paper_id):
-    """Saves current version of the paper"""
-    # TODO
-
-    paper = check_paper(paper_id, request.user)
-
-    paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
-
-    links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
-
-    return render(request, "paper_work/paper_space.html", {"form": NewPaperVersionForm(), 
-                                                           "paper": paper, "paper_versions": paper_versions, 
-                                                           "links": links, "rename_form": RenamePaperForm()})
-
-
 @paper_authorship_required
 @login_required(redirect_field_name=None)
 def archive_paper(request, paper_id):
@@ -74,9 +58,7 @@ def archive_paper(request, paper_id):
     paper = check_paper(paper_id, request.user)
 
     # Archive paper
-    paper.is_archived = True
-    paper.save(update_fields=("is_archive",))
-
+    paper.archive()
     return JsonResponse({"message": "ok"})
 
 
@@ -90,7 +72,6 @@ def rename_paper(request, paper_id):
         # Update papers name
         paper = check_paper(paper_id, request.user)
         form.save_new_name(paper)
-
         return JsonResponse({"message": "ok"})
 
     # TODO
@@ -105,11 +86,9 @@ def finish_paper(request, paper_id):
 
     # Mark paper as finished
     paper = check_paper(paper_id, request.user)
-    paper.is_finished = True
-    paper.save(update_fields=("is_finished",))
+    paper.finish()
 
     # Is that it?
-
     return JsonResponse({"message": "ok"})
 
 
@@ -117,13 +96,12 @@ def finish_paper(request, paper_id):
 @login_required(redirect_field_name=None)
 def publish_paper(request, paper_id):
     """Mark paper as published so it appers at the account page"""
+    # TODO
 
     paper = check_paper(paper_id, request.user)
 
     if paper.is_finished:
-        paper.is_published = True
-        paper.save(update_fields=("is_published",))
-
+        paper.publish()
         return JsonResponse({"message": "ok"})
 
     return JsonResponse({"message": "erro"})
@@ -143,6 +121,21 @@ def get_all_published_papers(request):
     # TODO
     pass
 
+
+@login_required(redirect_field_name=None)
+def paper_space(request, paper_id):
+    """Saves current version of the paper"""
+    # TODO
+
+    paper = check_paper(paper_id, request.user)
+
+    paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
+
+    links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
+
+    return render(request, "paper_work/paper_space.html", {"form": NewPaperVersionForm(), 
+                                                           "paper": paper, "paper_versions": paper_versions, 
+                                                           "links": links, "rename_form": RenamePaperForm()})
 
 
 # What else?

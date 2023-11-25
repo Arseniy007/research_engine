@@ -65,7 +65,7 @@ def get_file_info(request, file_id):
     file = check_file(file_id, request.user)
     raw_text = textract.process(file.get_full_path())
 
-    # Translate it into hexidesimal in order to handle different languages
+    # Translate it into hexidesimal in order to handle different languages (äöü)
     hex_text = str(hexlify(raw_text))
 
     # Cut the unwanted part of the new string

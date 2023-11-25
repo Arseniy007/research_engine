@@ -38,5 +38,20 @@ class Paper(models.Model):
         """Returns last uploded paper file"""
         return PaperVersion.objects.filter(paper=self).order_by("-pk")[0].pk
     
+
+    def archive(self):
+        self.is_archived = True
+        return self.save(update_fields=("is_archived"),)
+    
+
+    def finish(self):
+        self.is_finished = True
+        return self.save(update_fields=("is_finished",))
+    
+
+    def publish(self):
+        self.is_published = True
+        return self.save(update_fields=("is_published"),)
+    
     
 # Maybe add to Paper class needed number of words etc.
