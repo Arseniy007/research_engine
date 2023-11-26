@@ -41,6 +41,17 @@ class WorkSpace(models.Model):
         return f"work_space_{self.pk}"
     
 
+    def archive(self):
+        """Mark space as archived"""
+        self.is_archived = True
+        return self.save(update_fields=("is_archived",))
+    
+    
+    def add_guest(self, guest: User):
+        """Add new guest to a space"""
+        return self.guests.add(guest)
+
+
 class Invitation(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
     code = models.CharField(max_length=15, unique=True)

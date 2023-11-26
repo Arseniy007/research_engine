@@ -6,12 +6,13 @@ from django.urls import reverse
 from .forms import *
 from .source_alteration import alter_source
 from .source_creation import clean_author_data, create_source
-from utils.decorators import endnote_ownership_required, quote_ownership_required, source_ownership_required
+from utils.decorators import endnote_ownership_required, quote_ownership_required, post_request_required, source_ownership_required
 from utils.verification import check_endnote, check_quote, check_source, check_work_space, get_endnotes
 
 from django.contrib import messages
 
 
+@post_request_required
 @login_required(redirect_field_name=None)
 def add_source(request, space_id):
     """Add new source info to the work space"""
@@ -66,6 +67,7 @@ def delete_source(request, source_id):
     return JsonResponse({"message": "ok"})
 
 
+@post_request_required
 @source_ownership_required
 @login_required(redirect_field_name=None)
 def alter_source_info(request, source_id):
@@ -90,6 +92,7 @@ def alter_source_info(request, source_id):
         pass
 
 
+@post_request_required
 @login_required(redirect_field_name=None)
 def upload_source_file(request, source_id):
     """Upload .pdf/.docx file of the given source"""
@@ -112,6 +115,7 @@ def upload_source_file(request, source_id):
         pass
 
 
+@post_request_required
 @login_required(redirect_field_name=None)
 def add_link_to_source(request, source_id):
     """Adds link to a given source"""
@@ -130,6 +134,7 @@ def add_link_to_source(request, source_id):
         pass
 
 
+@post_request_required
 @endnote_ownership_required
 @login_required(redirect_field_name=None)
 def alter_endnote(request, endnote_id):
@@ -151,6 +156,7 @@ def alter_endnote(request, endnote_id):
         pass
 
 
+@post_request_required
 @login_required(redirect_field_name=None)
 def add_quote(request, source_id):
     """Saves quote from given source"""
@@ -185,6 +191,7 @@ def delete_quote(request, quote_id):
     return redirect(link)
 
 
+@post_request_required
 @quote_ownership_required
 @login_required(redirect_field_name=None)
 def alter_quote(request, quote_id):

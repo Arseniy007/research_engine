@@ -11,7 +11,7 @@ from .invitation_generator import generate_invitation
 from .models import WorkSpace
 from paper_work.forms import NewPaperForm
 from research_engine.settings import FRIENDLY_TMP_ROOT
-from utils.decorators import comment_authorship_required, space_ownership_required
+from utils.decorators import comment_authorship_required, post_request_required, space_ownership_required
 from utils.verification import check_comment, check_invitation, check_work_space
 
 
@@ -23,9 +23,10 @@ def index(request):
                                                      "form_invitation": ReceiveInvitationForm()})
 
 
+@post_request_required
 @login_required(redirect_field_name=None)
 def create_work_space(request):
-    """Created new worspace ;)"""
+    """Create new worspace ;)"""
 
     form = NewWorkSpaceForm(request.POST)
 
@@ -53,7 +54,7 @@ def delete_work_space(request, space_id):
     # Delete work pace directory with all files inside
     shutil.rmtree(space.get_path())
 
-    # Delete work s[ace] from the db
+    # Delete workspace from the db
     space.delete()
 
     return JsonResponse({"message": "ok"})
@@ -65,10 +66,7 @@ def archive_work_space(request, space_id):
     """Mark given work space as archived"""
 
     space = check_work_space(space_id, request.user)
-
-    space.is_archived = True
-    space.save(update_fields=("is_archived",))
-
+    space.archive()
     return JsonResponse({"message": "ok"})
 
 
@@ -97,6 +95,7 @@ def download_work_space(request, space_id):
         shutil.rmtree(FRIENDLY_TMP_ROOT)
 
 
+@post_request_required
 @space_ownership_required
 @login_required(redirect_field_name=None)
 def rename_work_space(request, space_id):
@@ -121,16 +120,14 @@ def rename_work_space(request, space_id):
 @login_required(redirect_field_name=None)
 def invite_to_work_space(request, space_id):
     """Create an invitation to work space for another user"""
-    # TODO
 
     # Check if user has right to invite to the work space
     space = check_work_space(space_id, request.user)
-
     invitation_code = generate_invitation(space)
-
     return JsonResponse({"invitation code": invitation_code})
 
 
+@post_request_required
 @login_required(redirect_field_name=None)
 def receive_invitation(request):
     """Adds user as guest to the new work space if they were invited"""
@@ -144,7 +141,7 @@ def receive_invitation(request):
 
         # Add user as guest to the new work space
         new_work_space = invitation.work_space
-        new_work_space.guests.add(request.user)
+        new_work_space.add_guest(request.user)
 
         # Delete invitation code
         invitation.delete()
@@ -174,6 +171,7 @@ def leave_work_space(request, space_id):
     return JsonResponse({"message": "ok"})
 
 
+@post_request_required
 @login_required(redirect_field_name=None)
 def leave_comment(request, space_id):
     """Leaves comment in given workspace"""
@@ -209,6 +207,7 @@ def delete_comment(request, comment_id):
     return redirect(link)
 
 
+@post_request_required
 @comment_authorship_required
 @login_required(redirect_field_name=None)
 def alter_comment(request, comment_id):

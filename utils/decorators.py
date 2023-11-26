@@ -1,6 +1,18 @@
-from django.core.exceptions import PermissionDenied
 from typing import Callable
+from django.core.exceptions import BadRequest, PermissionDenied
+from django.http import HttpResponseBadRequest
 from .verification import *
+
+
+def post_request_required(func: Callable) -> Callable | BadRequest:
+    """Checks type of request and allow only POST type"""
+    def wrapper(request, *args, **kwargs):
+        if request.method != "POST":
+            # TODO
+            #raise BadRequest("error")
+            return HttpResponseBadRequest("POST request required")
+        return func(request, *args, **kwargs)
+    return wrapper
 
 
 def space_ownership_required(func: Callable) -> Callable | PermissionDenied:

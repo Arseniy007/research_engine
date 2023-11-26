@@ -7,10 +7,11 @@ from .forms import NewPaperForm, RenamePaperForm
 from file_handling.forms import NewPaperVersionForm
 from file_handling.models import PaperVersion
 from .models import Paper
-from utils.decorators import paper_authorship_required
+from utils.decorators import paper_authorship_required, post_request_required
 from utils.verification import check_paper, check_work_space
 
 
+@post_request_required
 @login_required(redirect_field_name=None)
 def create_paper(request, space_id):
     """Adds new paper and creates a space for it"""
@@ -62,6 +63,7 @@ def archive_paper(request, paper_id):
     return JsonResponse({"message": "ok"})
 
 
+@post_request_required
 @paper_authorship_required
 @login_required(redirect_field_name=None)
 def rename_paper(request, paper_id):

@@ -8,10 +8,11 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from .forms import NewPaperVersionForm
 from .models import PaperVersion
-from utils.decorators import paper_authorship_required
+from utils.decorators import paper_authorship_required, post_request_required
 from utils.verification import check_file, check_paper
 
 
+@post_request_required
 @login_required(redirect_field_name=None)
 def upload_file(request, paper_id):
     """Upload .pdf/.docx file to the given paper"""
