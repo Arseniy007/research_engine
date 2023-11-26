@@ -8,6 +8,7 @@ from file_handling.forms import NewPaperVersionForm
 from file_handling.models import PaperVersion
 from .models import Paper
 from utils.decorators import paper_authorship_required, post_request_required
+from utils.messages import display_error_message, display_success_message
 from utils.verification import check_paper, check_work_space
 
 
@@ -22,15 +23,16 @@ def create_paper(request, space_id):
         # Save new paper to db
         space = check_work_space(space_id, request.user)
         new_paper = form.save_paper(space, request.user)
+        display_success_message(request)
 
         # Redirect user to the new paper-space
         link = reverse("paper_work:paper_space", args=(new_paper.pk,))
         return redirect(link)
+    
+    display_error_message(request)
+    link_back = reverse("work_space:space", args=(space_id),)
+    return redirect(link_back)
         
-    # TODO
-    print(form.errors)
-    return redirect(reverse("user_management:error_page"))
-
 
 @paper_authorship_required
 @login_required(redirect_field_name=None)
@@ -74,11 +76,12 @@ def rename_paper(request, paper_id):
         # Update papers name
         paper = check_paper(paper_id, request.user)
         form.save_new_name(paper)
-        return JsonResponse({"message": "ok"})
+        display_success_message(request)
+    else:
+        display_error_message(request)
 
-    # TODO
-    print(form.errors)
-    return redirect(reverse("user_management:error_page"))
+    link = reverse("paper_work:paper_space", args=(paper_id,))
+    return redirect(link)
         
 
 @paper_authorship_required

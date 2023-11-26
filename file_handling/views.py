@@ -9,6 +9,7 @@ from django.urls import reverse
 from .forms import NewPaperVersionForm
 from .models import PaperVersion
 from utils.decorators import paper_authorship_required, post_request_required
+from utils.messages import display_error_message, display_success_message
 from utils.verification import check_file, check_paper
 
 
@@ -18,19 +19,17 @@ def upload_file(request, paper_id):
     """Upload .pdf/.docx file to the given paper"""
 
     form = NewPaperVersionForm(request.POST, request.FILES)
+    paper = check_paper(paper_id, request.user)
 
     if form.is_valid():
         # Get and save new file
-        paper = check_paper(paper_id, request.user)
         form.save_new_file(paper, request.user)
-        
+        display_success_message(request)
     else:
-        print(form.errors)
-        # TODO
-        return redirect(reverse("user_management:error_page"))
+        display_error_message(request)
 
-    return JsonResponse({"message": "ok"})
-
+    link = reverse("paper_work:paper_space", args=(paper_id,))
+    return redirect(link)
 
 @paper_authorship_required
 @login_required(redirect_field_name=None)

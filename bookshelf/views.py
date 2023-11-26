@@ -10,17 +10,17 @@ from utils.decorators import endnote_ownership_required, quote_ownership_require
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_endnote, check_quote, check_source, check_work_space, get_endnotes
 
-from django.contrib import messages
-
 
 @post_request_required
 @login_required(redirect_field_name=None)
 def add_source(request, space_id):
     """Add new source info to the work space"""
 
+    # TODO
+
     form = get_type_of_source_form(request.POST)
     if not form:
-        messages.add_message(request, messages.ERROR, "Invalid form!")
+        display_error_message()
         return JsonResponse({"message": "error"})
     
     if form.is_valid():
@@ -31,21 +31,20 @@ def add_source(request, space_id):
 
         # Webpage is the only obj there author field could be blank
         if not author and type(form) != WebpageForm:
-            messages.add_message(request, messages.ERROR, "No author provided!")
+            display_error_message(request)
 
         if type(form) == ChapterForm:
             chapter_author = clean_author_data(request.POST, chapter_author=True)
             if not chapter_author:
-                messages.add_message(request, messages.ERROR, "No author provided!")
+                display_error_message()
             else:
                 create_source(request.user, space, form, author, chapter_author=chapter_author)
-                messages.add_message(request, messages.SUCCESS, "Alles gut!")
+                display_success_message(request)
         else:
             create_source(request.user, space, form, author)
-            messages.add_message(request, messages.SUCCESS, "Alles gut!")
-
+            display_success_message(request)
     else:
-        messages.add_message(request, messages.ERROR, "Invalid form!")
+        display_error_message()
 
     link = reverse("work_space:space", args=(space.pk,))
     return redirect(link)
@@ -106,13 +105,14 @@ def upload_source_file(request, source_id):
         if source.file:
             shutil.rmtree(source.get_path())
         form.save_file(source)
-        return JsonResponse({"message": "ok"})
-    
+        display_success_message(request)
     else:
-        print(form.errors)
-        # TODO
-        pass
+        display_error_message(request)
 
+    # TODO
+    link = reverse("bookshelf:source_space", args=(source_id,))
+    return redirect(link)
+    
 
 @post_request_required
 @login_required(redirect_field_name=None)
@@ -124,13 +124,13 @@ def add_link_to_source(request, source_id):
     if form.is_valid():
         source = check_source(source_id, request.user)
         if not form.save_link(source):
+            # TODO
             return JsonResponse({"message": "error"})
-        return JsonResponse({"message": "ok"})
-    
+        display_success_message(request)
     else:
-        print(form.errors)
-        # TODO
-        pass
+        display_error_message(request)
+    link = reverse("bookshelf:source_space", args=(source_id,))
+    return redirect(link)
 
 
 @post_request_required
@@ -144,15 +144,13 @@ def alter_endnote(request, endnote_id):
     if form.is_valid():
         endnote = check_endnote(endnote_id, request.user)
         form.save_endnote(endnote)
-
-        source = check_source(endnote.source.pk, request.user)
-        link = reverse("bookshelf:source_space", args=(source.pk,))
-        return redirect(link)
-
+        display_success_message(request)
     else:
-        print(form.errors)
-        # TODO
-        pass
+        display_error_message(request)
+
+    source = check_source(endnote.source.pk, request.user)
+    link = reverse("bookshelf:source_space", args=(source.pk,))
+    return redirect(link)
 
 
 @post_request_required
@@ -165,14 +163,12 @@ def add_quote(request, source_id):
     if form.is_valid():
         source = check_source(source_id, request.user)
         form.save_quote(source)
-
-        link = reverse("bookshelf:source_space", args=(source_id,))
-        return redirect(link)
-
+        display_success_message(request)
     else:
-        print(form.errors)
-        # TODO
-        pass
+        display_error_message(request)
+
+    link = reverse("bookshelf:source_space", args=(source_id,))
+    return redirect(link)
 
 
 @quote_ownership_required
@@ -201,14 +197,12 @@ def alter_quote(request, quote_id):
     if form.is_valid():
         quote = check_quote(quote_id, request.user)
         form.save_altered_quote(quote)
-
-        link = reverse("bookshelf:source_space", args=(quote.source.pk,))
-        return redirect(link)
-    
+        display_success_message(request)
     else:
-        print(form.errors)
-        # TODO
-        pass
+        display_error_message(request)
+        
+    link = reverse("bookshelf:source_space", args=(quote.source.pk,))
+    return redirect(link)
 
 
 @login_required(redirect_field_name=None)

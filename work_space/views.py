@@ -12,6 +12,7 @@ from .models import WorkSpace
 from paper_work.forms import NewPaperForm
 from research_engine.settings import FRIENDLY_TMP_ROOT
 from utils.decorators import comment_authorship_required, post_request_required, space_ownership_required
+from utils.messages import display_error_message, display_success_message
 from utils.verification import check_comment, check_invitation, check_work_space
 
 
@@ -34,6 +35,7 @@ def create_work_space(request):
         # Save new work space to the db and create its directory
         new_space = form.save_work_space(request.user)
         new_space.create_dir()
+        display_success_message(request)
 
         # Redirect user to the new work space
         link_to_work_space = reverse("work_space:space", args=(new_space.pk,))
@@ -41,6 +43,7 @@ def create_work_space(request):
 
     # TODO
     print(form.errors)
+    display_error_message(request)
     return redirect(reverse("user_management:error_page"))
 
 
@@ -103,14 +106,12 @@ def rename_work_space(request, space_id):
     if form.is_valid():
         space = check_work_space(space_id, request.user)
         form.save_new_title(space)
-        return JsonResponse({"message": "ok"})
-
+        display_success_message(request)
     else:
-        print(form.errors)
-        # TODO
-        pass
+        display_error_message(request)
 
-    return JsonResponse({"message": "error"})
+    link = reverse("work_space:space", args=(space_id,))
+    return redirect(link)
 
 
 @space_ownership_required
@@ -139,19 +140,16 @@ def receive_invitation(request):
         # Add user as guest to the new work space
         new_work_space = invitation.work_space
         new_work_space.add_guest(request.user)
+        display_success_message(request)
 
         # Delete invitation code
         invitation.delete()
-
-        link = reverse("work_space:space", args=(new_work_space.pk,))
-        return redirect(link)
-
     else:
-        print(form.errors)
-        # TODO
-        pass
+        display_error_message(request)
 
-    return JsonResponse({"message": "error"})
+    link = reverse("work_space:space", args=(new_work_space.pk,))
+    return redirect(link)
+
 
 
 @login_required(redirect_field_name=None)
@@ -179,14 +177,12 @@ def leave_comment(request, space_id):
         # Create new comment obj
         space = check_work_space(space_id, request.user)
         form.save_comment(space, request.user)
-
-        link = reverse("work_space:space", args=(space.pk,))
-        return redirect(link)
-
+        display_success_message(request)
     else:
-        print(form.errors)
-        # TODO
-        pass
+        display_error_message(request)
+
+    link = reverse("work_space:space", args=(space.pk,))
+    return redirect(link)
 
 
 @comment_authorship_required
@@ -209,22 +205,18 @@ def delete_comment(request, comment_id):
 @login_required(redirect_field_name=None)
 def alter_comment(request, comment_id):
     """Alter comment text"""
-    # TODO
 
     form = AlterCommentForm(request.POST)
 
     if form.is_valid():
         comment = check_comment(comment_id, request.user)
         form.save_altered_comment(comment)
-
-        link = reverse("work_space:space", args=(comment.work_space.pk,))
-        return redirect(link)
-    
+        display_success_message(request)
     else:
-        print(form.errors)
-        # TODO
-        pass
+        display_error_message(request)
 
+    link = reverse("work_space:space", args=(comment.work_space.pk,))
+    return redirect(link)
 
 
 @login_required(redirect_field_name=None)
