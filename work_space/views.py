@@ -119,6 +119,9 @@ def rename_work_space(request, space_id):
 def invite_to_work_space(request, space_id):
     """Create an invitation to work space for another user"""
 
+    # TODO
+    # Invitation text?
+
     # Check if user has right to invite to the work space
     space = check_work_space(space_id, request.user)
     invitation_code = generate_invitation(space)
@@ -238,3 +241,12 @@ def work_space(request, space_id):
                                                           "rename_form": RenameWorkSpaceForm().set_initial(space),
                                                           "comments": space.comments.all()
                                                           })
+
+@space_ownership_required
+@login_required(redirect_field_name=None)
+def share_sources(request):
+    # TODO
+
+    # or share workspace?
+    # as a link?
+    pass

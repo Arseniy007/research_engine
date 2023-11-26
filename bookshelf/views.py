@@ -222,8 +222,6 @@ def source_space(request, source_id):
 
     alter_form = get_and_set_alter_form(source)
     
-
-
     return render(request, "bookshelf/source_space.html", {"source": source, 
                                                          "upload_form": upload_form, 
                                                          "alter_form": alter_form, 
