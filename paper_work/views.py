@@ -129,6 +129,8 @@ def paper_space(request, paper_id):
     """Saves current version of the paper"""
     # TODO
 
+    # Delete later?
+
     paper = check_paper(paper_id, request.user)
 
     paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")

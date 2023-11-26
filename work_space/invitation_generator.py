@@ -1,7 +1,7 @@
 from random import SystemRandom
 from string import ascii_lowercase, ascii_uppercase, digits
 from django.db import IntegrityError
-from .models import Invitation
+from .models import Invitation, WorkSpace
 
 
 # String with all ascii char options for the generator
@@ -11,7 +11,7 @@ POPULATION = ascii_lowercase + ascii_uppercase + digits
 LENGTH_OF_STRING = 15
 
 
-def generate_invitation(space: object):
+def generate_invitation(space: WorkSpace) -> str:
     '''Generates random invitation code and creates its object'''
 
     # Make sure invitation texts never repeat

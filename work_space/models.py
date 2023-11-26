@@ -50,6 +50,11 @@ class WorkSpace(models.Model):
     def add_guest(self, guest: User):
         """Add new guest to a space"""
         return self.guests.add(guest)
+    
+    
+    def remove_guest(self, guest: User):
+        """Remove given user from a space"""
+        return self.guests.remove(guest)
 
 
 class Invitation(models.Model):

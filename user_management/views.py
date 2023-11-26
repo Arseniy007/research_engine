@@ -30,7 +30,7 @@ def login_view(request):
 
 def logout_view(request):
     '''Log user out'''
-
+    
     logout(request)
     return redirect(reverse("user_management:login"))
 

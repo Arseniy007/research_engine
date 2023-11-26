@@ -4,7 +4,7 @@ from django.http import HttpResponseBadRequest
 from .verification import *
 
 
-def post_request_required(func: Callable) -> Callable | BadRequest:
+def post_request_required(func: Callable) -> Callable | HttpResponseBadRequest:
     """Checks type of request and allow only POST type"""
     def wrapper(request, *args, **kwargs):
         if request.method != "POST":

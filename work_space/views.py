@@ -76,9 +76,7 @@ def download_work_space(request, space_id):
 
     # Check if user has right to download the work space
     space = check_work_space(space_id, request.user)
-
     user_friendly_dir = create_friendly_dir(space)
-
     if not user_friendly_dir:
         # If work space is empry
         return JsonResponse({"message": "Empty Work Space"})
@@ -86,7 +84,6 @@ def download_work_space(request, space_id):
     # Create zip file of the directory
     saving_destination = os.path.join(space.get_friendly_path(), space.title)
     zip_file = shutil.make_archive(root_dir=user_friendly_dir, base_dir=space.title, base_name=saving_destination, format="zip")
-
     try:
         # Open and send it
         return FileResponse(open(zip_file, "rb"))
@@ -167,7 +164,7 @@ def leave_work_space(request, space_id):
         return JsonResponse({"message": "error"})
 
     # Remove user
-    space.guests.remove(request.user)
+    space.remove_guest(request.user)
     return JsonResponse({"message": "ok"})
 
 
