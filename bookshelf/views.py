@@ -21,6 +21,7 @@ def add_source(request, space_id):
     form = get_type_of_source_form(request.POST)
     if not form:
         display_error_message()
+        # TODO
         return JsonResponse({"message": "error"})
     
     if form.is_valid():

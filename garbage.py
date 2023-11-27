@@ -1966,6 +1966,8 @@ def alter_source_info(request, source_id):
         # TODO
         pass
 
-
+        new_space = form.save_work_space(request.user)
+        new_space.create_dir()
+        display_success_message(request)
 
 """

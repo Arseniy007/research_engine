@@ -11,6 +11,7 @@ from .invitation_generator import generate_invitation
 from .models import WorkSpace
 from paper_work.forms import NewPaperForm
 from research_engine.settings import FRIENDLY_TMP_ROOT
+from .space_creation import create_new_space
 from utils.decorators import comment_authorship_required, post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_comment, check_invitation, check_work_space
@@ -33,8 +34,7 @@ def create_work_space(request):
 
     if form.is_valid():
         # Save new work space to the db and create its directory
-        new_space = form.save_work_space(request.user)
-        new_space.create_dir()
+        new_space = create_new_space(request.user, form.cleaned_data["title"])
         display_success_message(request)
 
         # Redirect user to the new work space
@@ -263,12 +263,28 @@ def work_space(request, space_id):
 
 @space_ownership_required
 @login_required(redirect_field_name=None)
-def share_sources(request):
+def share_work_space(request, space_id):
     # TODO
 
-    # or share workspace?
-    # as a link?
+    space = check_work_space(space_id, request.user)
+    sources = space.sources.all()
+    
+
     pass
+
+
+@login_required(redirect_field_name=None)
+def receive_stranger_space(request, space_code):
+    # TODO
+
+    invitation = check_invitation(space_code)
+    original_space = invitation.work_space
+    original_sources = original_space.sources.all()
+
+    # copy all sources (see stack overflow!)
+
+    copied_space = create_new_space(request.user, f"Copied from {original_space.owner}")
+
 
 # get all endnotes + get endnotes for the paper!
 # add them automaticly to the end of the paper? - that would be nice!
