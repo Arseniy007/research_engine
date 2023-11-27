@@ -13,7 +13,7 @@ LENGTH_OF_STRING = 15
 
 def generate_invitation(space: WorkSpace) -> str:
     '''Generates random invitation code and creates its object'''
-
+    
     # Make sure invitation texts never repeat
     while True:
         # Generate random string

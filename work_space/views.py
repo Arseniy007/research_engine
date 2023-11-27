@@ -250,3 +250,6 @@ def share_sources(request):
     # or share workspace?
     # as a link?
     pass
+
+# get all endnotes + get endnotes for the paper!
+# add them automaticly to the end of the paper? - that would be nice!

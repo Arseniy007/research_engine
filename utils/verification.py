@@ -61,7 +61,7 @@ def check_source(source_id: int, user: User) -> Source | Http404:
             case Webpage():
                 check_work_space(source.webpage.work_space.pk, user)
             case _:
-                pass
+                return None
     finally:
         return source
 
