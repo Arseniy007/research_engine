@@ -118,12 +118,11 @@ def rename_work_space(request, space_id):
 @space_ownership_required
 @login_required(redirect_field_name=None)
 def set_citation_style(request, space_id):
-    # TODO
+    """Choose citation style for all sources in work space"""
     
     form = CitationStyleForm(request.POST)
 
     if form.is_valid():
-
         space = check_work_space(space_id, request.user)
         form.save_citation_style(space)
         display_success_message(request)
@@ -247,7 +246,6 @@ def work_space(request, space_id):
     # TODO
 
     space = check_work_space(space_id, request.user)
-
 
     return render(request, "work_space/work_space.html", {"space": space, 
                                                           "papers": space.papers.all(),

@@ -145,4 +145,15 @@ def paper_space(request, paper_id):
                                                            "links": links, "rename_form": RenamePaperForm()})
 
 
+
+@login_required(redirect_field_name=None)
+def get_endnotes(request, paper_id):
+    """Get full endnotes list for the given paper"""
+    # TODO
+    # Do I need it?
+
+    pass
+
 # What else?
+# add sources!
+# + make endnote list!

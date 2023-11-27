@@ -1,5 +1,6 @@
 import os
 from django.db import models
+from bookshelf.models import Source
 from file_handling.models import PaperVersion
 from user_management.models import User
 from work_space.models import WorkSpace
@@ -9,6 +10,7 @@ class Paper(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="papers")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50, unique=True)
+    sources = models.ManyToManyField(Source, blank=True, related_name="sources")
     is_archived = models.BooleanField(default=False)
     is_finished = models.BooleanField(default=False)
     is_published = models.BooleanField(default=False)
@@ -37,6 +39,11 @@ class Paper(models.Model):
     def get_last_file_id(self):
         """Returns last uploded paper file"""
         return PaperVersion.objects.filter(paper=self).order_by("-pk")[0].pk
+    
+
+    def add_source(self, source: Source):
+        """Adds new source to the paper"""
+        return self.sources.add(source)
     
 
     def archive(self):
