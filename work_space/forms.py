@@ -3,6 +3,9 @@ from .models import Comment, WorkSpace
 from user_management.models import User
 
 
+CITATION_STYLES = (("APA", "APA"), ("MLA", "MLA"), ("APA & MLA", "APA & MLA"),)
+
+
 class NewWorkSpaceForm(forms.Form):
     title = forms.CharField(max_length=50)
 
@@ -36,7 +39,7 @@ class NewCommentForm(forms.Form):
     def save_comment(self, space: WorkSpace, user: User):
         """Save new Comment object"""
         new_comment = Comment(work_space=space, user=user, text=self.cleaned_data["text"])
-        new_comment.save()
+        return new_comment.save()
 
 
 class AlterCommentForm(forms.Form):
@@ -45,4 +48,13 @@ class AlterCommentForm(forms.Form):
     def save_altered_comment(self, comment: Comment):
         """Update text field in Comment obj"""
         comment.text = self.cleaned_data["text"]
-        comment.save(update_fields=("text",))
+        return comment.save(update_fields=("text",))
+
+
+class CitationStyleForm(forms.Form):
+    citation_style = forms.ChoiceField(choices=CITATION_STYLES)
+
+    def save_citation_style(self, space: WorkSpace):
+        "Update citation_style field in Workspace obj"
+        space.citation_style = self.cleaned_data["citation_style"]
+        return space.save(update_fields=("citation_style",))

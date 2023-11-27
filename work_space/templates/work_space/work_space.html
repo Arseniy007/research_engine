@@ -101,6 +101,13 @@
     # TODO
     <br><br><br>
 
+    <br>
+    <form action="{% url 'work_space:set_citation_style' space.pk %}" method="post">
+        {% csrf_token %} 
+        {{ citation_form }}
+        <button type="submit">Set citation style</button>
+    </form><br><br>
+
 
     
 

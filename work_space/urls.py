@@ -16,5 +16,6 @@ urlpatterns = [
     path("download_space/<int:space_id>", views.download_work_space, name="download_space"),
     path("leave_comment/<int:space_id>", views.leave_comment, name="leave_comment"),
     path("delete_comment/<int:comment_id>", views.delete_comment, name="delete_comment"),
-    path("alter_comment/<int:comment_id>", views.alter_comment, name="alter_comment")
+    path("alter_comment/<int:comment_id>", views.alter_comment, name="alter_comment"),
+    path("set_citation_style/<int:space_id>", views.set_citation_style, name="set_citation_style")
 ]

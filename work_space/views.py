@@ -5,7 +5,7 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
-from .forms import AlterCommentForm, NewCommentForm, NewWorkSpaceForm, ReceiveInvitationForm, RenameWorkSpaceForm
+from .forms import AlterCommentForm, CitationStyleForm, NewCommentForm, NewWorkSpaceForm, ReceiveInvitationForm, RenameWorkSpaceForm
 from .friendly_dir import create_friendly_dir
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
@@ -110,6 +110,26 @@ def rename_work_space(request, space_id):
     else:
         display_error_message(request)
 
+    link = reverse("work_space:space", args=(space_id,))
+    return redirect(link)
+
+
+@post_request_required
+@space_ownership_required
+@login_required(redirect_field_name=None)
+def set_citation_style(request, space_id):
+    # TODO
+    
+    form = CitationStyleForm(request.POST)
+
+    if form.is_valid():
+
+        space = check_work_space(space_id, request.user)
+        form.save_citation_style(space)
+        display_success_message(request)
+    else:
+        display_error_message(request)
+    
     link = reverse("work_space:space", args=(space_id,))
     return redirect(link)
 
@@ -239,6 +259,7 @@ def work_space(request, space_id):
                                                           "webpage_form": WebpageForm(),
                                                           "comment_form": NewCommentForm(),
                                                           "rename_form": RenameWorkSpaceForm().set_initial(space),
+                                                          "citation_form": CitationStyleForm(),
                                                           "comments": space.comments.all()
                                                           })
 
