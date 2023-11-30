@@ -1982,4 +1982,23 @@ def alter_source_info(request, source_id):
     # friendly_dir but for these func!
 
     #copied_space = create_new_space(request.user, f"Copied from {original_space.owner}")
+
+
+
+def copy_source_file(source: Source, new_space: WorkSpace, new_owner_id: int) -> str:
+    '''Returns a new path to the copied file'''
+    space_path = new_space.get_base_dir()
+    source_id, user_id = source.pk, new_owner_id
+    filename = source.file_name()
+    return f"{space_path}/books/user_{user_id}/source_{source_id}/{filename}"
+
+    if source.file:
+        source.file = copy_source_file(source, new_space, new_owner.pk)
+    source.save(update_fields=("file",))
+
+
+
+
 """
+
+
