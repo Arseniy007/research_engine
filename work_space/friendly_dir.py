@@ -4,7 +4,7 @@ from work_space.models import WorkSpace
 from utils.verification import get_endnotes
 
 
-def create_friendly_dir(work_space: WorkSpace) -> str | bool:
+def create_friendly_directory(work_space: WorkSpace) -> str | bool:
     """Creates user-friendly directory for future zip-archiving and downloading"""
 
     # Get all sources and papers in given work space

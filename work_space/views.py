@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from .forms import AlterCommentForm, CitationStyleForm, NewCommentForm, NewWorkSpaceForm, ReceiveCodeForm, RenameWorkSpaceForm
-from .friendly_dir import create_friendly_dir
+from .friendly_dir import create_friendly_directory
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
 from paper_work.forms import NewPaperForm
@@ -79,7 +79,7 @@ def download_work_space(request, space_id):
 
     # Check if user has right to download the work space
     space = check_work_space(space_id, request.user)
-    user_friendly_dir = create_friendly_dir(space)
+    user_friendly_dir = create_friendly_directory(space)
     if not user_friendly_dir:
         # If work space is empry
         return JsonResponse({"message": "Empty Work Space"})
@@ -267,13 +267,16 @@ def share_work_space(request, space_id):
     # TODO
 
     space = check_work_space(space_id, request.user)
-    share_space_code = generate_invitation(space)
-    return JsonResponse({"share_space_code": share_space_code})
+    if space.sources.all():
+        share_space_code = generate_invitation(space)
+        return JsonResponse({"share_space_code": share_space_code})
+    else:
+        return JsonResponse({"message": "You can not share empy work space"})
 
 
 @post_request_required
 @login_required(redirect_field_name=None)
-def receive_stranger_space(request, space_code):
+def receive_shared_space(request, space_code):
     """Receive a copy of a work space with all its sources if it was shared"""
     # TODO
 
@@ -284,28 +287,21 @@ def receive_stranger_space(request, space_code):
 
         original_work_space = share_space_code.work_space
 
-        copy_space_with_sources(original_work_space, request.user)
+        new_space = copy_space_with_sources(original_work_space, request.user)
 
-        # The fuck i need all these codes???? if there will be social nwtwork features???.......
+        display_success_message(request)
 
-    else:
-        display_error_message(request)
+        link = reverse("work_space:space", args=(new_space.pk,))
+        return redirect(link)
 
-
-
-
-
-    #invitation = check_invitation(space_code)
+    display_error_message(request)
+    return redirect(reverse("user_management:error_page"))
+        
 
 
+  
 
-    #original_space = invitation.work_space
-    #original_sources = original_space.sources.all()
 
-    # copy all sources (see stack overflow!)
-    # friendly_dir but for these func!
-
-    #copied_space = create_new_space(request.user, f"Copied from {original_space.owner}")
 
 
 # get all endnotes + get endnotes for the paper!

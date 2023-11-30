@@ -1970,4 +1970,16 @@ def alter_source_info(request, source_id):
         new_space.create_dir()
         display_success_message(request)
 
+        
+    #invitation = check_invitation(space_code)
+
+
+
+    #original_space = invitation.work_space
+    #original_sources = original_space.sources.all()
+
+    # copy all sources (see stack overflow!)
+    # friendly_dir but for these func!
+
+    #copied_space = create_new_space(request.user, f"Copied from {original_space.owner}")
 """
