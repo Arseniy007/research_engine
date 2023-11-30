@@ -55,10 +55,24 @@ def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source
     source.pk, source.id = None, None
     source.work_space, source.user = new_space, new_owner
     source._state.adding = True
-
-    # Create new Source obj and Endnote obj based on it
     source.save()
-    return save_endnotes(source)
+
+    # Change file info, if file was uploaded
+    if source.file:
+        source.file = copy_source_file_info(source, new_space, new_owner.pk)
+    source.save(update_fields=("file",))
+
+    # Create new Endnote obj based on new source
+    save_endnotes(source)
+    return source
+
+
+def copy_source_file_info(source: Source, new_space: WorkSpace, new_owner_id: int) -> str:
+    """Returns a new path to the copied file"""
+    space_path = new_space.get_base_dir()
+    source_id, user_id = source.pk, new_owner_id
+    filename = source.file_name()
+    return f"{space_path}/sources/user_{user_id}/source_{source_id}/{filename}"
 
 
 def save_endnotes(source: Source):

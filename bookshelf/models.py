@@ -9,7 +9,7 @@ def saving_path(instance, filename):
     """File will be uploaded to MEDIA_ROOT/work_space_<id>/books/user_<id>/source_<id>/<filename>"""
     space_path = instance.work_space.get_base_dir()
     user_id, source_id = instance.user.pk, instance.pk
-    return f"{space_path}/books/user_{user_id}/source_{source_id}/{filename}"
+    return f"{space_path}/sources/user_{user_id}/source_{source_id}/{filename}"
 
 
 class Source(models.Model):
@@ -56,11 +56,11 @@ class Source(models.Model):
 
     def get_path(self):
         """Returns a path to the book directory"""
-        return f"{self.work_space.get_path()}/books/user_{self.user.pk}/book_{self.pk}"
+        return f"{self.work_space.get_path()}/sources/user_{self.user.pk}/source_{self.pk}"
     
 
     def get_path_to_file(self):
-        """Returns a path to the sourcefile"""
+        """Returns a path to the source file"""
         return os.path.join(self.get_path(), os.path.basename(self.file.name))
     
 
