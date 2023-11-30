@@ -61,7 +61,11 @@ class WorkSpace(models.Model):
 class Invitation(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
     code = models.CharField(max_length=15, unique=True)
-    #invitation_type = models.CharField(max_length=15, default="ivite")
+
+
+class ShareSpaceCode(models.Model):
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
+    code = models.CharField(max_length=15, unique=True)
 
 
 class Comment(models.Model):

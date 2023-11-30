@@ -143,7 +143,7 @@ def invite_to_work_space(request, space_id):
 
     # Check if user has right to invite to the work space
     space = check_work_space(space_id, request.user)
-    invitation_code = generate_invitation(space)
+    invitation_code = generate_invitation(space, invite=True)
     return JsonResponse({"invitation code": invitation_code})
 
 
@@ -264,26 +264,34 @@ def work_space(request, space_id):
 @space_ownership_required
 @login_required(redirect_field_name=None)
 def share_work_space(request, space_id):
+    """Share a copy of work space with all its sources"""
     # TODO
 
     space = check_work_space(space_id, request.user)
-    sources = space.sources.all()
-    
-
-    pass
+    share_space_code = generate_invitation(space)
+    return JsonResponse({"share_space_code": share_space_code})
 
 
+
+# post request?
 @login_required(redirect_field_name=None)
 def receive_stranger_space(request, space_code):
+    """Receive a copy of a work space with all its sources if it was shared"""
     # TODO
 
-    invitation = check_invitation(space_code)
-    original_space = invitation.work_space
-    original_sources = original_space.sources.all()
+    
+
+    #invitation = check_invitation(space_code)
+
+
+
+    #original_space = invitation.work_space
+    #original_sources = original_space.sources.all()
 
     # copy all sources (see stack overflow!)
+    # friendly_dir but for these func!
 
-    copied_space = create_new_space(request.user, f"Copied from {original_space.owner}")
+    #copied_space = create_new_space(request.user, f"Copied from {original_space.owner}")
 
 
 # get all endnotes + get endnotes for the paper!

@@ -6,7 +6,7 @@ from bookshelf.models import Article, Book, Chapter, Endnote, Quote, Source, Web
 from file_handling.models import PaperVersion
 from paper_work.models import Paper
 from user_management.models import User
-from work_space.models import Comment, Invitation, WorkSpace
+from work_space.models import Comment, Invitation, ShareSpaceCode, WorkSpace
 
 
 def check_work_space(space_id: int, user: User) -> WorkSpace | Http404 | PermissionDenied:
@@ -111,6 +111,14 @@ def check_invitation(invitation_code: str) -> Invitation | Http404:
     """Checks if invitation exists"""
     try:
         return Invitation.objects.get(code=invitation_code)
+    except ObjectDoesNotExist:
+        raise Http404
+
+
+def check_share_code(share_space_code: str) -> ShareSpaceCode | Http404:
+    """Checks if share_space_code exists"""
+    try:
+        return ShareSpaceCode.objects.get(code=share_space_code)
     except ObjectDoesNotExist:
         raise Http404
 
