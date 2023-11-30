@@ -34,6 +34,10 @@ def create_source(user: User, space: WorkSpace, form: forms.Form, author: str, c
             return None
 
 
+#def upload_file(s)
+
+
+
 def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source:
     """Copy source and change its work space"""
 
@@ -55,10 +59,23 @@ def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source
     source.pk, source.id = None, None
     source.work_space, source.user = new_space, new_owner
     source._state.adding = True
-
-    # Save new Source obj and create Endnote obj related to it
     source.save()
+
+    # Copy file if necessary
+    if source.file:
+        source.file = copy_source_file(source, new_space, new_owner.pk)
+    source.save(update_fields=("file",))
+
+    # Create Endnote obj based on new source
     return save_endnotes(source)
+
+
+def copy_source_file(source: Source, new_space: WorkSpace, new_owner_id: int) -> str:
+    """Returns a new path to the copied file"""
+    space_path = new_space.get_base_dir()
+    source_id, user_id = source.pk, new_owner_id
+    filename = source.file_name()
+    return f"{space_path}/books/user_{user_id}/source_{source_id}/{filename}"
 
 
 def save_endnotes(source: Source):

@@ -6,10 +6,10 @@ from work_space.models import WorkSpace
 
 
 def saving_path(instance, filename):
-    """File will be uploaded to MEDIA_ROOT/work_space_<id>/books/user_<id>/book_<id>/<filename>"""
+    """File will be uploaded to MEDIA_ROOT/work_space_<id>/books/user_<id>/source_<id>/<filename>"""
     space_path = instance.work_space.get_base_dir()
-    user_id, book_id = instance.user.pk, instance.pk
-    return f"{space_path}/books/user_{user_id}/book_{book_id}/{filename}"
+    user_id, source_id = instance.user.pk, instance.pk
+    return f"{space_path}/books/user_{user_id}/source_{source_id}/{filename}"
 
 
 class Source(models.Model):
