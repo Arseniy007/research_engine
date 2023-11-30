@@ -29,7 +29,7 @@ class RenameWorkSpaceForm(forms.Form):
         return space.save(update_fields=("title",))
 
 
-class ReceiveInvitationForm(forms.Form):
+class ReceiveCodeForm(forms.Form):
     code = forms.CharField(max_length=15)
 
 
