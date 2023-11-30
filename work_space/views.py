@@ -138,7 +138,6 @@ def set_citation_style(request, space_id):
 @login_required(redirect_field_name=None)
 def invite_to_work_space(request, space_id):
     """Create an invitation to work space for another user"""
-
     # TODO
     # Invitation text?
 
@@ -166,12 +165,54 @@ def receive_invitation(request):
 
         # Delete invitation code
         invitation.delete()
+
+        link = reverse("work_space:space", args=(new_work_space.pk,))
+        return redirect(link)
     else:
         display_error_message(request)
 
-    link = reverse("work_space:space", args=(new_work_space.pk,))
-    return redirect(link)
+    display_error_message(request)
+    return redirect(reverse("user_management:error_page"))
 
+
+@space_ownership_required
+@login_required(redirect_field_name=None)
+def share_work_space(request, space_id):
+    """Share a copy of work space with all its sources"""
+    # TODO
+
+    # What should it be instead of json? probably url with some nice text
+
+    space = check_work_space(space_id, request.user)
+    if space.sources.all():
+        share_space_code = generate_invitation(space)
+        return JsonResponse({"share_space_code": share_space_code})
+    else:
+        return JsonResponse({"message": "You can not share empy work space"})
+
+
+@post_request_required
+@login_required(redirect_field_name=None)
+def receive_shared_space(request):
+    """Receive a copy of a work space with all its sources if it was shared"""
+    # TODO
+
+    form = ReceiveCodeForm(request.POST)
+
+    if form.is_valid():
+        share_space_code = check_share_code(form.cleaned_data["code"])
+
+        # Create a new work space
+        original_work_space = share_space_code.work_space
+        new_space = copy_space_with_all_sources(original_work_space, request.user)
+
+        # Redirect to the new work space
+        display_success_message(request)
+        link = reverse("work_space:space", args=(new_space.pk,))
+        return redirect(link)
+
+    display_error_message(request)
+    return redirect(reverse("user_management:error_page"))
 
 
 @login_required(redirect_field_name=None)
@@ -260,49 +301,6 @@ def work_space(request, space_id):
                                                           "citation_form": CitationStyleForm(),
                                                           "comments": space.comments.all()
                                                           })
-
-@space_ownership_required
-@login_required(redirect_field_name=None)
-def share_work_space(request, space_id):
-    """Share a copy of work space with all its sources"""
-    # TODO
-
-    space = check_work_space(space_id, request.user)
-    if space.sources.all():
-        share_space_code = generate_invitation(space)
-        return JsonResponse({"share_space_code": share_space_code})
-    else:
-        return JsonResponse({"message": "You can not share empy work space"})
-
-
-@post_request_required
-@login_required(redirect_field_name=None)
-def receive_shared_space(request):
-    """Receive a copy of a work space with all its sources if it was shared"""
-    # TODO
-
-    form = ReceiveCodeForm(request.POST)
-
-    if form.is_valid():
-        share_space_code = check_share_code(form.cleaned_data["code"])
-
-        original_work_space = share_space_code.work_space
-
-        new_space = copy_space_with_all_sources(original_work_space, request.user)
-
-        display_success_message(request)
-
-        link = reverse("work_space:space", args=(new_space.pk,))
-        return redirect(link)
-
-    display_error_message(request)
-    return redirect(reverse("user_management:error_page"))
-        
-
-
-  
-
-
 
 
 # get all endnotes + get endnotes for the paper!

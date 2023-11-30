@@ -52,5 +52,4 @@ def copy_space_with_all_sources(original_space: WorkSpace, new_owner: User) -> W
     # Return new Workspace obj       
     return new_space
 
-
 # uploading files propely!
