@@ -34,6 +34,39 @@ def create_source(user: User, space: WorkSpace, form: forms.Form, author: str, c
             return None
 
 
+def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source:
+    """Copy source and change its work space"""
+
+    # Go down to source child obj
+    source_type = source.cast()
+    match source_type:
+        case Book():
+            source = source.book
+        case Article():
+            source = source.article
+        case Chapter():
+            source = source.chapter
+        case Webpage():
+            source = source.webpage
+        case _:
+            return None
+
+    # Copy the given source and alter its key fields
+    source.pk, source.id = None, None
+    source.work_space, source.user = new_space, new_owner
+    source._state.adding = True
+
+    # Save new Source obj and create Endnote obj related to it
+    source.save()
+    return save_endnotes(source)
+
+
+def save_endnotes(source: Source):
+    """Creates and saves new Endnote obj for given source"""
+    endnotes = Endnote(source=source, apa=quote_source_apa(source), mla=quote_source_mla(source))
+    return endnotes.save()
+
+
 def create_book_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str):
     """Validate Bookform and create Book obj"""
 
@@ -90,12 +123,6 @@ def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
     new_webpage.save()
     # Create new Endnote obj with Foreign key to this Webpage obj
     return save_endnotes(new_webpage)
-
-
-def save_endnotes(source: Source):
-    """Creates and saves new Endnote obj for given source"""
-    endnotes = Endnote(source=source, apa=quote_source_apa(source), mla=quote_source_mla(source))
-    return endnotes.save()
 
 
 def clean_text_data(data: str) -> str:

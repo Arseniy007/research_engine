@@ -11,7 +11,7 @@ from .invitation_generator import generate_invitation
 from .models import WorkSpace
 from paper_work.forms import NewPaperForm
 from research_engine.settings import FRIENDLY_TMP_ROOT
-from .space_creation import copy_space_with_sources, create_new_space
+from .space_creation import copy_space_with_all_sources, create_new_space
 from utils.decorators import comment_authorship_required, post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_comment, check_invitation, check_share_code, check_work_space
@@ -22,7 +22,8 @@ def index(request):
 
     return render(request, "work_space/index.html", {"form": NewWorkSpaceForm(), 
                                                      "spaces": WorkSpace.objects.all(),
-                                                     "form_invitation": ReceiveCodeForm()})
+                                                     "invitation_form": ReceiveCodeForm(),
+                                                     "shared_space_form": ReceiveCodeForm()})
 
 
 @post_request_required
@@ -276,7 +277,7 @@ def share_work_space(request, space_id):
 
 @post_request_required
 @login_required(redirect_field_name=None)
-def receive_shared_space(request, space_code):
+def receive_shared_space(request):
     """Receive a copy of a work space with all its sources if it was shared"""
     # TODO
 
@@ -287,7 +288,7 @@ def receive_shared_space(request, space_code):
 
         original_work_space = share_space_code.work_space
 
-        new_space = copy_space_with_sources(original_work_space, request.user)
+        new_space = copy_space_with_all_sources(original_work_space, request.user)
 
         display_success_message(request)
 

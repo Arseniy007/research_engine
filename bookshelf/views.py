@@ -209,11 +209,14 @@ def alter_quote(request, quote_id):
 @login_required(redirect_field_name=None)
 def source_space(request, source_id):
     # Delete later
+    
 
     source = check_source(source_id, request.user)
     quotes = source.quotes.all()
 
+
     endnotes = get_endnotes(source)
+
 
     endnote_form = AlterEndnoteForm().set_initials(endnotes)
 

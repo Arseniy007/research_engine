@@ -22,8 +22,15 @@
 
     <form action="{% url 'work_space:receive_invitation' %}" method="post">
         {% csrf_token %} 
-        {{ form_invitation }}
-        <button type="submit">Receive</button>
+        {{ invitation_form }}
+        <button type="submit">Receive Invitation</button>
+    </form><br><br>
+
+    <h3>Receive shared space</h3>
+    <form action="{% url 'work_space:receive_shared_space' %}" method="post">
+        {% csrf_token %} 
+        {{ shared_space_form }}
+        <button type="submit">Receive Shared Space</button>
     </form>
 
 

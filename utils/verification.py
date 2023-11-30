@@ -62,8 +62,7 @@ def check_source(source_id: int, user: User) -> Source | Http404:
                 check_work_space(source.webpage.work_space.pk, user)
             case _:
                 return None
-    finally:
-        return source
+    return source
 
 
 def check_endnote(endnote_id: int, user: User) -> Endnote | Http404:
