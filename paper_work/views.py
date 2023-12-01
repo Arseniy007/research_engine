@@ -9,7 +9,7 @@ from file_handling.models import PaperVersion
 from .models import Paper
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
-from utils.verification import check_paper, check_work_space
+from utils.verification import check_paper, check_work_space, get_endnotes
 
 from bookshelf.models import Source
 
@@ -129,6 +129,30 @@ def get_all_published_papers(request):
     pass
 
 
+@post_request_required
+@login_required(redirect_field_name=None)
+def add_sources_to_paper(request, paper_id):
+    """Allow user to choose from all sources in a work space to be used (cited) in a paper"""
+    # TODO
+
+    # What about deleting sources?
+    
+    form = ChooseSourcesForm(request.POST)
+    
+    if form.is_valid():
+        paper = check_paper(paper_id, request.user)
+        sources = form.cleaned_data["sources"]
+        
+        # Add all chosen sources to a ManytoMany field in Paper obj
+        paper.sources.add(*sources)
+        display_success_message(request)
+    else:
+        display_error_message(request)
+        
+    link = reverse("paper_work:paper_space", args=(paper_id,))
+    return redirect(link)
+
+
 @login_required(redirect_field_name=None)
 def paper_space(request, paper_id):
     """Saves current version of the paper"""
@@ -145,6 +169,8 @@ def paper_space(request, paper_id):
 
     paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
 
+    endnotes = [get_endnotes(source) for source in sources]
+
     links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
 
     # TODO
@@ -152,44 +178,8 @@ def paper_space(request, paper_id):
     return render(request, "paper_work/paper_space.html", {"form": NewPaperVersionForm(), 
                                                            "paper": paper, "paper_versions": paper_versions, 
                                                            "links": links, "rename_form": RenamePaperForm(),
-                                                           "sources_form": sources_form })
-
-
-@login_required(redirect_field_name=None)
-def get_endnotes(request, paper_id):
-    """Get full endnotes list for the given paper"""
-    # TODO
-    # Do I need it?
-
-    pass
+                                                           "sources_form": sources_form,
+                                                           "endnotes": endnotes})
 
 # What else?
-# add sources!
 # + make endnote list!
-
-
-
-
-@post_request_required
-@login_required(redirect_field_name=None)
-def add_sources_to_paper(request, paper_id):
-    
-
-    form = ChooseSourcesForm(request.POST)
-    print(form)
-
-    if form.is_valid():
-
-        paper = check_paper(paper_id, request.user)
-
-        sources = form.cleaned_data["sources"]
-        print(*sources)
-
-        return JsonResponse({"message": "ok"})
-
-    else:
-        print("error")
-        return JsonResponse({"message": "error"})
-
-
-    pass

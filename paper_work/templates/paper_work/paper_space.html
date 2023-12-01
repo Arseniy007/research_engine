@@ -43,6 +43,15 @@
         <button type="submit">Choose</button>
     </form>
 
+
+    <h3>Endnotes:</h3>
+
+    <ul>
+        {% for endnote in endnotes %}
+        <li>{{ endnote.apa }}</li>
+        {% endfor %}
+    </ul>
+
 {% endblock %}
 
 {% block script %}
