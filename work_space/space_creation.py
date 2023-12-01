@@ -1,6 +1,6 @@
 import os
 import shutil
-from bookshelf.source_creation import copy_source
+from bookshelf.source_copying import copy_source
 from user_management.models import User
 from work_space.models import WorkSpace
 

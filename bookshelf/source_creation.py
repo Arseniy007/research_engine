@@ -1,5 +1,6 @@
 from typing import Callable
 from django import forms
+from .data_cleaning import clean_text_data
 from .dates import validate_date
 from .forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from .models import Article, Book, Chapter, Endnote, Source, Webpage
@@ -32,47 +33,6 @@ def create_source(user: User, space: WorkSpace, form: forms.Form, author: str, c
             return create_webpage_obj(user, space, cleaned_data, author)
         case _:
             return None
-
-
-def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source:
-    """Copy source and change its work space"""
-
-    # Go down to source child obj
-    source_type = source.cast()
-    match source_type:
-        case Book():
-            source = source.book
-        case Article():
-            source = source.article
-        case Chapter():
-            source = source.chapter
-        case Webpage():
-            source = source.webpage
-        case _:
-            return None
-        
-    # Copy the given source and alter its key fields
-    source.pk, source.id = None, None
-    source.work_space, source.user = new_space, new_owner
-    source._state.adding = True
-    source.save()
-
-    # Change file info, if file was uploaded
-    if source.file:
-        source.file = copy_source_file_info(source, new_space, new_owner.pk)
-    source.save(update_fields=("file",))
-
-    # Create new Endnote obj based on new source
-    save_endnotes(source)
-    return source
-
-
-def copy_source_file_info(source: Source, new_space: WorkSpace, new_owner_id: int) -> str:
-    """Returns a new path to the copied file"""
-    space_path = new_space.get_base_dir()
-    source_id, user_id = source.pk, new_owner_id
-    filename = source.file_name()
-    return f"{space_path}/sources/user_{user_id}/source_{source_id}/{filename}"
 
 
 def save_endnotes(source: Source):
@@ -137,53 +97,3 @@ def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
     new_webpage.save()
     # Create new Endnote obj with Foreign key to this Webpage obj
     return save_endnotes(new_webpage)
-
-
-def clean_text_data(data: str) -> str:
-    """Cleans given str-field"""
-    return data.strip(""".,'" """)
-
-
-def clean_author_data(data, chapter_author=False) -> str | bool:
-    """Get, clean and validate all author-related form-field"""
-    try:
-        # Get number of authors
-        if chapter_author:
-            number_of_authors = int(data.get("number_of_chapter_authors"))
-        else:
-            number_of_authors = int(data.get("number_of_authors"))
-    except ValueError:
-        return False
-    
-    authors: list = []
-    for i in range(number_of_authors):
-        if chapter_author:
-            last_name = data.get(f"chapter_last_name_{i}")
-            first_name = data.get(f"chapter_first_name_{i}")
-            second_name = data.get(f"chapter_second_name_{i}")
-        else:
-            last_name = data.get(f"last_name_{i}")
-            first_name = data.get(f"first_name_{i}")
-            second_name = data.get(f"second_name_{i}")
-
-        # Return if last_name field was somehow left blank
-        if not last_name:
-            return False
-
-        last_name = clean_text_data(last_name)
-        if not first_name:
-            # If there is only last name
-            author = last_name
-        else:
-            first_name = clean_text_data(first_name)
-            if second_name:
-                second_name = clean_text_data(second_name)
-                # Case with multiple names
-                author = f"{last_name} {first_name} {second_name}"
-            else:
-                # Case without second names
-                author = f"{last_name} {first_name}"
-            
-        authors.append(author)
-    # Make str from authors list, separating authors by comma
-    return ", ".join(authors)

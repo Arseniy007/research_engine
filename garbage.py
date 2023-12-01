@@ -1997,6 +1997,51 @@ def copy_source_file(source: Source, new_space: WorkSpace, new_owner_id: int) ->
     source.save(update_fields=("file",))
 
 
+def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source:
+
+
+    # Go down to source child obj
+    source_type = source.cast()
+    match source_type:
+        case Book():
+            source = source.book
+        case Article():
+            source = source.article
+        case Chapter():
+            source = source.chapter
+        case Webpage():
+            source = source.webpage
+        case _:
+            return None
+        
+    # Copy the given source and alter its key fields
+    source.pk, source.id = None, None
+    source.work_space, source.user = new_space, new_owner
+    source._state.adding = True
+    source.save()
+
+    # Change file info, if file was uploaded
+    if source.file:
+        source.file = copy_source_file_info(source, new_space, new_owner.pk)
+    source.save(update_fields=("file",))
+
+    # Create new Endnote obj based on new source
+    save_endnotes(source)
+    return source
+
+
+def copy_source_file_info(source: Source, new_space: WorkSpace, new_owner_id: int) -> str:
+
+    space_path = new_space.get_base_dir()
+    source_id, user_id = source.pk, new_owner_id
+    filename = source.file_name()
+    return f"{space_path}/sources/user_{user_id}/source_{source_id}/{filename}"
+
+
+
+def copy_source_quotes(source: Source, new_source: Source):
+
+    pass
 
 
 """

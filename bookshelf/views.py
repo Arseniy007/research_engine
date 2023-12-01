@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from .data_cleaning import clean_author_data
 from .forms import *
 from .source_alteration import alter_source
-from .source_creation import clean_author_data, create_source
+from .source_creation import create_source
 from utils.decorators import endnote_ownership_required, quote_ownership_required, post_request_required, source_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_endnote, check_quote, check_source, check_work_space, get_endnotes
