@@ -63,11 +63,6 @@ class WebpageForm(CommonFields):
 class UploadSourceForm(forms.Form):
     file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
 
-    def save_file(self, source: Source):
-       """Save new source-file"""
-       source.file = self.cleaned_data["file"]
-       source.save(update_fields=("file",))
-
 
 class AddLinkForm(forms.Form):
     link = forms.CharField()

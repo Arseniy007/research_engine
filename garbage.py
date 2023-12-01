@@ -2044,6 +2044,13 @@ def copy_source_quotes(source: Source, new_source: Source):
     pass
 
 
+        def save_file(self, source: Source):
+       '''Save new source-file'''
+       source.file = self.cleaned_data["file"]
+       source.save(update_fields=("file",))
+
+
+
 """
 
 

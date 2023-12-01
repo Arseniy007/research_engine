@@ -35,12 +35,6 @@ def create_source(user: User, space: WorkSpace, form: forms.Form, author: str, c
             return None
 
 
-def save_endnotes(source: Source):
-    """Creates and saves new Endnote obj for given source"""
-    endnotes = Endnote(source=source, apa=quote_source_apa(source), mla=quote_source_mla(source))
-    return endnotes.save()
-
-
 def create_book_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str):
     """Validate Bookform and create Book obj"""
 
@@ -97,3 +91,9 @@ def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
     new_webpage.save()
     # Create new Endnote obj with Foreign key to this Webpage obj
     return save_endnotes(new_webpage)
+
+
+def save_endnotes(source: Source):
+    """Creates and saves new Endnote obj for given source"""
+    endnotes = Endnote(source=source, apa=quote_source_apa(source), mla=quote_source_mla(source))
+    return endnotes.save()

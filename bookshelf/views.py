@@ -106,7 +106,10 @@ def upload_source_file(request, source_id):
         # In case user alrewedy uploaded a file - delete it first
         if source.file:
             shutil.rmtree(source.get_path())
-        form.save_file(source)
+
+        # Upload file
+        source.file = request.FILES["file"]
+        source.save(update_fields=("file",))
         display_success_message(request)
     else:
         display_error_message(request)
