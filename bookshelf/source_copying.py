@@ -1,4 +1,3 @@
-from typing import Iterable
 from .models import Article, Book, Chapter, Source, Webpage
 from .source_creation import save_endnotes
 from user_management.models import User

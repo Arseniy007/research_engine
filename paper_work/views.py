@@ -3,13 +3,15 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from .forms import NewPaperForm, RenamePaperForm
+from .forms import NewPaperForm, RenamePaperForm, ChooseSourcesForm
 from file_handling.forms import NewPaperVersionForm
 from file_handling.models import PaperVersion
 from .models import Paper
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_paper, check_work_space
+
+from bookshelf.models import Source
 
 
 @post_request_required
@@ -136,6 +138,11 @@ def paper_space(request, paper_id):
 
     paper = check_paper(paper_id, request.user)
 
+    #sources = Source.objects.filter(work_space=paper.work_space)
+    sources = paper.work_space.sources.all()
+
+    sources_form = ChooseSourcesForm().set_initials(sources)
+
     paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
 
     links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
@@ -144,8 +151,8 @@ def paper_space(request, paper_id):
 
     return render(request, "paper_work/paper_space.html", {"form": NewPaperVersionForm(), 
                                                            "paper": paper, "paper_versions": paper_versions, 
-                                                           "links": links, "rename_form": RenamePaperForm()})
-
+                                                           "links": links, "rename_form": RenamePaperForm(),
+                                                           "sources_form": sources_form })
 
 
 @login_required(redirect_field_name=None)
@@ -159,3 +166,30 @@ def get_endnotes(request, paper_id):
 # What else?
 # add sources!
 # + make endnote list!
+
+
+
+
+@post_request_required
+@login_required(redirect_field_name=None)
+def add_sources_to_paper(request, paper_id):
+    
+
+    form = ChooseSourcesForm(request.POST)
+    print(form)
+
+    if form.is_valid():
+
+        paper = check_paper(paper_id, request.user)
+
+        sources = form.cleaned_data["sources"]
+        print(*sources)
+
+        return JsonResponse({"message": "ok"})
+
+    else:
+        print("error")
+        return JsonResponse({"message": "error"})
+
+
+    pass
