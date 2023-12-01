@@ -26,7 +26,6 @@ class RenamePaperForm(forms.Form):
 
 
 class ChooseSourcesForm(forms.Form):
-
     sources = forms.ModelMultipleChoiceField(queryset=Source.objects.all(), required=False, widget=forms.CheckboxSelectMultiple)
 
     def set_initials(self, sources):

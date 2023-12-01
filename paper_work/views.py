@@ -165,6 +165,4 @@ def paper_space(request, paper_id):
                                                            "links": links, "rename_form": RenamePaperForm(),
                                                            "sources_form": sources_form,
                                                            "endnotes": endnotes})
-
 # What else?
-# + make endnote list!
