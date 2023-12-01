@@ -31,6 +31,7 @@ def upload_file(request, paper_id):
     link = reverse("paper_work:paper_space", args=(paper_id,))
     return redirect(link)
 
+
 @paper_authorship_required
 @login_required(redirect_field_name=None)
 def delete_file(request, file_id):
@@ -43,7 +44,6 @@ def delete_file(request, file_id):
 
     # Delete file from the db
     file.delete()
-
     return JsonResponse({"message": "ok"})
 
 

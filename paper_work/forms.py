@@ -25,10 +25,9 @@ class RenamePaperForm(forms.Form):
         paper.save(update_fields=(field,))
 
 
-
 class ChooseSourcesForm(forms.Form):
 
-    sources = forms.ModelMultipleChoiceField(queryset=Source.objects.all(), widget=forms.CheckboxSelectMultiple)
+    sources = forms.ModelMultipleChoiceField(queryset=Source.objects.all(), required=False, widget=forms.CheckboxSelectMultiple)
 
     def set_initials(self, sources):
         """Pre-populate field with all sources in a work space"""

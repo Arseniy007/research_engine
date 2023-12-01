@@ -3,15 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from .forms import NewPaperForm, RenamePaperForm, ChooseSourcesForm
+from .forms import ChooseSourcesForm, NewPaperForm, RenamePaperForm
 from file_handling.forms import NewPaperVersionForm
 from file_handling.models import PaperVersion
 from .models import Paper
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_paper, check_work_space, get_endnotes
-
-from bookshelf.models import Source
 
 
 @post_request_required
@@ -54,19 +52,6 @@ def delete_paper(request, paper_id):
     return JsonResponse({"message": "ok"})
 
 
-@paper_authorship_required
-@login_required(redirect_field_name=None)
-def archive_paper(request, paper_id):
-    """Mark paper is archived"""
-
-    # Check if user has right to archive this paper
-    paper = check_paper(paper_id, request.user)
-
-    # Archive paper
-    paper.archive()
-    return JsonResponse({"message": "ok"})
-
-
 @post_request_required
 @paper_authorship_required
 @login_required(redirect_field_name=None)
@@ -84,6 +69,19 @@ def rename_paper(request, paper_id):
 
     link = reverse("paper_work:paper_space", args=(paper_id,))
     return redirect(link)
+
+
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def archive_paper(request, paper_id):
+    """Mark paper is archived"""
+
+    # Check if user has right to archive this paper
+    paper = check_paper(paper_id, request.user)
+
+    # Archive paper
+    paper.archive()
+    return JsonResponse({"message": "ok"})
         
 
 @paper_authorship_required
@@ -114,37 +112,25 @@ def publish_paper(request, paper_id):
     return JsonResponse({"message": "erro"})
 
 
+@post_request_required
 @paper_authorship_required
 @login_required(redirect_field_name=None)
-def get_all_published_papers(request):
-    """Return all papers marked as published to show display them at the account page"""
-
-    papers = Paper.objects.filter(user=request.user, is_published=True)
-
-    if not papers:
-        return JsonResponse({"message": "none"})
-
-    files = [paper.get_last_file_id() for paper in papers]
-    # TODO
-    pass
-
-
-@post_request_required
-@login_required(redirect_field_name=None)
-def add_sources_to_paper(request, paper_id):
+def select_sources_for_paper(request, paper_id):
     """Allow user to choose from all sources in a work space to be used (cited) in a paper"""
-    # TODO
-
-    # What about deleting sources?
     
     form = ChooseSourcesForm(request.POST)
     
     if form.is_valid():
+        # Get all selected sources
         paper = check_paper(paper_id, request.user)
-        sources = form.cleaned_data["sources"]
+        selected_sources = form.cleaned_data["sources"]
         
-        # Add all chosen sources to a ManytoMany field in Paper obj
-        paper.sources.add(*sources)
+        # Remove all sources that were not selected and add all chosen one
+        for source in paper.sources.all():
+            if source not in selected_sources:
+                paper.sources.remove(source)
+        paper.sources.add(*selected_sources)
+
         display_success_message(request)
     else:
         display_error_message(request)
@@ -162,14 +148,13 @@ def paper_space(request, paper_id):
 
     paper = check_paper(paper_id, request.user)
 
-    #sources = Source.objects.filter(work_space=paper.work_space)
-    sources = paper.work_space.sources.all()
+    all_sources = paper.work_space.sources.all()
 
-    sources_form = ChooseSourcesForm().set_initials(sources)
+    sources_form = ChooseSourcesForm().set_initials(all_sources)
 
     paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
 
-    endnotes = [get_endnotes(source) for source in sources]
+    endnotes = [get_endnotes(source) for source in paper.sources.all()]
 
     links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
 

@@ -37,7 +37,7 @@
 
     <h3>Choose sources</h3>
 
-    <form action="{% url 'paper_work:add_sources' paper.pk %}" method="post">
+    <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
         {% csrf_token %} 
         {{ sources_form }}
         <button type="submit">Choose</button>

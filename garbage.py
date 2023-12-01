@@ -2049,6 +2049,21 @@ def copy_source_quotes(source: Source, new_source: Source):
        source.file = self.cleaned_data["file"]
        source.save(update_fields=("file",))
 
+       @paper_authorship_required
+@login_required(redirect_field_name=None)
+def get_all_published_papers(request):
+    '''Return all papers marked as published to show display them at the account page'''
+
+    # The fuck is that?
+
+    papers = Paper.objects.filter(user=request.user, is_published=True)
+
+    if not papers:
+        return JsonResponse({"message": "none"})
+
+    files = [paper.get_last_file_id() for paper in papers]
+    # TODO
+    pass
 
 
 """
