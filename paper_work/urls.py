@@ -11,6 +11,5 @@ urlpatterns = [
     path("rename_paper/<int:paper_id>", views.rename_paper, name="rename_paper"),
     path("finish_paper/<int:paper_id>", views.finish_paper, name="finish_paper"),
     path("publish_paper/<int:paper_id>", views.publish_paper, name="publish_paper"),
-    path("all_published_papers", views.get_all_published_papers, name="all_published_papers"),
     path("select_sources/<int:paper_id>", views.select_sources_for_paper, name="select_sources")
 ]
