@@ -6,7 +6,6 @@ from django.urls import reverse
 from .forms import ChooseSourcesForm, NewPaperForm, RenamePaperForm
 from file_handling.forms import NewPaperVersionForm
 from file_handling.models import PaperVersion
-from .models import Paper
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_paper, check_work_space, get_endnotes
