@@ -19,10 +19,10 @@ def upload_file(request, paper_id):
     """Upload .pdf/.docx file to the given paper"""
 
     form = NewPaperVersionForm(request.POST, request.FILES)
-    paper = check_paper(paper_id, request.user)
 
     if form.is_valid():
         # Get and save new file
+        paper = check_paper(paper_id, request.user)
         form.save_new_file(paper, request.user)
         display_success_message(request)
     else:
