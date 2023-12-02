@@ -16,7 +16,6 @@ from utils.verification import check_endnote, check_quote, check_source, check_w
 @login_required(redirect_field_name=None)
 def add_source(request, space_id):
     """Add new source info to the work space"""
-
     # TODO
 
     form = get_type_of_source_form(request.POST)
@@ -34,17 +33,17 @@ def add_source(request, space_id):
         # Webpage is the only obj there author field could be blank
         if not author and type(form) != WebpageForm:
             display_error_message(request)
-
-        if type(form) == ChapterForm:
-            chapter_author = clean_author_data(request.POST, chapter_author=True)
-            if not chapter_author:
-                display_error_message()
-            else:
-                create_source(request.user, space, form, author, chapter_author=chapter_author)
-                display_success_message(request)
         else:
-            create_source(request.user, space, form, author)
-            display_success_message(request)
+            if type(form) == ChapterForm:
+                chapter_author = clean_author_data(request.POST, chapter_author=True)
+                if not chapter_author:
+                    display_error_message()
+                else:
+                    create_source(request.user, space, form, author, chapter_author=chapter_author)
+                    display_success_message(request)
+            else:
+                create_source(request.user, space, form, author)
+                display_success_message(request)
     else:
         display_error_message()
 
@@ -213,13 +212,10 @@ def alter_quote(request, quote_id):
 def source_space(request, source_id):
     # Delete later
     
-
     source = check_source(source_id, request.user)
     quotes = source.quotes.all()
 
-
     endnotes = get_endnotes(source)
-
 
     endnote_form = AlterEndnoteForm().set_initials(endnotes)
 
@@ -239,3 +235,12 @@ def source_space(request, source_id):
                                                          "link_form": link_form})
 
 # Alter messages text later!!!
+
+
+
+@login_required(redirect_field_name=None)
+def set_source_endnotes(request, source_id):
+    # TODO
+    
+
+    pass

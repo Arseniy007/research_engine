@@ -283,25 +283,26 @@ def alter_comment(request, comment_id):
 
 
 @login_required(redirect_field_name=None)
-def work_space(request, space_id):
-    # TODO
+def work_space_view(request, space_id):
+    """Work space main view"""
 
     space = check_work_space(space_id, request.user)
 
-    return render(request, "work_space/work_space.html", {"space": space, 
-                                                          "papers": space.papers.all(),
-                                                          "books": space.sources.all(),
-                                                          "form": NewPaperForm(),
-                                                          "book_form": BookForm(),
-                                                          "article_form": ArticleForm(),
-                                                          "chapter_form": ChapterForm(),
-                                                          "webpage_form": WebpageForm(),
-                                                          "comment_form": NewCommentForm(),
-                                                          "rename_form": RenameWorkSpaceForm().set_initial(space),
-                                                          "citation_form": CitationStyleForm(),
-                                                          "comments": space.comments.all()
-                                                          })
+    params = {"space": space, 
+            "papers": space.papers.all(),
+            "books": space.sources.all(),
+            "form": NewPaperForm(),
+            "book_form": BookForm(),
+            "article_form": ArticleForm(),
+            "chapter_form": ChapterForm(),
+            "webpage_form": WebpageForm(),
+            "comment_form": NewCommentForm(),
+            "rename_form": RenameWorkSpaceForm().set_initial(space),
+            "citation_form": CitationStyleForm(),
+            "comments": space.comments.all()
+            }
+
+    return render(request, "work_space/work_space_view.html", params)
 
 
 # get all endnotes + get endnotes for the paper!
-# add them automaticly to the end of the paper? - that would be nice!
