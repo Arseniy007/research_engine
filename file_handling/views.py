@@ -54,7 +54,7 @@ def display_file(request, file_id):
     file = check_file(file_id, request.user)
 
     # Open and send it
-    return FileResponse(open(file.get_full_path(), "rb"))
+    return FileResponse(open(file.get_path_to_file(), "rb"))
 
 
 @login_required(redirect_field_name=None)
@@ -63,7 +63,7 @@ def get_file_info(request, file_id):
     
     # Get, check and open file
     file = check_file(file_id, request.user)
-    raw_text = textract.process(file.get_full_path())
+    raw_text = textract.process(file.get_path_to_file())
 
     # Translate it into hexidesimal in order to handle different languages (äöü)
     hex_text = str(hexlify(raw_text))

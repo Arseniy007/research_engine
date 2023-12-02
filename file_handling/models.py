@@ -6,11 +6,9 @@ from user_management.models import User
 
 def saving_path(instance, filename):
     """File will be uploaded to MEDIA_ROOT/work_space_<id>/papers/user_<id>/paper_<id>/file_<id>/<filename>"""
-
     space_path, user_id = instance.paper.work_space.get_base_dir(), instance.paper.user.pk
     paper_id, saving_time = instance.paper.pk, instance.get_saving_time()
-
-    return f"{space_path}/papers/user_{user_id}/paper_{paper_id}/{saving_time}/{filename}"
+    return os.path.join(space_path, "papers", f"user_{user_id}", f"paper_{paper_id}", saving_time, filename)
 
 
 class PaperVersion(models.Model):
@@ -35,11 +33,11 @@ class PaperVersion(models.Model):
         return self.saving_time.strftime(SAVING_TIME_FORMAT)
     
 
-    def get_full_path(self):
+    def get_path_to_file(self):
         """Returns a full path to the file"""
-        return  f"{MEDIA_ROOT}/{str(self.file)}"
+        return os.path.join(MEDIA_ROOT, str(self.file))
     
 
     def get_directory_path(self):
         """Returns a path to the file directory"""
-        return f"{self.paper.get_path()}/{self.get_saving_time()}"
+        return os.path.join(self.paper.get_path(), self.get_saving_time())

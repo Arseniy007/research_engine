@@ -29,7 +29,7 @@ def create_paper(request, space_id):
         return redirect(link)
     
     display_error_message(request)
-    link_back = reverse("work_space:space", args=(space_id),)
+    link_back = reverse("work_space:space_view", args=(space_id),)
     return redirect(link_back)
         
 

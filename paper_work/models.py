@@ -23,7 +23,7 @@ class Paper(models.Model):
 
     def get_path(self):
         """Returns a path to the paper directory"""
-        return f"{self.work_space.get_path()}/papers/user_{self.user.pk}/paper_{self.pk}"
+        return os.path.join(self.work_space.get_path(), "papers", f"user_{self.user.pk}", f"paper_{self.pk}")
     
 
     def create_directory(self):
@@ -59,6 +59,3 @@ class Paper(models.Model):
     def publish(self):
         self.is_published = True
         return self.save(update_fields=("is_published"),)
-    
-    
-# Maybe add to Paper class needed number of words etc.

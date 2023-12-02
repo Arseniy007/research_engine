@@ -1,6 +1,7 @@
 import os
 from django.db import models 
 from django.contrib.contenttypes.models import ContentType
+from research_engine.settings import MEDIA_ROOT
 from user_management.models import User
 from work_space.models import WorkSpace
 
@@ -9,7 +10,7 @@ def saving_path(instance, filename):
     """File will be uploaded to MEDIA_ROOT/work_space_<id>/books/user_<id>/source_<id>/<filename>"""
     space_path = instance.work_space.get_base_dir()
     user_id, source_id = instance.user.pk, instance.pk
-    return f"{space_path}/sources/user_{user_id}/source_{source_id}/{filename}"
+    return os.path.join(space_path, "sources", f"user_{user_id}", f"source_{source_id}", filename)
 
 
 class Source(models.Model):
@@ -56,12 +57,15 @@ class Source(models.Model):
 
     def get_path(self):
         """Returns a path to the book directory"""
-        return f"{self.work_space.get_path()}/sources/user_{self.user.pk}/source_{self.pk}"
-    
+        return os.path.join(self.work_space.get_path(), "sources", f"user_{self.user.pk}", f"source_{self.pk}")
+
 
     def get_path_to_file(self):
         """Returns a path to the source file"""
-        return os.path.join(self.get_path(), os.path.basename(self.file.name))
+        if self.file:
+            return os.path.join(MEDIA_ROOT, str(self.file))
+        else:
+            return None
     
 
 class Book(Source):

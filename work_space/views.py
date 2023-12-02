@@ -39,7 +39,7 @@ def create_work_space(request):
         display_success_message(request)
 
         # Redirect user to the new work space
-        link_to_work_space = reverse("work_space:space", args=(new_space.pk,))
+        link_to_work_space = reverse("work_space:space_view", args=(new_space.pk,))
         return redirect(link_to_work_space)
 
     # TODO
@@ -111,7 +111,7 @@ def rename_work_space(request, space_id):
     else:
         display_error_message(request)
 
-    link = reverse("work_space:space", args=(space_id,))
+    link = reverse("work_space:space_view", args=(space_id,))
     return redirect(link)
 
 
@@ -130,7 +130,7 @@ def set_citation_style(request, space_id):
     else:
         display_error_message(request)
     
-    link = reverse("work_space:space", args=(space_id,))
+    link = reverse("work_space:space_view", args=(space_id,))
     return redirect(link)
 
 
@@ -166,7 +166,7 @@ def receive_invitation(request):
         # Delete invitation code
         invitation.delete()
 
-        link = reverse("work_space:space", args=(new_work_space.pk,))
+        link = reverse("work_space:space_view", args=(new_work_space.pk,))
         return redirect(link)
     else:
         display_error_message(request)
@@ -208,7 +208,7 @@ def receive_shared_space(request):
 
         # Redirect to the new work space
         display_success_message(request)
-        link = reverse("work_space:space", args=(new_space.pk,))
+        link = reverse("work_space:space_view", args=(new_space.pk,))
         return redirect(link)
 
     display_error_message(request)
@@ -244,7 +244,7 @@ def leave_comment(request, space_id):
     else:
         display_error_message(request)
 
-    link = reverse("work_space:space", args=(space.pk,))
+    link = reverse("work_space:space_view", args=(space.pk,))
     return redirect(link)
 
 
@@ -259,7 +259,7 @@ def delete_comment(request, comment_id):
     # Delete comment from the db
     comment.delete()
 
-    link = reverse("work_space:space", args=(comment.work_space.pk,))
+    link = reverse("work_space:space_view", args=(comment.work_space.pk,))
     return redirect(link)
 
 
@@ -278,7 +278,7 @@ def alter_comment(request, comment_id):
     else:
         display_error_message(request)
 
-    link = reverse("work_space:space", args=(comment.work_space.pk,))
+    link = reverse("work_space:space_view", args=(comment.work_space.pk,))
     return redirect(link)
 
 

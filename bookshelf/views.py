@@ -1,6 +1,6 @@
 import shutil
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from .data_cleaning import clean_author_data
@@ -47,7 +47,7 @@ def add_source(request, space_id):
     else:
         display_error_message()
 
-    link = reverse("work_space:space", args=(space.pk,))
+    link = reverse("work_space:space_view", args=(space.pk,))
     return redirect(link)
     
 
@@ -115,6 +115,22 @@ def upload_source_file(request, source_id):
     # TODO
     link = reverse("bookshelf:source_space", args=(source_id,))
     return redirect(link)
+
+
+@login_required(redirect_field_name=None)
+def display_source_file(request, source_id):
+
+    # Get and chek source
+    source = check_source(source_id, request.user)
+
+    source_file = source.get_path_to_file()
+    if not source_file:
+        display_error_message(request, "no file was uploaded")
+        link = reverse("bookshelf:source_space", args=(source_id,))
+        return redirect(link)
+    
+    # Open source file and send it
+    return FileResponse(open(source_file, "rb"))
     
 
 @post_request_required

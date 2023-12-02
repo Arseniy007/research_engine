@@ -2064,7 +2064,21 @@ def get_all_published_papers(request):
     files = [paper.get_last_file_id() for paper in papers]
     # TODO
     pass
+    
+    os.path.join(self.get_path(), os.path.basename(self.file.name))
+        return f"{self.paper.get_path()}/{self.get_saving_time()}"
 
+        return f"{space_path}/papers/user_{user_id}/paper_{paper_id}/{saving_time}/{filename}"
+
+        return f"{self.work_space.get_path()}/sources/user_{self.user.pk}/source_{self.pk}"
+
+        return f"{space_path}/sources/user_{user_id}/source_{source_id}/{filename}"
+
+        return f"{self.work_space.get_path()}/papers/user_{self.user.pk}/paper_{self.pk}"
+
+        return f"{MEDIA_ROOT}/work_space_{self.pk}"
+
+        return f"{FRIENDLY_TMP_ROOT}/{self.pk}"
 
 """
 

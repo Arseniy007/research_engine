@@ -17,6 +17,16 @@ class WorkSpace(models.Model):
         return self.title
 
 
+    def get_path(self):
+        """Returns a path to the work space directory"""
+        return os.path.join(MEDIA_ROOT, f"work_space_{self.pk}")
+    
+
+    def get_friendly_path(self):
+        """Returns a path to the user-friendly version of space directory"""
+        return os.path.join(FRIENDLY_TMP_ROOT, self.pk)
+
+
     def create_dir(self):
         """Creates a directory for a work space"""
         return os.mkdir(self.get_path())
@@ -26,16 +36,6 @@ class WorkSpace(models.Model):
         """Creates directory for future zip-archiving and downloading"""
         return os.makedirs(self.get_friendly_path(), exist_ok=True)
     
-
-    def get_path(self):
-        """Returns a path to the work space directory"""
-        return f"{MEDIA_ROOT}/work_space_{self.pk}"
-    
-
-    def get_friendly_path(self):
-        """Returns a path to the user-friendly version of space directory"""
-        return f"{FRIENDLY_TMP_ROOT}/{self.pk}"
-
 
     def get_base_dir(self):
         """Returns base directory without MEDIA_ROOT"""

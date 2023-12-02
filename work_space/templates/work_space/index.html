@@ -14,7 +14,7 @@
     <ul>
         {% for space in spaces %}
         <li>
-            <a href="{% url 'work_space:space' space.pk %}">{{ space }}</a>
+            <a href="{% url 'work_space:space_view' space.pk %}">{{ space }}</a>
         </li>
         {% endfor %}
     </ul>

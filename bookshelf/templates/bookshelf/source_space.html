@@ -4,10 +4,10 @@
 {% block body %}
 
 
-    <h3>{{ book }}</h3>
+    <h3>{{ source }}</h3>
 
-    <h2>File</h2>
-    <h5>{{ source.file }} | None </h5>
+    
+    <a href="{% url 'bookshelf:display_source_file' source.pk %}"><h2>File</h2></a><br><br>
 
     <form enctype="multipart/form-data" action="{% url 'bookshelf:upload_source_file' source.pk %}" method="post">
         {% csrf_token %} 
