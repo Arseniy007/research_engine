@@ -3,35 +3,37 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from .models import User
-from utils.verification import check_user
+from utils.verification import check_profile_page
 
 
-def profile_page_view(request, user_id):
+def profile_page_view(request, profile_id):
     # TODO
 
-    user = check_user(user_id)
+    profile = check_profile_page(profile_id)
 
-    pass
+    params = {"user": profile.user}
+
+    return render(request, "profile_page/profile_page.html", params)
 
 
 @login_required(redirect_field_name=None)
-def follow_profile_page(request, user_id):
-    """Follow or unfollow user"""
+def follow_profile(request, profile_id):
+    """Follow or unfollow user profile page"""
 
-    profile_user, user = check_user(user_id), request.user
+    profile, user = check_profile_page(profile_id), request.user
 
     # Error case (if user is trying to follow themself)
-    if profile_user == user:
+    if profile.user == user:
         # Redirect back to profile page
-        return_link = reverse("user_management:profile_page", args=(user_id,))
+        return_link = reverse("profile_page:profile_view", args=(profile_id,))
         return redirect(return_link)
-    
+
     # Follow / unfollow profile user
-    if user in profile_user.followers.all():
-        profile_user.unfollow(user)
+    if user in profile.followers.all():
+        profile.unfollow(user)
         status = "not followed"
     else:
-        profile_user.follow(user)
+        profile.follow(user)
         status = "followed"
 
-    return JsonResponse({"status": status, "number_of_followers": len(profile_user.followers.all())})
+    return JsonResponse({"status": status, "number_of_followers": len(profile.followers.all())})

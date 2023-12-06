@@ -5,7 +5,8 @@ from .models import Article, Book, Chapter, Source, Webpage
 from .source_creation import clean_text_data
 from .quoting_apa import quote_source_apa
 from .quoting_mla import quote_source_mla
-from utils.verification import check_link, get_endnotes
+from utils.bridge import get_endnotes
+from utils.verification import check_link
 
 
 def alter_source(source: Source, form: forms.Form):

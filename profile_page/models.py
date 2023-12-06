@@ -17,9 +17,19 @@ class ProfilePage(models.Model):
     def unfollow(self, follower: User):
         """Remove follower"""
         return self.followers.remove(follower)
+    
+
+    def open_page(self):
+        self.is_opened = True
+        return self.save(update_fields=("is_opened",))
 
 
-# TODO LEAVE COMMENT
+    def close_page(self):
+        self.is_opened = False
+        return self.save(update_fields=("is_opened",))
+        
+
+# Make sure that every time then new User obj is created - new ProfilePage connected to new user is automatically created
 def create_ProfilePage_obj(sender, instance, created, **kwargs):
     """Create ProfilePage obj for every new User"""
     if created:
