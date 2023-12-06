@@ -15,6 +15,13 @@ def post_request_required(func: Callable) -> Callable | HttpResponseBadRequest:
     return wrapper
 
 
+def profile_page_ownership_required(func: Callable) -> Callable | PermissionDenied:
+    """Checks if current user if owner of the profile page"""
+    def wrapper(request, user_id):
+        pass
+
+
+
 def space_ownership_required(func: Callable) -> Callable | PermissionDenied:
     """Checks if current user is owner of the work_space"""
     def wrapper(request, space_id):

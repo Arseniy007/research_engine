@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'file_handling',
     'paper_work',
     'work_space',
+    'profile_page',
     'user_management',
     'django.contrib.admin',
     'django.contrib.auth',

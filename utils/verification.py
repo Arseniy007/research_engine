@@ -5,6 +5,7 @@ from django.http import Http404
 from bookshelf.models import Article, Book, Chapter, Endnote, Quote, Source, Webpage
 from file_handling.models import PaperVersion
 from paper_work.models import Paper
+from profile_page.models import ProfilePage
 from user_management.models import User
 from work_space.models import Comment, Invitation, ShareSpaceCode, WorkSpace
 
@@ -109,7 +110,7 @@ def check_comment(comment_id: int, user: User) -> Comment | Http404:
 def check_user(user_id: int) -> User | Http404:
     """Checks if given user exists"""
     try:
-        return User.objects.get(pk=user_id)
+        return ProfilePage.objects.get()
     except ObjectDoesNotExist:
         raise Http404
 

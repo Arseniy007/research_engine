@@ -2080,6 +2080,56 @@ def get_all_published_papers(request):
 
         return f"{FRIENDLY_TMP_ROOT}/{self.pk}"
 
+        def profile_page_view(request, user_id):
+    # TODO
+
+    user = check_user(user_id)
+
+    pass
+
+
+@login_required(redirect_field_name=None)
+def follow_profile_page(request, user_id):
+
+
+    profile_user, user = check_user(user_id), request.user
+
+    # Error case (if user is trying to follow themself)
+    if profile_user == user:
+        # Redirect back to profile page
+        return_link = reverse("user_management:profile_page", args=(user_id,))
+        return redirect(return_link)
+    
+    # Follow / unfollow profile user
+    if user in profile_user.followers.all():
+        profile_user.unfollow(user)
+        status = "not followed"
+    else:
+        profile_user.follow(user)
+        status = "followed"
+
+    return JsonResponse({"status": status, "number_of_followers": len(profile_user.followers.all())})
+
+
+    class User(AbstractUser):
+    profile_page_is_opened = models.BooleanField(default=True)
+    followers = models.ManyToManyField("self")
+
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+
+    def follow(self, follower):
+
+        return self.followers.add(follower)
+    
+    
+    def unfollow(self, follower):
+
+        return self.followers.remove(follower)
+
+
 """
 
 

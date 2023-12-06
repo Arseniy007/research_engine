@@ -92,6 +92,8 @@ def finish_paper(request, paper_id):
     paper = check_paper(paper_id, request.user)
     paper.finish()
 
+    # Do I need it?
+
     # Is that it?
     return JsonResponse({"message": "ok"})
 
@@ -108,7 +110,7 @@ def publish_paper(request, paper_id):
         paper.publish()
         return JsonResponse({"message": "ok"})
 
-    return JsonResponse({"message": "erro"})
+    return JsonResponse({"message": "error"})
 
 
 @post_request_required
