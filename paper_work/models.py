@@ -10,7 +10,7 @@ class Paper(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="papers")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50, unique=True)
-    sources = models.ManyToManyField(Source, blank=True, related_name="sources")
+    sources = models.ManyToManyField(Source, related_name="sources")
     is_archived = models.BooleanField(default=False)
     is_finished = models.BooleanField(default=False)
     is_published = models.BooleanField(default=False)

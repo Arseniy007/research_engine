@@ -106,6 +106,14 @@ def check_comment(comment_id: int, user: User) -> Comment | Http404:
     return comment
 
 
+def check_user(user_id: int) -> User | Http404:
+    """Checks if given user exists"""
+    try:
+        return User.objects.get(pk=user_id)
+    except ObjectDoesNotExist:
+        raise Http404
+
+
 def check_invitation(invitation_code: str) -> Invitation | Http404:
     """Checks if invitation exists"""
     try:

@@ -6,7 +6,7 @@ from user_management.models import User
 
 class WorkSpace(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    guests = models.ManyToManyField(User, blank=True, related_name="guests")
+    guests = models.ManyToManyField(User, related_name="guests")
     title = models.CharField(max_length=50)
     citation_style = models.CharField(max_length=10, default="APA & MLA")
     is_archived = models.BooleanField(default=False)

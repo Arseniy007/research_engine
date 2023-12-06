@@ -4,9 +4,10 @@ from user_management.models import User
 
 
 CITATION_STYLES = (("APA", "APA"), ("MLA", "MLA"), ("APA & MLA", "APA & MLA"),)
+CONFIRMATION = (("Yes", "Yes"), ("No", "No"),)
 
 
-class NewWorkSpaceForm(forms.Form):
+class NewSpaceForm(forms.Form):
     title = forms.CharField(max_length=50)
 
     def save_work_space(self, user: User):
@@ -16,7 +17,11 @@ class NewWorkSpaceForm(forms.Form):
         return new_work_space
 
 
-class RenameWorkSpaceForm(forms.Form):
+class DeleteSpaceForm(forms.Form):
+    confirm = forms.ChoiceField(choices=CONFIRMATION)
+
+
+class RenameSpaceForm(forms.Form):
     new_title = forms.CharField(max_length=50)
 
     def set_initial(self, space: WorkSpace):

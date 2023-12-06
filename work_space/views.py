@@ -5,7 +5,7 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
-from .forms import AlterCommentForm, CitationStyleForm, NewCommentForm, NewWorkSpaceForm, ReceiveCodeForm, RenameWorkSpaceForm
+from .forms import AlterCommentForm, CitationStyleForm, DeleteSpaceForm, NewCommentForm, NewSpaceForm, ReceiveCodeForm, RenameSpaceForm
 from .friendly_dir import create_friendly_directory
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
@@ -20,7 +20,7 @@ from utils.verification import check_comment, check_invitation, check_share_code
 @login_required(redirect_field_name=None)
 def index(request):
 
-    return render(request, "work_space/index.html", {"form": NewWorkSpaceForm(), 
+    return render(request, "work_space/index.html", {"form": NewSpaceForm(), 
                                                      "spaces": WorkSpace.objects.all(),
                                                      "invitation_form": ReceiveCodeForm(),
                                                      "shared_space_form": ReceiveCodeForm()})
@@ -31,7 +31,7 @@ def index(request):
 def create_work_space(request):
     """Create new worspace ;)"""
 
-    form = NewWorkSpaceForm(request.POST)
+    form = NewSpaceForm(request.POST)
 
     if form.is_valid():
         # Save new work space to the db and create its directory
@@ -48,20 +48,29 @@ def create_work_space(request):
     return redirect(reverse("user_management:error_page"))
 
 
+@post_request_required
 @space_ownership_required
 @login_required(redirect_field_name=None)
 def delete_work_space(request, space_id):
 
-    # Check if user has right to delete this work space
-    space = check_work_space(space_id, request.user)
+    # TODO
 
-    # Delete work pace directory with all files inside
-    shutil.rmtree(space.get_path())
+    form = DeleteSpaceForm(request.POST)
 
-    # Delete workspace from the db
-    space.delete()
+    if form.is_valid():
 
-    return JsonResponse({"message": "ok"})
+        # Check if user has right to delete this work space
+        space = check_work_space(space_id, request.user)
+
+        # Delete work pace directory with all files inside
+        shutil.rmtree(space.get_path())
+
+        # Delete workspace from the db
+        space.delete()
+
+        return JsonResponse({"message": "ok"})
+    
+    return JsonResponse({"message": "error"})
 
 
 @space_ownership_required
@@ -102,7 +111,7 @@ def download_work_space(request, space_id):
 def rename_work_space(request, space_id):
     """Allow workspace owner to rename space"""
 
-    form = RenameWorkSpaceForm(request.POST)
+    form = RenameSpaceForm(request.POST)
 
     if form.is_valid():
         space = check_work_space(space_id, request.user)
@@ -297,7 +306,7 @@ def work_space_view(request, space_id):
             "chapter_form": ChapterForm(),
             "webpage_form": WebpageForm(),
             "comment_form": NewCommentForm(),
-            "rename_form": RenameWorkSpaceForm().set_initial(space),
+            "rename_form": RenameSpaceForm().set_initial(space),
             "citation_form": CitationStyleForm(),
             "comments": space.comments.all()
             }
