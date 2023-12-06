@@ -1,9 +1,10 @@
+from annoying.fields import AutoOneToOneField
 from django.db import models
 from user_management.models import User
 
 
 class ProfilePage(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = AutoOneToOneField(User, on_delete=models.CASCADE)
     followers = models.ManyToManyField(User, related_name="followers")
     is_opened = models.BooleanField(default=True)
 
