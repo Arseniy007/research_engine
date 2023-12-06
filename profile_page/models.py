@@ -32,7 +32,8 @@ class ProfilePage(models.Model):
         return self.save(update_fields=("is_opened",))
         
 
-# Make sure that every time then new User obj is created - new ProfilePage connected to new user is automatically created
+# Make sure that every time then new User obj is created - 
+# new ProfilePage connected to new user is automatically created
 def create_ProfilePage_obj(sender, instance, created, **kwargs):
     """Create ProfilePage obj for every new User"""
     if created:
