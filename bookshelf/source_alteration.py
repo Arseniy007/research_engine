@@ -1,11 +1,9 @@
 from django import forms
 from .dates import validate_date
+from .endnotes import update_endnotes
 from .forms import AlterWebpageForm
 from .models import Article, Book, Chapter, Source, Webpage
 from .source_creation import clean_text_data
-from .quoting_apa import quote_source_apa
-from .quoting_mla import quote_source_mla
-from utils.bridge import get_endnotes
 from utils.verification import check_link
 
 
@@ -63,11 +61,3 @@ def update_webpage_fields(webpage: Webpage, form: AlterWebpageForm):
                 webpage.__setattr__(field, info)
                 webpage.save(update_fields=(field,))
     return update_endnotes(webpage)
-
-
-def update_endnotes(source: Source):
-    """Updates apa & mla endnotes if source info was altered"""
-    endnotes = get_endnotes(source)
-    endnotes.apa = quote_source_apa(source)
-    endnotes.mla = quote_source_mla(source)
-    return endnotes.save(update_fields=("apa", "mla",))

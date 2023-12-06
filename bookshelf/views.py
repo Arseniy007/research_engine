@@ -4,10 +4,10 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from .data_cleaning import clean_author_data
+from .endnotes import get_endnotes
 from .forms import *
 from .source_alteration import alter_source
 from .source_creation import create_source
-from utils.bridge import get_endnotes
 from utils.decorators import endnote_ownership_required, quote_ownership_required, post_request_required, source_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_endnote, check_quote, check_source, check_work_space

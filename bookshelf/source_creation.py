@@ -2,10 +2,9 @@ from typing import Callable
 from django import forms
 from .data_cleaning import clean_text_data
 from .dates import validate_date
+from .endnotes import save_endnotes
 from .forms import ArticleForm, BookForm, ChapterForm, WebpageForm
-from .models import Article, Book, Chapter, Endnote, Source, Webpage
-from .quoting_apa import quote_source_apa
-from .quoting_mla import quote_source_mla
+from .models import Article, Book, Chapter, Webpage
 from user_management.models import User
 from utils.verification import check_link
 from work_space.models import WorkSpace
@@ -91,9 +90,3 @@ def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
     new_webpage.save()
     # Create new Endnote obj with Foreign key to this Webpage obj
     return save_endnotes(new_webpage)
-
-
-def save_endnotes(source: Source):
-    """Creates and saves new Endnote obj for given source"""
-    endnotes = Endnote(source=source, apa=quote_source_apa(source), mla=quote_source_mla(source))
-    return endnotes.save()

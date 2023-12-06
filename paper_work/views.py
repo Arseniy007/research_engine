@@ -3,10 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from bookshelf.endnotes import get_endnotes
 from .forms import ChooseSourcesForm, NewPaperForm, RenamePaperForm
 from file_handling.forms import NewPaperVersionForm
 from file_handling.models import PaperVersion
-from utils.bridge import get_endnotes
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_paper, check_work_space

@@ -11,9 +11,9 @@ class Paper(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50, unique=True)
     sources = models.ManyToManyField(Source, related_name="sources")
-    is_archived = models.BooleanField(default=False)
-    is_finished = models.BooleanField(default=False)
-    is_published = models.BooleanField(default=False)
+    archived = models.BooleanField(default=False)
+    finished = models.BooleanField(default=False)
+    published = models.BooleanField(default=False)
 
 
     def __str__(self):

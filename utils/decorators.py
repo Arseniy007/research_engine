@@ -15,10 +15,10 @@ def post_request_required(func: Callable) -> Callable | HttpResponseBadRequest:
     return wrapper
 
 
-def profile_page_ownership_required(func: Callable) -> Callable | PermissionDenied:
+def profile_ownership_required(func: Callable) -> Callable | PermissionDenied:
     """Checks if current user if owner of the profile page"""
     def wrapper(request, profile_id):
-        profile_page = check_profile_page(profile_id)
+        profile_page = check_profile(profile_id)
         if profile_page.user != request.user:
             raise PermissionDenied
         return func(request, profile_id)

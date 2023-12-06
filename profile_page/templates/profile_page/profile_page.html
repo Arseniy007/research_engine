@@ -3,10 +3,17 @@
 
 {% block body %}
 
-    <h2>{{ user }}</h2>
+    <h2>{{ user }}</h2><br><br>
+
+    <h4>Followers:</h4>
+    <ul>
+        {% for follower in followers %}
+        <li>{{ follower }}</li>
+        {% endfor %}
+    </ul>
+
+    <h5>Number of followong profiles: {{ following  }}</h5>
     
-
-
 
 {% endblock %}
 

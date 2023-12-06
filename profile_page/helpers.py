@@ -1,6 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
-from bookshelf.models import Endnote, Source
+from paper_work.models import Paper
 from profile_page.models import ProfilePage
 from user_management.models import User
 
@@ -13,9 +13,6 @@ def get_profile_id(user: User) -> int | Http404:
         raise Http404
 
 
-def get_endnotes(source: Source) -> Endnote | Http404:
-    """Get endnote for given source"""
-    try:
-        return Endnote.objects.get(source=source)
-    except ObjectDoesNotExist:
-        raise Http404
+def get_all_published_papers(user: User) -> list | None:
+    """Get all papers marked as published for given user"""
+    return list(Paper.objects.filter(user=user, published=True))

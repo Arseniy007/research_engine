@@ -5,7 +5,8 @@ from user_management.models import User
 
 class ProfilePage(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    followers = models.ManyToManyField(User, related_name="followers")
+    bio = models.CharField(max_length=200, blank=True)
+    followers = models.ManyToManyField(User, related_name="following")
     is_opened = models.BooleanField(default=True)
 
 

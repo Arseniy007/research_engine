@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'work_space',
     'profile_page',
     'user_management',
-    'annoying',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

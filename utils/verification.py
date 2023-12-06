@@ -99,7 +99,7 @@ def check_comment(comment_id: int, user: User) -> Comment | Http404:
     return comment
 
 
-def check_profile_page(profile_id: int) -> ProfilePage | Http404:
+def check_profile(profile_id: int) -> ProfilePage | Http404:
     """Checks if given user exists"""
     try:
         return ProfilePage.objects.get(pk=profile_id)

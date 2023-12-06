@@ -1,5 +1,5 @@
+from .endnotes import save_endnotes
 from .models import Article, Book, Chapter, Source, Webpage
-from .source_creation import save_endnotes
 from user_management.models import User
 from work_space.models import WorkSpace
 
