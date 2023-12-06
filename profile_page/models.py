@@ -21,11 +21,13 @@ class ProfilePage(models.Model):
     
 
     def open_page(self):
+        """Set is_opened field to True"""
         self.is_opened = True
         return self.save(update_fields=("is_opened",))
 
 
     def close_page(self):
+        """Set is_opened field to False"""
         self.is_opened = False
         return self.save(update_fields=("is_opened",))
         
@@ -36,5 +38,4 @@ def create_ProfilePage_obj(sender, instance, created, **kwargs):
     if created:
         ProfilePage.objects.create(user=instance)
 
-signals.post_save.connect(create_ProfilePage_obj, sender=User, weak=False,
-                          dispatch_uid='models.create_ProfilePage_obj')
+signals.post_save.connect(create_ProfilePage_obj, sender=User, weak=False, dispatch_uid='models.create_ProfilePage_obj')
