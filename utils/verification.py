@@ -107,10 +107,10 @@ def check_comment(comment_id: int, user: User) -> Comment | Http404:
     return comment
 
 
-def check_user(user_id: int) -> User | Http404:
+def check_profile_page(profile_id: int) -> ProfilePage | Http404:
     """Checks if given user exists"""
     try:
-        return ProfilePage.objects.get()
+        return ProfilePage.objects.get(pk=profile_id)
     except ObjectDoesNotExist:
         raise Http404
 
