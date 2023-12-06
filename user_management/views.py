@@ -58,8 +58,8 @@ def register(request):
             return render(request, "user_management/register.html", {
                 "message": "Username already taken."})
         
-        login(request, user)
-        return redirect(reverse("work_space:index"))
+        #login(request, user) # TODO
+        return redirect(reverse("user_management:login"))
     else:
         return render(request, "user_management/register.html")
 
