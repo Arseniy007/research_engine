@@ -7,7 +7,6 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from .forms import NewPaperVersionForm
-from .models import PaperVersion
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_file, check_paper
@@ -92,13 +91,6 @@ def clear_file_history(request, paper_id):
     # Check if user has right to delete all files
     paper = check_paper(paper_id, request.user)
 
-    # Delete paper directory with all files inside
-    shutil.rmtree(paper.get_path())
-
-    # Recreate new empty directory
-    paper.create_directory()
-
-    # Remove files from the db
-    PaperVersion.objects.filter(paper=paper).delete()
+    paper.clear_file_history()
 
     return JsonResponse({"message": "ok"})

@@ -12,7 +12,17 @@
         {% endfor %}
     </ul>
 
-    <h5>Number of followong profiles: {{ following  }}</h5>
+    <h5>Number of following profiles: {{ following  }}</h5><br><br>
+
+
+    <h4>Published papers:</h4>
+    <ul>
+        {% for title, file in published_papers.items %}
+        <li>
+            <a href="{% url 'file_handling:display_file' file %}">{{ title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
     
 
 {% endblock %}

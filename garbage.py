@@ -2130,6 +2130,52 @@ def follow_profile_page(request, user_id):
         return self.followers.remove(follower)
 
 
+        
+
+            def add_source(self, source: Source):
+        '''Adds new source to the paper'''
+        return self.sources.add(source)
+
+
+        @paper_authorship_required
+@login_required(redirect_field_name=None)
+def clear_file_history(request, paper_id):
+    '''Delete all files related to given paper'''
+
+    # Check if user has right to delete all files
+    paper = check_paper(paper_id, request.user)
+
+    # Delete paper directory with all files inside
+    shutil.rmtree(paper.get_path())
+
+    # Recreate new empty directory
+    paper.create_directory()
+
+    # Remove files from the db
+    PaperVersion.objects.filter(paper=paper).delete()
+
+    return JsonResponse({"message": "ok"})
+
+        def finish(self):
+        self.finished = True
+        return self.save(update_fields=("finished",))
+
+
+        @paper_authorship_required
+@login_required(redirect_field_name=None)
+def finish_paper(request, paper_id):
+    '''Mark given paper as finished'''
+
+    # Mark paper as finished
+    paper = check_paper(paper_id, request.user)
+    paper.finish()
+
+    # Do I need it?
+
+    # Is that it?
+    return JsonResponse({"message": "ok"})
+
+        path("finish_paper/<int:paper_id>", views.finish_paper, name="finish_paper"),
 """
 
 

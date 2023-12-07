@@ -17,7 +17,7 @@ def profile_page_view(request, profile_id):
     following = len(profile.user.following.all())
     published_papers = get_all_published_papers(profile.user)
 
-    params = {"user": profile.user, "followers": followers, "following": following}
+    params = {"user": profile.user, "followers": followers, "following": following, "published_papers": published_papers}
 
     return render(request, "profile_page/profile_page.html", params)
 

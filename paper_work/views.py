@@ -74,45 +74,41 @@ def rename_paper(request, paper_id):
 @paper_authorship_required
 @login_required(redirect_field_name=None)
 def archive_paper(request, paper_id):
-    """Mark paper is archived"""
+    """Mark paper is archived or vice versa"""
+
+    # TODO Vice versa shit!
 
     # Check if user has right to archive this paper
     paper = check_paper(paper_id, request.user)
 
     # Archive paper
     paper.archive()
-    return JsonResponse({"message": "ok"})
+
+    display_success_message(request)
+    link = reverse("paper_work:paper_space", args=(paper_id,))
+    return redirect(link)
         
 
 @paper_authorship_required
 @login_required(redirect_field_name=None)
-def finish_paper(request, paper_id):
-    """Mark given paper as finished"""
-
-    # Mark paper as finished
-    paper = check_paper(paper_id, request.user)
-    paper.finish()
-
-    # Do I need it?
-
-    # Is that it?
-    return JsonResponse({"message": "ok"})
-
-
-@paper_authorship_required
-@login_required(redirect_field_name=None)
 def publish_paper(request, paper_id):
-    """Mark paper as published so it appers at the account page"""
-    # TODO
+    """Mark paper as published so it appers at the account page (or vice versa)"""
 
+    # TODO Vice versa shit!
+    
+    # Check if user has right to publish this paper
     paper = check_paper(paper_id, request.user)
 
-    if paper.is_finished:
+    if paper.get_number_of_files() != 0:
+        # Publish paper
         paper.publish()
-        return JsonResponse({"message": "ok"})
+        display_success_message(request)
+    else:
+        display_error_message(request, "no files were uploaded")
 
-    return JsonResponse({"message": "error"})
-
+    link = reverse("paper_work:paper_space", args=(paper_id,))
+    return redirect(link)
+    
 
 @post_request_required
 @paper_authorship_required
