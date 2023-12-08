@@ -14,6 +14,6 @@ def get_profile_id(user: User) -> int | Http404:
 
 
 def get_all_published_papers(user: User) -> dict:
-    """Get all papers marked as published for given user"""
+    """Get all papers (and its latest files) marked as published for given user"""
     papers = list(Paper.objects.filter(user=user, archived=False, published=True))
     return {paper.title: paper.get_last_file_id() for paper in papers}
