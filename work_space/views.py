@@ -5,7 +5,7 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
-from .forms import AlterCommentForm, CitationStyleForm, DeleteSpaceForm, NewCommentForm, NewSpaceForm, ReceiveCodeForm, RenameSpaceForm
+from .forms import CitationStyleForm, DeleteSpaceForm, NewSpaceForm, ReceiveCodeForm, RenameSpaceForm
 from .friendly_dir import create_friendly_directory
 from .invitation_generator import generate_invitation
 from .models import WorkSpace
@@ -15,6 +15,7 @@ from .space_creation import copy_space_with_all_sources, create_new_space
 from utils.decorators import comment_authorship_required, post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_comment, check_invitation, check_share_code, check_work_space
+from work_comments.forms import AlterCommentForm, NewCommentForm
 
 
 @login_required(redirect_field_name=None)
@@ -71,6 +72,8 @@ def delete_work_space(request, space_id):
 
         return JsonResponse({"message": "ok"})
     
+    # TODO
+    # Return to index?
     return JsonResponse({"message": "error"})
 
 
@@ -104,6 +107,8 @@ def archive_or_unarchive_space(request, space_id):
         space.unarchive()
     else:
         space.archive()
+        # TODO
+        # Redirect to index?
 
     # TODO
     return JsonResponse({"message": "ok"})
@@ -237,65 +242,20 @@ def leave_work_space(request, space_id):
 
     # Check if user was indeed a guest in a given work space
     space = check_work_space(space_id, request.user)
+
+    # Error case
     if request.user not in space.guests.all():
-        return JsonResponse({"message": "error"})
+        display_error_message(request)
+        return_link = reverse("work_space:space_view", args=(space_id,))
+        return redirect(return_link)
 
     # Remove user
     space.remove_guest(request.user)
+
+    # TODO
+    # Redirect to index?
+
     return JsonResponse({"message": "ok"})
-
-
-@post_request_required
-@login_required(redirect_field_name=None)
-def leave_comment(request, space_id):
-    """Leaves comment in given workspace"""
-
-    form = NewCommentForm(request.POST)
-
-    if form.is_valid():
-        # Create new comment obj
-        space = check_work_space(space_id, request.user)
-        form.save_comment(space, request.user)
-        display_success_message(request)
-    else:
-        display_error_message(request)
-
-    link = reverse("work_space:space_view", args=(space.pk,))
-    return redirect(link)
-
-
-@comment_authorship_required
-@login_required(redirect_field_name=None)
-def delete_comment(request, comment_id):
-    """Deletes added comment"""
-
-    # Check comment and if user has right to its deletion
-    comment = check_comment(comment_id, request.user)
-
-    # Delete comment from the db
-    comment.delete()
-
-    link = reverse("work_space:space_view", args=(comment.work_space.pk,))
-    return redirect(link)
-
-
-@post_request_required
-@comment_authorship_required
-@login_required(redirect_field_name=None)
-def alter_comment(request, comment_id):
-    """Alter comment text"""
-
-    form = AlterCommentForm(request.POST)
-
-    if form.is_valid():
-        comment = check_comment(comment_id, request.user)
-        form.save_altered_comment(comment)
-        display_success_message(request)
-    else:
-        display_error_message(request)
-
-    link = reverse("work_space:space_view", args=(comment.work_space.pk,))
-    return redirect(link)
 
 
 @login_required(redirect_field_name=None)

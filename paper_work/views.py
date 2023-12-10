@@ -109,8 +109,12 @@ def archive_or_unarchive_paper(request, paper_id):
 
     if paper.archived:
         paper.unarchive()
+        # TODO
+        # Redirect?
     else:
         paper.archive()
+        # TODO
+        # Redirect?
 
     display_success_message(request)
     link = reverse("paper_work:paper_space", args=(paper_id,))
@@ -133,6 +137,12 @@ def publish_paper(request, paper_id):
         if paper.get_number_of_files() != 0:
             # Publish paper
             paper.publish()
+    
+            if form.cleaned_data["share_sources"]:
+                # TODO ! What after?
+                link = reverse("work_space:share_space", args=(paper.work_space.pk,))
+                return redirect(link)
+            
             display_success_message(request)
         else:
             display_error_message(request, "no files were uploaded")

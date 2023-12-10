@@ -15,9 +15,6 @@ urlpatterns = [
     path("share_space/<int:space_id>", views.share_work_space, name="share_space"),
     path("receive_shared_space", views.receive_shared_space, name="receive_shared_space"),
     path("leave_space/<int:space_id>", views.leave_work_space, name="leave_space"),
-    path("leave_comment/<int:space_id>", views.leave_comment, name="leave_comment"),
-    path("delete_comment/<int:comment_id>", views.delete_comment, name="delete_comment"),
-    path("alter_comment/<int:comment_id>", views.alter_comment, name="alter_comment"),
     path("set_citation_style/<int:space_id>", views.set_citation_style, name="set_citation_style"),
     path("work_space/<int:space_id>", views.work_space_view, name="space_view")
 ]

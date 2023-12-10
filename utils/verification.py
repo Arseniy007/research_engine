@@ -7,7 +7,8 @@ from file_handling.models import PaperVersion
 from paper_work.models import Paper
 from profile_page.models import ProfilePage
 from user_management.models import User
-from work_space.models import Comment, Invitation, ShareSpaceCode, WorkSpace
+from work_comments.models import Comment
+from work_space.models import Invitation, ShareSpaceCode, WorkSpace
 
 
 def check_work_space(space_id: int, user: User) -> WorkSpace | Http404 | PermissionDenied:
