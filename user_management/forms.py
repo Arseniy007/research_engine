@@ -1,9 +1,21 @@
 from django import forms
 
 
+ATTRS = {"class": "form-control", "autocomplete": "off"}
+
+
+class RegisterForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
+    first_name = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
+    last_name = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
+    email = forms.EmailField(widget=forms.TextInput(attrs=ATTRS))
+    password = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
+    confirmation = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
+
+
 class LoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
+    username = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
+    password = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
 
 
 class ChangePasswordForm(forms.Form):

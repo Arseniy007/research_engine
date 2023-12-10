@@ -3,9 +3,44 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from .forms import ChangePasswordForm, LoginForm
+from .forms import ChangePasswordForm, LoginForm, RegisterForm
 from .models import User
+from research_engine.settings import LOGIN_URL
 from utils.messages import display_error_message
+
+
+def register(request):
+    """Register new user"""
+
+    form = RegisterForm(request.POST or None)
+    
+    if request.method == "POST":
+        if form.is_valid():
+            # Get input
+            form.cleaned_data[""]
+            username, email = form.cleaned_data["username"], form.cleaned_data["email"]
+            first_name, last_name = form.cleaned_data["first_name"], form.cleaned_data["last_name"]
+            password, confirmation = form.cleaned_data["password"], form.cleaned_data["confirmation"]
+            
+            # Ensure password matches confirmation
+            if password != confirmation:
+                return render(request, "user_management/register.html", {
+                    "message": "Passwords must match."})
+            
+            # Attempt to create new user
+            try:
+                user = User.objects.create_user(username, email, password)
+                user.first_name = first_name
+                user.last_name = last_name
+                user.save()
+            except IntegrityError:
+                return render(request, "user_management/register.html", {
+                    "message": "Username already taken."})
+            
+            return redirect(LOGIN_URL)
+        else:
+            display_error_message(request)
+    return render(request, "user_management/register.html", {"register_form": form})
 
 
 def login_view(request):
@@ -37,51 +72,13 @@ def login_view(request):
     return render(request, "user_management/login.html", {"login_form": form})
 
 
-def logout_view(request):
-    """Log user out"""
-
-    logout(request)
-    return redirect(reverse("user_management:login"))
-
-
-def register(request):
-    """Register new user"""
-    
-    if request.method == "POST":
-        # Get input
-        username, email = request.POST["username"], request.POST["email"]
-        first_name, last_name = request.POST["first_name"], request.POST["last_name"]
-        password, confirmation = request.POST["password"], request.POST["confirmation"]
-        
-        # Ensure password matches confirmation
-        if password != confirmation:
-            return render(request, "user_management/register.html", {
-                "message": "Passwords must match."})
-        
-        # Attempt to create new user
-        try:
-            user = User.objects.create_user(username, email, password)
-            user.first_name = first_name
-            user.last_name = last_name
-            user.save()
-        except IntegrityError:
-            return render(request, "user_management/register.html", {
-                "message": "Username already taken."})
-        
-        #login(request, user) # TODO
-        return redirect(reverse("user_management:login"))
-    else:
-        return render(request, "user_management/register.html")
-
-
 @login_required(redirect_field_name=None)
 def change_password(request):
-    '''Allow user to change their password'''
+    """Allow user to change their password"""
 
     form = ChangePasswordForm(request.POST or None)
 
     if request.method == "POST":
-
         if form.is_valid():
             # Get input
             old_password = form.cleaned_data["old_password"]
@@ -104,7 +101,7 @@ def change_password(request):
         return render(request, "user_management/change_password.html", {"form": form})
 
 
-def show_error_page(request):
-    # TODO
-
-    return render(request, "error_page.html")
+def logout_view(request):
+    """Log user out"""
+    logout(request)
+    return redirect(LOGIN_URL)

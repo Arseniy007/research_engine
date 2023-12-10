@@ -16,3 +16,8 @@ def index(request):
                                                      "invitation_form": ReceiveCodeForm(),
                                                      "shared_space_form": ReceiveCodeForm()})
 
+
+def show_error_page(request):
+    # TODO
+
+    return render(request, "website/error_page.html")

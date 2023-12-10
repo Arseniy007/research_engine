@@ -2287,6 +2287,30 @@ def set_citation_style(request, space_id):
     def set_redirect_url(self, url: str):
         self.fields["redirect_url"].value = url
         return self
+
+    <form onsubmit="return check_password('register_form');" action="{% url 'user_management:register' %}" id="register_form" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <input class="form-control" autofocus type="text" name="first_name" placeholder="First Name">
+        </div>
+        <div class="form-group">
+            <input class="form-control" autofocus type="text" name="last_name" placeholder="Last Name">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="email" name="email" placeholder="Email Address">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+        </div>
+        <input class="btn btn-primary" type="submit" value="Register">
+    </form>
+
 """
 
 

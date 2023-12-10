@@ -9,7 +9,7 @@ from .forms import DeleteSpaceForm, NewSpaceForm, ReceiveCodeForm, RenameSpaceFo
 from .friendly_dir import create_friendly_directory
 from .invitation_generator import generate_invitation
 from paper_work.forms import NewPaperForm
-from research_engine.constants import FRIENDLY_TMP_ROOT
+from research_engine.constants import ERROR_PAGE, FRIENDLY_TMP_ROOT
 from .space_creation import copy_space_with_all_sources, create_new_space
 from utils.decorators import post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
@@ -17,7 +17,7 @@ from utils.verification import check_invitation, check_share_code, check_work_sp
 from work_comments.forms import AlterCommentForm, NewCommentForm
 
 
-@login_required
+@login_required(redirect_field_name=None)
 @post_request_required
 def create_work_space(request):
     """Create new worspace ;)"""
@@ -36,12 +36,12 @@ def create_work_space(request):
     # TODO
     print(form.errors)
     display_error_message(request)
-    return redirect(reverse("user_management:error_page"))
+    return redirect(ERROR_PAGE)
 
 
-@login_required
 @post_request_required
 @space_ownership_required
+@login_required(redirect_field_name=None)
 def delete_work_space(request, space_id):
     """Delete worspace ;)"""
 
@@ -67,9 +67,9 @@ def delete_work_space(request, space_id):
     return JsonResponse({"message": "error"})
 
 
-@login_required
 @post_request_required
 @space_ownership_required
+@login_required(redirect_field_name=None)
 def rename_work_space(request, space_id):
     """Allow workspace owner to rename space"""
 
@@ -86,8 +86,8 @@ def rename_work_space(request, space_id):
     return redirect(link)
 
 
-@login_required
 @space_ownership_required
+@login_required(redirect_field_name=None)
 def archive_or_unarchive_space(request, space_id):
     """Mark given work space as archived"""
 
@@ -105,6 +105,7 @@ def archive_or_unarchive_space(request, space_id):
 
 
 @login_required
+@login_required(redirect_field_name=None)
 def download_work_space(request, space_id):
     """Download archived (zip) file of the whole work space directory"""
 
@@ -126,8 +127,8 @@ def download_work_space(request, space_id):
         shutil.rmtree(FRIENDLY_TMP_ROOT)
 
 
-@login_required
 @space_ownership_required
+@login_required(redirect_field_name=None)
 def invite_to_work_space(request, space_id):
     """Create an invitation to work space for another user"""
     # TODO
@@ -139,8 +140,8 @@ def invite_to_work_space(request, space_id):
     return JsonResponse({"invitation code": invitation_code})
 
 
-@login_required
 @post_request_required
+@login_required(redirect_field_name=None)
 def receive_invitation(request):
     """Adds user as guest to the new work space if they were invited"""
 
@@ -164,11 +165,11 @@ def receive_invitation(request):
         display_error_message(request)
 
     display_error_message(request)
-    return redirect(reverse("user_management:error_page"))
+    return redirect(ERROR_PAGE)
 
 
-@login_required
 @space_ownership_required
+@login_required(redirect_field_name=None)
 def share_work_space(request, space_id):
     """Share a copy of work space with all its sources"""
     # TODO
@@ -183,8 +184,8 @@ def share_work_space(request, space_id):
         return JsonResponse({"message": "You can not share empy work space"})
 
 
-@login_required
 @post_request_required
+@login_required(redirect_field_name=None)
 def receive_shared_space(request):
     """Receive a copy of a work space with all its sources if it was shared"""
     # TODO
@@ -204,10 +205,10 @@ def receive_shared_space(request):
         return redirect(link)
 
     display_error_message(request)
-    return redirect(reverse("user_management:error_page"))
+    return redirect(ERROR_PAGE)
 
 
-@login_required
+@login_required(redirect_field_name=None)
 def leave_work_space(request, space_id):
     """Remove guest from a work space"""
 
