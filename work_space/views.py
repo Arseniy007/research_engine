@@ -8,23 +8,13 @@ from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from .forms import CitationStyleForm, DeleteSpaceForm, NewSpaceForm, ReceiveCodeForm, RenameSpaceForm
 from .friendly_dir import create_friendly_directory
 from .invitation_generator import generate_invitation
-from .models import WorkSpace
 from paper_work.forms import NewPaperForm
 from research_engine.settings import FRIENDLY_TMP_ROOT
 from .space_creation import copy_space_with_all_sources, create_new_space
-from utils.decorators import comment_authorship_required, post_request_required, space_ownership_required
+from utils.decorators import post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
-from utils.verification import check_comment, check_invitation, check_share_code, check_work_space
+from utils.verification import check_invitation, check_share_code, check_work_space
 from work_comments.forms import AlterCommentForm, NewCommentForm
-
-
-@login_required(redirect_field_name=None)
-def index(request):
-
-    return render(request, "work_space/index.html", {"form": NewSpaceForm(), 
-                                                     "spaces": WorkSpace.objects.all(),
-                                                     "invitation_form": ReceiveCodeForm(),
-                                                     "shared_space_form": ReceiveCodeForm()})
 
 
 @post_request_required
