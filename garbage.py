@@ -2490,7 +2490,24 @@ def quote_source_mla(source: Source) -> Callable | bool:
         case _:
             return None
 
+        if request.method == "POST":
+        form = get_type_of_source_form(request.POST)
+        if not form:
+            display_error_message(request)
+            # TODO
+            return JsonResponse({"message": "error"})
+        
+        if form.is_valid():
 
+            pass
+
+        else:
+            display_error_message(request)
+
+                if not form:
+        display_error_message()
+        # TODO
+        return JsonResponse({"message": "error"})
 
 
 """

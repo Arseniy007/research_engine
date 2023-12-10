@@ -3,9 +3,9 @@ from django import forms
 from .endnotes import save_endnotes
 from .forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from .models import Article, Book, Chapter, Webpage
-from quoting.data_cleaning import clean_text_data
 from quoting.dates import validate_date
 from user_management.models import User
+from utils.data_cleaning import clean_source_form_fields
 from utils.verification import check_link
 from work_space.models import WorkSpace
 
@@ -14,12 +14,7 @@ def create_source(user: User, space: WorkSpace, form: forms.Form, author: str, c
     """Get future source type and call right func"""
 
     # Iterate through all fields and clean its data
-    cleaned_data: dict = {}
-    for field in form.fields:
-        info = form.cleaned_data[field]
-        if type(info) == str:
-            info = clean_text_data(info)
-        cleaned_data[field] = info
+    cleaned_data: dict = clean_source_form_fields(form)
 
     match form:
         case BookForm():

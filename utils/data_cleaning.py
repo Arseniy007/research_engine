@@ -1,6 +1,20 @@
+from django.forms import Form
+
+
 def clean_text_data(data: str) -> str:
     """Cleans given str-field"""
     return data.strip(""".,'" """)
+
+
+def clean_source_form_fields(form: Form) -> dict:
+    """Clean all fields in submitted Source Form of any type"""
+    cleaned_data = {}
+    for field in form.fields:
+        info = form.cleaned_data[field]
+        if type(info) == str:
+            info = clean_text_data(info)
+        cleaned_data[field] = info
+    return cleaned_data
 
 
 def clean_author_data(data, chapter_author=False) -> str | bool:

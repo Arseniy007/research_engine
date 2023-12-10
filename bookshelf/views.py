@@ -5,9 +5,9 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from .endnotes import get_endnotes
 from .forms import *
-from quoting.data_cleaning import clean_author_data
 from .source_alteration import alter_source
 from .source_creation import create_source
+from utils.data_cleaning import clean_author_data
 from utils.decorators import endnote_ownership_required, quote_ownership_required, post_request_required, source_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_endnote, check_quote, check_source, check_work_space
@@ -20,12 +20,8 @@ def add_source(request, space_id):
     # TODO
 
     form = get_type_of_source_form(request.POST)
-    if not form:
-        display_error_message()
-        # TODO
-        return JsonResponse({"message": "error"})
     
-    if form.is_valid():
+    if form and form.is_valid():
         space = check_work_space(space_id, request.user)
 
         # Get and validate author(s) fields
