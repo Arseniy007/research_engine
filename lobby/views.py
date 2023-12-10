@@ -21,7 +21,7 @@ def lobby_view(request):
 
 
 @post_request_required
-def get_endnotes_for_input(request):
+def get_lobby_endnotes(request):
     """Get endnotes for source that was inputed"""
 
     form = get_type_of_source_form(request.POST)
@@ -42,10 +42,10 @@ def get_endnotes_for_input(request):
                     display_error_message()
                 else:
                     # Get endnotes for chapter
-                    endnotes = quote_input_source(form, chapter_author)
+                    endnotes = quote_input_source(form, author, chapter_author)
             else:
                 # Get endnotes for all other types
-                endnotes = quote_input_source(form)
+                endnotes = quote_input_source(form, author)
             if endnotes:
                 return JsonResponse(endnotes)
 

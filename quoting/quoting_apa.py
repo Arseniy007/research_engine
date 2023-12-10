@@ -2,17 +2,21 @@ from .author_formatting import format_authors_apa
 from .dates import format_date
 
 
+# TODO!!!
+# Nested f strings!!!!!!
+
+
 def quote_book_apa(book: dict) -> str:
     """Create apa endnote for given book"""
     author = format_authors_apa(book["author"])
-    return f"{author} ({book['year']}. {book['title']}. {book['publishing_house']}."
+    return f"{author} ({book['year']}). {book['title']}. {book['publishing_house']}."
 
 
 def quote_article_apa(article: dict) -> str:
     """Create apa endnote for given article"""
     author = format_authors_apa(article["author"])
     result: str = (
-        f'{author} ({article["year"]}). "{article["title"]}" {article["journal_title"]}, '
+        f'{author} ({article["year"]}). "{article["article_title"]}" {article["journal_title"]}, '
         f'{article["volume"]}({article["issue"]}), {article["pages"]}.'
     )
     return result

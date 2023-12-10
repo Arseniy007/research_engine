@@ -1,12 +1,53 @@
 {% extends "layout.html" %}
 {% load static %}
 
-{% block body %}
-
-    <h1>Lobby</h1>
-
+{% block script %}
+    <script src="{% static 'work_space/script.js' %}"></script>
 {% endblock %}
 
-{% block script %}
-    <script src="{% static 'user_management/script.js' %}"></script>
+{% block body %}
+    <style>
+        #book_form, #article_form, #chapter_form, #webpage_form, #second_author
+        {
+            display: none;
+        }
+    </style>
+
+    <h1>Lobby</h1><br><br>
+
+    <h3>Choose sourse</h3>
+    <button class="show_form_button" id="book" type="button">book</button>
+    <button class="show_form_button" id="article" type="button">article</button>
+    <button class="show_form_button" id="chapter" type="button">chapter</button>
+    <button class="show_form_button" id="webpage" type="button">webpage</button>
+
+    <form action="{% url 'lobby:get_endnotes' %}" method="post" id="book_form" class="source_form">
+        <div class="author_div"></div>
+        {% csrf_token %} 
+        {{ book_form.as_p }}
+        <button value="book" name="book" type="submit">Add Book</button>
+    </form>
+    <form action="{% url 'lobby:get_endnotes' %}" method="post" id="article_form" class="source_form">
+        <div class="author_div"></div>
+        {% csrf_token %} 
+        {{ article_form.as_p }}
+        <button value="article" name="article" type="submit">Add Article</button>
+    </form>
+    <form action="{% url 'lobby:get_endnotes' %}" method="post" id="chapter_form" class="source_form">
+        <div id="chapter_author_div"></div>
+        {% csrf_token %}
+        {{ chapter_form.as_p }}
+        <div class="author_div"></div>
+        <button value="chapter" name="chapter" type="submit">Add Chapter</button>
+    </form>
+    <form action="{% url 'lobby:get_endnotes' %}" method="post" id="webpage_form" class="source_form">
+        <div class="author_div"></div>
+        {% csrf_token %} 
+        {{ webpage_form.as_p }}
+        <button value="webpage" name="webpage" type="submit">Add Webpage</button>
+    </form><br><br><br><br>
+
+
+
+
 {% endblock %}

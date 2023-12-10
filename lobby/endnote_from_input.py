@@ -5,10 +5,13 @@ from quoting.quoting_apa import quote_article_apa, quote_book_apa, quote_chapter
 from quoting.quoting_mla import quote_article_mla, quote_book_mla, quote_chapter_mla, quote_webpage_mla
 
 
-def quote_input_source(form: Form, chapter_author: str=None) -> dict | None:
+def quote_input_source(form: Form, author: str, chapter_author: str=None) -> dict | None:
 
     # Iterate through all fields and clean its data
     cleaned_data: dict = clean_source_form_fields(form)
+
+    # Add author fields
+    cleaned_data["author"] = author
     if chapter_author:
         cleaned_data["chapter_author"] = chapter_author
 

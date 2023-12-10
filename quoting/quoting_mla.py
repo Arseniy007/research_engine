@@ -2,6 +2,10 @@ from .author_formatting import format_authors_mla
 from .dates import format_date
 
 
+# TODO!!!
+# Nested f strings!!!!!!
+
+
 def quote_book_mla(book: dict) -> str:
     """Create mla endnote for given book"""
     author = format_authors_mla(book["author"])
@@ -12,7 +16,7 @@ def quote_article_mla(article: dict) -> str:
     """Create mla endnote for given article"""
     author = format_authors_mla(article["author"])
     result: str = (
-        f'{author} "{article["title"]}" {article["journal_title"]}, vol. {article["volume"]}, '
+        f'{author} "{article["article_title"]}" {article["journal_title"]}, vol. {article["volume"]}, '
         f'no. {article["issue"]}, {article["year"]}, pp. {article["pages"]}.'
     )
     return result
