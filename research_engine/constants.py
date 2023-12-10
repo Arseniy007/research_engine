@@ -1,8 +1,7 @@
-from django.urls import reverse
 from .settings import MEDIA_ROOT
 
 
-ERROR_PAGE = reverse("website:error_page")
+ERROR_PAGE = "/error_page"
 
 FRIENDLY_TMP_ROOT = f'{MEDIA_ROOT}/friendly_dirs'
 

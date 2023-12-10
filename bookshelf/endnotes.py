@@ -1,6 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
-from bookshelf.models import Endnote, Source
+from .models import Endnote, Source
 from .quoting_apa import quote_source_apa
 from .quoting_mla import quote_source_mla
 

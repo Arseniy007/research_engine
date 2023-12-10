@@ -11,13 +11,17 @@ from utils.messages import display_error_message, display_success_message
 @login_required(redirect_field_name=None)
 def index(request):
 
-    return render(request, "website/index.html", {"form": NewSpaceForm(), 
-                                                     "spaces": WorkSpace.objects.all(),
-                                                     "invitation_form": ReceiveCodeForm(),
-                                                     "shared_space_form": ReceiveCodeForm()})
+    params = {"form": NewSpaceForm(), 
+            "spaces": WorkSpace.objects.all(),
+            "invitation_form": ReceiveCodeForm(),
+            "shared_space_form": ReceiveCodeForm()}
+
+    return render(request, "website/index.html", params)
 
 
 def show_error_page(request):
     # TODO
 
     return render(request, "website/error_page.html")
+
+

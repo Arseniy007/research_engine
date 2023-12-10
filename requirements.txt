@@ -1,5 +1,4 @@
 django
-django-annoying
 office_word_count
 requests
 textract
