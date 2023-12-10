@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from .data_cleaning import clean_author_data
+from ..quoting.data_cleaning import clean_author_data
 from .endnotes import get_endnotes
 from .forms import *
 from .source_alteration import alter_source

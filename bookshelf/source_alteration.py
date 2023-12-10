@@ -1,5 +1,5 @@
 from django import forms
-from .dates import validate_date
+from ..quoting.dates import validate_date
 from .endnotes import update_endnotes
 from .forms import AlterWebpageForm
 from .models import Article, Book, Chapter, Source, Webpage

@@ -2311,6 +2311,188 @@ def set_citation_style(request, space_id):
         <input class="btn btn-primary" type="submit" value="Register">
     </form>
 
+    {% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <style>
+        .two_2, .three, .four, .five
+        {
+            display: none;
+        }
+    </style>
+
+    <script>
+         document.addEventListener('DOMContentLoaded', function() {
+
+
+            const one_button = document.getElementById('one_button');
+
+            one_button.addEventListener('click', function() {
+
+                let new_div = document.getElementsByClassName('two_2')[0];
+                console.log(new_div);
+
+                new_div.style.display = 'block';
+
+            })
+            
+
+    
+
+
+
+
+
+
+
+
+
+        });
+    </script>
+
+
+    <br>
+    <form action="{% url 'lobby:lobby' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Send</button>
+    </form><br><br>
+
+    <h3>New:</h3>
+    <form action="{% url 'lobby:lobby' %}" method="post">
+
+        
+        <div class="one">
+            <label for="id_one">One:</label>
+            <input id="one" type="text" required>
+            <button type="button" id="one_button">Add</button>
+        </div>
+        <div class="two_2">
+            <label for="id_two">Two:</label>
+            <input id="two" type="text" required>
+            <button id="two_button">Add</button>
+        </div>
+        <div class="three">
+            <label for="id_three">Three:</label>
+            <input id="three" type="text" required>
+            <button id="three_button">Add</button>
+        </div>
+
+
+        <button type="submit">Send</button>
+    </form>
+    
+
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'user_management/script.js' %}"></script>
+{% endblock %}
+
+
+def quote_book_apa(book: Book) -> str:
+
+    author = format_authors_apa(book.author)
+    return f"{author} ({book.year}). {book.title}. {book.publishing_house}."
+
+
+def quote_article_apa(article: Article) -> str:
+    "Create apa endnote for given article"
+    author = format_authors_apa(article.author)
+    result: str = (
+        f'{author} ({article.year}). "{article.title}" {article.journal_title}, '
+        f'{article.volume}({article.issue}), {article.pages}.'
+    )
+    return result
+
+
+def quote_chapter_apa(chapter: Chapter) -> str:
+
+    book_author = format_authors_apa(chapter.book_author)
+    chapter_author = format_authors_apa(chapter.author)
+    result: str = (
+        f"{chapter_author} ({chapter.year}). {chapter.title}. "
+        f"In {book_author} (Eds.), {chapter.book_title} "
+        f"({chapter.edition} ed., pp. {chapter.pages}). {chapter.publishing_house}."
+    )
+    return result
+
+
+def quote_webpage_apa(webpage: Webpage) -> str:
+
+    date = format_date(webpage.date, "apa")
+    if webpage.author == "No author":
+        return f"{webpage.title}. ({date}). {webpage.website_title}. {webpage.page_url}"
+    
+    author = format_authors_apa(webpage.author)
+    return f"{author} ({date}). {webpage.title}. {webpage.website_title}. {webpage.page_url}"
+
+    def quote_book_mla(book: Book) -> str:
+
+    author = format_authors_mla(book.author)
+    return f"{author} {book.title}. {book.publishing_house}, {book.year}."
+
+
+def quote_article_mla(article: Article) -> str:
+
+    author = format_authors_mla(article.author)
+    result: str = (
+        f'{author} "{article.title}" {article.journal_title}, vol. {article.volume}, '
+        f'no. {article.issue}, {article.year}, pp. {article.year}.'
+    )
+    return result
+
+
+def quote_chapter_mla(chapter: Chapter) -> str:
+
+    book_author = format_authors_mla(chapter.book_author)
+    chapter_author = format_authors_mla(chapter.author)
+    result: str = (
+        f'{chapter_author}. "{chapter.title}." {chapter.book_title}, edited by {book_author}. '
+        f'{chapter.publishing_house}, {chapter.year}, pp. {chapter.pages}.'
+    )
+    return result
+
+
+def quote_webpage_mla(webpage: Webpage) -> str:
+
+    date = format_date(webpage.date, "mla")
+    if webpage.author == "No author":
+        return f'"{webpage.title}" {webpage.website_title}, {date}, {webpage.page_url}.'
+    
+    author = format_authors_mla(webpage.author)
+    return f'{author}. "{webpage.title}" {webpage.website_title}, {date}, {webpage.page_url}.'
+
+
+    from typing import Callable
+from .dates import format_date
+from .models import Article, Book, Chapter, Source, Webpage
+
+from quoting.author_formatting import format_authors_mla
+
+
+def quote_source_mla(source: Source) -> Callable | bool:
+
+
+    source_type: type(object) = source.cast()
+    match source_type:
+        case Book():
+            return quote_book_mla(source.book)
+        case Article():
+            return quote_article_mla(source.article)
+        case Chapter():
+            return quote_chapter_mla(source.chapter)
+        case Webpage():
+            return quote_webpage_mla(source.webpage)
+        case _:
+            return None
+
+
+
+
 """
 
 

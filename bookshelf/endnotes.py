@@ -1,8 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from .models import Endnote, Source
-from .quoting_apa import quote_source_apa
-from .quoting_mla import quote_source_mla
+from .source_quoting import quote_source_apa, quote_source_mla
 
 
 def save_endnotes(source: Source):

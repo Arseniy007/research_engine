@@ -1,7 +1,7 @@
 from typing import Callable
 from django import forms
-from .data_cleaning import clean_text_data
-from .dates import validate_date
+from ..quoting.data_cleaning import clean_text_data
+from ..quoting.dates import validate_date
 from .endnotes import save_endnotes
 from .forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from .models import Article, Book, Chapter, Webpage
