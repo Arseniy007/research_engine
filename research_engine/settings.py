@@ -135,15 +135,9 @@ STATIC_URL = 'static/'
 
 MEDIA_ROOT = 'uploads'
 
-FRIENDLY_TMP_ROOT = f'{MEDIA_ROOT}/friendly_dirs'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'
-
-ACCEPTED_UPLOAD_FORMATS = ".pdf, .docx"
-
-SAVING_TIME_FORMAT = "%Y-%m-%d-%H-%M-%S"

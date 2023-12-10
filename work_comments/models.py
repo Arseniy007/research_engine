@@ -1,5 +1,5 @@
 from django.db import models
-from research_engine.settings import SAVING_TIME_FORMAT
+from research_engine.constants import SAVING_TIME_FORMAT
 from user_management.models import User
 from work_space.models import WorkSpace
 

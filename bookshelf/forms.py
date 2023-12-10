@@ -1,6 +1,6 @@
 from django import forms
 from .models import Article, Book, Chapter, Endnote, Quote, Source, Webpage
-from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
+from research_engine.constants import ACCEPTED_UPLOAD_FORMATS
 from utils.verification import check_link
 
 

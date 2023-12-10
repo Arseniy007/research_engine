@@ -9,7 +9,7 @@ from .forms import CitationStyleForm, DeleteSpaceForm, NewSpaceForm, ReceiveCode
 from .friendly_dir import create_friendly_directory
 from .invitation_generator import generate_invitation
 from paper_work.forms import NewPaperForm
-from research_engine.settings import FRIENDLY_TMP_ROOT
+from research_engine.constants import FRIENDLY_TMP_ROOT
 from .space_creation import copy_space_with_all_sources, create_new_space
 from utils.decorators import post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message

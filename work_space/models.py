@@ -1,6 +1,7 @@
 import os
 from django.db import models
-from research_engine.settings import FRIENDLY_TMP_ROOT, MEDIA_ROOT
+from research_engine.constants import FRIENDLY_TMP_ROOT
+from research_engine.settings import MEDIA_ROOT
 from user_management.models import User
 
 

@@ -1,7 +1,7 @@
 from django import forms
 from .models import PaperVersion
 from paper_work.models import Paper
-from research_engine.settings import ACCEPTED_UPLOAD_FORMATS
+from research_engine.constants import ACCEPTED_UPLOAD_FORMATS
 from user_management.models import User
 
 
