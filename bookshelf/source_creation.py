@@ -1,10 +1,10 @@
 from typing import Callable
 from django import forms
-from ..quoting.data_cleaning import clean_text_data
-from ..quoting.dates import validate_date
 from .endnotes import save_endnotes
 from .forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from .models import Article, Book, Chapter, Webpage
+from quoting.data_cleaning import clean_text_data
+from quoting.dates import validate_date
 from user_management.models import User
 from utils.verification import check_link
 from work_space.models import WorkSpace

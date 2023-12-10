@@ -3,9 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from ..quoting.data_cleaning import clean_author_data
 from .endnotes import get_endnotes
 from .forms import *
+from quoting.data_cleaning import clean_author_data
 from .source_alteration import alter_source
 from .source_creation import create_source
 from utils.decorators import endnote_ownership_required, quote_ownership_required, post_request_required, source_ownership_required

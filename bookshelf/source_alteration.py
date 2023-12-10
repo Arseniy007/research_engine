@@ -1,8 +1,8 @@
 from django import forms
-from ..quoting.dates import validate_date
 from .endnotes import update_endnotes
 from .forms import AlterWebpageForm
 from .models import Article, Book, Chapter, Source, Webpage
+from quoting.dates import validate_date
 from .source_creation import clean_text_data
 from utils.verification import check_link
 
