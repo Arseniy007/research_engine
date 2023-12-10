@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.endnotes import get_endnotes
-from .forms import ChooseSourcesForm, NewPaperForm, PaperPublicationForm, RenamePaperForm
+from .forms import CitationStyleForm, ChooseSourcesForm, NewPaperForm, PaperPublicationForm, RenamePaperForm
 from file_handling.forms import NewPaperVersionForm
 from file_handling.models import PaperVersion
 from profile_page.helpers import get_profile_id
@@ -176,6 +176,25 @@ def hide_published_paper(request, paper_id):
     # Redirect back to profile page? Maybe Json would be better!
     profile_link = reverse("profile_page:profile_view", args=(get_profile_id(request.user),))
     return redirect(profile_link)
+
+
+@post_request_required
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def set_citation_style(request, paper_id):
+    """Choose citation style for all sources in work space"""
+    
+    form = CitationStyleForm(request.POST)
+
+    if form.is_valid():
+        paper = check_paper(paper_id, request.user)
+        form.save_citation_style(paper)
+        display_success_message(request)
+    else:
+        display_error_message(request)
+    
+    link = reverse("work_space:space_view", args=(paper_id,))
+    return redirect(link)
 
 
 @login_required(redirect_field_name=None)

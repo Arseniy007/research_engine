@@ -5,6 +5,9 @@ from user_management.models import User
 from work_space.models import WorkSpace
 
 
+CITATION_STYLES = (("APA", "APA"), ("MLA", "MLA"), ("APA & MLA", "APA & MLA"),)
+
+
 class NewPaperForm(forms.Form):
     title = forms.CharField(max_length=50)
 
@@ -32,6 +35,15 @@ class ChooseSourcesForm(forms.Form):
         """Pre-populate field with all sources in a work space"""
         self.fields["sources"].queryset = sources
         return self
+    
+
+class CitationStyleForm(forms.Form):
+    citation_style = forms.ChoiceField(choices=CITATION_STYLES)
+
+    def save_citation_style(self, paper: Paper):
+        "Update citation_style field in Workspace obj"
+        paper.citation_style = self.cleaned_data["citation_style"]
+        return paper.save(update_fields=("citation_style",))
 
 
 class PaperPublicationForm(forms.Form):

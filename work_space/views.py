@@ -5,7 +5,7 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
-from .forms import CitationStyleForm, DeleteSpaceForm, NewSpaceForm, ReceiveCodeForm, RenameSpaceForm
+from .forms import DeleteSpaceForm, NewSpaceForm, ReceiveCodeForm, RenameSpaceForm
 from .friendly_dir import create_friendly_directory
 from .invitation_generator import generate_invitation
 from paper_work.forms import NewPaperForm
@@ -124,25 +124,6 @@ def download_work_space(request, space_id):
     finally:
         # Delete whole dir (with zip file inside)
         shutil.rmtree(FRIENDLY_TMP_ROOT)
-
-
-@post_request_required
-@space_ownership_required
-@login_required(redirect_field_name=None)
-def set_citation_style(request, space_id):
-    """Choose citation style for all sources in work space"""
-    
-    form = CitationStyleForm(request.POST)
-
-    if form.is_valid():
-        space = check_work_space(space_id, request.user)
-        form.save_citation_style(space)
-        display_success_message(request)
-    else:
-        display_error_message(request)
-    
-    link = reverse("work_space:space_view", args=(space_id,))
-    return redirect(link)
 
 
 @space_ownership_required
@@ -264,7 +245,6 @@ def work_space_view(request, space_id):
             "webpage_form": WebpageForm(),
             "comment_form": NewCommentForm(),
             "rename_form": RenameSpaceForm().set_initial(space),
-            "citation_form": CitationStyleForm(),
             "comments": space.comments.all()
             }
 

@@ -10,6 +10,7 @@ urlpatterns = [
     path("archive_paper/<int:paper_id>", views.archive_or_unarchive_paper, name="archive_paper"),
     path("publish_paper/<int:paper_id>", views.publish_paper, name="publish_paper"),
     path("hide_paper/<int:paper_id>", views.hide_published_paper, name="hide_paper"),
+    path("set_citation_style/<int:paper_id>", views.set_citation_style, name="set_citation_style"),
     path("select_sources/<int:paper_id>", views.select_sources_for_paper, name="select_sources"),
     path("paper_space/<int:paper_id>", views.paper_space, name="paper_space")
 ]

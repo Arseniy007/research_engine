@@ -12,6 +12,7 @@ class Paper(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50, unique=True)
     sources = models.ManyToManyField(Source, related_name="papers")
+    citation_style = models.CharField(max_length=10, default="APA & MLA")
     archived = models.BooleanField(default=False)
     published = models.BooleanField(default=False)
 

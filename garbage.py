@@ -2233,6 +2233,23 @@ def alter_comment(request, comment_id):
 
     link = reverse("work_space:space_view", args=(comment.work_space.pk,))
     return redirect(link)
+
+    @post_request_required
+@space_ownership_required
+@login_required(redirect_field_name=None)
+def set_citation_style(request, space_id):
+    
+    form = CitationStyleForm(request.POST)
+
+    if form.is_valid():
+        space = check_work_space(space_id, request.user)
+        form.save_citation_style(space)
+        display_success_message(request)
+    else:
+        display_error_message(request)
+    
+    link = reverse("work_space:space_view", args=(space_id,))
+    return redirect(link)
 """
 
 

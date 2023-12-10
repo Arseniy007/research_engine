@@ -3,7 +3,6 @@ from .models import WorkSpace
 from user_management.models import User
 
 
-CITATION_STYLES = (("APA", "APA"), ("MLA", "MLA"), ("APA & MLA", "APA & MLA"),)
 CONFIRMATION = (("Yes", "Yes"), ("No", "No"),)
 
 
@@ -36,12 +35,3 @@ class RenameSpaceForm(forms.Form):
 
 class ReceiveCodeForm(forms.Form):
     code = forms.CharField(max_length=15)
-
-
-class CitationStyleForm(forms.Form):
-    citation_style = forms.ChoiceField(choices=CITATION_STYLES)
-
-    def save_citation_style(self, space: WorkSpace):
-        "Update citation_style field in Workspace obj"
-        space.citation_style = self.cleaned_data["citation_style"]
-        return space.save(update_fields=("citation_style",))
