@@ -2176,6 +2176,10 @@ def finish_paper(request, paper_id):
     return JsonResponse({"message": "ok"})
 
         path("finish_paper/<int:paper_id>", views.finish_paper, name="finish_paper"),
+
+
+    link = reverse("paper_work:paper_space", args=(paper_id,))
+    return redirect(link)
 """
 
 

@@ -32,3 +32,9 @@ class ChooseSourcesForm(forms.Form):
         """Pre-populate field with all sources in a work space"""
         self.fields["sources"].queryset = sources
         return self
+
+
+class PaperPublicationForm(forms.Form):
+    share_sources = forms.BooleanField()
+
+    # TODO?

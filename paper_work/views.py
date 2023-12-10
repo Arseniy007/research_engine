@@ -4,9 +4,10 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.endnotes import get_endnotes
-from .forms import ChooseSourcesForm, NewPaperForm, RenamePaperForm
+from .forms import ChooseSourcesForm, NewPaperForm, PaperPublicationForm, RenamePaperForm
 from file_handling.forms import NewPaperVersionForm
 from file_handling.models import PaperVersion
+from profile_page.helpers import get_profile_id
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_paper, check_work_space
@@ -71,45 +72,6 @@ def rename_paper(request, paper_id):
     return redirect(link)
 
 
-@paper_authorship_required
-@login_required(redirect_field_name=None)
-def archive_paper(request, paper_id):
-    """Mark paper is archived or vice versa"""
-
-    # TODO Vice versa shit!
-
-    # Check if user has right to archive this paper
-    paper = check_paper(paper_id, request.user)
-
-    # Archive paper
-    paper.archive()
-
-    display_success_message(request)
-    link = reverse("paper_work:paper_space", args=(paper_id,))
-    return redirect(link)
-        
-
-@paper_authorship_required
-@login_required(redirect_field_name=None)
-def publish_paper(request, paper_id):
-    """Mark paper as published so it appers at the account page (or vice versa)"""
-
-    # TODO Vice versa shit!
-    
-    # Check if user has right to publish this paper
-    paper = check_paper(paper_id, request.user)
-
-    if paper.get_number_of_files() != 0:
-        # Publish paper
-        paper.publish()
-        display_success_message(request)
-    else:
-        display_error_message(request, "no files were uploaded")
-
-    link = reverse("paper_work:paper_space", args=(paper_id,))
-    return redirect(link)
-    
-
 @post_request_required
 @paper_authorship_required
 @login_required(redirect_field_name=None)
@@ -135,6 +97,75 @@ def select_sources_for_paper(request, paper_id):
         
     link = reverse("paper_work:paper_space", args=(paper_id,))
     return redirect(link)
+
+
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def archive_or_unarchive_paper(request, paper_id):
+    """Mark paper is archived or vice versa"""
+
+    # Check if user has right to archive this paper
+    paper = check_paper(paper_id, request.user)
+
+    if paper.archived:
+        paper.unarchive()
+    else:
+        paper.archive()
+
+    display_success_message(request)
+    link = reverse("paper_work:paper_space", args=(paper_id,))
+    return redirect(link)
+        
+
+@post_request_required
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def publish_paper(request, paper_id):
+    """Mark paper as published so it appers at the account page (or vice versa)"""
+
+    form = PaperPublicationForm(request.POST)
+
+    if form.is_valid():
+        # Check if user has right to publish this paper
+        paper = check_paper(paper_id, request.user)
+
+        # Check if paper file wsa uploaded
+        if paper.get_number_of_files() != 0:
+            # Publish paper
+            paper.publish()
+            display_success_message(request)
+        else:
+            display_error_message(request, "no files were uploaded")
+    else:
+        display_error_message(request)
+
+    # Redirect to profile page
+    profile_link = reverse("profile_page:profile_view", args=(get_profile_id(request.user),))
+    return redirect(profile_link)
+
+
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def hide_published_paper(request, paper_id):
+    """Hide already published paper from users profile page"""
+
+    # Check if user has right to hide this paper
+    paper = check_paper(paper_id, request.user)
+
+    # Error case
+    if paper.published:
+        # Mark paper as not published
+        paper.unpublish()
+        display_success_message(request)
+    else:
+        display_error_message(request)
+        # TODO
+        pass
+
+    # TODO
+    # Redirect back to profile page? Maybe Json would be better!
+    profile_link = reverse("profile_page:profile_view", args=(get_profile_id(request.user),))
+    return redirect(profile_link)
 
 
 @login_required(redirect_field_name=None)

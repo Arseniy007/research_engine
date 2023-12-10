@@ -52,6 +52,7 @@ def create_work_space(request):
 @space_ownership_required
 @login_required(redirect_field_name=None)
 def delete_work_space(request, space_id):
+    """Delete worspace ;)"""
 
     # TODO
 
@@ -73,13 +74,38 @@ def delete_work_space(request, space_id):
     return JsonResponse({"message": "error"})
 
 
+@post_request_required
 @space_ownership_required
 @login_required(redirect_field_name=None)
-def archive_work_space(request, space_id):
+def rename_work_space(request, space_id):
+    """Allow workspace owner to rename space"""
+
+    form = RenameSpaceForm(request.POST)
+
+    if form.is_valid():
+        space = check_work_space(space_id, request.user)
+        form.save_new_title(space)
+        display_success_message(request)
+    else:
+        display_error_message(request)
+
+    link = reverse("work_space:space_view", args=(space_id,))
+    return redirect(link)
+
+
+@space_ownership_required
+@login_required(redirect_field_name=None)
+def archive_or_unarchive_space(request, space_id):
     """Mark given work space as archived"""
 
     space = check_work_space(space_id, request.user)
-    space.archive()
+
+    if space.archived:
+        space.unarchive()
+    else:
+        space.archive()
+
+    # TODO
     return JsonResponse({"message": "ok"})
 
 
@@ -103,25 +129,6 @@ def download_work_space(request, space_id):
     finally:
         # Delete whole dir (with zip file inside)
         shutil.rmtree(FRIENDLY_TMP_ROOT)
-
-
-@post_request_required
-@space_ownership_required
-@login_required(redirect_field_name=None)
-def rename_work_space(request, space_id):
-    """Allow workspace owner to rename space"""
-
-    form = RenameSpaceForm(request.POST)
-
-    if form.is_valid():
-        space = check_work_space(space_id, request.user)
-        form.save_new_title(space)
-        display_success_message(request)
-    else:
-        display_error_message(request)
-
-    link = reverse("work_space:space_view", args=(space_id,))
-    return redirect(link)
 
 
 @post_request_required

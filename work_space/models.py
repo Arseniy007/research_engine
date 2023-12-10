@@ -9,7 +9,7 @@ class WorkSpace(models.Model):
     guests = models.ManyToManyField(User, related_name="guests")
     title = models.CharField(max_length=50)
     citation_style = models.CharField(max_length=10, default="APA & MLA")
-    is_archived = models.BooleanField(default=False)
+    archived = models.BooleanField(default=False)
 
 
     def __str__(self):
@@ -44,8 +44,14 @@ class WorkSpace(models.Model):
 
     def archive(self):
         """Mark space as archived"""
-        self.is_archived = True
-        return self.save(update_fields=("is_archived",))
+        self.archived = True
+        return self.save(update_fields=("archived",))
+    
+
+    def unarchive(self):
+        """Mark space as unarchived"""
+        self.archived = False
+        return self.save(update_fields=("archived",))
     
     
     def add_guest(self, guest: User):
