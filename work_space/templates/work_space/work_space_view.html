@@ -83,7 +83,7 @@
     </form><br><br><br><br>
 
     <h4>New comment:</h4>
-    <form action="{% url 'work_space:leave_comment' space.pk %}" method="post">
+    <form action="{% url 'work_comments:leave_comment' space.pk %}" method="post">
         {% csrf_token %} 
         {{ comment_form }}
         <button type="submit">Add Comment</button>
@@ -102,11 +102,7 @@
     <br><br><br>
 
     <br>
-    <form action="{% url 'work_space:set_citation_style' space.pk %}" method="post">
-        {% csrf_token %} 
-        {{ citation_form }}
-        <button type="submit">Set citation style</button>
-    </form><br><br>
+
 
 
     

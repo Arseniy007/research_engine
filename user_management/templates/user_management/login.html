@@ -11,12 +11,8 @@
 
     <form action="{% url 'user_management:login' %}" method="post">
         {% csrf_token %}
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" type="text" name="username" placeholder="Username">
-        </div>
-        <div class="form-group">
-            <input autocomplete="off" class="form-control" type="password" name="password" placeholder="Password">
-        </div>
+        {{ login_form }}
+        <input type="hidden" name="redirect_url" value="{{ request.GET.next }}">
         <input class="btn btn-primary" type="submit" value="Login">
     </form>
 

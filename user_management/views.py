@@ -3,28 +3,38 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from .forms import ChangePasswordForm
+from .forms import ChangePasswordForm, LoginForm
 from .models import User
+from utils.messages import display_error_message
 
 
 def login_view(request):
     """Log user in"""
 
-    if request.method == "POST":
-        # Attempt to sign user in
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+    form = LoginForm(request.POST or None)
 
-        # Check if authentication successful
-        if user is not None:
-            login(request, user)
-            return redirect(reverse("work_space:index"))
+    if request.method == "POST":
+        if form.is_valid():
+            # Attempt to sign user in
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(request, username=username, password=password)
+
+            # Check if authentication successful
+            if user is not None:
+                login(request, user)
+
+                # Get proper redirect url (index by default)
+                redirect_url = reverse("website:index")
+                if request.POST["redirect_url"]:
+                    redirect_url = request.POST["redirect_url"]
+                return redirect(redirect_url)
+            else:
+                return render(request, "user_management/login.html", {
+                    "message": "Invalid username and/or password."})
         else:
-            return render(request, "user_management/login.html", {
-                "message": "Invalid username and/or password."})
-    else:
-        return render(request, "user_management/login.html")
+            display_error_message(request)
+    return render(request, "user_management/login.html", {"login_form": form})
 
 
 def logout_view(request):

@@ -2250,6 +2250,43 @@ def set_citation_style(request, space_id):
     
     link = reverse("work_space:space_view", args=(space_id,))
     return redirect(link)
+
+
+    def login_view(request):
+
+    form = LoginForm(request.POST or None)
+
+    if request.method == "POST":
+        # Attempt to sign user in
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        # Check if authentication successful
+        if user is not None:
+            login(request, user)
+            return redirect(reverse("website:index"))
+        else:
+            return render(request, "user_management/login.html", {
+                "message": "Invalid username and/or password."})
+    else:
+        return render(request, "user_management/login.html", {"login_form": form})
+
+
+     # Save the previos url to redirect to it after submitting the form
+    redirect_url = request.GET.next
+    if redirect_url:
+       form = form.set_redirect_url(redirect_url)
+       print(redirect_url)
+
+       class LoginForm(forms.Form):
+    redirect_url = forms.CharField(required=False, widget=forms.HiddenInput(attrs={"name": "redirect_url"}))
+    username = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
+
+    def set_redirect_url(self, url: str):
+        self.fields["redirect_url"].value = url
+        return self
 """
 
 

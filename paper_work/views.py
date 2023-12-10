@@ -221,6 +221,7 @@ def paper_space(request, paper_id):
     return render(request, "paper_work/paper_space.html", {"form": NewPaperVersionForm(), 
                                                            "paper": paper, "paper_versions": paper_versions, 
                                                            "links": links, "rename_form": RenamePaperForm(),
+                                                           "citation_form": CitationStyleForm(),
                                                            "sources_form": sources_form,
                                                            "endnotes": endnotes})
 # What else?
