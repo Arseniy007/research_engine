@@ -48,6 +48,9 @@ def get_lobby_endnotes(request):
                 endnotes = quote_input_source(form, author)
             if endnotes:
                 return JsonResponse(endnotes)
+    
+    # TODO
+    # error case should also return JSON
 
     display_error_message(request)
     return redirect(reverse("lobby:view"))

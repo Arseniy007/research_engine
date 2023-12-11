@@ -17,13 +17,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
 function show_and_load_form(form_id) {
 
     // Hide all forms and show the one that user clicked on
     hide_all_forms();
     let form = document.querySelector(`#${form_id}`);
     form.style.display = 'block';
+
+    // Hide this form if button was clicked second time:
+    const button_id = form_id.split('_')[0];
+    const show_this_form_button = document.querySelector(`#${button_id}`);
+    show_this_form_button.addEventListener('click', () => {
+        hide_all_forms();
+        show_this_form_button.addEventListener('click', () => show_and_load_form(`${button_id}_form`));
+    })
 
     // Set number of authors to 1
     let number_of_authors = 0;
@@ -41,7 +48,6 @@ function show_and_load_form(form_id) {
         load_new_chapter_fields(chapter_author_div, number_of_chapter_authors);
     }
 }
-
 
 function load_new_fields (author_div, author_number) {
     const add_author_button = author_div.querySelector(`#add_author_button_${author_number}`);
@@ -62,7 +68,6 @@ function load_new_fields (author_div, author_number) {
     })
 }
 
-
 function load_new_chapter_fields(chapter_author_div, author_number) {
     const add_chapter_author_button = chapter_author_div.querySelector(`#add_chapter_author_button_${author_number}`);
     const delete_chapter_author_button = chapter_author_div.querySelector(`#delete_chapter_author_button_${author_number}`);
@@ -82,7 +87,6 @@ function load_new_chapter_fields(chapter_author_div, author_number) {
     })
 }
 
-
 function count_and_set_authors_number(form) {
     if (form.id === "chapter_form") {
         const final_number_of_chapter_authors = form.getElementsByClassName('chapter_author').length;
@@ -92,7 +96,6 @@ function count_and_set_authors_number(form) {
     form.querySelector('.final_number_of_authors').value = final_number_of_authors;
 }
 
-
 function hide_all_forms() {
     let all_forms = document.getElementsByClassName('source_form');
     const number_of_forms = all_forms.length;
@@ -100,7 +103,6 @@ function hide_all_forms() {
         all_forms[i].style.display = 'none';
     }
 }
-
 
 function create_author_fields(author_number) {
     if (author_number != 0) {
@@ -123,7 +125,6 @@ function create_author_fields(author_number) {
         </div>`;
     }
 }
-
 
 function create_chapter_author_fields(author_number) {
     if (author_number != 0) {
