@@ -2,10 +2,6 @@ from .author_formatting import format_authors_apa
 from .dates import format_date
 
 
-# TODO!!!
-# Nested f strings!!!!!!
-
-
 def quote_book_apa(book: dict) -> str:
     """Create apa endnote for given book"""
     author = format_authors_apa(book["author"])

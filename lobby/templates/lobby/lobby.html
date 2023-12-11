@@ -25,27 +25,33 @@
         <div class="author_div"></div>
         {% csrf_token %} 
         {{ book_form.as_p }}
-        <button value="book" name="book" type="submit">Add Book</button>
+        <button value="book" name="book" type="button">Add Book</button>
     </form>
     <form action="{% url 'lobby:get_endnotes' %}" method="post" id="article_form" class="source_form">
         <div class="author_div"></div>
         {% csrf_token %} 
         {{ article_form.as_p }}
-        <button value="article" name="article" type="submit">Add Article</button>
+        <button value="article" name="article" type="button">Add Article</button>
     </form>
     <form action="{% url 'lobby:get_endnotes' %}" method="post" id="chapter_form" class="source_form">
         <div id="chapter_author_div"></div>
         {% csrf_token %}
         {{ chapter_form.as_p }}
         <div class="author_div"></div>
-        <button value="chapter" name="chapter" type="submit">Add Chapter</button>
+        <button value="chapter" name="chapter" type="button">Add Chapter</button>
     </form>
     <form action="{% url 'lobby:get_endnotes' %}" method="post" id="webpage_form" class="source_form">
         <div class="author_div"></div>
         {% csrf_token %} 
         {{ webpage_form.as_p }}
-        <button value="webpage" name="webpage" type="submit">Add Webpage</button>
+        <button value="webpage" name="webpage" type="button">Add Webpage</button>
     </form><br><br><br><br>
+
+
+    <div>
+        <textarea id="result"></textarea>
+    </div>
+    
 
 
 

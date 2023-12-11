@@ -12,6 +12,9 @@
         {% endfor %}
     </ul>
 
+    <h4>Number of followers:</h4>
+    <h4 id="number_of_followers">{{ number_of_followers }}</h4>
+
     <h5>Number of following profiles: {{ following  }}</h5><br><br>
 
 
@@ -23,10 +26,14 @@
         </li>
         {% endfor %}
     </ul>
-    
+
+    <button type="button" id="follow_button">Follow</button>
+
+
+    <div id="profile_id" style="display: none;">{{ profile_id }}</div>
 
 {% endblock %}
 
 {% block script %}
-    
+    <script src="{% static 'profile_page/script.js' %}"></script>
 {% endblock %}
