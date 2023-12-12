@@ -27,12 +27,10 @@ def create_paper(request, space_id):
         display_success_message(request)
 
         # Redirect user to the new paper-space
-        link = reverse("paper_work:paper_space", args=(new_paper.pk,))
-        return redirect(link)
+        return redirect(reverse("paper_work:paper_space", args=(new_paper.pk,)))
     
     display_error_message(request)
-    link_back = reverse("work_space:space_view", args=(space_id),)
-    return redirect(link_back)
+    return redirect(reverse("work_space:space_view", args=(space_id,)))
         
 
 @paper_authorship_required
@@ -68,8 +66,7 @@ def rename_paper(request, paper_id):
     else:
         display_error_message(request)
 
-    link = reverse("paper_work:paper_space", args=(paper_id,))
-    return redirect(link)
+    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
 
 @post_request_required
@@ -94,9 +91,8 @@ def select_sources_for_paper(request, paper_id):
         display_success_message(request)
     else:
         display_error_message(request)
-        
-    link = reverse("paper_work:paper_space", args=(paper_id,))
-    return redirect(link)
+
+    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
 
 @paper_authorship_required
@@ -117,8 +113,7 @@ def archive_or_unarchive_paper(request, paper_id):
         # Redirect?
 
     display_success_message(request)
-    link = reverse("paper_work:paper_space", args=(paper_id,))
-    return redirect(link)
+    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
         
 
 @post_request_required
@@ -140,8 +135,7 @@ def publish_paper(request, paper_id):
     
             if form.cleaned_data["share_sources"]:
                 # TODO ! What after?
-                link = reverse("work_space:share_space", args=(paper.work_space.pk,))
-                return redirect(link)
+                return redirect(reverse("work_space:share_space", args=(paper.work_space.pk,)))
             
             display_success_message(request)
         else:
@@ -150,8 +144,7 @@ def publish_paper(request, paper_id):
         display_error_message(request)
 
     # Redirect to profile page
-    profile_link = reverse("profile_page:profile_view", args=(get_profile_id(request.user),))
-    return redirect(profile_link)
+    return redirect(reverse("profile_page:profile_view", args=(get_profile_id(request.user),)))
 
 
 @paper_authorship_required
@@ -174,8 +167,7 @@ def hide_published_paper(request, paper_id):
 
     # TODO
     # Redirect back to profile page? Maybe Json would be better!
-    profile_link = reverse("profile_page:profile_view", args=(get_profile_id(request.user),))
-    return redirect(profile_link)
+    return redirect(reverse("profile_page:profile_view", args=(get_profile_id(request.user),)))
 
 
 @post_request_required
@@ -193,8 +185,7 @@ def set_citation_style(request, paper_id):
     else:
         display_error_message(request)
     
-    link = reverse("work_space:space_view", args=(paper_id,))
-    return redirect(link)
+    return redirect(reverse("work_space:space_view", args=(paper_id,)))
 
 
 @login_required(redirect_field_name=None)

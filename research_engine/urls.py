@@ -28,6 +28,5 @@ urlpatterns = [
     path("", include("paper_work.urls")),
     path("", include("file_handling.urls")),
     path("", include("work_comments.urls")),
-    path("", include("chat_with_data.urls")),
     path("", include("lobby.urls"))
 ]

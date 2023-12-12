@@ -44,8 +44,7 @@ def add_source(request, space_id):
     else:
         display_error_message()
 
-    link = reverse("work_space:space_view", args=(space.pk,))
-    return redirect(link)
+    return redirect(reverse("work_space:space_view", args=(space.pk,)))
     
 
 @source_ownership_required
@@ -84,8 +83,7 @@ def alter_source_info(request, source_id):
     else:
         display_error_message(request)
         
-    link = reverse("bookshelf:source_space", args=(source_id,))
-    return redirect(link)
+    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
 
 
 @post_request_required
@@ -110,8 +108,7 @@ def upload_source_file(request, source_id):
         display_error_message(request)
 
     # TODO
-    link = reverse("bookshelf:source_space", args=(source_id,))
-    return redirect(link)
+    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
 
 
 @login_required(redirect_field_name=None)
@@ -123,8 +120,7 @@ def display_source_file(request, source_id):
     source_file = source.get_path_to_file()
     if not source_file:
         display_error_message(request, "no file was uploaded")
-        link = reverse("bookshelf:source_space", args=(source_id,))
-        return redirect(link)
+        return redirect(reverse("bookshelf:source_space", args=(source_id,)))
     
     # Open source file and send it
     return FileResponse(open(source_file, "rb"))
@@ -145,8 +141,8 @@ def add_link_to_source(request, source_id):
         display_success_message(request)
     else:
         display_error_message(request)
-    link = reverse("bookshelf:source_space", args=(source_id,))
-    return redirect(link)
+
+    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
 
 
 @post_request_required
@@ -165,8 +161,7 @@ def alter_endnote(request, endnote_id):
         display_error_message(request)
 
     source = check_source(endnote.source.pk, request.user)
-    link = reverse("bookshelf:source_space", args=(source.pk,))
-    return redirect(link)
+    return redirect(reverse("bookshelf:source_space", args=(source.pk,)))
 
 
 @post_request_required
@@ -183,8 +178,7 @@ def add_quote(request, source_id):
     else:
         display_error_message(request)
 
-    link = reverse("bookshelf:source_space", args=(source_id,))
-    return redirect(link)
+    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
 
 
 @quote_ownership_required
@@ -198,8 +192,7 @@ def delete_quote(request, quote_id):
     # Delete quote from the db
     quote.delete()
 
-    link = reverse("bookshelf:source_space", args=(quote.source.pk,))
-    return redirect(link)
+    return redirect(reverse("bookshelf:source_space", args=(quote.source.pk,)))
 
 
 @post_request_required
@@ -216,9 +209,8 @@ def alter_quote(request, quote_id):
         display_success_message(request)
     else:
         display_error_message(request)
-        
-    link = reverse("bookshelf:source_space", args=(quote.source.pk,))
-    return redirect(link)
+
+    return redirect(reverse("bookshelf:source_space", args=(quote.source.pk,)))
 
 
 @login_required(redirect_field_name=None)

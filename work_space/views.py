@@ -30,8 +30,7 @@ def create_work_space(request):
         display_success_message(request)
 
         # Redirect user to the new work space
-        link_to_work_space = reverse("work_space:space_view", args=(new_space.pk,))
-        return redirect(link_to_work_space)
+        return redirect(reverse("work_space:space_view", args=(new_space.pk,)))
 
     # TODO
     display_error_message(request)
@@ -81,8 +80,7 @@ def rename_work_space(request, space_id):
     else:
         display_error_message(request)
 
-    link = reverse("work_space:space_view", args=(space_id,))
-    return redirect(link)
+    return redirect(reverse("work_space:space_view", args=(space_id,)))
 
 
 @space_ownership_required
@@ -116,7 +114,8 @@ def download_work_space(request, space_id):
 
     # Create zip file of the directory
     saving_destination = os.path.join(space.get_friendly_path(), space.title)
-    zip_file = shutil.make_archive(root_dir=user_friendly_dir, base_dir=space.title, base_name=saving_destination, format="zip")
+    zip_file = shutil.make_archive(root_dir=user_friendly_dir, base_dir=space.title, 
+                                   base_name=saving_destination, format="zip")
     try:
         # Open and send it
         return FileResponse(open(zip_file, "rb"))
@@ -139,7 +138,8 @@ def download_space_sources(request, space_id):
     # Create zip file of the directory
     dir_title = "My sources"
     saving_destination = os.path.join(space.get_friendly_path(), dir_title)
-    zip_file = shutil.make_archive(root_dir=user_friendly_dir, base_dir=dir_title, base_name=saving_destination, format="zip")
+    zip_file = shutil.make_archive(root_dir=user_friendly_dir, base_dir=dir_title, 
+                                   base_name=saving_destination, format="zip")
     try:
         # Open and send it
         return FileResponse(open(zip_file, "rb"))
@@ -181,10 +181,8 @@ def receive_invitation(request):
         # Delete invitation code
         invitation.delete()
 
-        link = reverse("work_space:space_view", args=(new_work_space.pk,))
-        return redirect(link)
-    else:
-        display_error_message(request)
+        # Redirect to the new work space
+        return redirect(reverse("work_space:space_view", args=(new_work_space.pk,)))
 
     display_error_message(request)
     return redirect(ERROR_PAGE)
@@ -223,14 +221,12 @@ def receive_shared_sources(request):
             new_space = copy_space_with_all_sources(original_work_space, request.user)
             # Redirect to the new work space
             display_success_message(request)
-            link = reverse("work_space:space_view", args=(new_space.pk,))
-            return redirect(link)
+            return redirect(reverse("work_space:space_view", args=(new_space.pk,)))
         
         if option == "download":
-            # Add user to space in order to download it
+            # Add user to space in order to download it and redirect them to download url
             original_work_space.add_guest(request.user)
-            donwload_url = reverse("work_space:download_space_sources", args=(original_work_space.pk,))
-            return redirect(donwload_url)
+            return redirect(reverse("work_space:download_space_sources", args=(original_work_space.pk,)))
 
     display_error_message(request)
     return redirect(ERROR_PAGE)
@@ -246,8 +242,7 @@ def leave_work_space(request, space_id):
     # Error case
     if request.user not in space.guests.all():
         display_error_message(request)
-        return_link = reverse("work_space:space_view", args=(space_id,))
-        return redirect(return_link)
+        return redirect(reverse("work_space:space_view", args=(space_id,)))
 
     # Remove user
     space.remove_guest(request.user)

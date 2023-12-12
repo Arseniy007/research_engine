@@ -27,8 +27,7 @@ def upload_file(request, paper_id):
     else:
         display_error_message(request)
 
-    link = reverse("paper_work:paper_space", args=(paper_id,))
-    return redirect(link)
+    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
 
 @paper_authorship_required

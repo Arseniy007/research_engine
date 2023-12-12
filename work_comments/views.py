@@ -23,8 +23,7 @@ def leave_comment(request, space_id):
     else:
         display_error_message(request)
 
-    link = reverse("work_space:space_view", args=(space.pk,))
-    return redirect(link)
+    return redirect(reverse("work_space:space_view", args=(space.pk,)))
 
 
 @comment_authorship_required
@@ -38,8 +37,7 @@ def delete_comment(request, comment_id):
     # Delete comment from the db
     comment.delete()
 
-    link = reverse("work_space:space_view", args=(comment.work_space.pk,))
-    return redirect(link)
+    return redirect(reverse("work_space:space_view", args=(comment.work_space.pk,)))
 
 
 @post_request_required
@@ -57,5 +55,4 @@ def alter_comment(request, comment_id):
     else:
         display_error_message(request)
 
-    link = reverse("work_space:space_view", args=(comment.work_space.pk,))
-    return redirect(link)
+    return redirect(reverse("work_space:space_view", args=(comment.work_space.pk,)))

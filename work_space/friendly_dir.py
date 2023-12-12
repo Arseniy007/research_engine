@@ -39,8 +39,6 @@ def create_friendly_directory_with_sources(work_space: WorkSpace) -> str | bool:
 
     # Get all sources in given work space
     sources = work_space.sources.all()
-
-    # In case there is no sources
     if not sources:
         return False
     
