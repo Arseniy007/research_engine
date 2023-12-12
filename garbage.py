@@ -1,4 +1,5 @@
 """
+<script src="{% static 'js/profile_page.js' %}"></script>
 
 def validate_file_extension(value):
     print(value.file.content_type)
