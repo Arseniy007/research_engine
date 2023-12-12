@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let button = show_form_buttons[i];
         button.addEventListener('click', () => show_and_load_form(`${button.id}_form`));
     }
+
     const forms = document.getElementsByClassName('source_form');
     const number_of_forms = forms.length;
 
@@ -15,7 +16,38 @@ document.addEventListener('DOMContentLoaded', function() {
             count_and_set_authors_number(forms[i])
         })
     }
+
+    const submit_buttons = document.getElementsByClassName('submit_button');
+    const number_of_submit_buttons = submit_buttons.length;
+
+    for (let i = 0; i < number_of_submit_buttons; i++) {
+        const form_id = submit_buttons[i].parentNode.id;
+        console.log(form_id);
+        submit_buttons[i].addEventListener('click', () => get_lobby_endnotes(form_id));
+    }
 });
+
+function get_lobby_endnotes(form_id) {
+
+    const url = '/get_lobby_endnotes';
+    const form = document.querySelector(`#${form_id}`);
+    count_and_set_authors_number(form);
+
+    // Send a POST request to the /get_lobby_endnotes
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        // TODO
+        const result_text = `
+        APA: ${result.apa_endnote}
+        MLA: ${result.mla_endnote}`
+        document.querySelector('#result').innerHTML = result_text;
+        
+      });
+}
 
 function show_and_load_form(form_id) {
 
