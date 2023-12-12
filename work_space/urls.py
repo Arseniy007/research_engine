@@ -9,10 +9,11 @@ urlpatterns = [
     path("rename_space/<int:space_id>", views.rename_work_space, name="rename_space"),
     path("archive_space/<int:space_id>", views.archive_or_unarchive_space, name="archive_space"),
     path("download_space/<int:space_id>", views.download_work_space, name="download_space"),
+    path("download_space_souces/<int:space_id>", views.download_space_sources, name="download_space_sources"),
     path("invite_to_space/<int:space_id>", views.invite_to_work_space, name="invite_to_space"),
     path("receive_invitation", views.receive_invitation, name="receive_invitation"),
-    path("share_space/<int:space_id>", views.share_work_space, name="share_space"),
-    path("receive_shared_space", views.receive_shared_space, name="receive_shared_space"),
+    path("share_space_sources/<int:space_id>", views.share_space_sources, name="share_space_sources"),
+    path("receive_shared_space", views.receive_shared_sources, name="receive_shared_sources"),
     path("leave_space/<int:space_id>", views.leave_work_space, name="leave_space"),
     path("work_space/<int:space_id>", views.work_space_view, name="space_view")
 ]

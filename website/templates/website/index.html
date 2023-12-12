@@ -26,11 +26,11 @@
         <button type="submit">Receive Invitation</button>
     </form><br><br>
 
-    <h3>Receive shared space</h3>
-    <form action="{% url 'work_space:receive_shared_space' %}" method="post">
+    <h3>Receive shared sources</h3>
+    <form action="{% url 'work_space:receive_shared_sources' %}" method="post">
         {% csrf_token %} 
-        {{ shared_space_form }}
-        <button type="submit">Receive Shared Space</button>
+        {{ shared_sources_form }}
+        <button type="submit">Receive Shared Sources</button>
     </form>
 
 

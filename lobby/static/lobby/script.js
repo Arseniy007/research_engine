@@ -31,7 +31,7 @@ function get_lobby_endnotes(form_id) {
     })
     .then(response => response.json())
     .then(result => {
-        
+        // TODO
         const result_text = `
         APA: ${result.apa_endnote}
         MLA: ${result.mla_endnote}`
@@ -39,7 +39,6 @@ function get_lobby_endnotes(form_id) {
         
       });
 }
-
 
 function show_and_load_form(form_id) {
 

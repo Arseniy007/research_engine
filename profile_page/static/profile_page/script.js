@@ -4,8 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const profile_id = document.querySelector('#profile_id').innerHTML;
     document.querySelector('#follow_button').addEventListener('click', () => follow(profile_id));
 
-    
-    
 });
 
 function follow(profile_id) {
@@ -23,7 +21,6 @@ function follow(profile_id) {
         else {
             button_text = 'Unfollow';
         }
-
         // Update number of followers
         document.querySelector('#follow_button').innerHTML = button_text;
         document.querySelector('#number_of_followers').innerHTML = `Number of followers: ${result.number_of_followers}`;

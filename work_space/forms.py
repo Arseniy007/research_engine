@@ -5,6 +5,8 @@ from user_management.models import User
 
 CONFIRMATION = (("Yes", "Yes"), ("No", "No"),)
 
+SOURCES_RECEIVING_OPTIONS = (("copy", "Create New Work Space"), ("download", "Download sources"),)
+
 
 class NewSpaceForm(forms.Form):
     title = forms.CharField(max_length=50)
@@ -14,10 +16,6 @@ class NewSpaceForm(forms.Form):
         new_work_space = WorkSpace(owner=user, title=self.cleaned_data["title"])
         new_work_space.save()
         return new_work_space
-
-
-class DeleteSpaceForm(forms.Form):
-    confirm = forms.ChoiceField(choices=CONFIRMATION)
 
 
 class RenameSpaceForm(forms.Form):
@@ -31,7 +29,16 @@ class RenameSpaceForm(forms.Form):
     def save_new_title(self, space: WorkSpace):
         space.title = self.cleaned_data["new_title"]
         return space.save(update_fields=("title",))
+    
+
+class DeleteSpaceForm(forms.Form):
+    confirm = forms.ChoiceField(choices=CONFIRMATION)
 
 
 class ReceiveCodeForm(forms.Form):
     code = forms.CharField(max_length=15)
+
+
+class ReceiveSourcesForm(forms.Form):
+    code = forms.CharField(max_length=15)
+    option = forms.ChoiceField(choices=SOURCES_RECEIVING_OPTIONS)

@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from .forms import BioForm, PageStatusForm
-from .helpers import get_all_published_papers
+from .helpers import get_all_published_papers, get_profile_status
 from utils.decorators import profile_ownership_required
 from utils.messages import display_error_message
 from utils.verification import check_profile
@@ -14,15 +14,20 @@ def profile_page_view(request, profile_id):
 
     profile = check_profile(profile_id)
 
+    #Check if user if owner, follower or neither
+    status = get_profile_status(request.user, profile)
+
     followers = profile.followers.all()
     number_of_followers = len(followers)
     following = len(profile.user.following.all())
     published_papers = get_all_published_papers(profile.user)
 
+
     params = {
         "user": profile.user, "followers": followers, 
         "following": following, "published_papers": published_papers, 
-        "profile_id": profile_id, "number_of_followers": number_of_followers
+        "profile_id": profile_id, "number_of_followers": number_of_followers,
+        "status": status
         }
 
     return render(request, "profile_page/profile_page.html", params)

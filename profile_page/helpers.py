@@ -17,3 +17,13 @@ def get_all_published_papers(user: User) -> dict:
     """Get all papers (and its latest files) marked as published for given user"""
     papers = list(Paper.objects.filter(user=user, archived=False, published=True))
     return {paper.title: paper.get_last_file_id() for paper in papers}
+
+
+def get_profile_status(user: User, profile: ProfilePage) -> str:
+    """Check if user if owner, follower or neither"""
+    user_profile_id = get_profile_id(user)
+    if user_profile_id == profile.pk:
+        return "owner"
+    if user in profile.followers.all():
+        return "follower"
+    return "none"

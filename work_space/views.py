@@ -5,8 +5,8 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
-from .forms import DeleteSpaceForm, NewSpaceForm, ReceiveCodeForm, RenameSpaceForm
-from .friendly_dir import create_friendly_directory
+from .forms import DeleteSpaceForm, NewSpaceForm, ReceiveCodeForm, ReceiveSourcesForm, RenameSpaceForm
+from .friendly_dir import create_friendly_directory, create_friendly_directory_with_sources
 from .invitation_generator import generate_invitation
 from paper_work.forms import NewPaperForm
 from research_engine.constants import ERROR_PAGE, FRIENDLY_TMP_ROOT
@@ -34,7 +34,6 @@ def create_work_space(request):
         return redirect(link_to_work_space)
 
     # TODO
-    print(form.errors)
     display_error_message(request)
     return redirect(ERROR_PAGE)
 
@@ -104,7 +103,6 @@ def archive_or_unarchive_space(request, space_id):
     return JsonResponse({"message": "ok"})
 
 
-@login_required
 @login_required(redirect_field_name=None)
 def download_work_space(request, space_id):
     """Download archived (zip) file of the whole work space directory"""
@@ -113,7 +111,7 @@ def download_work_space(request, space_id):
     space = check_work_space(space_id, request.user)
     user_friendly_dir = create_friendly_directory(space)
     if not user_friendly_dir:
-        # If work space is empry
+        # If work space is empty
         return JsonResponse({"message": "Empty Work Space"})
 
     # Create zip file of the directory
@@ -124,6 +122,30 @@ def download_work_space(request, space_id):
         return FileResponse(open(zip_file, "rb"))
     finally:
         # Delete whole dir (with zip file inside)
+        shutil.rmtree(FRIENDLY_TMP_ROOT)
+
+
+@login_required(redirect_field_name=None)
+def download_space_sources(request, space_id):
+    """Download archived (zip) file with all space-related sources"""
+
+    # Check if user has right to download the work space
+    space = check_work_space(space_id, request.user)
+    user_friendly_dir = create_friendly_directory_with_sources(space)
+    if not user_friendly_dir:
+        # If work space is empty
+        return JsonResponse({"message": "Empty Work Space"})
+    
+    # Create zip file of the directory
+    dir_title = "My sources"
+    saving_destination = os.path.join(space.get_friendly_path(), dir_title)
+    zip_file = shutil.make_archive(root_dir=user_friendly_dir, base_dir=dir_title, base_name=saving_destination, format="zip")
+    try:
+        # Open and send it
+        return FileResponse(open(zip_file, "rb"))
+    finally:
+        # Remove user from original space and delete whole dir (with zip file inside)
+        space.remove_guest(request.user)
         shutil.rmtree(FRIENDLY_TMP_ROOT)
 
 
@@ -170,7 +192,7 @@ def receive_invitation(request):
 
 @space_ownership_required
 @login_required(redirect_field_name=None)
-def share_work_space(request, space_id):
+def share_space_sources(request, space_id):
     """Share a copy of work space with all its sources"""
     # TODO
 
@@ -186,23 +208,29 @@ def share_work_space(request, space_id):
 
 @post_request_required
 @login_required(redirect_field_name=None)
-def receive_shared_space(request):
+def receive_shared_sources(request):
     """Receive a copy of a work space with all its sources if it was shared"""
-    # TODO
 
-    form = ReceiveCodeForm(request.POST)
+    form = ReceiveSourcesForm(request.POST)
 
     if form.is_valid():
         share_space_code = check_share_code(form.cleaned_data["code"])
-
-        # Create a new work space
         original_work_space = share_space_code.work_space
-        new_space = copy_space_with_all_sources(original_work_space, request.user)
+        option = form.cleaned_data["option"]
 
-        # Redirect to the new work space
-        display_success_message(request)
-        link = reverse("work_space:space_view", args=(new_space.pk,))
-        return redirect(link)
+        if option == "copy":
+            # Create a new work space
+            new_space = copy_space_with_all_sources(original_work_space, request.user)
+            # Redirect to the new work space
+            display_success_message(request)
+            link = reverse("work_space:space_view", args=(new_space.pk,))
+            return redirect(link)
+        
+        if option == "download":
+            # Add user to space in order to download it
+            original_work_space.add_guest(request.user)
+            donwload_url = reverse("work_space:download_space_sources", args=(original_work_space.pk,))
+            return redirect(donwload_url)
 
     display_error_message(request)
     return redirect(ERROR_PAGE)

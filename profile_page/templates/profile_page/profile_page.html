@@ -27,7 +27,15 @@
         {% endfor %}
     </ul>
 
-    <button type="button" id="follow_button">Follow</button>
+    {% if status != "owner" %}
+        <button type="button" id="follow_button">
+            {% if status == "none" %}
+                Follower
+            {% else %}
+                Unfollow
+            {% endif %}
+        </button>
+    {% endif %}
 
 
     <div id="profile_id" style="display: none;">{{ profile_id }}</div>
