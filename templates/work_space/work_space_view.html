@@ -5,15 +5,13 @@
     <script src="{% static 'js/source_forms.js' %}"></script>
 {% endblock %}
 
+{% block css %}
+    <link href="{% static 'css/work_space/styles.css' %}" rel="stylesheet">
+{% endblock %}
+
 
 {% block body %}
-    <style>
-        #book_form, #article_form, #chapter_form, #webpage_form, #second_author
-        {
-            display: none;
-        }
-    </style>
-    
+
     <h3>{{ space }}</h3><br><br>
 
     <form action="{% url 'work_space:rename_space' space.pk %}" method="post">
