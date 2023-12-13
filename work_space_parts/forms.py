@@ -29,11 +29,12 @@ class AlterCommentForm(forms.Form):
 
 
 class NewNoteForm(forms.Form):
+    title = forms.CharField()
     text = forms.CharField(widget=forms.Textarea())
 
     def save_note(self, space: WorkSpace, user: User):
         """Save new Note object"""
-        new_note = Note(work_space=space, user=user, text=self.cleaned_data["text"])
+        new_note = Note(work_space=space, user=user, title=self.cleaned_data["title"], text=self.cleaned_data["text"])
         return new_note.save()
 
 

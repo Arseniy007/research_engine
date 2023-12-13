@@ -4,7 +4,7 @@ from work_space.models import WorkSpace
 from bookshelf.endnotes import get_endnotes
 
 
-def create_friendly_directory(work_space: WorkSpace) -> str | bool:
+def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:
     """Creates user-friendly directory for future zip-archiving and downloading"""
 
     # Get all sources, papers, comments, notes and links in given work space
@@ -14,7 +14,15 @@ def create_friendly_directory(work_space: WorkSpace) -> str | bool:
     if not sources and not papers:
         # In case work space is empty
         return False
-        
+
+    # Get all work space users
+    owner, guests = work_space.owner, work_space.guests.all()
+    if guests:
+        users = list(guests)
+        users.append(owner)
+    else:
+        users = [owner]
+
     # Create new empty directory
     work_space.create_friendly_dir()
     original_path = work_space.get_friendly_path()
@@ -26,15 +34,15 @@ def create_friendly_directory(work_space: WorkSpace) -> str | bool:
 
     if papers:
         # Create new "papers" dir
-       create_friendly_papers_dir(papers, root_path)
+       create_friendly_papers_dir(papers, users, root_path)
+
+    if notes:
+        # Create new "notes" txt-file
+        create_friendly_notes_dir(notes, users, root_path)
                     
     if comments:
         # Create new "comments" txt-file
         create_friendly_comments_file(comments, root_path)
-
-    #if notes:
-        # Create new "notes" txt-file
-        #create_friendly_notes_file(notes, root_path)
 
     if links:
         # Create new "links" txt-file
@@ -44,7 +52,7 @@ def create_friendly_directory(work_space: WorkSpace) -> str | bool:
     return original_path
 
 
-def create_friendly_directory_with_sources(work_space: WorkSpace) -> str | bool:
+def create_friendly_sources_directory(work_space: WorkSpace) -> str | bool:
     """Creates user-friendly directory with all space-related sources for future zip-archiving and downloading"""
 
     # Get all sources in given work space
@@ -120,26 +128,25 @@ def create_friendly_sources_dir(sources, root_path: str) -> None:
                 file.write("\n\n")
 
 
-def create_friendly_papers_dir(papers, root_path: str) -> None:
+def create_friendly_papers_dir(papers, authors: list, root_path: str) -> None:
     """Create new "papers" dir with all space-related papers inside"""
     
     papers_root = os.path.join(root_path, "papers")
     os.makedirs(papers_root, exist_ok=True)
 
-    # Get all users
-    authors = [paper.user for paper in papers]
+    # Get all users    
     for author in authors:
-        if len(set(authors)) != 1:
+        if len(authors) == 1:
+             # Don't create author dir if there is only one user
+            author_root = papers_root
+        else:
             # Create new "user" dirs inside "papers" dir if there are multiple users
             author_name = f"{author.last_name} {author.first_name}"
             author_root = os.path.join(papers_root, author_name)
             os.makedirs(author_root, exist_ok=True)
-        else:
-            # Don't create author dir if there is only one user
-            author_root = papers_root
 
         # Get all user papers
-        author_papers = papers.filter(user=author)
+        author_papers = [paper for paper in papers if paper.user == author]
         for author_paper in author_papers:
             # Create new "paper" dirs inside "user" dir
             path_to_paper = os.path.join(author_root, author_paper.title)
@@ -158,6 +165,34 @@ def create_friendly_papers_dir(papers, root_path: str) -> None:
                 shutil.copyfile(original_file, destination)         
 
 
+def create_friendly_notes_dir(notes, authors: list, root_path: str) -> None:
+    """Create new "notes" txt file with all space-related notes inside"""
+
+    notes_root = os.path.join(root_path, "notes")
+    os.makedirs(notes_root, exist_ok=True)
+
+    # Get all users
+    for author in authors:
+        if len(authors) == 1:
+            # Don't create author dir if there is only one user
+            author_root = notes_root
+        else:
+            # Create new "user" dirs inside "notes" dir if there are multiple users
+            author_name = f"{author.last_name} {author.first_name}"
+            author_root = os.path.join(notes_root, author_name)
+            os.makedirs(author_root, exist_ok=True)
+
+        # Get all user notes
+        author_notes = [note for note in notes if note.user == author]
+        for author_note in author_notes:
+            # Get path to new note .txt file
+            path_to_note = os.path.join(author_root, f"{author_note.title}.txt")
+
+            # Create file and write in note text
+            with open(path_to_note, "w") as note_file:
+                note_file.write(author_note.text)
+
+
 def create_friendly_comments_file(comments, root_path: str) -> None:
     """Create new "comments" txt file with all space-related comments inside"""
 
@@ -168,16 +203,6 @@ def create_friendly_comments_file(comments, root_path: str) -> None:
     with open(comments_file_path, "w") as comment_file:
         for comment in comments:
             comment_file.write(f"{comment}\n\n")
-
-
-
-def create_friendly_notes_file(notes, root_path: str) -> None:
-    """Create new "notes" txt file with all space-related notes inside"""
-    
-    # Get path to new notes.txt file
-    comments_file_path = os.path.join(root_path, "comments.txt")
-
-    # txt or each note as separate txt?
 
 
 def create_friendly_links_file(links, root_path: str) -> None:

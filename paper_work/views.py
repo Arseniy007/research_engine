@@ -190,7 +190,7 @@ def set_citation_style(request, paper_id):
 
 @login_required(redirect_field_name=None)
 def paper_space(request, paper_id):
-    """Saves current version of the paper"""
+    """Main paper view"""
     # TODO
 
     # Delete later?
@@ -203,7 +203,7 @@ def paper_space(request, paper_id):
 
     paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
 
-    endnotes = [get_endnotes(source) for source in paper.sources.all()]
+    endnotes = sorted([get_endnotes(source) for source in paper.sources.all()])
 
     links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
 

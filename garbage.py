@@ -2742,6 +2742,46 @@ def alter_comment(request, comment_id):
         
     return HttpResponse(form.set_initial(comment).as_p())
 
+    author_papers = papers.filter(user=author)
+
+
+    def create_friendly_papers_dir(papers, users, root_path: str) -> None:
+    
+    papers_root = os.path.join(root_path, "papers")
+    os.makedirs(papers_root, exist_ok=True)
+
+    # Get all users
+    authors = [paper.user for paper in papers]
+    
+    for author in authors:
+        if len(set(authors)) != 1:
+            # Create new "user" dirs inside "papers" dir if there are multiple users
+            author_name = f"{author.last_name} {author.first_name}"
+            author_root = os.path.join(papers_root, author_name)
+            os.makedirs(author_root, exist_ok=True)
+        else:
+            # Don't create author dir if there is only one user
+            author_root = papers_root
+
+        # Get all user papers
+        author_papers = [paper for paper in papers if paper.user == author]
+        for author_paper in author_papers:
+            # Create new "paper" dirs inside "user" dir
+            path_to_paper = os.path.join(author_root, author_paper.title)
+            os.makedirs(path_to_paper, exist_ok=True)
+
+            # Get all paper-related files
+            versions = author_paper.versions.all()
+            for version in versions:
+                # Create new "paper-file" dirs inside "paper" dir
+                path_to_paper_version = os.path.join(path_to_paper, version.get_saving_time())
+                os.makedirs(path_to_paper_version, exist_ok=True)
+
+                # Copy original paper file into new "paper-file" dir
+                destination = os.path.join(path_to_paper_version, version.file_name())
+                original_file = version.get_path_to_file()
+                shutil.copyfile(original_file, destination)      
+
 """
 
 

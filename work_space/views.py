@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from .forms import DeleteSpaceForm, NewSpaceForm, ReceiveCodeForm, ReceiveSourcesForm, RenameSpaceForm
-from .friendly_dir import create_friendly_directory, create_friendly_directory_with_sources
+from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 from .invitation_generator import generate_invitation
 from paper_work.forms import NewPaperForm
 from research_engine.constants import ERROR_PAGE, FRIENDLY_TMP_ROOT
@@ -107,7 +107,7 @@ def download_work_space(request, space_id):
 
     # Check if user has right to download the work space
     space = check_work_space(space_id, request.user)
-    user_friendly_dir = create_friendly_directory(space)
+    user_friendly_dir = create_friendly_space_directory(space)
     if not user_friendly_dir:
         # If work space is empty
         return JsonResponse({"message": "Empty Work Space"})
@@ -130,7 +130,7 @@ def download_space_sources(request, space_id):
 
     # Check if user has right to download the work space
     space = check_work_space(space_id, request.user)
-    user_friendly_dir = create_friendly_directory_with_sources(space)
+    user_friendly_dir = create_friendly_sources_directory(space)
     if not user_friendly_dir:
         # If work space is empty
         return JsonResponse({"message": "Empty Work Space"})
