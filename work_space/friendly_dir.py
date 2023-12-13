@@ -7,8 +7,10 @@ from bookshelf.endnotes import get_endnotes
 def create_friendly_directory(work_space: WorkSpace) -> str | bool:
     """Creates user-friendly directory for future zip-archiving and downloading"""
 
-    # Get all sources, papers and comments in given work space
-    sources, papers, comments = work_space.sources.all(), work_space.papers.all(), work_space.comments.all()
+    # Get all sources, papers, comments, notes and links in given work space
+    sources, papers = work_space.sources.all(), work_space.papers.all()
+    comments, notes, links = work_space.comments.all(), work_space.notes.all(), work_space.links.all()
+
     if not sources and not papers:
         # In case work space is empty
         return False
@@ -29,6 +31,14 @@ def create_friendly_directory(work_space: WorkSpace) -> str | bool:
     if comments:
         # Create new "comments" txt-file
         create_friendly_comments_file(comments, root_path)
+
+    #if notes:
+        # Create new "notes" txt-file
+        #create_friendly_notes_file(notes, root_path)
+
+    if links:
+        # Create new "links" txt-file
+        create_friendly_links_file(links, root_path)
 
     # Return path to the whole dir
     return original_path
@@ -158,3 +168,25 @@ def create_friendly_comments_file(comments, root_path: str) -> None:
     with open(comments_file_path, "w") as comment_file:
         for comment in comments:
             comment_file.write(f"{comment}\n\n")
+
+
+
+def create_friendly_notes_file(notes, root_path: str) -> None:
+    """Create new "notes" txt file with all space-related notes inside"""
+    
+    # Get path to new notes.txt file
+    comments_file_path = os.path.join(root_path, "comments.txt")
+
+    # txt or each note as separate txt?
+
+
+def create_friendly_links_file(links, root_path: str) -> None:
+    """Create new "links" txt file with all space-related links inside"""
+    
+    # Get path to new links.txt file
+    links_file_path = os.path.join(root_path, "links.txt")
+
+    # Create file and write in all links
+    with open(links_file_path, "w") as link_file:
+        for link in links:
+            link_file.write(f"{link}:\n{link.url}\n\n")

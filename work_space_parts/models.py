@@ -7,6 +7,7 @@ from work_space.models import WorkSpace
 class Comment(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    reply_to = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, related_name="replies")
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
@@ -21,7 +22,6 @@ class Comment(models.Model):
         if self.work_space.guests.all():
             return f'{self.user}: "{self.text}" ({self.get_creation_time()})'
         return f'"{self.text}" ({self.get_creation_time()})'
-
 
 
 class Note(models.Model):
