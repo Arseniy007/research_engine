@@ -22,7 +22,11 @@ def generate_invitation(space: WorkSpace, invite=False) -> str:
             if invite:
                 code_obj = Invitation(code=invitation_code, work_space=space)
             else:
+                # TODO
                 code_obj = ShareSourcesCode(code=invitation_code, work_space=space)
+                space.share_sources = True
+                space.save(update_fields=("share_sources",))
+
         except IntegrityError:
             # Generate new code in case of repetition
             continue

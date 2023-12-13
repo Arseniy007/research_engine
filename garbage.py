@@ -2780,7 +2780,67 @@ def alter_comment(request, comment_id):
                 # Copy original paper file into new "paper-file" dir
                 destination = os.path.join(path_to_paper_version, version.file_name())
                 original_file = version.get_path_to_file()
-                shutil.copyfile(original_file, destination)      
+                shutil.copyfile(original_file, destination)    
+
+
+                @post_request_required
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def publish_paper(request, paper_id):
+
+
+    form = PaperPublicationForm(request.POST)
+
+    if form.is_valid():
+        # Check if user has right to publish this paper
+        paper = check_paper(paper_id, request.user)
+
+        # Check if paper file wsa uploaded
+        if paper.get_number_of_files() != 0:
+            # Publish paper
+            paper.publish()
+    
+            if form.cleaned_data["share_sources"] == True:
+                # TODO ! What after?
+                return redirect(reverse("work_space:share_space", args=(paper.work_space.pk,)))
+            
+            display_success_message(request)
+        else:
+            display_error_message(request, "no files were uploaded")
+    else:
+        display_error_message(request)
+
+    # Redirect to profile page
+    return redirect(reverse("profile_page:profile_view", args=(get_profile_id(request.user),)))  
+
+    class PaperPublicationForm(forms.Form):
+    share_sources = forms.BooleanField()
+
+    # TODO?
+
+
+    def generate_invitation(space: WorkSpace, invite=False) -> str:
+    
+    # Make sure invitation texts never repeat
+    while True:
+        # Generate random string
+        invitation_code = "".join([SystemRandom().choice(POPULATION) for _ in range(LENGTH_OF_STRING)])
+        try:
+            if invite:
+                code_obj = Invitation(code=invitation_code, work_space=space)
+            else:
+                # TODO
+                code_obj = ShareSourcesCode(code=invitation_code, work_space=space)
+                space.share_sources = True
+                space.save(update_fields=("share_sources",))
+
+        except IntegrityError:
+            # Generate new code in case of repetition
+            continue
+        else:
+            code_obj.save()
+            return invitation_code
+
 
 """
 

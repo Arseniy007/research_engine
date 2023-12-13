@@ -10,6 +10,7 @@ class WorkSpace(models.Model):
     guests = models.ManyToManyField(User, related_name="guest_work_spaces")
     title = models.CharField(max_length=50)
     archived = models.BooleanField(default=False)
+    share_sources = models.BooleanField(default=False)
 
 
     def __str__(self):

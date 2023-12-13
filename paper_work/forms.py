@@ -45,8 +45,3 @@ class CitationStyleForm(forms.Form):
         paper.citation_style = self.cleaned_data["citation_style"]
         return paper.save(update_fields=("citation_style",))
 
-
-class PaperPublicationForm(forms.Form):
-    share_sources = forms.BooleanField()
-
-    # TODO?

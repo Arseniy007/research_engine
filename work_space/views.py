@@ -196,6 +196,8 @@ def share_sources(request, space_id):
 
     # What should it be instead of json? probably url with some nice text
 
+    # How to stop sharing etc.
+
     space = check_work_space(space_id, request.user)
     if space.sources.all():
         share_space_code = generate_invitation(space)

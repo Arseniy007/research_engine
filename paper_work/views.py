@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.endnotes import get_endnotes
-from .forms import CitationStyleForm, ChooseSourcesForm, NewPaperForm, PaperPublicationForm, RenamePaperForm
+from .forms import CitationStyleForm, ChooseSourcesForm, NewPaperForm, RenamePaperForm
 from file_handling.forms import NewPaperVersionForm
 from file_handling.models import PaperVersion
 from profile_page.helpers import get_profile_id
@@ -120,28 +120,18 @@ def archive_or_unarchive_paper(request, paper_id):
 @paper_authorship_required
 @login_required(redirect_field_name=None)
 def publish_paper(request, paper_id):
-    """Mark paper as published so it appears at the account page (or vice versa)"""
+    """Mark paper as published so it appears at the account page"""
 
-    form = PaperPublicationForm(request.POST)
+    # Check if user has right to publish this paper
+    paper = check_paper(paper_id, request.user)
 
-    if form.is_valid():
-        # Check if user has right to publish this paper
-        paper = check_paper(paper_id, request.user)
-
-        # Check if paper file wsa uploaded
-        if paper.get_number_of_files() != 0:
-            # Publish paper
-            paper.publish()
-    
-            if form.cleaned_data["share_sources"]:
-                # TODO ! What after?
-                return redirect(reverse("work_space:share_space", args=(paper.work_space.pk,)))
-            
-            display_success_message(request)
-        else:
-            display_error_message(request, "no files were uploaded")
+    # Check if paper file wsa uploaded
+    if paper.get_number_of_files() != 0:
+        # Publish paper
+        paper.publish()
+        display_success_message(request)
     else:
-        display_error_message(request)
+        display_error_message(request, "no files were uploaded")
 
     # Redirect to profile page
     return redirect(reverse("profile_page:profile_view", args=(get_profile_id(request.user),)))
