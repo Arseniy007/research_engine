@@ -2,6 +2,7 @@ from django import forms
 from .models import Comment, Link, Note
 from work_space.models import WorkSpace
 from user_management.models import User
+from utils.verification import check_link
 
 
 class NewCommentForm(forms.Form):

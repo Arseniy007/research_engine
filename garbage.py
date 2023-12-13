@@ -2676,6 +2676,71 @@ def receive_shared_space(request):
                 #original_work_space.remove_guest(request.user)
                 print("success!")
 
+@post_request_required
+@comment_authorship_required
+@login_required(redirect_field_name=None)
+def alter_comment(request, comment_id):
+
+
+    form = AlterCommentForm(request.POST)
+
+    if form.is_valid():
+        comment = check_comment(comment_id, request.user)
+        form.save_altered_comment(comment)
+        display_success_message(request)
+    else:
+        display_error_message(request)
+    return redirect(reverse("work_space:space_view", args=(comment.work_space.pk,)))
+
+    @note_authorship_required
+@login_required(redirect_field_name=None)
+def alter_note(request, note_id):
+
+    
+    form = AlterNoteForm(request.POST)
+
+    if form.is_valid():
+        note = check_note(note_id, request.user)
+        form.save_altered_note(note)
+        display_success_message(request)
+    else:
+        display_error_message(request)
+    return redirect(reverse("work_space:space_view", args=(note.work_space.pk,)))
+
+                <button onclick="return alter_comment('{{ comment.pk }}')" type="button">Alter Comment</button>
+
+
+    @link_ownership_required
+@login_required(redirect_field_name=None)
+def alter_link(request, link_id):
+
+
+    form = AlterLinkForm(request.POST)
+
+    if form.is_valid():
+        link = check_space_link(link_id, request.user)
+        form.save_altered_link(link)
+        display_success_message(request)
+    else:
+        display_error_message(request)
+    return redirect(reverse("work_space:space_view", args=(link.work_space.pk,)))
+
+
+    @comment_authorship_required
+@login_required(redirect_field_name=None)
+def alter_comment(request, comment_id):
+
+    form = AlterCommentForm(request.POST or None)
+    comment = check_comment(comment_id, request.user)
+
+    if request.method == "POST":
+        if form.is_valid():
+            form.save_altered_comment(comment)
+            return JsonResponse({"status": "ok", "comment": comment})
+        else:
+            return JsonResponse({"status": "error"})
+        
+    return HttpResponse(form.set_initial(comment).as_p())
 
 """
 

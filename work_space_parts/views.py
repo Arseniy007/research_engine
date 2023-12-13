@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from .forms import AlterCommentForm, AlterLinkForm, AlterNoteForm, NewCommentForm, NewLinkForm, NewNoteForm
@@ -36,7 +36,7 @@ def delete_comment(request, comment_id):
 
     # Delete comment from the db
     comment.delete()
-    return redirect(reverse("work_space:space_view", args=(comment.work_space.pk,)))
+    return JsonResponse({"status": "ok"})
 
 
 @post_request_required
@@ -82,7 +82,7 @@ def delete_note(request, note_id):
 
     # Delete comment from the db
     note.delete()
-    return redirect(reverse("work_space:space_view", args=(note.work_space.pk,)))
+    return JsonResponse({"status": "ok"})
 
 
 @note_authorship_required
@@ -126,7 +126,7 @@ def delete_link(request, link_id):
 
     # Delete link from the db
     link.delete()
-    return redirect(reverse("work_space:space_view", args=(link.work_space.pk,)))
+    return JsonResponse({"status": "ok"})
 
 
 @link_ownership_required

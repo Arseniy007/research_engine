@@ -14,7 +14,7 @@ from .space_creation import copy_space_with_all_sources, create_new_space
 from utils.decorators import post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_invitation, check_share_sources_code, check_work_space
-from work_space_parts.forms import AlterCommentForm, NewCommentForm
+from work_space_parts.forms import AlterCommentForm, AlterLinkForm, AlterNoteForm, NewCommentForm, NewLinkForm, NewNoteForm
 
 
 @login_required(redirect_field_name=None)
@@ -259,18 +259,25 @@ def work_space_view(request, space_id):
 
     space = check_work_space(space_id, request.user)
 
-    params = {"space": space, 
-            "papers": space.papers.all(),
-            "books": space.sources.all(),
-            "form": NewPaperForm(),
-            "book_form": BookForm(),
-            "article_form": ArticleForm(),
-            "chapter_form": ChapterForm(),
-            "webpage_form": WebpageForm(),
-            "comment_form": NewCommentForm(),
-            "rename_form": RenameSpaceForm().set_initial(space),
-            "comments": space.comments.all()
-            }
+    params = {
+        "space": space, 
+        "papers": space.papers.all(),
+        "books": space.sources.all(),
+        "form": NewPaperForm(),
+        "book_form": BookForm(),
+        "article_form": ArticleForm(),
+        "chapter_form": ChapterForm(),
+        "webpage_form": WebpageForm(),
+        "comment_form": NewCommentForm(),
+        "note_form": NewNoteForm(),
+        "link_form": NewLinkForm(),
+        "rename_form": RenameSpaceForm().set_initial(space),
+        "comments": space.comments.all(),
+        "notes": space.notes.all(),
+        "links": space.links.all()
+    }
+
+
 
     return render(request, "work_space/work_space_view.html", params)
 
