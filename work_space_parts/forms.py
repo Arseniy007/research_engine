@@ -44,7 +44,7 @@ class AlterNoteForm(forms.Form):
         return self
 
 
-    def save_altered_comment(self, note: Note):
+    def save_altered_note(self, note: Note):
         """Update text field in Comment obj"""
         note.text = self.cleaned_data["text"]
         return note.save(update_fields=("text",))
@@ -70,7 +70,7 @@ class AlterLinkForm(forms.Form):
         return self
 
 
-    def save_altered_comment(self, link: Link):
+    def save_altered_link(self, link: Link):
         """Update text field in Comment obj"""
         link.name = self.cleaned_data["name"]
         link.url = self.cleaned_data["url"]
