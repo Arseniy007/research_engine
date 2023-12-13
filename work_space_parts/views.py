@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.http import FileResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from .forms import AlterCommentForm, NewCommentForm
-from utils.decorators import comment_authorship_required, post_request_required
+from utils.decorators import comment_authorship_required, link_ownership_required, note_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
-from utils.verification import check_comment, check_work_space
+from utils.verification import check_comment, check_note, check_space_link, check_work_space
 
 
 @post_request_required
@@ -36,7 +36,6 @@ def delete_comment(request, comment_id):
 
     # Delete comment from the db
     comment.delete()
-
     return redirect(reverse("work_space:space_view", args=(comment.work_space.pk,)))
 
 
@@ -56,3 +55,42 @@ def alter_comment(request, comment_id):
         display_error_message(request)
 
     return redirect(reverse("work_space:space_view", args=(comment.work_space.pk,)))
+
+
+
+@login_required(redirect_field_name=None)
+def leave_note(request, space_id):
+    pass
+
+
+@note_authorship_required
+@login_required(redirect_field_name=None)
+def delete_note(request, note_id):
+    
+    note = check_note(note_id, request.user)
+
+
+@note_authorship_required
+@login_required(redirect_field_name=None)
+def alter_note(request, note_id):
+    
+    note = check_note(note_id, request.user)
+
+
+@login_required(redirect_field_name=None)
+def add_link(request, space_id):
+    pass
+
+
+@link_ownership_required
+@login_required(redirect_field_name=None)
+def delete_link(request, link_id):
+    
+    link = check_space_link(link_id, request.user)
+
+
+@link_ownership_required
+@login_required(redirect_field_name=None)
+def alter_link(request, link_id):
+    
+    link = check_space_link(link_id, request.user)

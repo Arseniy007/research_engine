@@ -7,7 +7,7 @@ from file_handling.models import PaperVersion
 from paper_work.models import Paper
 from profile_page.models import ProfilePage
 from user_management.models import User
-from work_space_parts.models import Comment
+from work_space_parts.models import Comment, Link, Note
 from work_space.models import Invitation, ShareSourcesCode, WorkSpace
 
 
@@ -98,6 +98,28 @@ def check_comment(comment_id: int, user: User) -> Comment | Http404:
     else:
         check_work_space(comment.work_space.pk, user)
     return comment
+
+
+def check_note(note_id: int, user: User) -> Note | Http404:
+    """Checks if note exists"""
+    try:
+        note = Note.objects.get(pk=note_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(note.work_space.pk, user)
+    return note
+
+
+def check_space_link(link_id: int, user: User) -> Link | Http404:
+    """Checks if link exists"""
+    try:
+        link = Link.objects.get(pk=link_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(link.work_space.pk, user)
+    return link
 
 
 def check_profile(profile_id: int) -> ProfilePage | Http404:

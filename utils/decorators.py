@@ -75,6 +75,26 @@ def comment_authorship_required(func: Callable) -> Callable | PermissionDenied:
     return wrapper
 
 
+def note_authorship_required(func: Callable) -> Callable | PermissionDenied:
+    """Checks if current user wrote this note"""
+    def wrapper(request, note_id):
+        note = check_note(note_id, request.user)
+        if note.user != request.user:
+            raise PermissionDenied
+        return func(request, note_id)
+    return wrapper
+
+
+def link_ownership_required(func: Callable) -> Callable | PermissionDenied:
+    """Checks if current user added this link"""
+    def wrapper(request, link_id):
+        link = check_space_link(link_id, request.user)
+        if link.user != request.user:
+            raise PermissionDenied
+        return func(request, link_id)
+    return wrapper
+
+
 def paper_authorship_required(func: Callable) -> Callable | PermissionDenied:
     """Checks if current user is author of the paper"""
     def wrapper(request, paper_id):
