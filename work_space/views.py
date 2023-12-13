@@ -7,10 +7,10 @@ from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from .forms import DeleteSpaceForm, NewSpaceForm, ReceiveCodeForm, ReceiveSourcesForm, RenameSpaceForm
 from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
-from .invitation_generator import generate_invitation
 from paper_work.forms import NewPaperForm
 from research_engine.constants import ERROR_PAGE, FRIENDLY_TMP_ROOT
 from .space_creation import copy_space_with_all_sources, create_new_space
+from .space_sharing import generate_invitation, get_space_sharing_code, share_sources, stop_sharing_sources
 from utils.decorators import post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_invitation, check_share_sources_code, check_work_space
@@ -190,20 +190,29 @@ def receive_invitation(request):
 
 @space_ownership_required
 @login_required(redirect_field_name=None)
-def share_sources(request, space_id):
+def share_space_sources(request, space_id):
     """Share a copy of work space with all its sources"""
     # TODO
-
     # What should it be instead of json? probably url with some nice text
-
-    # How to stop sharing etc.
 
     space = check_work_space(space_id, request.user)
     if space.sources.all():
-        share_space_code = generate_invitation(space)
+        share_sources(space)
+        share_space_code = get_space_sharing_code(space).code
         return JsonResponse({"share_space_code": share_space_code})
     else:
         return JsonResponse({"message": "You can not share empty work space"})
+    
+
+@space_ownership_required
+@login_required(redirect_field_name=None)
+def stop_sharing_space_sources(request, space_id):
+     """Mark sharing sources as False and delete sharing code obj"""
+
+     space = check_work_space(space_id, request.user)
+     stop_sharing_sources(space)
+     
+     return JsonResponse({"status": "ok"})
 
 
 @post_request_required
