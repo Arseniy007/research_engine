@@ -40,8 +40,11 @@ class Link(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="links")
     name = models.CharField(max_length=50)
     url = models.URLField()
-    added = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):
         return self.name
+
+
+# TODO
+# created = models.DateTimeField(auto_now_add=True) - NOTE (maybe auto_now?) update time not creation
