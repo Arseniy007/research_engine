@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = "work_comments"
+app_name = "work_space_parts"
 
 urlpatterns = [
     path("leave_comment/<int:space_id>", views.leave_comment, name="leave_comment"),

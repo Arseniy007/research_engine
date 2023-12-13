@@ -6,8 +6,8 @@ from user_management.models import User
 
 
 class WorkSpace(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    guests = models.ManyToManyField(User, related_name="guests")
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="work_spaces")
+    guests = models.ManyToManyField(User, related_name="guest_work_spaces")
     title = models.CharField(max_length=50)
     archived = models.BooleanField(default=False)
 
@@ -69,6 +69,6 @@ class Invitation(models.Model):
     code = models.CharField(max_length=15, unique=True)
 
 
-class ShareSpaceCode(models.Model):
+class ShareSourcesCode(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
     code = models.CharField(max_length=15, unique=True)

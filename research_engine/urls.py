@@ -24,9 +24,9 @@ urlpatterns = [
     path("", include("user_management.urls")),
     path("", include("profile_page.urls")),
     path("", include("work_space.urls")),
+    path("", include("work_space_parts.urls")),
     path("", include("bookshelf.urls")),
     path("", include("paper_work.urls")),
     path("", include("file_handling.urls")),
-    path("", include("work_comments.urls")),
     path("", include("lobby.urls"))
 ]

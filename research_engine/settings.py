@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'file_handling',
     'paper_work',
     'bookshelf',
-    'work_comments',
+    'work_space_parts',
     'work_space',
     'profile_page',
     'user_management',

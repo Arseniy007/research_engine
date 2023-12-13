@@ -13,8 +13,8 @@ from research_engine.constants import ERROR_PAGE, FRIENDLY_TMP_ROOT
 from .space_creation import copy_space_with_all_sources, create_new_space
 from utils.decorators import post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
-from utils.verification import check_invitation, check_share_code, check_work_space
-from work_comments.forms import AlterCommentForm, NewCommentForm
+from utils.verification import check_invitation, check_share_sources_code, check_work_space
+from work_space_parts.forms import AlterCommentForm, NewCommentForm
 
 
 @login_required(redirect_field_name=None)
@@ -190,7 +190,7 @@ def receive_invitation(request):
 
 @space_ownership_required
 @login_required(redirect_field_name=None)
-def share_space_sources(request, space_id):
+def share_sources(request, space_id):
     """Share a copy of work space with all its sources"""
     # TODO
 
@@ -212,7 +212,7 @@ def receive_shared_sources(request):
     form = ReceiveSourcesForm(request.POST)
 
     if form.is_valid():
-        share_space_code = check_share_code(form.cleaned_data["code"])
+        share_space_code = check_share_sources_code(form.cleaned_data["code"])
         original_work_space = share_space_code.work_space
         option = form.cleaned_data["option"]
 

@@ -1,7 +1,7 @@
 from random import SystemRandom
 from string import ascii_lowercase, ascii_uppercase, digits
 from django.db import IntegrityError
-from .models import Invitation, ShareSpaceCode, WorkSpace
+from .models import Invitation, ShareSourcesCode, WorkSpace
 
 
 # String with all ascii char options for the generator
@@ -22,7 +22,7 @@ def generate_invitation(space: WorkSpace, invite=False) -> str:
             if invite:
                 code_obj = Invitation(code=invitation_code, work_space=space)
             else:
-                code_obj = ShareSpaceCode(code=invitation_code, work_space=space)
+                code_obj = ShareSourcesCode(code=invitation_code, work_space=space)
         except IntegrityError:
             # Generate new code in case of repetition
             continue

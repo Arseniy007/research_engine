@@ -7,8 +7,8 @@ from file_handling.models import PaperVersion
 from paper_work.models import Paper
 from profile_page.models import ProfilePage
 from user_management.models import User
-from work_comments.models import Comment
-from work_space.models import Invitation, ShareSpaceCode, WorkSpace
+from work_space_parts.models import Comment
+from work_space.models import Invitation, ShareSourcesCode, WorkSpace
 
 
 def check_work_space(space_id: int, user: User) -> WorkSpace | Http404 | PermissionDenied:
@@ -116,10 +116,10 @@ def check_invitation(invitation_code: str) -> Invitation | Http404:
         raise Http404
 
 
-def check_share_code(share_space_code: str) -> ShareSpaceCode | Http404:
+def check_share_sources_code(share_space_code: str) -> ShareSourcesCode | Http404:
     """Checks if share_space_code exists"""
     try:
-        return ShareSpaceCode.objects.get(code=share_space_code)
+        return ShareSourcesCode.objects.get(code=share_space_code)
     except ObjectDoesNotExist:
         raise Http404
 
