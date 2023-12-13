@@ -106,8 +106,8 @@ function load_new_chapter_fields(chapter_author_div, author_number) {
 
     if (delete_chapter_author_button) {
         delete_chapter_author_button.addEventListener('click', function() {
-            const chapter_author_fileds = chapter_author_div.querySelector(`#chapter_author_fields_${author_number - 1}`);
-            chapter_author_fileds.remove();
+            const chapter_author_fields = chapter_author_div.querySelector(`#chapter_author_fields_${author_number - 1}`);
+            chapter_author_fields.remove();
         })
     }
     author_number++;

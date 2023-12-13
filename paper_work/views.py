@@ -120,7 +120,7 @@ def archive_or_unarchive_paper(request, paper_id):
 @paper_authorship_required
 @login_required(redirect_field_name=None)
 def publish_paper(request, paper_id):
-    """Mark paper as published so it appers at the account page (or vice versa)"""
+    """Mark paper as published so it appears at the account page (or vice versa)"""
 
     form = PaperPublicationForm(request.POST)
 

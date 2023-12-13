@@ -38,7 +38,7 @@ class Paper(models.Model):
     
 
     def get_last_file_id(self) -> int:
-        """Returns last uploded paper file"""
+        """Returns last uploaded paper file"""
         return PaperVersion.objects.filter(paper=self).order_by("-pk")[0].pk
     
 

@@ -12,7 +12,7 @@ class NewSpaceForm(forms.Form):
     title = forms.CharField(max_length=50)
 
     def save_work_space(self, user: User):
-        """Sace new WorkSpace object"""
+        """Save new WorkSpace object"""
         new_work_space = WorkSpace(owner=user, title=self.cleaned_data["title"])
         new_work_space.save()
         return new_work_space

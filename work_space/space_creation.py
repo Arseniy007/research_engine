@@ -6,7 +6,7 @@ from work_space.models import WorkSpace
 
 
 def create_new_space(owner: User, title: str) -> WorkSpace:
-    """Creates new Workpspace obj"""
+    """Creates new Workspace obj"""
     new_space = WorkSpace(owner=owner, title=title)
     new_space.save()
     new_space.create_dir()
@@ -22,8 +22,8 @@ def copy_space_with_all_sources(original_space: WorkSpace, new_owner: User) -> W
         return False
     
     # Create new Workspace obj
-    new_space_titile = f"{original_space.title} by {original_space.owner}"
-    new_space = create_new_space(new_owner, new_space_titile)
+    new_space_title = f"{original_space.title} by {original_space.owner}"
+    new_space = create_new_space(new_owner, new_space_title)
 
     # Copy all sources into db and keep track of new sources id
     new_sources_id: dict = {}

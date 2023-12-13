@@ -34,7 +34,7 @@ def upload_file(request, paper_id):
 @login_required(redirect_field_name=None)
 def delete_file(request, file_id):
 
-    # Get and chek file
+    # Get and check file
     file = check_file(file_id, request.user)
 
     # Delete file directory with file inside
@@ -48,7 +48,7 @@ def delete_file(request, file_id):
 @login_required(redirect_field_name=None)
 def display_file(request, file_id):
 
-    # Get and chek file
+    # Get and check file
     file = check_file(file_id, request.user)
 
     # Open and send it
@@ -63,13 +63,13 @@ def get_file_info(request, file_id):
     file = check_file(file_id, request.user)
     raw_text = textract.process(file.get_path_to_file())
 
-    # Translate it into hexidesimal in order to handle different languages (äöü)
+    # Translate it into hexadecimal in order to handle different languages (äöü)
     hex_text = str(hexlify(raw_text))
 
     # Cut the unwanted part of the new string
     hex_text = hex_text[2:-1]
 
-    # Decode text back from hexidecimal
+    # Decode text back from hexadecimal
     decoded_text = bytes.fromhex(hex_text).decode('utf-8')
 
     # Count words, characters, etc.

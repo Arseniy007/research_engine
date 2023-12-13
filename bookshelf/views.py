@@ -97,7 +97,7 @@ def upload_source_file(request, source_id):
         # Get and save new file
         source = check_source(source_id, request.user)
 
-        # In case user alrewedy uploaded a file - delete it first
+        # In case user already uploaded a file - delete it first
         if source.file:
             shutil.rmtree(source.get_path())
         # Upload file
@@ -114,7 +114,7 @@ def upload_source_file(request, source_id):
 @login_required(redirect_field_name=None)
 def display_source_file(request, source_id):
 
-    # Get and chek source
+    # Get and check source
     source = check_source(source_id, request.user)
 
     source_file = source.get_path_to_file()

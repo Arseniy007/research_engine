@@ -10,15 +10,15 @@ def format_authors_apa(author_field: str) -> str:
     
     second_author = format_one_author_apa(authors[1])
     if number_of_authors == 2:
-        # Return "Donn, J. & Tolkin, J.R."
+        # Return "Donn, J. & Tolkien, J.R."
         return f"{first_author} & {second_author}"
     
     if number_of_authors == 3:
-        # Return "Donn, J., Tolkin, J.R. & Rowling J.K."
+        # Return "Donn, J., Tolkien, J.R. & Rowling J.K."
         third_author = format_authors_apa(authors[2])
         return f"{first_author}, {second_author} & {third_author}"
 
-    # If there are more thean 3 authors
+    # If there are more then 3 authors
     other_authors: list = []
     for i in range(2, number_of_authors):
         other_author = format_one_author_apa(authors[i])
@@ -47,7 +47,7 @@ def format_one_author_apa(author: str) -> str:
     if names_length == 2:
         return f"{last_name} {first_name[0]}."
     
-    # Return "Tolkin J.R."
+    # Return "Tolkien J.R."
     second_name = names[2]
     return f"{last_name}, {first_name[0]}. {second_name[0]}."
 

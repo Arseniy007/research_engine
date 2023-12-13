@@ -22,7 +22,7 @@ def lobby_view(request):
 
 @post_request_required
 def get_lobby_endnotes(request):
-    """Get endnotes for source that was inputed"""
+    """Get endnotes for source that was inputted"""
 
     form = get_type_of_source_form(request.POST)
 

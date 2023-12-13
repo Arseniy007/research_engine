@@ -20,7 +20,7 @@ from work_comments.forms import AlterCommentForm, NewCommentForm
 @login_required(redirect_field_name=None)
 @post_request_required
 def create_work_space(request):
-    """Create new worspace ;)"""
+    """Create new workspace ;)"""
 
     form = NewSpaceForm(request.POST)
 
@@ -41,7 +41,7 @@ def create_work_space(request):
 @space_ownership_required
 @login_required(redirect_field_name=None)
 def delete_work_space(request, space_id):
-    """Delete worspace ;)"""
+    """Delete workspace ;)"""
 
     # TODO
 
@@ -201,7 +201,7 @@ def share_space_sources(request, space_id):
         share_space_code = generate_invitation(space)
         return JsonResponse({"share_space_code": share_space_code})
     else:
-        return JsonResponse({"message": "You can not share empy work space"})
+        return JsonResponse({"message": "You can not share empty work space"})
 
 
 @post_request_required

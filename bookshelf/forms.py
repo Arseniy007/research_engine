@@ -186,7 +186,7 @@ class AlterWebpageForm(forms.ModelForm):
 
 def get_type_of_source_form(data, alter_source=False):
     """
-    Based on form hidden imput get obj type and return either obj-creation or obj-alter form.
+    Based on form hidden input get obj type and return either obj-creation or obj-alter form.
     data arg. = request.POST
     """
     if "book" in data["source_type"]:

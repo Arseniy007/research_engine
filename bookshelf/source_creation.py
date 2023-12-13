@@ -30,7 +30,7 @@ def create_source(user: User, space: WorkSpace, form: forms.Form, author: str, c
 
 
 def create_book_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str):
-    """Validate Bookform and create Book obj"""
+    """Validate Book form and create Book obj"""
 
     # Create and save new Book obj
     new_book = Book(work_space=space, user=user, author=author, title=cleaned_data["title"], 
@@ -41,7 +41,7 @@ def create_book_obj(user: User, space: WorkSpace, cleaned_data: dict, author: st
 
 
 def create_article_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str):
-    """Validate Articleform and create Article obj"""
+    """Validate Article form and create Article obj"""
 
     # Create and save new Article obj
     new_article = Article(work_space=space, user=user, author=author, title=cleaned_data["article_title"], 
@@ -54,7 +54,7 @@ def create_article_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
 
 
 def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_author: str, chapter_author: str):
-    """Validate Chapterform and create Chapter obj"""
+    """Validate Chapter form and create Chapter obj"""
     
     # Create and save new Chapter obj
     new_chapter = Chapter(work_space=space, user=user, author=chapter_author, book_author=book_author, 
@@ -67,7 +67,7 @@ def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_au
 
 
 def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str | None):
-    """Validate Webpageform and create Webpage obj"""
+    """Validate Webpage form and create Webpage obj"""
 
     if not author:
         author = "No author"

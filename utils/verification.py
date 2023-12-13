@@ -90,7 +90,7 @@ def check_quote(quote_id: int, user: User) -> Quote | Http404:
     
 
 def check_comment(comment_id: int, user: User) -> Comment | Http404:
-    """Checks if comments exitst"""
+    """Checks if comments exits"""
     try:
         comment = Comment.objects.get(pk=comment_id)
     except ObjectDoesNotExist:
