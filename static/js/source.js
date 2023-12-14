@@ -1,11 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     const source_id = document.querySelector('#source_id').innerHTML;
+    const alter_source_form = document.querySelector('#alter_source_form');
     const add_link_form = document.querySelector('#link_form');
     const new_quote_form = document.querySelector('#new_quote_form');
     const alter_quote_form = document.querySelector('#alter_quote_form');
     const alter_endnote_form = document.querySelector('#alter_endnote_form');
     const delete_quote_buttons = document.getElementsByClassName('delete_quote_buttons');
+
+    alter_source_form.addEventListener('submit', event => {
+        event.preventDefault();
+        alter_source_info(alter_source_form, source_id);
+      });
     
     add_link_form.addEventListener('submit', event => {
         event.preventDefault();
@@ -27,12 +33,35 @@ document.addEventListener('DOMContentLoaded', function() {
         alter_endnote(alter_endnote_form, source_id);
       });
 
-    
     for (let i = 0; i < delete_quote_buttons.length; i++) {
         let button = delete_quote_buttons[i];
         button.addEventListener('click', () => delete_quote(button.id));
     }
 });
+
+function alter_source_info(form, source_id) {
+
+    // Alter-source-info view url
+    const url = `/alter_source_info/${source_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+
+
+            // TODO
+
+        }
+        else {
+            redirect(result.url)
+        }
+    });
+}
 
 function add_link(form, source_id) {
 
@@ -47,8 +76,7 @@ function add_link(form, source_id) {
     .then(response => response.json())
     .then(result => {
         if (result.status === 'ok') {
-            // Change space title tag
-
+  
             // TODO
 
             let link_div = document.querySelector('#source_link');
@@ -74,7 +102,6 @@ function add_quote(form, source_id) {
     .then(response => response.json())
     .then(result => {
         if (result.status === 'ok') {
-            // Change space title tag
 
             console.log(result.quote)
 

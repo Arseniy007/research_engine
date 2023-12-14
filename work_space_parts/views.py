@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.urls import reverse
 from .forms import AlterCommentForm, AlterLinkForm, AlterNoteForm, NewCommentForm, NewLinkForm, NewNoteForm
@@ -18,7 +19,7 @@ def leave_comment(request, space_id):
         # Create new comment obj
         space = check_work_space(space_id, request.user)
         new_comment = form.save_comment(space, request.user)
-        return JsonResponse({"status": "ok", "comment": new_comment.text})
+        return JsonResponse({"status": "ok", "comment": model_to_dict(new_comment)})
 
     # Send redirect url to js
     display_error_message(request)
@@ -36,7 +37,7 @@ def alter_comment(request, comment_id):
 
     if form and form.is_valid():
         altered_comment = form.save_altered_comment(comment)
-        return JsonResponse({"status": "ok", "altered_comment": altered_comment.text})
+        return JsonResponse({"status": "ok", "altered_comment": model_to_dict(altered_comment)})
 
     # Send redirect url to js
     display_error_message(request)
@@ -65,7 +66,7 @@ def leave_note(request, space_id):
         # Create new Note obj
         space = check_work_space(space_id, request.user)
         new_note = form.save_note(space, request.user)
-        return JsonResponse({"status": "ok", "new_note": new_note.text})
+        return JsonResponse({"status": "ok", "new_note": model_to_dict(new_note)})
     
     # Send redirect url to js
     display_error_message(request)
@@ -83,7 +84,7 @@ def alter_note(request, note_id):
 
     if form and form.is_valid():
         altered_note = form.save_altered_note(note)
-        return JsonResponse({"status": "ok", "altered_note": altered_note.text})
+        return JsonResponse({"status": "ok", "altered_note": model_to_dict(altered_note)})
     
     # Send redirect url to js
     display_error_message(request)
@@ -112,7 +113,7 @@ def add_link(request, space_id):
         # Create new Note obj
         space = check_work_space(space_id, request.user)
         new_link = form.save_link(space, request.user)
-        return JsonResponse({"status": "ok", "link_name": new_link.name, "url": new_link.url})
+        return JsonResponse({"status": "ok", "link_name": new_link.name, "url": model_to_dict(new_link)})
     
     # Send redirect url to js
     display_error_message(request)
@@ -130,7 +131,7 @@ def alter_link(request, link_id):
 
     if form and form.is_valid():
         altered_link = form.save_altered_link(link)
-        return JsonResponse({"status": "ok", "altered_link": altered_link.url})
+        return JsonResponse({"status": "ok", "altered_link": model_to_dict(altered_link)})
     
     # Send redirect url to js
     display_error_message(request)

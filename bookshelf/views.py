@@ -19,6 +19,7 @@ from utils.verification import check_endnote, check_quote, check_source, check_w
 def add_source(request, space_id):
     """Add new source info to the work space"""
     # TODO
+    # JS?
 
     form = get_type_of_source_form(request.POST)
     
@@ -78,7 +79,7 @@ def alter_source_info(request, source_id):
         source = check_source(source_id, request.user)
         # Alter and save source obj
         altered_source = alter_source(source, form)
-        return JsonResponse({"status": "ok", "source": vars(altered_source)})
+        return JsonResponse({"status": "ok", "source": model_to_dict(altered_source)})
 
     # Send redirect url to js
     display_error_message(request)
