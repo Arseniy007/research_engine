@@ -150,6 +150,7 @@ function delete_note(note_id) {
 
     // Send request to delete_note view
     fetch(url)
+    .then(response => handleErrors(response, url))
     .then(response => response.json())
     .then(result => {
         if (result.status === 'ok') {
@@ -186,4 +187,15 @@ function delete_link(link_id) {
 function redirect(url) {
     // Imitate django redirect func
     window.location.replace(url)
+}
+
+function handleErrors(response, url) {
+    if (!response.ok) {
+        if (response.statusText === 'Forbidden') {
+            redirect(url)
+        }
+
+        // TODO: other errors 
+    }
+    return response;
 }
