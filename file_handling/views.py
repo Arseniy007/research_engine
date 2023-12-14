@@ -27,6 +27,8 @@ def upload_file(request, paper_id):
     else:
         display_error_message(request)
 
+    # TODO Redirect where?
+
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
 
@@ -48,10 +50,8 @@ def delete_file(request, file_id):
 @login_required(redirect_field_name=None)
 def display_file(request, file_id):
 
-    # Get and check file
+    # Get, check, open and send file
     file = check_file(file_id, request.user)
-
-    # Open and send it
     return FileResponse(open(file.get_path_to_file(), "rb"))
 
 

@@ -71,19 +71,17 @@ def alter_source_info(request, source_id):
     """Allow user to change all source related info"""
 
     form = get_type_of_source_form(request.POST, alter_source=True)
-    if not form:
-        return JsonResponse({"message": "error"})
 
-    if form.is_valid():
+    if form and form.is_valid():
         # Check source and get its attrs
         source = check_source(source_id, request.user)
         # Alter and save source obj
-        alter_source(source, form)
-        display_success_message(request)
-    else:
-        display_error_message(request)
-        
-    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
+        altered_source = alter_source(source, form)
+        return JsonResponse({"status": "ok", "source": vars(altered_source)})
+
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
 
 
 @post_request_required
@@ -133,16 +131,16 @@ def add_link_to_source(request, source_id):
 
     form = AddLinkForm(request.POST)
 
-    if form.is_valid():
+    if form and form.is_valid():
         source = check_source(source_id, request.user)
-        if not form.save_link(source):
-            # TODO
-            return JsonResponse({"message": "error"})
-        display_success_message(request)
-    else:
-        display_error_message(request)
+        added_link = form.save_link(source)
+        if not added_link:
+            return JsonResponse({"status": "error"})
+        return JsonResponse({"status": "ok", "link": added_link})
 
-    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
 
 
 @post_request_required
@@ -152,16 +150,15 @@ def alter_endnote(request, endnote_id):
     """Alter endnote text"""
 
     form = AlterEndnoteForm(request.POST)
+    endnote = check_endnote(endnote_id, request.user)
 
-    if form.is_valid():
-        endnote = check_endnote(endnote_id, request.user)
-        form.save_endnote(endnote)
-        display_success_message(request)
-    else:
-        display_error_message(request)
+    if form and form.is_valid():
+        altered_endnote = form.save_altered_endnote(endnote)
+        return JsonResponse({"status": "ok", "endnote": vars(altered_endnote)})
 
-    source = check_source(endnote.source.pk, request.user)
-    return redirect(reverse("bookshelf:source_space", args=(source.pk,)))
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(endnote.source.pk,))})
 
 
 @post_request_required
@@ -171,14 +168,14 @@ def add_quote(request, source_id):
 
     form = NewQuoteForm(request.POST)
 
-    if form.is_valid():
+    if form and form.is_valid():
         source = check_source(source_id, request.user)
-        form.save_quote(source)
-        display_success_message(request)
-    else:
-        display_error_message(request)
+        new_quote = form.save_quote(source)
+        return JsonResponse({"status": "ok", "quote": vars(new_quote)})
 
-    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
 
 
 @quote_ownership_required
@@ -186,13 +183,10 @@ def add_quote(request, source_id):
 def delete_quote(request, quote_id):
     """Delete added quote"""
 
-    # Check quote and if user has right to its deletion
+    # Check quote and delete it from the db
     quote = check_quote(quote_id, request.user)
-    
-    # Delete quote from the db
     quote.delete()
-
-    return redirect(reverse("bookshelf:source_space", args=(quote.source.pk,)))
+    return JsonResponse({"status": "ok"})
 
 
 @post_request_required
@@ -202,15 +196,15 @@ def alter_quote(request, quote_id):
     """Alter quote text / page num."""
 
     form = AlterQuoteForm(request.POST)
+    quote = check_quote(quote_id, request.user)
 
-    if form.is_valid():
-        quote = check_quote(quote_id, request.user)
-        form.save_altered_quote(quote)
-        display_success_message(request)
-    else:
-        display_error_message(request)
-
-    return redirect(reverse("bookshelf:source_space", args=(quote.source.pk,)))
+    if form and form.is_valid():
+        altered_quote = form.save_altered_quote(quote)
+        return JsonResponse({"status": "ok", "altered_quote": vars(altered_quote)})
+    
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(quote.source.pk,))})
 
 
 @login_required(redirect_field_name=None)

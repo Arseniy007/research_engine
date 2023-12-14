@@ -2892,6 +2892,28 @@ def add_link(request, space_id):
     return redirect(reverse("work_space:space_view", args=(space.pk,)))
 
 
+@post_request_required
+@source_ownership_required
+@login_required(redirect_field_name=None)
+def alter_source_info(request, source_id):
+
+
+    form = get_type_of_source_form(request.POST, alter_source=True)
+    if not form:
+        return JsonResponse({"message": "error"})
+
+    if form.is_valid():
+        # Check source and get its attrs
+        source = check_source(source_id, request.user)
+        # Alter and save source obj
+        alter_source(source, form)
+        display_success_message(request)
+    else:
+        display_error_message(request)
+        
+    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
+
+
 """
 
 

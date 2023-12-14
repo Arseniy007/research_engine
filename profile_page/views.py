@@ -41,11 +41,9 @@ def follow_profile(request, profile_id):
 
     # Error case (if user is trying to follow themselves)
     if profile.user == user:
-        # Redirect back to profile page
-        # TODO
-        # JSON!
+        # Redirect back to profile page (send redirect url to js)
         display_error_message(request, "can not follow yourself")
-        return redirect(reverse("profile_page:profile_view", args=(profile_id,)))
+        return JsonResponse({"url": reverse("profile_page:profile_view", args=(profile_id,))})
 
     # Follow / unfollow profile user
     if user in profile.followers.all():

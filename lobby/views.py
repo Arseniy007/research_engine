@@ -49,9 +49,8 @@ def get_lobby_endnotes(request):
             if endnotes:
                 return JsonResponse(endnotes)
     
-    # TODO
-    # error case should also return JSON
-
+    # Send redirect url to js
     display_error_message(request)
-    return redirect(reverse("lobby:view"))
+    return JsonResponse({"url": reverse("lobby:view")})
+
  

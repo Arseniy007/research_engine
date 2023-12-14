@@ -21,11 +21,12 @@ class NewPaperForm(forms.Form):
 class RenamePaperForm(forms.Form):
     title = forms.CharField(max_length=50)
 
-    def save_new_name(self, paper: Paper):
+    def save_new_name(self, paper: Paper) -> Paper:
         """Updates title of Paper object"""
         field = "title"
         paper.title = self.cleaned_data[field]
         paper.save(update_fields=(field,))
+        return paper
 
 
 class ChooseSourcesForm(forms.Form):

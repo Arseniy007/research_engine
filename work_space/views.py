@@ -17,8 +17,8 @@ from utils.verification import check_invitation, check_share_sources_code, check
 from work_space_parts.forms import AlterCommentForm, AlterLinkForm, AlterNoteForm, NewCommentForm, NewLinkForm, NewNoteForm
 
 
-@login_required(redirect_field_name=None)
 @post_request_required
+@login_required(redirect_field_name=None)
 def create_work_space(request):
     """Create new workspace ;)"""
 
@@ -73,14 +73,14 @@ def rename_work_space(request, space_id):
 
     form = RenameSpaceForm(request.POST)
 
-    if form.is_valid():
+    if form and form.is_valid():
         space = check_work_space(space_id, request.user)
-        form.save_new_title(space)
-        display_success_message(request)
-    else:
-        display_error_message(request)
-
-    return redirect(reverse("work_space:space_view", args=(space_id,)))
+        renamed_space = form.save_new_title(space)
+        return JsonResponse({"status": "ok", "new_title": renamed_space.title})
+    
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
 
 
 @space_ownership_required
@@ -169,21 +169,23 @@ def receive_invitation(request):
 
     form = ReceiveCodeForm(request.POST)
 
-    if form.is_valid():
+    if form and form.is_valid():
         # Check invitation code
         invitation = check_invitation(form.cleaned_data["code"])
 
         # Add user as guest to the new work space
         new_work_space = invitation.work_space
         new_work_space.add_guest(request.user)
-        display_success_message(request)
-
+        
         # Delete invitation code
         invitation.delete()
 
-        # Redirect to the new work space
+        # Send redirect to the new work space
+        display_success_message(request)
         return redirect(reverse("work_space:space_view", args=(new_work_space.pk,)))
 
+    # TODO
+    # Send error to js
     display_error_message(request)
     return redirect(ERROR_PAGE)
 
@@ -207,12 +209,12 @@ def share_space_sources(request, space_id):
 @space_ownership_required
 @login_required(redirect_field_name=None)
 def stop_sharing_space_sources(request, space_id):
-     """Mark sharing sources as False and delete sharing code obj"""
+    """Mark sharing sources as False and delete sharing code obj"""
 
-     space = check_work_space(space_id, request.user)
-     stop_sharing_sources(space)
+    space = check_work_space(space_id, request.user)
+    stop_sharing_sources(space)
      
-     return JsonResponse({"status": "ok"})
+    return JsonResponse({"status": "ok"})
 
 
 @post_request_required
@@ -282,7 +284,9 @@ def work_space_view(request, space_id):
         "comment_form": NewCommentForm(),
         "alter_comment_form": AlterCommentForm(),
         "note_form": NewNoteForm(),
+        "alter_note_form": AlterNoteForm(),
         "link_form": NewLinkForm(),
+        "alter_link_form": AlterLinkForm(),
         "rename_form": RenameSpaceForm().set_initial(space),
         "comments": space.comments.all(),
         "notes": space.notes.all(),

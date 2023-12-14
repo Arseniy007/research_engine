@@ -5,7 +5,7 @@ TODOs:
 
 2. JS funcs for simple API (z.B. rename views)
 
-3. when sharing workspace sources not only share a space woith them, but allow user to download zip with all sources! (Done!)
+3. when sharing workspace sources not only share a space with them, but allow user to download zip with all sources! (Done!)
 
 
 

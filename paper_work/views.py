@@ -55,18 +55,19 @@ def delete_paper(request, paper_id):
 @paper_authorship_required
 @login_required(redirect_field_name=None)
 def rename_paper(request, paper_id):
+    """Change paper obj title"""
 
     form = RenamePaperForm(request.POST)
 
-    if form.is_valid():
+    if form and form.is_valid():
         # Update papers name
         paper = check_paper(paper_id, request.user)
-        form.save_new_name(paper)
-        display_success_message(request)
-    else:
-        display_error_message(request)
-
-    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
+        renamed_paper = form.save_new_name(paper)
+        return JsonResponse({"status": "ok", "new_title": renamed_paper.title})
+    
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("paper_work:paper_space", args=(paper_id,))})
 
 
 @post_request_required

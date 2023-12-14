@@ -15,16 +15,27 @@ function follow(profile_id) {
     .then(response => response.json())
     .then(result => {
 
-        // Get right text for follow button
-        let button_text;
-        if (result.status === 'not followed') {
-            button_text = 'Follow';
+        if (result.status) {
+            // Get right text for follow button
+            let button_text;
+            if (result.status === 'not followed') {
+                button_text = 'Follow';
+            }
+            else {
+                button_text = 'Unfollow';
+            }
+            // Update number of followers
+            document.querySelector('#follow_button').innerHTML = button_text;
+            document.querySelector('#number_of_followers').innerHTML = `Number of followers: ${result.number_of_followers}`;
         }
         else {
-            button_text = 'Unfollow';
+            redirect(result.url)
         }
-        // Update number of followers
-        document.querySelector('#follow_button').innerHTML = button_text;
-        document.querySelector('#number_of_followers').innerHTML = `Number of followers: ${result.number_of_followers}`;
     });
+}
+
+
+function redirect(url) {
+    // Imitate django redirect func
+    window.location.replace(url)
 }

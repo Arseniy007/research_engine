@@ -1,3 +1,4 @@
+from typing import Callable
 from django import forms
 from .endnotes import update_endnotes
 from .forms import AlterWebpageForm
@@ -7,7 +8,7 @@ from utils.data_cleaning import clean_text_data
 from utils.verification import check_link
 
 
-def alter_source(source: Source, form: forms.Form):
+def alter_source(source: Source, form: forms.Form) -> Callable | None:
     """Get source type and call right func"""
     source_type = source.cast()
     match source_type:
@@ -23,7 +24,7 @@ def alter_source(source: Source, form: forms.Form):
             return None
 
 
-def update_source_fields(source: Book | Article | Chapter, form: forms.Form):
+def update_source_fields(source: Book | Article | Chapter, form: forms.Form) -> Source:
     """Alter book / article / chapter objs."""
     for field in form.fields:
         # Ignore "source_type" field
@@ -36,10 +37,11 @@ def update_source_fields(source: Book | Article | Chapter, form: forms.Form):
                 # Update field and save obj
                 source.__setattr__(field, info)
                 source.save(update_fields=(field,))
-    return update_endnotes(source)
+    update_endnotes(source)
+    return source
 
 
-def update_webpage_fields(webpage: Webpage, form: AlterWebpageForm):
+def update_webpage_fields(webpage: Webpage, form: AlterWebpageForm) -> Webpage:
     """Alter webpage obj."""
     for field in form.fields:
         # Ignore "source_type" field
@@ -60,4 +62,5 @@ def update_webpage_fields(webpage: Webpage, form: AlterWebpageForm):
                 # Update field and save obj
                 webpage.__setattr__(field, info)
                 webpage.save(update_fields=(field,))
-    return update_endnotes(webpage)
+    update_endnotes(webpage)
+    return webpage

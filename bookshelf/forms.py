@@ -67,14 +67,14 @@ class UploadSourceForm(forms.Form):
 class AddLinkForm(forms.Form):
     link = forms.CharField()
 
-    def save_link(self, source: Source):
+    def save_link(self, source: Source) -> bool | str:
         """Checks and saves link for given source"""
         link = self.cleaned_data["link"]
         if not check_link(link):
             return False
         source.link = link
         source.save(update_fields=("link",))
-        return True
+        return link
 
 
 class NewQuoteForm(forms.ModelForm):
@@ -82,10 +82,11 @@ class NewQuoteForm(forms.ModelForm):
         model = Quote
         fields = ["text", "page"]
     
-    def save_quote(self, source: Source):
+    def save_quote(self, source: Source) -> Quote:
         """Save new Quote object"""
         new_quote = Quote(source=source, page=self.cleaned_data["page"], text=self.cleaned_data["text"])
         new_quote.save()
+        return new_quote
 
 
 class AlterQuoteForm(forms.ModelForm):
@@ -100,10 +101,11 @@ class AlterQuoteForm(forms.ModelForm):
         return self 
 
 
-    def save_altered_quote(self, quote: Quote):
+    def save_altered_quote(self, quote: Quote) -> Quote:
         quote.text = self.cleaned_data["text"]
         quote.page = self.cleaned_data["page"]
         quote.save(update_fields=("text", "page",))
+        return quote
         
 
 class AlterEndnoteForm(forms.Form):
@@ -117,11 +119,12 @@ class AlterEndnoteForm(forms.Form):
         return self
         
 
-    def save_endnote(self, endnote: Endnote):
+    def save_altered_endnote(self, endnote: Endnote) -> Endnote:
         """Alter text field in Endnote obj"""
         endnote.apa = self.cleaned_data["apa"]
         endnote.mla = self.cleaned_data["mla"]
-        return endnote.save(update_fields=("apa", "mla",))
+        endnote.save(update_fields=("apa", "mla",))
+        return endnote
 
 
 class AlterBookForm(forms.ModelForm):

@@ -26,9 +26,10 @@ class RenameSpaceForm(forms.Form):
         return self
     
 
-    def save_new_title(self, space: WorkSpace):
+    def save_new_title(self, space: WorkSpace) -> WorkSpace:
         space.title = self.cleaned_data["new_title"]
-        return space.save(update_fields=("title",))
+        space.save(update_fields=("title",))
+        return space
     
 
 class DeleteSpaceForm(forms.Form):

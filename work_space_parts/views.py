@@ -20,6 +20,7 @@ def leave_comment(request, space_id):
         new_comment = form.save_comment(space, request.user)
         return JsonResponse({"status": "ok", "comment": new_comment.text})
 
+    # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
 
@@ -36,7 +37,8 @@ def alter_comment(request, comment_id):
     if form and form.is_valid():
         altered_comment = form.save_altered_comment(comment)
         return JsonResponse({"status": "ok", "altered_comment": altered_comment.text})
-        
+
+    # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("work_space:space_view", args=(comment.work_space.pk,))})
 
@@ -64,7 +66,8 @@ def leave_note(request, space_id):
         space = check_work_space(space_id, request.user)
         new_note = form.save_note(space, request.user)
         return JsonResponse({"status": "ok", "new_note": new_note.text})
-  
+    
+    # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
 
@@ -81,7 +84,8 @@ def alter_note(request, note_id):
     if form and form.is_valid():
         altered_note = form.save_altered_note(note)
         return JsonResponse({"status": "ok", "altered_note": altered_note.text})
-        
+    
+    # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("work_space:space_view", args=(note.work_space.pk,))})
 
@@ -109,10 +113,10 @@ def add_link(request, space_id):
         space = check_work_space(space_id, request.user)
         new_link = form.save_link(space, request.user)
         return JsonResponse({"status": "ok", "link_name": new_link.name, "url": new_link.url})
-        
+    
+    # Send redirect url to js
     display_error_message(request)
-    redirect_url = reverse("work_space:space_view", args=(space_id,))
-    return JsonResponse({"url": redirect_url})
+    return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
 
 
 @post_request_required
@@ -127,7 +131,8 @@ def alter_link(request, link_id):
     if form and form.is_valid():
         altered_link = form.save_altered_link(link)
         return JsonResponse({"status": "ok", "altered_link": altered_link.url})
-        
+    
+    # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("work_space:space_view", args=(link.work_space.pk,))})
 
