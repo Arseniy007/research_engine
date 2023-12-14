@@ -93,12 +93,18 @@ def change_password(request):
                 user.save()
                 return redirect(reverse("TODO"))
             
-        # Show error message if form is not valid
-        print(form.errors)
-        return render(request, "user_management/change_password.html", 
-                        {"form": form, "error_message": "Try again!"})
-    else:
-        return render(request, "user_management/change_password.html", {"form": form})
+        # Redirect back in case of error
+        display_error_message(request)
+        return redirect(reverse("user_management:change_password"))
+    
+    return render(request, "user_management/change_password.html", {"form": form})
+
+
+@login_required(redirect_field_name=None)
+def forget_password(request):
+    """TODO"""
+
+    pass
 
 
 def logout_view(request):

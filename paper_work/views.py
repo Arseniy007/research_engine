@@ -133,6 +133,7 @@ def publish_paper(request, paper_id):
         display_success_message(request)
     else:
         display_error_message(request, "no files were uploaded")
+        # TODO redirect back
 
     # Redirect to profile page
     return redirect(reverse("profile_page:profile_view", args=(get_profile_id(request.user),)))

@@ -28,7 +28,6 @@ def upload_file(request, paper_id):
         display_error_message(request)
 
     # TODO Redirect where?
-
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
 

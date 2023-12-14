@@ -33,6 +33,7 @@ def create_work_space(request):
         return redirect(reverse("work_space:space_view", args=(new_space.pk,)))
 
     # TODO
+    # Redirect to index?
     display_error_message(request)
     return redirect(ERROR_PAGE)
 
@@ -47,7 +48,7 @@ def delete_work_space(request, space_id):
 
     form = DeleteSpaceForm(request.POST)
 
-    if form.is_valid():
+    if form and form.is_valid():
 
         # Check if user has right to delete this work space
         space = check_work_space(space_id, request.user)
@@ -276,6 +277,9 @@ def work_space_view(request, space_id):
         "space": space, 
         "papers": space.papers.all(),
         "books": space.sources.all(),
+        "comments": space.comments.all(),
+        "notes": space.notes.all(),
+        "links": space.links.all(),
         "form": NewPaperForm(),
         "book_form": BookForm(),
         "article_form": ArticleForm(),
@@ -288,14 +292,7 @@ def work_space_view(request, space_id):
         "link_form": NewLinkForm(),
         "alter_link_form": AlterLinkForm(),
         "rename_form": RenameSpaceForm().set_initial(space),
-        "comments": space.comments.all(),
-        "notes": space.notes.all(),
-        "links": space.links.all()
     }
-
-
 
     return render(request, "work_space/work_space_view.html", params)
 
-
-# get all endnotes + get endnotes for the paper!
