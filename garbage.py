@@ -2914,6 +2914,16 @@ def alter_source_info(request, source_id):
     return redirect(reverse("bookshelf:source_space", args=(source_id,)))
 
 
+    @login_required(redirect_field_name=None)
+def set_source_endnotes(request, source_id):
+    # TODO
+    
+
+    pass
+    
+    <a href="{% url 'bookshelf:delete_quote' quote.pk %}">Delete quote</a>
+
+
 """
 
 

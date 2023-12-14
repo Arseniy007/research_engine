@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     rename_form.addEventListener('submit', event => {
         event.preventDefault();
         rename_space(rename_form, space_id);
-      })
+      });
 
 });
 

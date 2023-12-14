@@ -1,5 +1,6 @@
 import shutil
 from django.contrib.auth.decorators import login_required
+from django.forms.models import model_to_dict
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -146,19 +147,20 @@ def add_link_to_source(request, source_id):
 @post_request_required
 @endnote_ownership_required
 @login_required(redirect_field_name=None)
-def alter_endnote(request, endnote_id):
+def alter_endnote(request, source_id):
     """Alter endnote text"""
 
     form = AlterEndnoteForm(request.POST)
-    endnote = check_endnote(endnote_id, request.user)
+    source = check_source(source_id, request.user)
+    endnote = get_endnotes(source)
 
     if form and form.is_valid():
         altered_endnote = form.save_altered_endnote(endnote)
-        return JsonResponse({"status": "ok", "endnote": vars(altered_endnote)})
+        return JsonResponse({"status": "ok", "endnote": model_to_dict(altered_endnote)})
 
     # Send redirect url to js
     display_error_message(request)
-    return JsonResponse({"url": reverse("bookshelf:source_space", args=(endnote.source.pk,))})
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
 
 
 @post_request_required
@@ -171,7 +173,7 @@ def add_quote(request, source_id):
     if form and form.is_valid():
         source = check_source(source_id, request.user)
         new_quote = form.save_quote(source)
-        return JsonResponse({"status": "ok", "quote": vars(new_quote)})
+        return JsonResponse({"status": "ok", "quote": model_to_dict(new_quote)})
 
     # Send redirect url to js
     display_error_message(request)
@@ -200,7 +202,7 @@ def alter_quote(request, quote_id):
 
     if form and form.is_valid():
         altered_quote = form.save_altered_quote(quote)
-        return JsonResponse({"status": "ok", "altered_quote": vars(altered_quote)})
+        return JsonResponse({"status": "ok", "altered_quote": model_to_dict(altered_quote)})
     
     # Send redirect url to js
     display_error_message(request)
@@ -234,12 +236,3 @@ def source_space(request, source_id):
                                                          "link_form": link_form})
 
 # Alter messages text later!!!
-
-
-
-@login_required(redirect_field_name=None)
-def set_source_endnotes(request, source_id):
-    # TODO
-    
-
-    pass

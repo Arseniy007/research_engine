@@ -8,17 +8,17 @@ document.addEventListener('DOMContentLoaded', function() {
     note_form.addEventListener('submit', event => {
         event.preventDefault();
         leave_note(note_form, space_id);
-      })
+      });
 
     link_form.addEventListener('submit', event => {
         event.preventDefault();
         add_link(link_form, space_id);
-      })
+      });
 
     comment_form.addEventListener('submit', event => {
         event.preventDefault();
         leave_comment(comment_form, space_id);
-      })
+      });
 
 });
 

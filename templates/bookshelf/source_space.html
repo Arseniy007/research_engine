@@ -1,8 +1,11 @@
 {% extends "layout.html" %}
 {% load static %}
 
-{% block body %}
+{% block script %}
+    <script src="{% static 'js/source.js' %}"></script>
+{% endblock %}
 
+{% block body %}
 
     <h3>{{ source }}</h3>
 
@@ -18,13 +21,17 @@
     <br><br>
 
     <h4>Add link</h4>
-    <form action="{% url 'bookshelf:add_link' source.pk %}" method="post">
+    <form action="{% url 'bookshelf:add_link' source.pk %}" id="link_form" method="post">
         {% csrf_token %} 
         {{ link_form }}
-        <button type="submit">Add</button>
+        <button>Add</button>
     </form>
     <br><br>
-    <h5><a href="{{ source.link }}">Link</a></h5>
+    {% if source.link %}
+        <div id="source_link">
+            <h5><a id="link_tag" href="{{ source.link }}">Link</a></h5>
+        </div>
+    {% endif %}
 
     <br><br>
 
@@ -34,10 +41,10 @@
         <li>{{ endnotes.mla }}</li>
     </ul>
 
-    <form action="{% url 'bookshelf:alter_endnote' endnotes.pk %}" method="post">
+    <form action="{% url 'bookshelf:alter_endnote' endnotes.pk %}" id="alter_endnote_form" method="post">
         {% csrf_token %} 
         {{ endnote_form }}
-        <button type="submit">Alter Endnotes</button>
+        <button>Alter Endnotes</button>
     </form>
 
    
@@ -54,21 +61,26 @@
     <br><br><br>
     <br><br><br>
 
-    <form action="{% url 'bookshelf:add_quote' source.pk %}" method="post">
+    <form action="{% url 'bookshelf:add_quote' source.pk %}" id="new_quote_form" method="post">
         {% csrf_token %} 
         {{ quote_form }}
-        <button type="submit">Alter Quote</button>
+        <button type="submit">Add Quote</button>
     </form>
 
 
     <h3>Quotes</h3>
     <ul>
         {% for quote in quotes %}
-        <li>{{ quote }} | Quote apa: {{ quote.apa }} | Quote mla: {{ quote.mla }}
-            <a href="{% url 'bookshelf:delete_quote' quote.pk %}">Delete quote</a>
-        </li>
+        <div id="quote_{{ quote.pk }}">
+            <li>
+                {{ quote }} | Quote apa: {{ quote.apa }} | Quote mla: {{ quote.mla }}
+                <button class="delete_quote_buttons" id="{{ quote.pk }}">Delete Quote</button>
+            </li>
+        </div>
         {% endfor %}
     </ul>
+
+    <div id="source_id" style="display: none;">{{ source.pk }}</div>
 
 
 {% endblock %}
