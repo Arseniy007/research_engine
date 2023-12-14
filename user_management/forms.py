@@ -36,3 +36,10 @@ class ChangePasswordForm(forms.Form):
         "autocomplete": "off",
         "id": "confirmation"})
     )
+
+
+class ResetPasswordForm(forms.Form):
+    new_password = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
+    confirmation = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
+
+    # TODO?

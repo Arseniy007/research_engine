@@ -1,14 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
 from django.db import IntegrityError
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from .forms import ChangePasswordForm, LoginForm, RegisterForm
-from .models import PasswordResetCode, User
-from research_engine.settings import EMAIL_HOST_USER, LOGIN_URL
-from utils.code_generator import generate_code
-from utils.messages import display_error_message
+from .forms import ChangePasswordForm, LoginForm, RegisterForm, ResetPasswordForm
+from .models import User
+from .password_resetting import generate_password_reset_code, get_reset_url, send_password_resetting_email
+from research_engine.settings import LOGIN_URL
+from utils.messages import display_error_message, display_success_message
+from utils.verification import check_reset_password_code
 
 
 def register(request):
@@ -105,34 +106,43 @@ def change_password(request):
 @login_required(redirect_field_name=None)
 def forget_password(request):
     """Send user an email with password-reset url"""
+    # TODO
 
-    reset_code = generate_code()
-    reset_code_obj = PasswordResetCode(user=request.user, code=reset_code)
-    reset_code_obj.save()
-
-    reset_url = reverse("user_management:reset_password", args=(reset_code,))
+    # Get unique reset code and create reset url 
+    reset_code = generate_password_reset_code(request.user)
+    reset_url = get_reset_url(request, reset_code)
 
     # Send user "I-forgot-password" email
-    subject = "Testing django"
-    message = f"Hi {request.user}. Here is your url: {reset_url}"
-    sender = EMAIL_HOST_USER
-    recipient = [request.user.email]
+    send_password_resetting_email(request.user, reset_url)
 
-    # TODO Generate reset code (how to store it...)
-
-    send_mail(subject, message, sender, recipient)
-
+    # TODO where to redirect?
     return redirect(reverse("website:index"))
 
 
 @login_required(redirect_field_name=None)
 def reset_forgotten_password(request, reset_code):
-    """TODO"""
+    """Reset user password ;)"""
 
+    form = ResetPasswordForm(request.POST or None)
 
-    pass
-
-    
+    if request.method == "POST":
+        if form and form.is_valid():
+            reset_code = check_reset_password_code(reset_code, request.user)
+            
+            if not reset_code:
+                # Error case (wrong reset code)
+                display_error_message(request)
+                return redirect(LOGIN_URL)
+        
+            # TODO Delete reset code, set new password etc.
+         
+            display_success_message(request, "Password was successfully updated!")
+            return redirect(LOGIN_URL)
+        
+        # Error case
+        display_error_message(request)
+        return redirect(reverse("user_management:reset_password", args=(reset_code,)))
+    return render(request, "user_management/reset_password.html", {"form": form})
 
 
 def logout_view(request):
