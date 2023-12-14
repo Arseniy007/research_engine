@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import certifi
 from pathlib import Path
 import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -138,3 +140,12 @@ MEDIA_ROOT = 'uploads'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/login'
+
+# Email configuration
+os.environ['SSL_CERT_FILE'] = certifi.where()
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_HOST_USER = 'research_engine@outlook.com'
+EMAIL_HOST_PASSWORD = 'CS50_WEB_FINAL_PROJECT'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

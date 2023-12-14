@@ -1,11 +1,13 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.db import IntegrityError
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from .forms import ChangePasswordForm, LoginForm, RegisterForm
-from .models import User
-from research_engine.settings import LOGIN_URL
+from .models import PasswordResetCode, User
+from research_engine.settings import EMAIL_HOST_USER, LOGIN_URL
+from utils.code_generator import generate_code
 from utils.messages import display_error_message
 
 
@@ -102,9 +104,35 @@ def change_password(request):
 
 @login_required(redirect_field_name=None)
 def forget_password(request):
+    """Send user an email with password-reset url"""
+
+    reset_code = generate_code()
+    reset_code_obj = PasswordResetCode(user=request.user, code=reset_code)
+    reset_code_obj.save()
+
+    reset_url = reverse("user_management:reset_password", args=(reset_code,))
+
+    # Send user "I-forgot-password" email
+    subject = "Testing django"
+    message = f"Hi {request.user}. Here is your url: {reset_url}"
+    sender = EMAIL_HOST_USER
+    recipient = [request.user.email]
+
+    # TODO Generate reset code (how to store it...)
+
+    send_mail(subject, message, sender, recipient)
+
+    return redirect(reverse("website:index"))
+
+
+@login_required(redirect_field_name=None)
+def reset_forgotten_password(request, reset_code):
     """TODO"""
 
+
     pass
+
+    
 
 
 def logout_view(request):
