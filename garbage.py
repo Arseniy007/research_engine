@@ -2923,6 +2923,26 @@ def set_source_endnotes(request, source_id):
     
     <a href="{% url 'bookshelf:delete_quote' quote.pk %}">Delete quote</a>
 
+    def check_endnote(endnote_id: int, user: User) -> Endnote | Http404:
+
+    try:
+        endnote = Endnote.objects.get(pk=endnote_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(endnote.source.work_space.pk, user)
+    return endnote
+
+
+    def endnote_ownership_required(func: Callable) -> Callable | PermissionDenied:
+
+    def wrapper(request, endnote_id):
+        endnote = check_endnote(endnote_id, request.user)
+        if endnote.source.user != request.user:
+            raise PermissionDenied
+        return func(request, endnote_id)
+    return wrapper
+
 
 """
 

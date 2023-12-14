@@ -45,16 +45,6 @@ def source_ownership_required(func: Callable) -> Callable | PermissionDenied:
     return wrapper
 
 
-def endnote_ownership_required(func: Callable) -> Callable | PermissionDenied:
-    """Checks if current user added book to which given endnote belongs"""
-    def wrapper(request, endnote_id):
-        endnote = check_endnote(endnote_id, request.user)
-        if endnote.source.user != request.user:
-            raise PermissionDenied
-        return func(request, endnote_id)
-    return wrapper
-
-
 def quote_ownership_required(func: Callable) -> Callable | PermissionDenied:
     """Checks if current user added book to which given quote belongs"""
     def wrapper(request, quote_id):

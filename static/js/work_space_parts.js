@@ -22,8 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-
-
 function alter_comment(comment_id) {
 
     // Alter-comment view url
@@ -32,7 +30,6 @@ function alter_comment(comment_id) {
     // TODO
 
 }
-
 
 function alter_note(note_id) {
 
@@ -43,7 +40,6 @@ function alter_note(note_id) {
 
 }
 
-
 function alter_link(link_id) {
 
     // Alter-link view url
@@ -52,8 +48,6 @@ function alter_link(link_id) {
     // TODO
 
 }
-
-
 
 function leave_note(form, space_id) {
 

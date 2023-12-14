@@ -9,9 +9,9 @@ from .forms import *
 from .source_alteration import alter_source
 from .source_creation import create_source
 from utils.data_cleaning import clean_author_data
-from utils.decorators import endnote_ownership_required, quote_ownership_required, post_request_required, source_ownership_required
+from utils.decorators import quote_ownership_required, post_request_required, source_ownership_required
 from utils.messages import display_error_message, display_success_message
-from utils.verification import check_endnote, check_quote, check_source, check_work_space
+from utils.verification import check_quote, check_source, check_work_space
 
 
 @post_request_required
@@ -146,7 +146,7 @@ def add_link_to_source(request, source_id):
 
 
 @post_request_required
-@endnote_ownership_required
+@source_ownership_required
 @login_required(redirect_field_name=None)
 def alter_endnote(request, source_id):
     """Alter endnote text"""

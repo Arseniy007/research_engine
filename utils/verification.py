@@ -67,17 +67,6 @@ def check_source(source_id: int, user: User) -> Source | Http404:
     return source
 
 
-def check_endnote(endnote_id: int, user: User) -> Endnote | Http404:
-    """Checks if endnote exists"""
-    try:
-        endnote = Endnote.objects.get(pk=endnote_id)
-    except ObjectDoesNotExist:
-        raise Http404
-    else:
-        check_work_space(endnote.source.work_space.pk, user)
-    return endnote
-
-
 def check_quote(quote_id: int, user: User) -> Quote | Http404:
     """Checks if quote exists"""
     try:
