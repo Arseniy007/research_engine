@@ -1,4 +1,5 @@
 from django import forms
+from .models import User
 
 
 ATTRS = {"class": "form-control", "autocomplete": "off"}
@@ -43,3 +44,14 @@ class ResetPasswordForm(forms.Form):
     confirmation = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
 
     # TODO?
+
+
+
+class AccountSettingsForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("username", "first_name", "last_name", "email",)
+
+    # TODO
+    # Maybe regular form?
+    
