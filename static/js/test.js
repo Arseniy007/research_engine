@@ -26,7 +26,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function alter_comment(comment_id) {
 
+    // Alter-comment view url
     const url = `/alter_comment/${comment_id}`;
+
+    // TODO
+
+}
+
+
+function alter_note(note_id) {
+
+    // Alter-note view url
+    const url = `/alter_note/${note_id}`;
+
+    // TODO
+
+}
+
+
+function alter_link(link_id) {
+
+    // Alter-link view url
+    const url = `/alter_link/${link_id}`;
+
+    // TODO
 
 }
 
