@@ -18,9 +18,8 @@ from utils.verification import check_quote, check_source, check_work_space
 @login_required(redirect_field_name=None)
 def add_source(request, space_id):
     """Add new source info to the work space"""
-    # TODO
-    # JS?
 
+    # Figure out which of four forms was uploaded
     form = get_type_of_source_form(request.POST)
     
     if form and form.is_valid():
@@ -31,22 +30,26 @@ def add_source(request, space_id):
 
         # Webpage is the only obj there author field could be blank
         if not author and type(form) != WebpageForm:
-            display_error_message(request)
+            # Error case
+            pass
         else:
             if type(form) == ChapterForm:
                 chapter_author = clean_author_data(request.POST, chapter_author=True)
                 if not chapter_author:
-                    display_error_message()
+                    # Error case
+                    pass
                 else:
-                    create_source(request.user, space, form, author, chapter_author=chapter_author)
                     display_success_message(request)
+                    new_source_pk = create_source(request.user, space, form, author, chapter_author=chapter_author)
+                    return redirect(reverse("bookshelf:source_space", args=(new_source_pk,)))
             else:
-                create_source(request.user, space, form, author)
                 display_success_message(request)
-    else:
-        display_error_message()
-
-    return redirect(reverse("work_space:space_view", args=(space.pk,)))
+                new_source_pk = create_source(request.user, space, form, author)
+                return redirect(reverse("bookshelf:source_space", args=(new_source_pk,)))
+    
+    # Redirect back to work space
+    display_error_message(request)
+    return redirect(reverse("work_space:space_view", args=(space_id,)))
     
 
 @source_ownership_required

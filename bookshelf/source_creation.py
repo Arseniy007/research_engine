@@ -29,19 +29,20 @@ def create_source(user: User, space: WorkSpace, form: forms.Form, author: str, c
             return None
 
 
-def create_book_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str):
-    """Validate Book form and create Book obj"""
+def create_book_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str) -> int:
+    """Validate Book form, create Book obj and return its id"""
 
     # Create and save new Book obj
     new_book = Book(work_space=space, user=user, author=author, title=cleaned_data["title"], 
                     year=cleaned_data["year"], publishing_house=cleaned_data["publishing_house"])
     new_book.save()
     # Create new Endnote obj with Foreign key to this Book obj
-    return save_endnotes(new_book)
+    save_endnotes(new_book)
+    return new_book.pk
 
 
-def create_article_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str):
-    """Validate Article form and create Article obj"""
+def create_article_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str) -> int:
+    """Validate Article form, create Article obj and return its id"""
 
     # Create and save new Article obj
     new_article = Article(work_space=space, user=user, author=author, title=cleaned_data["article_title"], 
@@ -50,11 +51,12 @@ def create_article_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
                           pages=cleaned_data["pages"], link_to_journal=cleaned_data["link_to_journal"])
     new_article.save()
     # Create new Endnote obj with Foreign key to this Article obj
-    return save_endnotes(new_article)
+    save_endnotes(new_article)
+    return new_article.pk
 
 
-def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_author: str, chapter_author: str):
-    """Validate Chapter form and create Chapter obj"""
+def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_author: str, chapter_author: str) -> int:
+    """Validate Chapter form, create Chapter obj and return its id"""
     
     # Create and save new Chapter obj
     new_chapter = Chapter(work_space=space, user=user, author=chapter_author, book_author=book_author, 
@@ -63,11 +65,12 @@ def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_au
                           edition = cleaned_data["edition"], pages=cleaned_data["pages"])
     new_chapter.save()
     # Create new Endnote obj with Foreign key to this Chapter obj
-    return save_endnotes(new_chapter)
+    save_endnotes(new_chapter)
+    return new_chapter.pk
 
 
-def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str | None):
-    """Validate Webpage form and create Webpage obj"""
+def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str | None) -> int:
+    """Validate Webpage form, create Webpage obj and return its id"""
 
     if not author:
         author = "No author"
@@ -84,4 +87,5 @@ def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
                           website_title=cleaned_data["website_title"])
     new_webpage.save()
     # Create new Endnote obj with Foreign key to this Webpage obj
-    return save_endnotes(new_webpage)
+    save_endnotes(new_webpage)
+    return new_webpage.pk
