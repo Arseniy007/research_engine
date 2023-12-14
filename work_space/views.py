@@ -280,6 +280,7 @@ def work_space_view(request, space_id):
         "chapter_form": ChapterForm(),
         "webpage_form": WebpageForm(),
         "comment_form": NewCommentForm(),
+        "alter_comment_form": AlterCommentForm(),
         "note_form": NewNoteForm(),
         "link_form": NewLinkForm(),
         "rename_form": RenameSpaceForm().set_initial(space),

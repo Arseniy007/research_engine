@@ -47,7 +47,7 @@
 
 
     <li>
-        <a href="{% url 'work_space:download_space' space.pk %}">Donwload space</a>
+        <a href="{% url 'work_space:download_space' space.pk %}">Download space</a>
     </li><br><br><br>
     
 
@@ -83,19 +83,19 @@
     </form><br><br><br><br>
 
     <h4>New comment:</h4>
-    <form action="{% url 'work_space_parts:leave_comment' space.pk %}" method="post">
+    <form action="{% url 'work_space_parts:leave_comment' space.pk %}" id="comment_form" method="post">
         {% csrf_token %} 
         {{ comment_form }}
         <button type="submit">Add Comment</button>
     </form><br><br>
     <h4>New Note:</h4>
-    <form action="{% url 'work_space_parts:leave_note' space.pk %}" method="post">
+    <form action="{% url 'work_space_parts:leave_note' space.pk %}" id="note_form" method="post">
         {% csrf_token %} 
         {{ note_form }}
         <button type="submit">Add Note</button>
     </form><br><br>
     <h4>New Link:</h4>
-    <form action="{% url 'work_space_parts:add_link' space.pk %}" method="post">
+    <form action="{% url 'work_space_parts:add_link' space.pk %}" id="link_form" method="post">
         {% csrf_token %} 
         {{ link_form }}
         <button type="submit">Add Link</button>
@@ -108,12 +108,19 @@
             <li>{{ comment }}</li>
             <button onclick="return delete_comment('{{ comment.pk }}')" type="button">Delete Comment</button>
             <small>{{ comment.created }}</small>
+            <div class="alter_comment_forms">
+                <form action="{% url 'work_space_parts:alter_comment' comment.pk %}" id="alter_comment_form_{{ comment.pk }}" method="post">
+                    {% csrf_token %} 
+                    {{ alter_comment_form }}
+                    <button>Alter Comment</button>
+                </form>
+            </div>
         </div>
         {% endfor %}
     </ul><br><br><br>
 
     <h3>Alter Comments:</h3>
-    # TODO
+    <button type="button" onclick="return leave_comment('{{ space.pk }}')">Test</button>
     <br><br><br>
 
     <h3>Notes:</h3>
@@ -148,6 +155,8 @@
     <h3>Alter Links:</h3>
     # TODO
     <br><br><br>
+
+    <div id="space_id" style="display: none;">{{ space.pk }}</div>
 
 
 

@@ -2842,6 +2842,56 @@ def publish_paper(request, paper_id):
             return invitation_code
 
 
+            @post_request_required
+@login_required(redirect_field_name=None)
+def leave_comment(request, space_id):
+
+
+    form = NewCommentForm(request.POST)
+
+    if form.is_valid():
+        # Create new comment obj
+        space = check_work_space(space_id, request.user)
+        new_comment = form.save_comment(space, request.user)
+        display_success_message(request)
+    else:
+        display_error_message(request)
+
+    return redirect(reverse("work_space:space_view", args=(space.pk,)))
+
+
+    @login_required(redirect_field_name=None)
+def leave_note(request, space_id):
+
+
+    form = NewNoteForm(request.POST)
+
+    if form.is_valid():
+        # Create new Note obj
+        space = check_work_space(space_id, request.user)
+        form.save_note(space, request.user)
+        display_success_message(request)
+    else:
+        display_error_message(request)
+    return redirect(reverse("work_space:space_view", args=(space.pk,)))
+
+
+    @login_required(redirect_field_name=None)
+def add_link(request, space_id):
+
+
+    form = NewLinkForm(request.POST)
+
+    if form.is_valid():
+        # Create new Note obj
+        space = check_work_space(space_id, request.user)
+        form.save_link(space, request.user)
+        display_success_message(request)
+    else:
+        display_error_message(request)
+    return redirect(reverse("work_space:space_view", args=(space.pk,)))
+
+
 """
 
 

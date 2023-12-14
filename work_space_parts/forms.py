@@ -8,10 +8,11 @@ from utils.verification import check_link
 class NewCommentForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea())
 
-    def save_comment(self, space: WorkSpace, user: User):
+    def save_comment(self, space: WorkSpace, user: User) -> Comment:
         """Save new Comment object"""
         new_comment = Comment(work_space=space, user=user, text=self.cleaned_data["text"])
-        return new_comment.save()
+        new_comment.save()
+        return new_comment
 
 
 class AlterCommentForm(forms.Form):
@@ -22,20 +23,22 @@ class AlterCommentForm(forms.Form):
         return self
 
 
-    def save_altered_comment(self, comment: Comment):
+    def save_altered_comment(self, comment: Comment) -> Comment:
         """Update text field in Comment obj"""
         comment.text = self.cleaned_data["text"]
-        return comment.save(update_fields=("text",))
+        comment.save(update_fields=("text",))
+        return comment
 
 
 class NewNoteForm(forms.Form):
     title = forms.CharField()
     text = forms.CharField(widget=forms.Textarea())
 
-    def save_note(self, space: WorkSpace, user: User):
+    def save_note(self, space: WorkSpace, user: User) -> Note:
         """Save new Note object"""
         new_note = Note(work_space=space, user=user, title=self.cleaned_data["title"], text=self.cleaned_data["text"])
-        return new_note.save()
+        new_note.save()
+        return new_note
 
 
 class AlterNoteForm(forms.Form):
@@ -46,20 +49,22 @@ class AlterNoteForm(forms.Form):
         return self
 
 
-    def save_altered_note(self, note: Note):
+    def save_altered_note(self, note: Note) -> Note:
         """Update text field in Comment obj"""
         note.text = self.cleaned_data["text"]
-        return note.save(update_fields=("text",))
+        note.save(update_fields=("text",))
+        return note
 
 
 class NewLinkForm(forms.Form):
     name = forms.CharField()
     url = forms.URLField()
 
-    def save_link(self, space: WorkSpace, user: User):
+    def save_link(self, space: WorkSpace, user: User) -> Link:
         """Save new Link object"""
         new_link = Link(work_space=space, user=user, name=self.cleaned_data["name"], url=self.cleaned_data["url"])
-        return new_link.save()
+        new_link.save()
+        return new_link
 
 
 class AlterLinkForm(forms.Form):
@@ -72,11 +77,12 @@ class AlterLinkForm(forms.Form):
         return self
 
 
-    def save_altered_link(self, link: Link):
+    def save_altered_link(self, link: Link) -> Link:
         """Update text field in Comment obj"""
         link.name = self.cleaned_data["name"]
         link.url = self.cleaned_data["url"]
-        return link.save(update_fields=("name", "url",))
+        link.save(update_fields=("name", "url",))
+        return link
     
 
 

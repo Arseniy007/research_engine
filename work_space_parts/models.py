@@ -7,7 +7,7 @@ from work_space.models import WorkSpace
 class Comment(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
-    reply_to = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, related_name="replies")
+    reply_to = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True, related_name="replies")
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
@@ -49,3 +49,8 @@ class Link(models.Model):
 
 # TODO
 # created = models.DateTimeField(auto_now_add=True) - NOTE (maybe auto_now?) update time not creation
+    
+
+# TODO
+# Comments only for spaces with guests
+    
