@@ -8,7 +8,7 @@ from .forms import AccountSettingsForm, ChangePasswordForm, LoginForm, RegisterF
 from .models import User
 from .password_resetting import generate_password_reset_code, get_reset_url, send_password_resetting_email
 from research_engine.settings import LOGIN_URL
-from utils.messages import display_error_message, display_success_message
+from utils.messages import display_error_message, display_info_message, display_success_message
 from utils.verification import check_reset_password_code
 
 
@@ -67,11 +67,11 @@ def login_view(request):
                 if request.POST["redirect_url"]:
                     redirect_url = request.POST["redirect_url"]
                 return redirect(redirect_url)
-            else:
-                return render(request, "user_management/login.html", {
-                    "message": "Invalid username and/or password."})
-        else:
-            display_error_message(request)
+            
+        # Error case
+        display_error_message(request, "Invalid username and/or password.")
+        return redirect(LOGIN_URL)
+
     return render(request, "user_management/login.html", {"login_form": form})
 
 
@@ -93,16 +93,17 @@ def change_password(request):
             if user and new_password == confirmation:
                 # Update password
                 user.set_password(new_password)
-                user.save()
+                user.save(update_fields=("password",))
+                display_success_message(request, "Password was successfully updated!")
                 return redirect(LOGIN_URL)
             
         # Redirect back in case of error
         display_error_message(request)
         return redirect(reverse("user_management:change_password"))
+    
     return render(request, "user_management/change_password.html", {"form": form})
 
 
-@login_required(redirect_field_name=None)
 def forget_password(request):
     """Send user an email with password-reset url"""
 
@@ -113,11 +114,11 @@ def forget_password(request):
     # Send user "I-forgot-password" email
     send_password_resetting_email(request.user, reset_url)
 
-    # TODO where to redirect?
-    return redirect(reverse("website:index"))
+    # Redirect back to login view
+    display_info_message(request, "Check your email")
+    return redirect(LOGIN_URL)
 
 
-@login_required
 def reset_forgotten_password(request, reset_code):
     """Reset user password ;)"""
 
@@ -126,21 +127,36 @@ def reset_forgotten_password(request, reset_code):
     if request.method == "POST":
         if form and form.is_valid():
             reset_code = check_reset_password_code(reset_code, request.user)
+            if reset_code:
+                # Get form input
+                new_password = form.cleaned_data["new_password"]
+                confirmation = form.cleaned_data["confirmation"]
 
-            if not reset_code:
+                # Check new password
+                if new_password == confirmation:
+                    # Delete reset code from the db
+                    reset_code.delete()
+
+                    # Update user password
+                    request.user.set_password(new_password)
+                    request.user.save(update_fields=("password",))
+                    display_success_message(request, "Password was successfully updated!")
+                else:
+                    # Error case (redirect back to resetting page)
+                    display_error_message(request, "Passwords don't match")
+                    return redirect(reverse("user_management:reset_password", args=(reset_code,)))
+            else:
                 # Error case (wrong reset code)
                 display_error_message(request)
-                return redirect(LOGIN_URL)
-        
-            # TODO Delete reset code, set new password etc.
-         
-            display_success_message(request, "Password was successfully updated!")
+
+            # Finally redirect to login view
             return redirect(LOGIN_URL)
         
-        # Error case
+        # Error case (form is not valid)
         display_error_message(request)
         return redirect(reverse("user_management:reset_password", args=(reset_code,)))
-    return render(request, "user_management/reset_password.html", {"form": form})
+    
+    return render(request, "user_management/reset_password.html", {"reset_code": reset_code, "form": form})
 
 
 def logout_view(request):

@@ -2943,6 +2943,11 @@ def set_source_endnotes(request, source_id):
         return func(request, endnote_id)
     return wrapper
 
+    
+    action="{% url 'user_management:reset_password' reset_code %}"
+
+                    user = authenticate(request, username=request.user.username, password=request.user.password)
+                if user and new_password == confirmation:
 
 """
 
