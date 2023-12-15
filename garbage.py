@@ -2948,6 +2948,83 @@ def set_source_endnotes(request, source_id):
 
                     user = authenticate(request, username=request.user.username, password=request.user.password)
                 if user and new_password == confirmation:
+                
+
+form_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "first_form"}))
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    const change_form_button = document.querySelector('#change_forms_button');
+
+    change_form_button.addEventListener('click', () => change_forms(change_form_button))
+
+});
+
+
+class ForgetPasswordForm(forms.Form):
+    form_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "first_form"}))
+    username = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
+    
+
+class ForgetPasswordForm2(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email",)
+    
+    form_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "second_form"}))
+
+
+    def check_forget_password_form_data(request) -> Callable | None:
+
+
+    if "first_form" in request.POST["form_type"]:
+        print("first_form")
+        return check_first_form_data(ForgetPasswordForm(request.POST), request.user)
+    if "second_form" in request.POST["form_type"]:
+        return check_second_form_data(ForgetPasswordForm2(request.POST), request.user)
+    return None
+
+def check_first_form_data(form: ForgetPasswordForm, user: User) -> bool:
+
+    if form.is_valid():
+        if form.cleaned_data["username"] == user.username:
+            return True
+    return False
+
+
+def check_second_form_data(form: ForgetPasswordForm2, user: User) -> bool:
+
+    if form.is_valid():
+        if form.cleaned_data["first_name"] != user.first_name:
+            return False
+        if form.cleaned_data["last_name"] != user.last_name:
+            return False
+        if form.cleaned_data["email"] != user.email:
+            return False
+    return True
+
+    
+    def check_forget_password_form_data(request) -> Callable | None:
+
+
+    if "first_form" in request.POST["form_type"]:
+        return check_first_form_data(ForgetPasswordForm(request.POST), request.user)
+    if "second_form" in request.POST["form_type"]:
+        return check_second_form_data(ForgetPasswordForm2(request.POST), request.user)
+    return None
+
+def check_first_form_data(form: ForgetPasswordForm, user: User) -> bool:
+
+    if form.is_valid():
+        return check_user_by_username(form.cleaned_data["username"], form.cleaned_data["email"])
+    return False
+
+
+def check_second_form_data(form: ForgetPasswordForm2, user: User) -> bool:
+
+    if form.is_valid():
+        return check_user_by_name(form.cleaned_data["first_name"], form.cleaned_data["last_name"], form.cleaned_data["email"])
+    return False
 
 """
 

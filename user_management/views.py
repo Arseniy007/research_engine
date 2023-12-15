@@ -10,6 +10,7 @@ from .password_resetting import generate_password_reset_code, get_reset_url, sen
 from research_engine.settings import LOGIN_URL
 from utils.messages import display_error_message, display_info_message, display_success_message
 from utils.verification import check_reset_password_code
+from .user_finder import get_user_by_reset_code
 
 
 def register(request):
@@ -107,39 +108,38 @@ def change_password(request):
 def forget_password(request):
     """Send user an email with password-reset url"""
 
-    # TODO
-    # ask for username, maybe their email get user, then generate code
-
-    first_form = ForgetPasswordForm(request.POST or None)
-    second_form = ForgetPasswordForm2(request.POST or None)
-
     if request.method == "POST":
+        # Check if user submitted right info
+        user = check_forget_password_form_info(request)
+        if user:
+            # Get unique reset code and create resets url 
+            reset_code = generate_password_reset_code(user)
+            reset_url = get_reset_url(request, reset_code)
 
-        # TODO (FORMS!)
+            # Send user "I-forgot-password" email
+            send_password_resetting_email(user, reset_url)
 
-        # TODO JS to hide first form (button) and show second one instead
-
-        # Get unique reset code and create reset url 
-        reset_code = generate_password_reset_code(request.user)
-        reset_url = get_reset_url(request, reset_code)
-
-        # Send user "I-forgot-password" email
-        send_password_resetting_email(request.user, reset_url)
-
-        # Redirect back to login view
-        display_info_message(request, "Check your email")
-        return redirect(LOGIN_URL)
-    
-
-    
-    return render(request, "user_management/forget_password.html", {"first_form": first_form, "second_form": second_form})
+            # Redirect back to login view
+            display_info_message(request, "Check your email")
+            return redirect(LOGIN_URL)
+        
+        # Error case
+        display_error_message(request)
+        return redirect(reverse("user_management:forget_password"))
+        
+    forms = {
+        "first_form": ForgetPasswordForm(), 
+        "second_form": ForgetPasswordForm2()
+    }
+    return render(request, "user_management/forget_password.html", forms)
 
 
 def reset_forgotten_password(request, reset_code):
     """Reset user password ;)"""
 
     # Check reset_code
-    reset_code_obj = check_reset_password_code(reset_code, request.user)
+    user = get_user_by_reset_code(reset_code)
+    reset_code_obj = check_reset_password_code(reset_code, user)
     if not reset_code_obj:
         # Error case (wrong reset code)
         display_error_message(request, "This url is no longer valid")
@@ -159,8 +159,8 @@ def reset_forgotten_password(request, reset_code):
                 reset_code_obj.delete()
 
                 # Update user password
-                request.user.set_password(new_password)
-                request.user.save(update_fields=("password",))
+                user.set_password(new_password)
+                user.save(update_fields=("password",))
 
                 # Finally redirect to login view
                 display_success_message(request, "Password was successfully updated!")
@@ -170,7 +170,7 @@ def reset_forgotten_password(request, reset_code):
         display_error_message(request, "Passwords don't match")
         return redirect(reverse("user_management:reset_password", args=(reset_code,)))
     
-    return render(request, "user_management/reset_password.html", {"reset_code": reset_code, "form": form})
+    return render(request, "user_management/reset_password.html", {"form": form, "reset_code": reset_code})
 
 
 def logout_view(request):

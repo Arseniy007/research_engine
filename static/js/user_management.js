@@ -1,3 +1,14 @@
+function change_forms() {
+
+    // Hide first form and button
+    document.querySelector('#first_form').style.display = 'none';
+    document.querySelector('#change_forms_button').style.display = 'none';
+
+    // Show second form
+    document.querySelector('#second_form').style.display = 'block';
+}
+
+
 function check_password(form_name) {
 
     // Get new password and its confirmation

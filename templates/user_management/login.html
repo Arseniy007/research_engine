@@ -14,12 +14,14 @@
         {{ login_form }}
         <input type="hidden" name="redirect_url" value="{{ request.GET.next }}">
         <input class="btn btn-primary" type="submit" value="Login">
-        <button class="btn btn-primary" type="button">
-            <a style="color: white;" href="{% url 'user_management:forget_password' %}">Forgot password</a>
-        </button>
-    </form>
+    </form><br>
 
-    Don't have an account? <a href="{% url 'user_management:register' %}">Register here.</a>
+
+    Don't have an account? <a href="{% url 'user_management:register' %}">Register here.</a><br><br>
+
+    <button class="btn btn-primary" type="button">
+        <a style="color: white;" href="{% url 'user_management:forget_password' %}">Forgot password</a>
+    </button><br>
 
 
 {% endblock %}
