@@ -18,7 +18,6 @@ def get_user_by_username(username: str, email: str) -> bool:
         return None
 
 
-
 def get_user_by_reset_code(code: str) -> User | None:
     """Checks if user related to given reset code exists"""
     try:
