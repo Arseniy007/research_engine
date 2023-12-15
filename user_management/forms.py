@@ -39,12 +39,22 @@ class ChangePasswordForm(forms.Form):
     )
 
 
+class ForgetPasswordForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
+    
+
+class ForgetPasswordForm2(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email",)
+    
+
+
 class ResetPasswordForm(forms.Form):
     new_password = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
     confirmation = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
 
     # TODO?
-
 
 
 class AccountSettingsForm(forms.ModelForm):

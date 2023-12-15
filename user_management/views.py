@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from .forms import AccountSettingsForm, ChangePasswordForm, LoginForm, RegisterForm, ResetPasswordForm
+from .forms import *
 from .models import User
 from .password_resetting import generate_password_reset_code, get_reset_url, send_password_resetting_email
 from research_engine.settings import LOGIN_URL
@@ -107,53 +107,67 @@ def change_password(request):
 def forget_password(request):
     """Send user an email with password-reset url"""
 
-    # Get unique reset code and create reset url 
-    reset_code = generate_password_reset_code(request.user)
-    reset_url = get_reset_url(request, reset_code)
+    # TODO
+    # ask for username, maybe their email get user, then generate code
 
-    # Send user "I-forgot-password" email
-    send_password_resetting_email(request.user, reset_url)
+    first_form = ForgetPasswordForm(request.POST or None)
+    second_form = ForgetPasswordForm2(request.POST or None)
 
-    # Redirect back to login view
-    display_info_message(request, "Check your email")
-    return redirect(LOGIN_URL)
+    if request.method == "POST":
+
+        # TODO (FORMS!)
+
+        # TODO JS to hide first form (button) and show second one instead
+
+        # Get unique reset code and create reset url 
+        reset_code = generate_password_reset_code(request.user)
+        reset_url = get_reset_url(request, reset_code)
+
+        # Send user "I-forgot-password" email
+        send_password_resetting_email(request.user, reset_url)
+
+        # Redirect back to login view
+        display_info_message(request, "Check your email")
+        return redirect(LOGIN_URL)
+    
+
+    
+    return render(request, "user_management/forget_password.html", {"first_form": first_form, "second_form": second_form})
 
 
 def reset_forgotten_password(request, reset_code):
     """Reset user password ;)"""
 
+    # Check reset_code
+    reset_code_obj = check_reset_password_code(reset_code, request.user)
+    if not reset_code_obj:
+        # Error case (wrong reset code)
+        display_error_message(request, "This url is no longer valid")
+        return redirect(LOGIN_URL)
+
     form = ResetPasswordForm(request.POST or None)
 
     if request.method == "POST":
         if form and form.is_valid():
-            reset_code = check_reset_password_code(reset_code, request.user)
-            if reset_code:
-                # Get form input
-                new_password = form.cleaned_data["new_password"]
-                confirmation = form.cleaned_data["confirmation"]
+            # Get form input
+            new_password = form.cleaned_data["new_password"]
+            confirmation = form.cleaned_data["confirmation"]
 
-                # Check new password
-                if new_password == confirmation:
-                    # Delete reset code from the db
-                    reset_code.delete()
+            # Check new password
+            if new_password == confirmation:
+                # Delete reset code from the db
+                reset_code_obj.delete()
 
-                    # Update user password
-                    request.user.set_password(new_password)
-                    request.user.save(update_fields=("password",))
-                    display_success_message(request, "Password was successfully updated!")
-                else:
-                    # Error case (redirect back to resetting page)
-                    display_error_message(request, "Passwords don't match")
-                    return redirect(reverse("user_management:reset_password", args=(reset_code,)))
-            else:
-                # Error case (wrong reset code)
-                display_error_message(request)
+                # Update user password
+                request.user.set_password(new_password)
+                request.user.save(update_fields=("password",))
 
-            # Finally redirect to login view
-            return redirect(LOGIN_URL)
-        
+                # Finally redirect to login view
+                display_success_message(request, "Password was successfully updated!")
+                return redirect(LOGIN_URL)
+
         # Error case (form is not valid)
-        display_error_message(request)
+        display_error_message(request, "Passwords don't match")
         return redirect(reverse("user_management:reset_password", args=(reset_code,)))
     
     return render(request, "user_management/reset_password.html", {"reset_code": reset_code, "form": form})
