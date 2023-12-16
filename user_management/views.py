@@ -8,8 +8,8 @@ from .models import User
 from .password_resetting import generate_password_reset_code, get_reset_url, send_password_resetting_email
 from research_engine.settings import LOGIN_URL
 from utils.messages import display_error_message, display_info_message, display_success_message
-from utils.verification import check_reset_password_code
-from .user_finder import get_user_by_reset_code
+from utils.verification import check_email_confirmation_code, check_reset_password_code
+from .user_finder import get_user_buy_email_code, get_user_by_reset_code
 
 
 def register(request):
@@ -37,8 +37,8 @@ def register(request):
                 user.last_name = last_name
                 user.save()
             except IntegrityError:
-                return render(request, "user_management/register.html", {
-                    "message": "Username already taken."})
+                display_error_message(request, "Username already taken")
+                return redirect("user_management:register")
             
             return redirect(LOGIN_URL)
         else:
@@ -185,3 +185,20 @@ def account_settings(request):
     # JS!
 
     form = AccountSettingsForm()
+
+
+
+
+def confirm_email(request, email_code):
+    """TODO"""
+    
+    user = get_user_buy_email_code(email_code)
+    email_code_obj = check_email_confirmation_code(email_code, user)
+    if not email_code_obj:
+        # Error case (wrong reset code)
+        display_error_message(request, "This url is no longer valid")
+        return redirect(LOGIN_URL)
+
+
+    # Do I need it?
+    # Delete!

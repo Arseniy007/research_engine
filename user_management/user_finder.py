@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from .models import User, PasswordResetCode
+from .models import EmailConformationCode, PasswordResetCode, User
 
 
 def get_user_by_name(first_name: str, last_name: str, email: str) -> bool:
@@ -22,5 +22,13 @@ def get_user_by_reset_code(code: str) -> User | None:
     """Checks if user related to given reset code exists"""
     try:
         return PasswordResetCode.objects.get(code=code).user
+    except ObjectDoesNotExist:
+        return None
+
+
+def get_user_buy_email_code(code: str) -> User | None:
+    """Checks if user related to given email code exists"""
+    try:
+        return EmailConformationCode.objects.get(code=code).user
     except ObjectDoesNotExist:
         return None

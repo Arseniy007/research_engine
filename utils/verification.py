@@ -6,7 +6,7 @@ from bookshelf.models import Article, Book, Chapter, Endnote, Quote, Source, Web
 from file_handling.models import PaperVersion
 from paper_work.models import Paper
 from profile_page.models import ProfilePage
-from user_management.models import PasswordResetCode, User
+from user_management.models import EmailConformationCode, PasswordResetCode, User
 from work_space_parts.models import Comment, Link, Note
 from work_space.models import Invitation, ShareSourcesCode, WorkSpace
 
@@ -138,7 +138,15 @@ def check_share_sources_code(share_space_code: str) -> ShareSourcesCode | Http40
 def check_reset_password_code(reset_code: str, user: User) -> PasswordResetCode | None:
     """Checks if reset-password code exists"""
     try:
-        return PasswordResetCode.objects.get(user=user, code=reset_code)
+        return PasswordResetCode.objects.get(code=reset_code, user=user)
+    except ObjectDoesNotExist:
+        return None
+
+
+def check_email_confirmation_code(email_code: str, user: User) -> EmailConformationCode | None:
+    """Checks if email confirmation code exists"""
+    try:
+        return EmailConformationCode.objects.get(code=email_code, user=user)
     except ObjectDoesNotExist:
         return None
 
