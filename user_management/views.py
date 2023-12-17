@@ -12,6 +12,9 @@ from utils.verification import check_email_confirmation_code, check_reset_passwo
 from .user_finder import get_user_buy_email_code, get_user_by_reset_code
 
 
+# first show signup from -> confirm email form -> after joining site from email -> account details form (can be skipped)
+
+
 def register(request):
     """Register new user"""
 

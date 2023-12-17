@@ -16,6 +16,25 @@ class RegisterForm(forms.Form):
     confirmation = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
 
 
+class SignUpForm(UserCreationForm):
+
+    def __init__(self, *args, **kwargs):
+        super(SignUpForm, self).__init__(*args, **kwargs)
+
+        for fieldname in ['username', 'password1', 'password2']:
+            self.fields[fieldname].help_text = None
+
+
+class ConfirmEmailForm(forms.Form):
+    email = forms.EmailField(widget=forms.TextInput(attrs=ATTRS))
+
+
+class AccountDetailsForm(forms.Form):
+    first_name = forms.CharField(required=False, widget=forms.TextInput(attrs=ATTRS))
+    last_name = forms.CharField(required=False, widget=forms.TextInput(attrs=ATTRS))
+    date_of_birth = forms.CharField(required=False, widget=forms.DateInput(attrs=ATTRS))
+
+
 class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
     password = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))

@@ -16,3 +16,9 @@ class PasswordResetCode(models.Model):
 class EmailConformationCode(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     code = models.CharField(max_length=15)
+
+
+class NewUser(AbstractUser):
+    pass
+
+# TODO
