@@ -20,15 +20,14 @@ def register(request):
     if request.method == "POST":
         if form.is_valid():
             # Get input
-            form.cleaned_data[""]
             username, email = form.cleaned_data["username"], form.cleaned_data["email"]
             first_name, last_name = form.cleaned_data["first_name"], form.cleaned_data["last_name"]
             password, confirmation = form.cleaned_data["password"], form.cleaned_data["confirmation"]
             
             # Ensure password matches confirmation
             if password != confirmation:
-                return render(request, "user_management/register.html", {
-                    "message": "Passwords must match."})
+                display_error_message(request, "Passwords must match")
+                return redirect("user_management:register")
             
             # Attempt to create new user
             try:

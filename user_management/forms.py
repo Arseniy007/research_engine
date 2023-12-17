@@ -1,4 +1,4 @@
-from typing import Callable
+from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .models import User
 from .user_finder import get_user_by_name, get_user_by_username

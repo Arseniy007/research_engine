@@ -3026,6 +3026,13 @@ def check_second_form_data(form: ForgetPasswordForm2, user: User) -> bool:
         return check_user_by_name(form.cleaned_data["first_name"], form.cleaned_data["last_name"], form.cleaned_data["email"])
     return False
 
+
+
+    class SignUpForm(UserCreationForm):
+    first_name = forms.CharField(max_length=30, required=False, widget=forms.TextInput(attrs=ATTRS))
+    last_name = forms.CharField(max_length=30, required=False, widget=forms.TextInput(attrs=ATTRS))
+    email = forms.EmailField(max_length=100, widget=forms.TextInput(attrs=ATTRS))
+
 """
 
 

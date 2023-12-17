@@ -28,3 +28,6 @@ def send_password_resetting_email(user: User, reset_url: str) -> None:
     recipient = (user.email,)
 
     return send_mail(subject, message, sender, recipient)
+
+
+
