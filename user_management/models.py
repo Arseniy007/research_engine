@@ -18,7 +18,7 @@ class EmailConformationCode(models.Model):
     code = models.CharField(max_length=15)
 
 
-class NewUser(AbstractUser):
-    pass
+#class NewUser(AbstractUser):
+ #   pass
 
 # TODO
