@@ -3,7 +3,7 @@ TODOs:
 
 1. Profile page status func (Done!)
 
-2. JS funcs for simple API (z.B. rename views)
+2. JS funcs for simple API (z.B. rename views) (Done!)
 
 3. when sharing workspace sources not only share a space with them, but allow user to download zip with all sources! (Done!)
 

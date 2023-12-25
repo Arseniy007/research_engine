@@ -1,19 +1,11 @@
-function redirect(url) {
-    // Imitate django redirect func
-    window.location.replace(url)
+/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+function openNav() {
+  document.getElementById("sidenav").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
 }
 
-function handleErrors(response, url) {
-    if (!response.ok) {
-        if (response.statusText === 'Forbidden') {
-            redirect(url)
-        }
-
-        // TODO: other errors 
-    }
-    return response;
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNav() {
+  document.getElementById("sidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
 }
-
-
-export { redirect }
-export { handleErrors }

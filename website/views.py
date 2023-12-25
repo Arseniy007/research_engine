@@ -25,3 +25,8 @@ def show_error_page(request):
     return render(request, "website/error_page.html")
 
 
+
+def about_view(request):
+    # TODO
+
+    return render(request, "website/about.html")

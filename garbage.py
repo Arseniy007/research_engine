@@ -3065,6 +3065,41 @@ def check_email_confirmation_code(email_code: str, user: User) -> EmailConformat
         return None
             path("email_conformation/<str:email_code>", views.confirm_email, name="confirm_email")
 
+
+            function redirect(url) {
+    // Imitate django redirect func
+    window.location.replace(url)
+}
+
+function handleErrors(response, url) {
+    if (!response.ok) {
+        if (response.statusText === 'Forbidden') {
+            redirect(url)
+        }
+
+        // TODO: other errors 
+    }
+    return response;
+}
+
+
+export { redirect }
+export { handleErrors }
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #c1f7f5;
+}
+
 """
 
 
