@@ -11,5 +11,4 @@ urlpatterns = [
     path("forget_password", views.forget_password, name="forget_password"),
     path("reset_password/<str:reset_code>", views.reset_forgotten_password, name="reset_password"),
     path("account_settings", views.account_settings, name="account_settings"),
-    path("email_conformation/<str:email_code>", views.confirm_email, name="confirm_email")
 ]

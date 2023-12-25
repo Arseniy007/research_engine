@@ -3033,6 +3033,38 @@ def check_second_form_data(form: ForgetPasswordForm2, user: User) -> bool:
     last_name = forms.CharField(max_length=30, required=False, widget=forms.TextInput(attrs=ATTRS))
     email = forms.EmailField(max_length=100, widget=forms.TextInput(attrs=ATTRS))
 
+    
+def confirm_email(request, email_code):
+
+    
+    user = get_user_buy_email_code(email_code)
+    email_code_obj = check_email_confirmation_code(email_code, user)
+    if not email_code_obj:
+        # Error case (wrong reset code)
+        display_error_message(request, "This url is no longer valid")
+        return redirect(LOGIN_URL)
+
+
+    # Do I need it?
+    # Delete!
+
+
+def check_email_confirmation_code(email_code: str, user: User) -> EmailConformationCode | None:
+
+    try:
+        return EmailConformationCode.objects.get(code=email_code, user=user)
+    except ObjectDoesNotExist:
+        return None
+
+        
+        def get_user_buy_email_code(code: str) -> User | None:
+
+    try:
+        return EmailConformationCode.objects.get(code=code).user
+    except ObjectDoesNotExist:
+        return None
+            path("email_conformation/<str:email_code>", views.confirm_email, name="confirm_email")
+
 """
 
 

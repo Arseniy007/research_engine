@@ -25,10 +25,6 @@ class SignUpForm(UserCreationForm):
             self.fields[fieldname].help_text = None
 
 
-class ConfirmEmailForm(forms.Form):
-    email = forms.EmailField(widget=forms.TextInput(attrs=ATTRS))
-
-
 class AccountDetailsForm(forms.Form):
     first_name = forms.CharField(required=False, widget=forms.TextInput(attrs=ATTRS))
     last_name = forms.CharField(required=False, widget=forms.TextInput(attrs=ATTRS))
