@@ -1,0 +1,38 @@
+<body id="main">
+    <div id="navbar">
+        <ul class="nav-links" class="justify-content-end">
+            {% if user.is_authenticated %}
+                <li><a onclick="openNav()">Menu</a></li>
+                <li class="center"><a href="{% url 'website:index' %}">Workspaces</a></li>
+                <li class="upward"><a href="{% url 'user_management:change_password' %}">Change Password</a></li>
+                <li class="forward"><a href="{% url 'user_management:logout' %}">Logout</a></li>
+                <li><a class="dropdown">Settings</a></li>
+                <li class="forward nav-right"><a href="{% url 'website:about' %}">About</a></li>
+            {% else %}
+                <li class="center"><a href="{% url 'user_management:login' %}">Login</a></li>
+                <li class="center"><a href="{% url 'user_management:register' %}">Register</a></li>
+                <li class="forward"><a href="{% url 'website:about' %}">About</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    {% if user.is_authenticated %}
+        <div id="sidenav" class="sidenav">
+            <a class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="#">Workspaces</a>
+            <a href="{% url 'profile_page:profile_view' user.pk %}">Profile</a>
+            <a href="#">Settings</a>
+        </div>
+    {% endif %}
+    <main>
+        {% if messages %}
+            <div>
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% block body %}{% endblock %}
+    </main>
+</body>

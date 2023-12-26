@@ -1,0 +1,142 @@
+.sidenav 
+{
+  height: 100%;
+  width: 240px; /* Set the width of the sidebar */
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 15px;
+  border-right: solid;
+}
+
+.sidenav a 
+{
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover 
+{
+  color: #f1f1f1;
+}
+
+.main 
+{
+  margin-left: 240px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+#re
+{
+  margin-top: 2px;
+  margin-bottom: 15px;
+}
+
+#re-main-link
+{
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #4fc7ee;
+  display: block;
+  border-style: dashed;
+  margin-right: 3px;
+  border-radius: 20px;
+}
+
+.dropdown-content 
+{
+  display: none;
+  padding-left: 20px;
+}
+
+.show {display:block;}
+
+#header
+{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding: 25px 8px 15px 8px;
+  border-block-end-style: solid;
+  border-block-end-width: 100%;
+}
+
+#header-text
+{
+  color: #118ab2;
+}
+
+#switch
+{
+  display: flex;
+  font-size: 20px;
+}
+
+.sun-moon
+{
+  margin-right: 8px;
+  padding-top: 3px;
+}
+
+.dark-mode
+{
+  background-color: #111;
+  color: white;
+}
+
+.messages 
+{
+    list-style: none;
+    margin: 1em 0 2em;
+    padding: 0;
+}
+
+.messages li 
+{
+    padding: 1em;
+    width: 100%;
+    line-height: 2.0em;
+}
+
+.messages li.info, .messages li.debug 
+{
+    background-color: #d0ebff;
+}
+
+.messages li.success 
+{
+    background-color: #b2f2bb;
+}
+
+.message li.warning 
+{
+    background-color: #ffec99;
+}
+
+.messages li.error 
+{
+    background-color: #ffe3e3;
+}
+
+
+#book_form, #article_form, #chapter_form, #webpage_form, #second_author
+{
+    display: none;
+}
+
+.alter_comment_forms
+{
+    display: none;
+}

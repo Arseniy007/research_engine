@@ -11,10 +11,16 @@
     <link href="{% static 'css/work_space/styles.css' %}" rel="stylesheet">
 {% endblock %}
 
+{% block title %}
+    {{ space }}
+{% endblock %}
+
+{% block header %}
+    {{ space }}
+{% endblock %}
 
 {% block body %}
 
-    <h3 id="space_title">{{ space }}</h3><br><br>
 
     <form action="{% url 'work_space:rename_space' space.pk %}" id="rename_form" method="post">
         {% csrf_token %} 
