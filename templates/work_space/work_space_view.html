@@ -18,8 +18,6 @@
 {% block body %}
 
     
-
-
     <form action="{% url 'work_space:rename_space' space.pk %}" id="rename_form" method="post">
         {% csrf_token %} 
         {{ rename_form }}
@@ -28,7 +26,7 @@
 
     <form action="{% url 'paper_work:create_paper' space.pk %}" method="post">
         {% csrf_token %} 
-        {{ form }}
+        {{ new_paper_form }}
         <button id="change_password_button" type="submit">Add Paper</button>
     </form>
 
@@ -145,7 +143,7 @@
         {% for comment in comments %}
         <div id="comment_{{ comment.pk }}">
             <li>{{ comment }}</li>
-            <button onclick="return delete_comment('{{ comment.pk }}')" type="button">Delete Comment</button>
+            <button onclick="delete_comment('{{ comment.pk }}')" type="button">Delete Comment</button>
             <small>{{ comment.created }}</small>
             <div class="alter_comment_forms">
                 <form action="{% url 'work_space_parts:alter_comment' comment.pk %}" id="alter_comment_form_{{ comment.pk }}" method="post">
@@ -159,7 +157,7 @@
     </ul><br><br><br>
 
     <h3>Alter Comments:</h3>
-    <button type="button" onclick="return leave_comment('{{ space.pk }}')">Test</button>
+    <button type="button" onclick="leave_comment('{{ space.pk }}')">Test</button>
     <br><br><br>
 
     <h3>Notes:</h3>
@@ -167,7 +165,7 @@
         {% for note in notes %}
             <div id="note_{{ note.pk }}">
                 <li>{{ note }}</li>
-                <button onclick="return delete_note('{{ note.pk }}')" type="button">Delete Note</button>
+                <button onclick="delete_note('{{ note.pk }}')" type="button">Delete Note</button>
                 <small>{{ note.created }}</small>
             </div>
         {% endfor %}
@@ -185,7 +183,7 @@
             <div id="link_{{ link.pk }}">
                 <li>
                     <a href="{{ link.url }}">{{ link }}</a>
-                    <button onclick="return delete_link('{{ link.pk }}')" type="button">Delete Link</button>
+                    <button onclick="delete_link('{{ link.pk }}')" type="button">Delete Link</button>
                     <small>{{ link.added }}</small>
                 </li>
             </div>

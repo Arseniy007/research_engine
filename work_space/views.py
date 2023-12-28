@@ -19,6 +19,36 @@ from work_space_parts.forms import AlterCommentForm, AlterLinkForm, AlterNoteFor
 from .models import WorkSpace
 
 
+@login_required
+def work_space_view(request, space_id):
+    """Work space main view"""
+
+    space = check_work_space(space_id, request.user)
+
+    work_space_data = {
+        "space": space, 
+        "papers": space.papers.all(),
+        "sources": space.sources.all(),
+        "comments": space.comments.all(),
+        "notes": space.notes.all(),
+        "links": space.links.all(),
+        "new_paper_form": NewPaperForm(),
+        "book_form": BookForm(),
+        "article_form": ArticleForm(),
+        "chapter_form": ChapterForm(),
+        "webpage_form": WebpageForm(),
+        "comment_form": NewCommentForm(),
+        "alter_comment_form": AlterCommentForm(),
+        "note_form": NewNoteForm(),
+        "alter_note_form": AlterNoteForm(),
+        "link_form": NewLinkForm(),
+        "alter_link_form": AlterLinkForm(),
+        "rename_form": RenameSpaceForm().set_initial(space),
+        "spaces": WorkSpace.objects.all() 
+    }
+    return render(request, "work_space/work_space_view.html", work_space_data)
+
+
 @post_request_required
 @login_required(redirect_field_name=None)
 def create_work_space(request):
@@ -267,35 +297,3 @@ def leave_work_space(request, space_id):
     # Redirect to index?
 
     return JsonResponse({"message": "ok"})
-
-
-@login_required
-def work_space_view(request, space_id):
-    """Work space main view"""
-
-    space = check_work_space(space_id, request.user)
-
-    params = {
-        "space": space, 
-        "papers": space.papers.all(),
-        "sources": space.sources.all(),
-        "comments": space.comments.all(),
-        "notes": space.notes.all(),
-        "links": space.links.all(),
-        "form": NewPaperForm(),
-        "book_form": BookForm(),
-        "article_form": ArticleForm(),
-        "chapter_form": ChapterForm(),
-        "webpage_form": WebpageForm(),
-        "comment_form": NewCommentForm(),
-        "alter_comment_form": AlterCommentForm(),
-        "note_form": NewNoteForm(),
-        "alter_note_form": AlterNoteForm(),
-        "link_form": NewLinkForm(),
-        "alter_link_form": AlterLinkForm(),
-        "rename_form": RenameSpaceForm().set_initial(space),
-        "spaces": WorkSpace.objects.all() 
-    }
-
-    return render(request, "work_space/work_space_view.html", params)
-
