@@ -36,3 +36,30 @@
         {% block body %}{% endblock %}
     </main>
 </body>
+
+
+
+{% for book in books %}
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-{{ book.pk }}">
+    {{ book }}
+</button>
+<!-- Modal -->
+<div class="modal fade modal-dialog modal-dialog-scrollable p-y-0   " id="modal-{{ book.pk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-{{ book.pk }}-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modal-{{ book.pk }}-label">{{ book }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Sed luctus magna in justo dignissim dignissim. Nulla eu libero feugiat, scelerisque ante ut, accumsan mi. Nullam eget augue pretium, ultrices ligula nec, scelerisque diam. Fusce dapibus porta sapien, molestie hendrerit nisi venenatis et. Nulla mollis pulvinar interdum. Quisque quis tristique enim. Sed non ullamcorper neque, nec cursus quam. Sed condimentum egestas mi. Ut mollis maximus sem, ut tempus diam malesuada id. Donec nunc dolor, dignissim vitae mi eu, blandit faucibus sem. Mauris lorem nisi, rhoncus sed lectus ut, condimentum iaculis elit. In nec tincidunt tellus. Nulla at fringilla orci.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div><br>
+{% endfor %}

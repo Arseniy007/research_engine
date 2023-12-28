@@ -218,25 +218,16 @@ def source_space(request, source_id):
     # Delete later
     
     source = check_source(source_id, request.user)
-    quotes = source.quotes.all()
-
     endnotes = get_endnotes(source)
 
-    endnote_form = AlterEndnoteForm().set_initials(endnotes)
-
-    upload_form = UploadSourceForm()
-    quote_form = NewQuoteForm()
-    link_form = AddLinkForm()
-
-    alter_form = get_and_set_alter_form(source)
-    
-    return render(request, "bookshelf/source_space.html", {"source": source, 
-                                                         "upload_form": upload_form, 
-                                                         "alter_form": alter_form, 
-                                                         "quote_form": quote_form,
-                                                         "quotes": quotes,
-                                                         "endnotes": endnotes,
-                                                         "endnote_form": endnote_form,
-                                                         "link_form": link_form})
-
-# Alter messages text later!!!
+    source_data = {
+            "source": model_to_dict(source),
+            "quotes": source.quotes.all(),
+            "endnotes": endnotes,
+            "alter_source_form": get_and_set_alter_form(source),
+            "upload_file_form": UploadSourceForm(),
+            "link_form": AddLinkForm(),
+            "new_quote_form": NewQuoteForm(),
+            "alter_endnotes_form": AlterEndnoteForm().set_initials(endnotes)
+    }
+    return render(request, "bookshelf/source_space.html", source_data )

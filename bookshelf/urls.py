@@ -14,5 +14,6 @@ urlpatterns = [
     path("add_quote/<int:source_id>", views.add_quote, name="add_quote"),
     path("delete_quote/<int:quote_id>", views.delete_quote, name="delete_quote"),
     path("alter_quote/<int:quote_id>", views.alter_quote, name="alter_quote"),
-    path("source_space/<int:source_id>", views.source_space, name="source_space")
+    path("source_space/<int:source_id>", views.source_space, name="source_space"),
+    path("test/source_space/<int:source_id>", views.test_source_space, name="test")
 ]

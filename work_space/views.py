@@ -276,7 +276,7 @@ def work_space_view(request, space_id):
     params = {
         "space": space, 
         "papers": space.papers.all(),
-        "books": space.sources.all(),
+        "sources": space.sources.all(),
         "comments": space.comments.all(),
         "notes": space.notes.all(),
         "links": space.links.all(),
