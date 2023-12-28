@@ -3149,6 +3149,34 @@ def test_source_space(request, source_id):
 
     return JsonResponse(source_data)
 
+    @login_required(redirect_field_name=None)
+def paper_space(request, paper_id):
+
+    # TODO
+
+    # Delete later?
+
+    paper = check_paper(paper_id, request.user)
+
+    all_sources = paper.work_space.sources.all()
+
+    sources_form = ChooseSourcesForm().set_initials(all_sources)
+
+    paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
+
+    endnotes = sorted([get_endnotes(source) for source in paper.sources.all()])
+
+    links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
+
+    # TODO
+
+    return render(request, "paper_work/paper_space.html", {"form": NewPaperVersionForm(), 
+                                                           "paper": paper, "paper_versions": paper_versions, 
+                                                           "links": links, "rename_form": RenamePaperForm(),
+                                                           "citation_form": CitationStyleForm(),
+                                                           "sources_form": sources_form,
+                                                           "endnotes": endnotes})
+
 
 """
 

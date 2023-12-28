@@ -71,3 +71,28 @@
 
 
 <div id="test">{{ space }} <sup><span class="badge bg-secondary small" id="rename-badge"><i class="fa-solid fa-pencil"></i></span></sup></div>
+
+
+
+
+<ul>
+    {% for paper in papers %}
+    <li>
+        <a href="{% url 'paper_work:paper_space' paper.pk %}">{{ paper }}</a>
+    </li>
+    {% endfor %}
+</ul><br><br>
+
+
+
+<ul>
+    {% for book in books %}
+    <li>
+       <a href="{% url 'bookshelf:source_space' book.pk %}">{{ book }}</a>
+    </li>
+    {% endfor %}
+</ul><br><br><br><br>
+
+
+
+

@@ -10,37 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-function rename_space(form, space_id) {
-
-    // Rename-space view url
-    const url = `/rename_space/${space_id}`;
-
-    // Send POST request
-    fetch(url, {
-        method: 'POST',
-        body: new FormData(form)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.status === 'ok') {
-            // Change space title tag
-            document.querySelector('#space_title').innerHTML = result.new_title;
-        }
-        else {
-            redirect(result.url)
-        }
-    });
-}
-
-
-function redirect(url) {
-    // Imitate django redirect func
-    window.location.replace(url)
-}
-
-
-
-
 function show_source_space(source_id) {
 
     // Source-space view url
@@ -68,6 +37,69 @@ function show_source_space(source_id) {
     })
 }
 
+function show_paper_space(paper_id) {
+
+    // Source-space view url
+    const url = `/paper_space/${paper_id}`;
+
+    // Send request to source-space view
+    fetch(url)
+    .then(response => handleErrors(response, url))
+    .then(function(response) {
+        // When the page is loaded convert it to text
+        return response.text()
+    })
+    .then(function(html) {
+        // Initialize the DOM parser
+        let parser = new DOMParser();
+
+        // Parse the text
+        let paper_space_page = parser.parseFromString(html, "text/html");
+
+        // Get empty div for pasting
+        let paper_space_div = document.querySelector(`#paper-space-div-${paper_id}`);
+
+        // Past fetched html
+        paper_space_div.innerHTML = paper_space_page.querySelector('#paper_space').innerHTML;
+    })
+}
+
+
+
+
+
+
+
+
+
+
+function rename_space(form, space_id) {
+
+    // Rename-space view url
+    const url = `/rename_space/${space_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Change space title tag
+            document.querySelector('#space_title').innerHTML = result.new_title;
+        }
+        else {
+            redirect(result.url)
+        }
+    });
+}
+
+
+function redirect(url) {
+    // Imitate django redirect func
+    window.location.replace(url)
+}
 
 
 function handleErrors(response, url) {

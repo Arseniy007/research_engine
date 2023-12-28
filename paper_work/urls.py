@@ -4,6 +4,7 @@ from . import views
 app_name = "paper_work"
 
 urlpatterns = [
+    path("paper_space/<int:paper_id>", views.paper_space, name="paper_space"),
     path("create_paper/<space_id>", views.create_paper, name="create_paper"),
     path("delete_paper/<int:paper_id>", views.delete_paper, name="delete_paper"),
     path("rename_paper/<int:paper_id>", views.rename_paper, name="rename_paper"),
@@ -11,6 +12,5 @@ urlpatterns = [
     path("publish_paper/<int:paper_id>", views.publish_paper, name="publish_paper"),
     path("hide_paper/<int:paper_id>", views.hide_published_paper, name="hide_paper"),
     path("set_citation_style/<int:paper_id>", views.set_citation_style, name="set_citation_style"),
-    path("select_sources/<int:paper_id>", views.select_sources_for_paper, name="select_sources"),
-    path("paper_space/<int:paper_id>", views.paper_space, name="paper_space")
+    path("select_sources/<int:paper_id>", views.select_sources_for_paper, name="select_sources")
 ]

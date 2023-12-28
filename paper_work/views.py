@@ -13,6 +13,29 @@ from utils.messages import display_error_message, display_success_message
 from utils.verification import check_paper, check_work_space
 
 
+@login_required(redirect_field_name=None)
+def paper_space(request, paper_id):
+    """Main paper view"""
+    
+    paper = check_paper(paper_id, request.user)
+    endnotes = sorted([get_endnotes(source) for source in paper.sources.all()])
+    paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
+    links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
+    choose_sources_form = ChooseSourcesForm().set_initials(paper.work_space.sources.all())
+
+    paper_data = {
+        "paper": paper,
+        "endnotes": endnotes,
+        "paper_versions": paper_versions,
+        "links": links,
+        "choose_sources_form": choose_sources_form,
+        "new_paper_version_form": NewPaperVersionForm(),
+        "rename_paper_form": RenamePaperForm(),
+        "citation_form": CitationStyleForm()
+    }
+    return render(request, "paper_work/paper_space.html", paper_data)
+
+
 @post_request_required
 @login_required(redirect_field_name=None)
 def create_paper(request, space_id):
@@ -178,33 +201,3 @@ def set_citation_style(request, paper_id):
         display_error_message(request)
     
     return redirect(reverse("work_space:space_view", args=(paper_id,)))
-
-
-@login_required(redirect_field_name=None)
-def paper_space(request, paper_id):
-    """Main paper view"""
-    # TODO
-
-    # Delete later?
-
-    paper = check_paper(paper_id, request.user)
-
-    all_sources = paper.work_space.sources.all()
-
-    sources_form = ChooseSourcesForm().set_initials(all_sources)
-
-    paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
-
-    endnotes = sorted([get_endnotes(source) for source in paper.sources.all()])
-
-    links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
-
-    # TODO
-
-    return render(request, "paper_work/paper_space.html", {"form": NewPaperVersionForm(), 
-                                                           "paper": paper, "paper_versions": paper_versions, 
-                                                           "links": links, "rename_form": RenamePaperForm(),
-                                                           "citation_form": CitationStyleForm(),
-                                                           "sources_form": sources_form,
-                                                           "endnotes": endnotes})
-# What else?

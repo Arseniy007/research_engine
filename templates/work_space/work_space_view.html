@@ -32,24 +32,31 @@
         <button id="change_password_button" type="submit">Add Paper</button>
     </form>
 
-    <ul>
-        {% for paper in papers %}
-        <li>
-            <a href="{% url 'paper_work:paper_space' paper.pk %}">{{ paper }}</a>
-        </li>
-        {% endfor %}
-    </ul><br><br>
+    <h3>Papers</h3>
+    {% for paper in papers %}
+        <!-- Button trigger modal -->
+        <button onclick="show_paper_space('{{ paper.pk }}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paper-space-{{ paper.pk }}">
+            {{ paper }}
+        </button>
+        <!-- Modal -->
+        <div class="modal fade hi" id="paper-space-{{ paper.pk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paper-space-label-{{ paper.pk }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="paper-space-label-{{ paper.pk }}">{{ paper }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="paper-space-div-{{ paper.pk }}"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                </div>
+            </div>
+        </div><br><br>
+    {% endfor %}
 
-
-    <ul>
-        {% for book in books %}
-        <li>
-           <a href="{% url 'bookshelf:source_space' book.pk %}">{{ book }}</a>
-        </li>
-        {% endfor %}
-    </ul><br><br><br><br>
-
-    <h3>Test</h3>
+    <h3>Papers</h3>
 
     {% for source in sources %}
         <!-- Button trigger modal -->

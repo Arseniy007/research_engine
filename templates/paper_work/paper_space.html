@@ -2,61 +2,64 @@
 {% load static %}
 
 {% block body %}
+    <div id="paper_space">
 
-    <h3>{{ paper.title }}</h3>
+        <h3>{{ paper.title }}</h3>
 
-    <form enctype="multipart/form-data" action="{% url 'file_handling:upload_file' paper.pk %}" method="post">
-        {% csrf_token %} 
-        {{ form }}
-        <button id="change_password_button" type="submit">Save New Version</button>
-    </form>
+        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_file' paper.pk %}" method="post">
+            {% csrf_token %} 
+            {{ new_paper_version_form }}
+            <button id="change_password_button" type="submit">Save New Version</button>
+        </form>
 
-    <ul>
-        {% for version in paper_versions %}
-            <li>
-                <a href="{% url 'file_handling:display_file' version.pk %}">{{ version.file }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+        <ul>
+            {% for version in paper_versions %}
+                <li>
+                    <a href="{% url 'file_handling:display_file' version.pk %}">{{ version.file }}</a>
+                </li>
+            {% endfor %}
+        </ul>
 
-    <br>
-    <ul>
-        {% for link in links %}
-            <li>
-                {{ link }}
-            </li>
-        {% endfor %}
-    </ul>
+        <br>
+        <ul>
+            {% for link in links %}
+                <li>
+                    {{ link }}
+                </li>
+            {% endfor %}
+        </ul>
 
-    <form action="{% url 'paper_work:rename_paper' paper.pk %}" method="post">
-        {% csrf_token %} 
-        {{ rename_form }}
-        <button type="submit">Rename Paper</button>
-    </form>
-
-
-    <h3>Choose sources</h3>
-
-    <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
-        {% csrf_token %} 
-        {{ sources_form }}
-        <button type="submit">Choose</button>
-    </form>
+        <form action="{% url 'paper_work:rename_paper' paper.pk %}" method="post">
+            {% csrf_token %} 
+            {{ rename_paper_form }}
+            <button type="submit">Rename Paper</button>
+        </form>
 
 
-    <h3>Endnotes:</h3>
+        <h3>Choose sources</h3>
 
-    <ul>
-        {% for endnote in endnotes %}
-        <li>{{ endnote.apa }}</li>
-        {% endfor %}
-    </ul><br><br>
+        <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
+            {% csrf_token %} 
+            {{ choose_sources_form }}
+            <button type="submit">Choose</button>
+        </form>
 
 
-    <form action="{% url 'paper_work:set_citation_style' paper.pk %}" method="post">
-        {% csrf_token %} 
-        {{ citation_form }}
-        <button type="submit">Set citation style</button>
-    </form><br><br>
+        <h3>Endnotes:</h3>
 
+        <ul>
+            {% for endnote in endnotes %}
+            <li>{{ endnote.apa }}</li>
+            {% endfor %}
+        </ul><br><br>
+
+
+        <form action="{% url 'paper_work:set_citation_style' paper.pk %}" method="post">
+            {% csrf_token %} 
+            {{ citation_form }}
+            <button type="submit">Set citation style</button>
+        </form><br><br>
+
+        
+    </div>
 {% endblock %}
