@@ -6,18 +6,18 @@ from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
-from .forms import NewPaperVersionForm
+from .forms import UploadPaperFileForm, UploadSourceFileForm
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
-from utils.verification import check_file, check_paper
+from utils.verification import check_file, check_paper, check_source
 
 
 @post_request_required
 @login_required(redirect_field_name=None)
-def upload_file(request, paper_id):
+def upload_paper_file(request, paper_id):
     """Upload .pdf/.docx file to the given paper"""
 
-    form = NewPaperVersionForm(request.POST, request.FILES)
+    form = UploadPaperFileForm(request.POST, request.FILES)
 
     if form.is_valid():
         # Get and save new file
@@ -33,7 +33,7 @@ def upload_file(request, paper_id):
 
 @paper_authorship_required
 @login_required(redirect_field_name=None)
-def delete_file(request, file_id):
+def delete_paper_file(request, file_id):
 
     # Get and check file
     file = check_file(file_id, request.user)
@@ -47,7 +47,7 @@ def delete_file(request, file_id):
 
 
 @login_required(redirect_field_name=None)
-def display_file(request, file_id):
+def display_paper_file(request, file_id):
 
     # Get, check, open and send file
     file = check_file(file_id, request.user)
@@ -55,7 +55,7 @@ def display_file(request, file_id):
 
 
 @login_required(redirect_field_name=None)
-def get_file_info(request, file_id):
+def get_paper_file_info(request, file_id):
     """Returns info about text-file"""
     
     # Get, check and open file
@@ -83,7 +83,7 @@ def get_file_info(request, file_id):
 
 @paper_authorship_required
 @login_required(redirect_field_name=None)
-def clear_file_history(request, paper_id):
+def clear_paper_file_history(request, paper_id):
     """Delete all files related to given paper"""
 
     # Check if user has right to delete all files
@@ -92,3 +92,43 @@ def clear_file_history(request, paper_id):
     paper.clear_file_history()
 
     return JsonResponse({"message": "ok"})
+
+
+@post_request_required
+@login_required(redirect_field_name=None)
+def upload_source_file(request, source_id):
+    """Upload .pdf/.docx file of the given source"""
+
+    form = UploadSourceFileForm(request.POST, request.FILES)
+
+    if form.is_valid():
+        # Get and save new file
+        source = check_source(source_id, request.user)
+
+        # In case user already uploaded a file - delete it first
+        if source.file:
+            shutil.rmtree(source.get_path())
+        # Upload file
+        source.file = request.FILES["file"]
+        source.save(update_fields=("file",))
+        display_success_message(request)
+    else:
+        display_error_message(request)
+
+    # TODO
+    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
+
+
+@login_required(redirect_field_name=None)
+def display_source_file(request, source_id):
+
+    # Get and check source
+    source = check_source(source_id, request.user)
+
+    source_file = source.file.get_path_to_file()
+    if not source_file:
+        display_error_message(request, "no file was uploaded")
+        return redirect(reverse("bookshelf:source_space", args=(source_id,)))
+    
+    # Open source file and send it
+    return FileResponse(open(source_file, "rb"))

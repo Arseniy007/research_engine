@@ -3,7 +3,7 @@ from requests.exceptions import RequestException
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
 from bookshelf.models import Article, Book, Chapter, Endnote, Quote, Source, Webpage
-from file_handling.models import PaperVersion
+from file_handling.models import PaperFile
 from paper_work.models import Paper
 from profile_page.models import ProfilePage
 from user_management.models import PasswordResetCode, User
@@ -34,10 +34,10 @@ def check_paper(paper_id: int, user: User) -> Paper | Http404:
     return paper
 
 
-def check_file(file_id: int, user: User) -> PaperVersion | Http404:
-    """Checks if user is the author of the given paper version and this version exists"""
+def check_file(file_id: int, user: User) -> PaperFile | Http404:
+    """Checks if user is the author of the given paper file and this file exists"""
     try:
-        file = PaperVersion.objects.get(pk=file_id)
+        file = PaperFile.objects.get(pk=file_id)
     except ObjectDoesNotExist:
         raise Http404
     else:

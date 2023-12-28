@@ -6,16 +6,16 @@
 
         <h3>{{ paper.title }}</h3>
 
-        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_file' paper.pk %}" method="post">
+        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post">
             {% csrf_token %} 
-            {{ new_paper_version_form }}
+            {{ new_paper_file_form }}
             <button id="change_password_button" type="submit">Save New Version</button>
         </form>
 
         <ul>
-            {% for version in paper_versions %}
+            {% for file in paper_files %}
                 <li>
-                    <a href="{% url 'file_handling:display_file' version.pk %}">{{ version.file }}</a>
+                    <a href="{% url 'file_handling:display_paper_file' file.pk %}">{{ file.file }}</a>
                 </li>
             {% endfor %}
         </ul>

@@ -2,7 +2,7 @@ import os
 import shutil
 from django.db import models
 from bookshelf.models import Source
-from file_handling.models import PaperVersion
+from file_handling.models import PaperFile
 from user_management.models import User
 from work_space.models import WorkSpace
 
@@ -33,13 +33,13 @@ class Paper(models.Model):
     
     
     def get_number_of_files(self) -> int:
-        """Returns a number of files (PaperVersion objects) related to this papers"""
-        return len(PaperVersion.objects.filter(paper=self))
+        """Returns a number of files (PaperFile objects) related to this papers"""
+        return len(PaperFile.objects.filter(paper=self))
     
 
     def get_last_file_id(self) -> int:
         """Returns last uploaded paper file"""
-        return PaperVersion.objects.filter(paper=self).order_by("-pk")[0].pk
+        return PaperFile.objects.filter(paper=self).order_by("-pk")[0].pk
     
 
     def clear_file_history(self):
@@ -50,7 +50,7 @@ class Paper(models.Model):
         self.create_directory()
 
         # Remove files from the db
-        return PaperVersion.objects.filter(paper=self).delete()
+        return PaperFile.objects.filter(paper=self).delete()
 
     
     def archive(self):

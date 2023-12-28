@@ -3178,6 +3178,114 @@ def paper_space(request, paper_id):
                                                            "endnotes": endnotes})
 
 
+                                                           
+
+                                                           import os
+from django.db import models 
+from django.contrib.contenttypes.models import ContentType
+from research_engine.settings import MEDIA_ROOT
+from user_management.models import User
+from work_space.models import WorkSpace
+
+
+def saving_path(instance, filename):
+ 
+    space_path = instance.work_space.get_base_dir()
+    user_id, source_id = instance.user.pk, instance.pk
+    return os.path.join(space_path, "sources", f"user_{user_id}", f"source_{source_id}", filename)
+
+
+class Source(models.Model):
+
+    real_type = models.ForeignKey(ContentType, editable=False, on_delete=models.CASCADE)
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="sources")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sources")
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=70, blank=True)
+    year = models.CharField(max_length=5, blank=True)
+    file = models.FileField(upload_to=saving_path, blank=True)
+    link = models.CharField(max_length=40, blank=True)
+    
+
+    def __str__(self):
+        '''Display book title'''
+        return self.title
+
+
+    def save(self, *args, **kwargs):
+  
+        if self._state.adding:
+            self.real_type = self.get_real_type()
+        return super(Source, self).save(*args, **kwargs)
+
+
+    def get_real_type(self):
+
+        return ContentType.objects.get_for_model(type(self))
+    
+
+    def cast(self):
+
+        return self.real_type.get_object_for_this_type(pk=self.pk)
+    
+
+    def file_name(self):
+
+        return os.path.basename(self.file.name)
+    
+
+    def get_path(self):
+
+        return os.path.join(self.work_space.get_path(), "sources", f"user_{self.user.pk}", f"source_{self.pk}")
+
+
+    def get_path_to_file(self):
+
+        if self.file:
+            return os.path.join(MEDIA_ROOT, str(self.file))
+        else:
+            return None
+
+            @post_request_required
+@login_required(redirect_field_name=None)
+def upload_source_file(request, source_id):
+
+
+    form = UploadSourceForm(request.POST, request.FILES)
+
+    if form.is_valid():
+        # Get and save new file
+        source = check_source(source_id, request.user)
+
+        # In case user already uploaded a file - delete it first
+        if source.file:
+            shutil.rmtree(source.get_path())
+        # Upload file
+        source.file = request.FILES["file"]
+        source.save(update_fields=("file",))
+        display_success_message(request)
+    else:
+        display_error_message(request)
+
+    # TODO
+    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
+
+
+@login_required(redirect_field_name=None)
+def display_source_file(request, source_id):
+
+    # Get and check source
+    source = check_source(source_id, request.user)
+
+    source_file = source.get_path_to_file()
+    if not source_file:
+        display_error_message(request, "no file was uploaded")
+        return redirect(reverse("bookshelf:source_space", args=(source_id,)))
+    
+    # Open source file and send it
+    return FileResponse(open(source_file, "rb"))
+    
+
 """
 
 

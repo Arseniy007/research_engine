@@ -1,11 +1,12 @@
 import shutil
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
-from django.http import FileResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from .endnotes import get_endnotes
 from .forms import *
+from file_handling.forms import UploadSourceFileForm
 from .source_alteration import alter_source
 from .source_creation import create_source
 from utils.data_cleaning import clean_author_data
@@ -26,7 +27,7 @@ def source_space(request, source_id):
             "quotes": source.quotes.all(),
             "endnotes": endnotes,
             "alter_source_form": get_and_set_alter_form(source),
-            "upload_file_form": UploadSourceForm(),
+            "upload_file_form": UploadSourceFileForm(),
             "link_form": AddLinkForm(),
             "new_quote_form": NewQuoteForm(),
             "alter_endnotes_form": AlterEndnoteForm().set_initials(endnotes)
@@ -108,46 +109,6 @@ def alter_source_info(request, source_id):
     display_error_message(request)
     return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
 
-
-@post_request_required
-@login_required(redirect_field_name=None)
-def upload_source_file(request, source_id):
-    """Upload .pdf/.docx file of the given source"""
-
-    form = UploadSourceForm(request.POST, request.FILES)
-
-    if form.is_valid():
-        # Get and save new file
-        source = check_source(source_id, request.user)
-
-        # In case user already uploaded a file - delete it first
-        if source.file:
-            shutil.rmtree(source.get_path())
-        # Upload file
-        source.file = request.FILES["file"]
-        source.save(update_fields=("file",))
-        display_success_message(request)
-    else:
-        display_error_message(request)
-
-    # TODO
-    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
-
-
-@login_required(redirect_field_name=None)
-def display_source_file(request, source_id):
-
-    # Get and check source
-    source = check_source(source_id, request.user)
-
-    source_file = source.get_path_to_file()
-    if not source_file:
-        display_error_message(request, "no file was uploaded")
-        return redirect(reverse("bookshelf:source_space", args=(source_id,)))
-    
-    # Open source file and send it
-    return FileResponse(open(source_file, "rb"))
-    
 
 @post_request_required
 @login_required(redirect_field_name=None)

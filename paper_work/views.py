@@ -5,8 +5,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.endnotes import get_endnotes
 from .forms import CitationStyleForm, ChooseSourcesForm, NewPaperForm, RenamePaperForm
-from file_handling.forms import NewPaperVersionForm
-from file_handling.models import PaperVersion
+from file_handling.forms import UploadPaperFileForm
+from file_handling.models import PaperFile
 from profile_page.helpers import get_profile_id
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
@@ -18,18 +18,18 @@ def paper_space(request, paper_id):
     """Main paper view"""
     
     paper = check_paper(paper_id, request.user)
-    endnotes = sorted([get_endnotes(source) for source in paper.sources.all()])
-    paper_versions = PaperVersion.objects.filter(paper=paper).order_by("saving_time")
-    links = [reverse("file_handling:display_file", args=(version.pk,)) for version in paper_versions]
+    endnotes = [get_endnotes(source).apa for source in paper.sources.all()]
+    paper_files = PaperFile.objects.filter(paper=paper).order_by("saving_time")
+    links = [reverse("file_handling:display_paper_file", args=(file.pk,)) for file in paper_files]
     choose_sources_form = ChooseSourcesForm().set_initials(paper.work_space.sources.all())
 
     paper_data = {
         "paper": paper,
         "endnotes": endnotes,
-        "paper_versions": paper_versions,
+        "paper_files": paper_files,
         "links": links,
         "choose_sources_form": choose_sources_form,
-        "new_paper_version_form": NewPaperVersionForm(),
+        "new_paper_file_form": UploadPaperFileForm(),
         "rename_paper_form": RenamePaperForm(),
         "citation_form": CitationStyleForm()
     }
@@ -65,7 +65,7 @@ def delete_paper(request, paper_id):
     paper = check_paper(paper_id, request.user)
     
     # Delete paper directory with all files inside
-    if paper.versions.all():
+    if paper.files.all():
         shutil.rmtree(paper.get_path())
 
     # Delete paper from the db
@@ -200,4 +200,4 @@ def set_citation_style(request, paper_id):
     else:
         display_error_message(request)
     
-    return redirect(reverse("work_space:space_view", args=(paper_id,)))
+    return redirect(reverse("work_space:space_view", args=(paper.work_space.pk,)))

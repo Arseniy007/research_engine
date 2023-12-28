@@ -45,7 +45,7 @@ def copy_space_with_all_sources(original_space: WorkSpace, new_owner: User) -> W
             new_source_id = new_sources_id[source.pk]
             source_id_root = os.path.join(new_sources_root, f"source_{new_source_id}")
             os.makedirs(source_id_root, exist_ok=True)
-            destination = os.path.join(source_id_root, source.file_name())
+            destination = os.path.join(source_id_root, source.file.file_name())
             original_file = source.get_path_to_file()
             shutil.copyfile(original_file, destination)
 

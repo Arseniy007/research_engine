@@ -23,6 +23,8 @@ def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:
     else:
         users = [owner]
 
+    # TODO Not all users upload files
+
     # Create new empty directory
     work_space.create_friendly_dir()
     original_path = work_space.get_friendly_path()
@@ -96,7 +98,7 @@ def create_friendly_sources_dir(sources, root_path: str) -> None:
             source_counter += 1
 
     # Get array with only sources which files were uploaded
-    sources_with_files = [source for source in sources if source.file]
+    sources_with_files = [source for source in sources if source.has_file()]
 
     if any(sources_with_files):
         # Create new "sources-files" dir
@@ -105,7 +107,7 @@ def create_friendly_sources_dir(sources, root_path: str) -> None:
 
         for source in sources_with_files:
             # Copy original source file into new "sources-file" dir
-            destination = os.path.join(sources_files_root, source.file_name())
+            destination = os.path.join(sources_files_root, source.file.file_name())
             original_file = source.get_path_to_file()
             shutil.copyfile(original_file, destination)
 
@@ -153,15 +155,15 @@ def create_friendly_papers_dir(papers, authors: list, root_path: str) -> None:
             os.makedirs(path_to_paper, exist_ok=True)
 
             # Get all paper-related files
-            versions = author_paper.versions.all()
-            for version in versions:
+            files = author_paper.files.all()
+            for file in files:
                 # Create new "paper-file" dirs inside "paper" dir
-                path_to_paper_version = os.path.join(path_to_paper, version.get_saving_time())
-                os.makedirs(path_to_paper_version, exist_ok=True)
+                path_to_paper_file = os.path.join(path_to_paper, file.get_saving_time())
+                os.makedirs(path_to_paper_file, exist_ok=True)
 
                 # Copy original paper file into new "paper-file" dir
-                destination = os.path.join(path_to_paper_version, version.file_name())
-                original_file = version.get_path_to_file()
+                destination = os.path.join(path_to_paper_file, file.file_name())
+                original_file = file.get_path_to_file()
                 shutil.copyfile(original_file, destination)         
 
 

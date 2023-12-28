@@ -60,10 +60,6 @@ class WebpageForm(CommonFields):
     date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
 
 
-class UploadSourceForm(forms.Form):
-    file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
-
-
 class AddLinkForm(forms.Form):
     link = forms.CharField()
 
