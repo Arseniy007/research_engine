@@ -12,10 +12,12 @@
 {% endblock %}
 
 {% block header %}
-    {{ space }}
+   {{ space }}
 {% endblock %}
 
 {% block body %}
+
+    
 
 
     <form action="{% url 'work_space:rename_space' space.pk %}" id="rename_form" method="post">

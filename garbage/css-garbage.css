@@ -195,3 +195,20 @@ body
 {
     display: none;
 }
+
+
+
+.badge.small
+{
+  font-size: 0.5em;
+}
+
+#rename-badge
+{
+ display: none;
+}
+
+#test:hover + #rename-badge
+{
+  display: inline;
+}

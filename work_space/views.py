@@ -16,6 +16,8 @@ from utils.messages import display_error_message, display_success_message
 from utils.verification import check_invitation, check_share_sources_code, check_work_space
 from work_space_parts.forms import AlterCommentForm, AlterLinkForm, AlterNoteForm, NewCommentForm, NewLinkForm, NewNoteForm
 
+from .models import WorkSpace
+
 
 @post_request_required
 @login_required(redirect_field_name=None)
@@ -292,6 +294,7 @@ def work_space_view(request, space_id):
         "link_form": NewLinkForm(),
         "alter_link_form": AlterLinkForm(),
         "rename_form": RenameSpaceForm().set_initial(space),
+        "spaces": WorkSpace.objects.all() 
     }
 
     return render(request, "work_space/work_space_view.html", params)
