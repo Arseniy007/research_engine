@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-
 function rename_space(form, space_id) {
 
     // Rename-space view url
@@ -37,4 +36,47 @@ function rename_space(form, space_id) {
 function redirect(url) {
     // Imitate django redirect func
     window.location.replace(url)
+}
+
+
+
+
+function show_source_space(source_id) {
+
+    // Source-space view url
+    const url = `/source_space/${source_id}`;
+
+    // Send request to source-space view
+    fetch(url)
+    .then(response => handleErrors(response, url))
+    .then(function(response) {
+        // When the page is loaded convert it to text
+        return response.text()
+    })
+    .then(function(html) {
+        // Initialize the DOM parser
+        let parser = new DOMParser();
+
+        // Parse the text
+        let source_space_page = parser.parseFromString(html, "text/html");
+
+        // Get empty div for pasting
+        let source_space_div = document.querySelector(`#source-space-div-${source_id}`);
+
+        // Past fetched html
+        source_space_div.innerHTML = source_space_page.querySelector('#source_space').innerHTML;
+    })
+}
+
+
+
+function handleErrors(response, url) {
+    if (!response.ok) {
+        if (response.statusText === 'Forbidden') {
+            redirect(url)
+        }
+
+        // TODO: other errors 
+    }
+    return response;
 }

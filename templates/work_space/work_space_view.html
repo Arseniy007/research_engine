@@ -7,10 +7,6 @@
     <script src="{% static 'js/work_space.js' %}"></script>
 {% endblock %}
 
-{% block css %}
-    <link href="{% static 'css/work_space/styles.css' %}" rel="stylesheet">
-{% endblock %}
-
 {% block title %}
     {{ space }}
 {% endblock %}
@@ -55,19 +51,18 @@
 
     {% for source in sources %}
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#source-space-{{ source.pk }}">
+        <button onclick="show_source_space('{{ source.pk }}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#source-space-{{ source.pk }}">
             {{ source }}
         </button>
-        
         <!-- Modal -->
-        <div class="modal fade" id="source-space-{{ source.pk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="source-space-label-{{ source.pk }}" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal fade hi" id="source-space-{{ source.pk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="source-space-label-{{ source.pk }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="source-space-label-{{ source.pk }}">{{ source }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="source-space-div-{{ source.pk }}">
                         Test!!!
                     </div>
                     <div class="modal-footer">
@@ -78,9 +73,6 @@
             </div>
         </div><br><br>
     {% endfor %}
-
-
-
 
 
     <li>

@@ -14,6 +14,26 @@ from utils.messages import display_error_message, display_success_message
 from utils.verification import check_quote, check_source, check_work_space
 
 
+@login_required(redirect_field_name=None)
+def source_space(request, source_id):
+    """Main source view"""
+    
+    source = check_source(source_id, request.user)
+    endnotes = get_endnotes(source)
+
+    source_data = {
+            "source": source,
+            "quotes": source.quotes.all(),
+            "endnotes": endnotes,
+            "alter_source_form": get_and_set_alter_form(source),
+            "upload_file_form": UploadSourceForm(),
+            "link_form": AddLinkForm(),
+            "new_quote_form": NewQuoteForm(),
+            "alter_endnotes_form": AlterEndnoteForm().set_initials(endnotes)
+    }
+    return render(request, "bookshelf/source_space.html", source_data)
+
+
 @post_request_required
 @login_required(redirect_field_name=None)
 def add_source(request, space_id):
@@ -211,23 +231,3 @@ def alter_quote(request, quote_id):
     # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("bookshelf:source_space", args=(quote.source.pk,))})
-
-
-@login_required(redirect_field_name=None)
-def source_space(request, source_id):
-    # Delete later
-    
-    source = check_source(source_id, request.user)
-    endnotes = get_endnotes(source)
-
-    source_data = {
-            "source": model_to_dict(source),
-            "quotes": source.quotes.all(),
-            "endnotes": endnotes,
-            "alter_source_form": get_and_set_alter_form(source),
-            "upload_file_form": UploadSourceForm(),
-            "link_form": AddLinkForm(),
-            "new_quote_form": NewQuoteForm(),
-            "alter_endnotes_form": AlterEndnoteForm().set_initials(endnotes)
-    }
-    return render(request, "bookshelf/source_space.html", source_data )
