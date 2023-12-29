@@ -18,7 +18,7 @@
 {% block body %}
 
     
-    <form action="{% url 'work_space:rename_space' space.pk %}" id="rename_form" method="post">
+    <form action="{% url 'work_space:rename_space' space.pk %}" id="rename_space_form" method="post">
         {% csrf_token %} 
         {{ rename_form }}
         <button type="submit">Rename space</button>

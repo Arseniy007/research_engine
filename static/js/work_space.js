@@ -1,13 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     const space_id = document.querySelector('#space_id').innerHTML;
-    const rename_form = document.querySelector('#rename_form');
+    const paper_id = document.querySelector('#paper_id').innerHTML;
+    const rename_space_form = document.querySelector('#rename_space_form');
+    const rename_paper_form = document.querySelector('#rename_paper_form');
 
-    rename_form.addEventListener('submit', event => {
+    rename_space_form.addEventListener('submit', event => {
         event.preventDefault();
         rename_space(rename_form, space_id);
       });
 
+    rename_paper_form.addEventListener('submit', event => {
+        event.preventDefault();
+        rename_paper(rename_paper_form, paper_id);
+      });
 });
 
 function show_source_space(source_id) {
@@ -64,18 +70,37 @@ function show_paper_space(paper_id) {
     })
 }
 
+function rename_paper(form, paper_id) {
+
+    // Rename-paper url
+    const url = `/rename_paper/${paper_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Change space title tag
+            document.querySelector('#paper_title').innerHTML = result.new_title;
+        }
+        else {
+            redirect(result.url)
+        }
+    });
 
 
 
-
-
+}
 
 
 
 
 function rename_space(form, space_id) {
 
-    // Rename-space view url
+    // Rename-space url
     const url = `/rename_space/${space_id}`;
 
     // Send POST request

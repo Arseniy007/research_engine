@@ -4,7 +4,7 @@
 {% block body %}
     <div id="paper_space">
 
-        <h3>{{ paper.title }}</h3>
+        <h3 id="paper_title">{{ paper.title }}</h3>
 
         <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post">
             {% csrf_token %} 
@@ -29,7 +29,7 @@
             {% endfor %}
         </ul>
 
-        <form action="{% url 'paper_work:rename_paper' paper.pk %}" method="post">
+        <form action="{% url 'paper_work:rename_paper' paper.pk %}" method="post" id="rename_paper_form">
             {% csrf_token %} 
             {{ rename_paper_form }}
             <button type="submit">Rename Paper</button>
@@ -59,6 +59,9 @@
             {{ citation_form }}
             <button type="submit">Set citation style</button>
         </form><br><br>
+
+
+        <div style="display: none;">{{ paper.pk }}</div>
 
         
     </div>
