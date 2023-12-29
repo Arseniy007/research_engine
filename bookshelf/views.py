@@ -39,6 +39,9 @@ def source_space(request, source_id):
 @login_required(redirect_field_name=None)
 def add_source(request, space_id):
     """Add new source info to the work space"""
+    
+    # TODO
+    # instead of redirecting to space view - load it with js and open its modal window
 
     # Figure out which of four forms was uploaded
     form = get_type_of_source_form(request.POST)
