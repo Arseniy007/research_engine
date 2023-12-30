@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
 {% load static %}
 
+{% block script %}
+    <script src="{% static 'js/paper_space.js' %}"></script>
+{% endblock %}
+
 {% block body %}
     <div id="paper_space">
 
@@ -61,7 +65,7 @@
         </form><br><br>
 
 
-        <div style="display: none;">{{ paper.pk }}</div>
+        <div id="paper_id" style="display: none;">{{ paper.pk }}</div>
 
         
     </div>
