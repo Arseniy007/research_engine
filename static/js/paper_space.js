@@ -1,15 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    console.log("hi")
 
-    const paper_id = document.querySelector('#paper_id').innerHTML;
-
-    const rename_paper_form = document.querySelector('#rename_paper_form');
-
-    rename_paper_form.addEventListener('submit', event => {
-        event.preventDefault();
-        rename_paper(rename_paper_form, paper_id);
-      });
 });
 
 function show_paper_space(paper_id) {
@@ -32,14 +23,19 @@ function show_paper_space(paper_id) {
         let paper_space_page = parser.parseFromString(html, "text/html");
 
         // Get empty div for pasting
-        let paper_space_div = document.querySelector(`#paper-space-div-${paper_id}`);
+        const paper_space_div = document.querySelector(`#paper-space-div-${paper_id}`);
 
         // Past fetched html
         paper_space_div.innerHTML = paper_space_page.querySelector('#paper_space').innerHTML;
+
+        const rename_paper_form = paper_space_div.querySelector('#rename_paper_form');
+    
+        rename_paper_form.addEventListener('submit', event => {
+            event.preventDefault();
+            rename_paper(rename_paper_form, paper_id);
+          });
     })
 }
-
-
 
 function rename_paper(form, paper_id) {
 
@@ -61,7 +57,4 @@ function rename_paper(form, paper_id) {
             redirect(result.url)
         }
     });
-
-
-
 }

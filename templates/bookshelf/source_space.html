@@ -54,7 +54,7 @@
 
         <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post">
             {% csrf_token %} 
-            {{ alter_form.as_p }}
+            {{ alter_source_form.as_p }}
             <button type="submit">Alter Source Info</button>
         </form>
 

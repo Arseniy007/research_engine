@@ -30,7 +30,7 @@ def paper_space(request, paper_id):
         "links": links,
         "choose_sources_form": choose_sources_form,
         "new_paper_file_form": UploadPaperFileForm(),
-        "rename_paper_form": RenamePaperForm(),
+        "rename_paper_form": RenamePaperForm().set_initial(paper),
         "citation_form": CitationStyleForm()
     }
     return render(request, "paper_work/paper_space.html", paper_data)
