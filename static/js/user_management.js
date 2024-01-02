@@ -1,8 +1,7 @@
 function change_forms() {
-
-    // Hide first form and button
+    
+    // Hide first form
     document.querySelector('#first_form').style.display = 'none';
-    document.querySelector('#change_forms_button').style.display = 'none';
 
     // Show second form
     document.querySelector('#second_form').style.display = 'block';

@@ -168,7 +168,7 @@ def reset_forgotten_password(request, reset_code):
         display_error_message(request, "Passwords don't match")
         return redirect(reverse("user_management:reset_password", args=(reset_code,)))
     
-    return render(request, "user_management/reset_password.html", {"form": form, "reset_code": reset_code})
+    return render(request, "user_management/reset_password.html", {"reset_form": form, "reset_code": reset_code})
 
 
 def logout_view(request):

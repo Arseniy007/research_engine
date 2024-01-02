@@ -3284,6 +3284,15 @@ def display_source_file(request, source_id):
     
     # Open source file and send it
     return FileResponse(open(source_file, "rb"))
+
+    from django.contrib.auth.forms import UserCreationForm
+    class SignUpForm(UserCreationForm):
+
+    def __init__(self, *args, **kwargs):
+        super(SignUpForm, self).__init__(*args, **kwargs)
+
+        for fieldname in ['username', 'password1', 'password2']:
+            self.fields[fieldname].help_text = None
     
 
 """

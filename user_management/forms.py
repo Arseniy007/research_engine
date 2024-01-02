@@ -1,4 +1,3 @@
-from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .models import User
 from .user_finder import get_user_by_name, get_user_by_username
@@ -6,34 +5,61 @@ from .user_finder import get_user_by_name, get_user_by_username
 
 ATTRS = {"class": "form-control", "autocomplete": "off"}
 
+_CLASS = "form-control form-control-lg"
+
 
 class RegisterForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
-    first_name = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
-    last_name = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
-    email = forms.EmailField(widget=forms.TextInput(attrs=ATTRS))
-    password = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
-    confirmation = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "username-field",
+        "class": _CLASS,
+        "autocomplete": "off"})                 
+    )
 
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "first-name-field",
+        "class": _CLASS})
+    )
 
-class SignUpForm(UserCreationForm):
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "last-name-field",
+        "class": _CLASS})
+    )
 
-    def __init__(self, *args, **kwargs):
-        super(SignUpForm, self).__init__(*args, **kwargs)
+    email = forms.EmailField(widget=forms.TextInput(attrs={
+        "type": "email",
+        "id": "email-field",
+        "class": _CLASS})
+    )
 
-        for fieldname in ['username', 'password1', 'password2']:
-            self.fields[fieldname].help_text = None
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        "type": "password",
+        "id": "password-field",
+        "class": _CLASS})
+    )
 
-
-class AccountDetailsForm(forms.Form):
-    first_name = forms.CharField(required=False, widget=forms.TextInput(attrs=ATTRS))
-    last_name = forms.CharField(required=False, widget=forms.TextInput(attrs=ATTRS))
-    date_of_birth = forms.CharField(required=False, widget=forms.DateInput(attrs=ATTRS))
+    confirmation = forms.CharField(widget=forms.PasswordInput(attrs={
+        "type": "password",
+        "id": "confirmation-field",
+        "class": _CLASS})
+    )
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
-    password = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "username-field",
+        "class": _CLASS,
+        "autocomplete": "off"})
+    )
+
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        "type": "password",
+        "id": "password-field",
+        "class": _CLASS})
+    )
 
 
 class ChangePasswordForm(forms.Form):
@@ -58,29 +84,53 @@ class ChangePasswordForm(forms.Form):
 
 class ForgetPasswordForm(forms.Form):
     form_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "first_form"}))
-    username = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
-    email = forms.CharField(widget=forms.EmailInput(attrs=ATTRS))
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "username-field",
+        "class": _CLASS,
+        "autocomplete": "off"})
+    )
+
+    email = forms.CharField(widget=forms.EmailInput(attrs={
+        "type": "email",
+        "id": "email-field",
+        "class": _CLASS})
+    )
 
 
 class ForgetPasswordForm2(forms.Form):
     form_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "second_form"}))
-    first_name = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
-    last_name = forms.CharField(widget=forms.TextInput(attrs=ATTRS))
-    email = forms.CharField(widget=forms.EmailInput(attrs=ATTRS))
-    
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "first-name-field",
+        "class": _CLASS})
+    )
+
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "last-name-field",
+        "class": _CLASS})
+    )
+
+    email = forms.CharField(widget=forms.EmailInput(attrs={
+        "type": "email",
+        "id": "email-field",
+        "class": _CLASS})
+    )
+
 
 class ResetPasswordForm(forms.Form):
-    new_password = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
-    confirmation = forms.CharField(widget=forms.PasswordInput(attrs=ATTRS))
+    new_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        "type": "password",
+        "id": "password-field",
+        "class": _CLASS})
+    )
 
-
-class AccountSettingsForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ("username", "first_name", "last_name", "email",)
-
-    # TODO
-    # Maybe regular form?
+    confirmation = forms.CharField(widget=forms.PasswordInput(attrs={
+        "type": "password",
+        "id": "confirmation-field",
+        "class": _CLASS})
+    )
 
 
 def check_forget_password_form_info(request) -> User | None:
@@ -95,3 +145,20 @@ def check_forget_password_form_info(request) -> User | None:
         if form.is_valid():
             return get_user_by_name(form.cleaned_data["first_name"], form.cleaned_data["last_name"], form.cleaned_data["email"])
     return None
+
+
+
+
+class AccountDetailsForm(forms.Form):
+    first_name = forms.CharField(required=False, widget=forms.TextInput(attrs=ATTRS))
+    last_name = forms.CharField(required=False, widget=forms.TextInput(attrs=ATTRS))
+    date_of_birth = forms.CharField(required=False, widget=forms.DateInput(attrs=ATTRS))
+
+
+class AccountSettingsForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("username", "first_name", "last_name", "email",)
+
+    # TODO
+    # Maybe regular form?
