@@ -5,7 +5,7 @@ from .user_finder import get_user_by_name, get_user_by_username
 
 ATTRS = {"class": "form-control", "autocomplete": "off"}
 
-_CLASS = "form-control form-control-lg"
+_CLASS = "form-control"
 
 
 class RegisterForm(forms.Form):
