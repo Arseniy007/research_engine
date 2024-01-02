@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
 
-
 {% block script %}
     <script src="{% static 'js/user_management.js' %}"></script>
 {% endblock %}
@@ -29,8 +28,8 @@
                                         <input type="submit" value="Login" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
                                     </div>
                                     <input type="hidden" name="redirect_url" value="{{ request.GET.next }}">
-                                    <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="{% url 'user_management:register' %}" class="fw-bold text-body"><u>Register here</u></a></p>
-                                    <p class="text-center text-muted mt-5 mb-0">Forgot your password? <a href="{% url 'user_management:forget_password' %}" class="fw-bold text-body"><u>Reset password</u></a></p>
+                                    <p class="text-center text-muted mt-4 mb-0">Don't have an account? <a href="{% url 'user_management:register' %}" class="fw-bold text-body"><u>Register here</u></a></p>
+                                    <p class="text-center text-muted mt-4 mb-0">Forgot your password? <a href="{% url 'user_management:forget_password' %}" class="fw-bold text-body"><u>Reset password</u></a></p>
                                 </form>
                             </div>
                         </div>

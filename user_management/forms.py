@@ -72,21 +72,24 @@ class LoginForm(forms.Form):
 
 class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(label=False, widget=forms.PasswordInput(attrs={
-        "placeholder": "Old password",
-        "autocomplete": "off",
-        "id": "old_password"})
+        "type": "password",
+        "id": "old_password-field",
+        "class": _CLASS,
+        "placeholder": "Old Password"})
     )
 
-    password = forms.CharField(label=False, widget=forms.PasswordInput(attrs={
-        "placeholder": "New password",
-        "autocomplete": "off",
-        "id": "new_password"})
+    new_password = forms.CharField(label=False, widget=forms.PasswordInput(attrs={
+        "type": "password",
+        "id": "new_password-field",
+        "class": _CLASS,
+        "placeholder": "New Password"})
     )
 
     confirmation = forms.CharField(label=False, widget=forms.PasswordInput(attrs={
-        "placeholder": "Confirm new password",
-        "autocomplete": "off",
-        "id": "confirmation"})
+        "type": "password",
+        "id": "confirmation-field",
+        "class": _CLASS,
+        "placeholder": "Repeat New Password"})
     )
 
 

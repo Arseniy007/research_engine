@@ -84,7 +84,7 @@ def change_password(request):
         if form and form.is_valid():
             # Get input
             old_password = form.cleaned_data["old_password"]
-            new_password = form.cleaned_data["password"]
+            new_password = form.cleaned_data["new_password"]
             confirmation = form.cleaned_data["confirmation"]
 
             # Check old password and confirmation
@@ -100,7 +100,7 @@ def change_password(request):
         display_error_message(request)
         return redirect(reverse("user_management:change_password"))
     
-    return render(request, "user_management/change_password.html", {"form": form})
+    return render(request, "user_management/change_password.html", {"change_password_form": form})
 
 
 def forget_password(request):

@@ -314,3 +314,11 @@ Don't have an account? <a href="{% url 'user_management:register' %}">Register h
 
 
 <section class="vh-100 bg-image" style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+
+
+<br><br><br><br>
+<form onsubmit="return check_password('reset_password_form');" id="reset_password_form" action="{% url 'user_management:change_password' %}" method="post">
+    {% csrf_token %} 
+    {{ form }}
+    <button id="change_password_button">Change password</button>
+</form>
