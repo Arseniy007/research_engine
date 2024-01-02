@@ -1,9 +1,18 @@
 {% extends "layout.html" %}
 {% load static %}
 
+{% block script %}
+    <script src="{% static 'js/profile_page.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+    {{ user }}
+{% endblock %}
+
+
+
 {% block body %}
 
-    <h2>{{ user }}</h2><br><br>
 
     <h4>Followers:</h4>
     <ul>
@@ -40,8 +49,4 @@
 
     <div id="profile_id" style="display: none;">{{ profile_id }}</div>
 
-{% endblock %}
-
-{% block script %}
-    <script src="{% static 'js/profile_page.js' %}"></script>
 {% endblock %}

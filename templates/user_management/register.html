@@ -1,13 +1,15 @@
 {% extends "layout.html" %}
 {% load static %}
 
+{% block script %}
+    <script src="{% static 'js/user_management.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+    Register
+{% endblock %}
+
 {% block body %}
-
-    <h2>Register page</h2>
-
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
 
     <form onsubmit="return check_password('register_form');" action="{% url 'user_management:register' %}" id="register_form" method="post">
         {% csrf_token %}
@@ -15,10 +17,88 @@
         <input class="btn btn-primary" type="submit" value="Register">
     </form>
 
-    Already have an account? <a href="{% url 'user_management:login' %}">Log In here.</a>
+    Already have an account? <a href="{% url 'user_management:login' %}">Log In here.</a><br><br><br>
 
-{% endblock %}
+    <h1>New</h1>
 
-{% block script %}
-    <script src="{% static 'js/user_management.js' %}"></script>
+
+
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">@</span>
+        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+    </div>
+    <div class="input-group">
+        <span class="input-group-text">First and last name</span>
+        <input type="text" aria-label="First name" class="form-control">
+        <input type="text" aria-label="Last name" class="form-control">
+    </div>
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+          <label for="inputPassword6" class="col-form-label">Password</label>
+        </div>
+        <div class="col-auto">
+          <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
+        </div>
+        <div class="col-auto">
+          <span id="passwordHelpInline" class="form-text">
+            Must be 8-20 characters long.
+          </span>
+        </div>
+    </div><br><br><br>
+
+
+    <h3>Test</h3><br><br>
+
+
+    <section class="vh-100 bg-image" style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-body p-5">
+                                <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+                                <form>
+                                    <div class="form-outline mb-4">
+                                        <input type="text" id="form3Example1cg" class="form-control form-control-lg" />
+                                        <label class="form-label" for="form3Example1cg">Your Name</label>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="email" id="form3Example3cg" class="form-control form-control-lg" />
+                                        <label class="form-label" for="form3Example3cg">Your Email</label>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="password" id="form3Example4cg" class="form-control form-control-lg" />
+                                        <label class="form-label" for="form3Example4cg">Password</label>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="password" id="form3Example4cdg" class="form-control form-control-lg" />
+                                        <label class="form-label" for="form3Example4cdg">Repeat your password</label>
+                                    </div>
+                                    <div class="form-check d-flex justify-content-center mb-5">
+                                        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
+                                        <label class="form-check-label" for="form2Example3g">
+                                            I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
+                                        </label>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button type="button" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                                    </div>
+                                    <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="#!"class="fw-bold text-body"><u>Login here</u></a></p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    
+
+
+
 {% endblock %}

@@ -1,13 +1,16 @@
 {% extends "layout.html" %}
+{% load static %}
+
+
+{% block script %}
+    <script src="{% static 'js/user_management.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+    Login
+{% endblock %}
 
 {% block body %}
-
-
-    <h2>Login page</h2>
-
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
 
     <form action="{% url 'user_management:login' %}" method="post">
         {% csrf_token %}

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-function show_paper_space(paper_id) {
+function load_and_show_paper_space(paper_id) {
 
     // Source-space view url
     const url = `/paper_space/${paper_id}`;

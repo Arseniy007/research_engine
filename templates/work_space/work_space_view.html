@@ -34,7 +34,7 @@
     <h3>Papers</h3>
     {% for paper in papers %}
         <!-- Button trigger modal -->
-        <button onclick="show_paper_space('{{ paper.pk }}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paper-space-{{ paper.pk }}">
+        <button onclick="load_and_show_paper_space('{{ paper.pk }}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paper-space-{{ paper.pk }}">
             {{ paper }}
         </button>
         <!-- Modal -->
@@ -59,7 +59,7 @@
 
     {% for source in sources %}
         <!-- Button trigger modal -->
-        <button onclick="show_source_space('{{ source.pk }}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#source-space-{{ source.pk }}">
+        <button onclick="load_and_show_source_space('{{ source.pk }}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#source-space-{{ source.pk }}">
             {{ source }}
         </button>
         <!-- Modal -->

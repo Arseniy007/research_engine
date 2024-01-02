@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const space_id = document.querySelector('#space_id').innerHTML;
     const rename_space_form = document.querySelector('#rename_space_form');
-    
+
     rename_space_form.addEventListener('submit', event => {
         event.preventDefault();
         rename_space(rename_form, space_id);
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-function show_source_space(source_id) {
+function load_and_show_source_space(source_id) {
 
     // Source-space view url
     const url = `/source_space/${source_id}`;
