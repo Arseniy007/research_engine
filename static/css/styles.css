@@ -27,6 +27,7 @@
 }
 
 .main 
+/* For forms background-color: #111; */
 {
   margin-left: 240px; /* Same as the width of the sidebar */
   padding: 0px 10px;
@@ -144,6 +145,7 @@
 #form-section
 {
   background-image: url(../images/library-background.jpeg);
+  margin-left: 0cm;
 }
 
 #form-body

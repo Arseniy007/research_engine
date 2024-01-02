@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', function() {
+
+    set_form_validation();
+});
+
+
 function change_forms() {
     
     // Get both forms
@@ -57,4 +63,22 @@ function check_password(form_name) {
 
     // Submit the form if password is ok
     return true;
+}
+
+
+function set_form_validation() {
+
+    // Fetch all the forms
+    const forms = document.querySelectorAll('.needs-validation')
+  
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
 }
