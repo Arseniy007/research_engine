@@ -1,12 +1,19 @@
 function change_forms() {
     
-    // Hide first form
-    document.querySelector('#first_form').style.display = 'none';
+    // Get both forms
+    let first_form = document.querySelector('#first_form');
+    let second_form = document.querySelector('#second_form');
 
-    // Show second form
-    document.querySelector('#second_form').style.display = 'block';
+    // Hide one and show other
+    if (second_form.style.display === 'none') {
+        first_form.style.display = 'none';
+        second_form.style.display = 'block';
+    }
+    else {
+        second_form.style.display = 'none';
+        first_form.style.display = 'block';
+    }
 }
-
 
 function check_password(form_name) {
 

@@ -13,37 +13,43 @@ class RegisterForm(forms.Form):
         "type": "text",
         "id": "username-field",
         "class": _CLASS,
-        "autocomplete": "off"})                 
+        "autocomplete": "off",
+        "placeholder": "Username"})                 
     )
 
     first_name = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "first-name-field",
-        "class": _CLASS})
+        "class": _CLASS,
+        "placeholder": "First name"})
     )
 
     last_name = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "last-name-field",
-        "class": _CLASS})
+        "class": _CLASS,
+        "placeholder": "Last name"})
     )
 
     email = forms.EmailField(widget=forms.TextInput(attrs={
         "type": "email",
         "id": "email-field",
-        "class": _CLASS})
+        "class": _CLASS,
+        "placeholder": "Email"})
     )
 
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "password-field",
-        "class": _CLASS})
+        "class": _CLASS,
+        "placeholder": "Password"})
     )
 
     confirmation = forms.CharField(widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "confirmation-field",
-        "class": _CLASS})
+        "class": _CLASS,
+        "placeholder": "Repeat Password"})
     )
 
 
@@ -52,13 +58,15 @@ class LoginForm(forms.Form):
         "type": "text",
         "id": "username-field",
         "class": _CLASS,
-        "autocomplete": "off"})
+        "autocomplete": "off",
+        "placeholder": "Username"})
     )
 
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "password-field",
-        "class": _CLASS})
+        "class": _CLASS,
+        "placeholder": "Password"})
     )
 
 
@@ -88,13 +96,15 @@ class ForgetPasswordForm(forms.Form):
         "type": "text",
         "id": "username-field",
         "class": _CLASS,
-        "autocomplete": "off"})
+        "autocomplete": "off",
+        "placeholder": "Username"})
     )
 
     email = forms.CharField(widget=forms.EmailInput(attrs={
         "type": "email",
         "id": "email-field",
-        "class": _CLASS})
+        "class": _CLASS,
+        "placeholder": "Email"})
     )
 
 
@@ -103,19 +113,22 @@ class ForgetPasswordForm2(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "first-name-field",
-        "class": _CLASS})
+        "class": _CLASS,
+        "placeholder": "First name"})
     )
 
     last_name = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "last-name-field",
-        "class": _CLASS})
+        "class": _CLASS,
+        "placeholder": "Last name"})
     )
 
     email = forms.CharField(widget=forms.EmailInput(attrs={
         "type": "email",
         "id": "email-field",
-        "class": _CLASS})
+        "class": _CLASS,
+        "placeholder": "Email"})
     )
 
 
@@ -123,13 +136,15 @@ class ResetPasswordForm(forms.Form):
     new_password = forms.CharField(widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "password-field",
-        "class": _CLASS})
+        "class": _CLASS,
+        "placeholder": "New Password"})
     )
 
     confirmation = forms.CharField(widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "confirmation-field",
-        "class": _CLASS})
+        "class": _CLASS,
+        "placeholder": "Repeat Password"})
     )
 
 

@@ -10,3 +10,10 @@ function openNav() {
     document.getElementById("main").style.marginLeft = "0";
   }
   
+
+
+    // Hide first form
+    document.querySelector('#first_form').style.display = 'none';
+
+    // Show second form
+    document.querySelector('#second_form').style.display = 'block';

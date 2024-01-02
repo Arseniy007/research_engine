@@ -212,3 +212,24 @@ body
 {
   display: inline;
 }
+
+
+
+.gradient-custom-3 
+{
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgba(124, 125, 61, 0.5), rgba(124, 125, 61, 0.5));
+  
+  /* Chrome 26+, Safari 7+ */
+  background: linear-gradient(to right, rgba(124, 125, 61, 0.5), rgba(124, 125, 61, 0.5))
+}
+
+/* Form submit button */
+.gradient-custom-4 
+{ 
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgba(189, 138, 61, 0.944), rgba(189, 138, 61, 0.944));
+  
+  /* Chrome 26+, Safari 7+ */
+  background: linear-gradient(to right, rgba(189, 138, 61, 0.944), rgba(189, 138, 61, 0.944))
+}
