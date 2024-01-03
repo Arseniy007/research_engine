@@ -151,6 +151,12 @@ def delete_link(request, link_id):
 
 
 @login_required(redirect_field_name=None)
-def render_author_form_fields(request, author_number):
+def render_author_form_fields(request, author_number, chapter):
+    
+    # Chapter parameter is boolean (0/1). In case of True: pass "chapter-" as prefix to html tag ids, classes and names
+    if chapter:
+       chapter = "chapter-"
+    else:
+        chapter = ""
 
-    return render(request, "bookshelf/author_fields.html", {"author_number": author_number})
+    return render(request, "bookshelf/author_fields.html", {"author_number": author_number, "chapter": chapter})

@@ -7,13 +7,13 @@
 
 {% block headless %}
     <div class="author-field">
-        <div class="author" id="author-field-{{ author_number }}">
-            <label>Author Last Name: <input id="author-last_name-{{ author_number }}" name="last_name_{{ author_number }}" type="text" required></label>
-            <label>Author First Name: <input id="author-first-name-{{ author_number }}" name="first_name_{{ author_number }}" type="text"></label>
-            <label>Author Second Name: <input id="author-second-name-{{ author_number }}" name="second_name_{{ author_number }}" type="text"></label>
-            <button id="add-author-button-{{ author_number }}" type="button">Add Author(s)</button>
+        <div class="{{ chapter }}author" id="{{ chapter }}author-field-{{ author_number }}">
+            <label>Author Last Name: <input id="{{ chapter }}author-last_name-{{ author_number }}" name="{{ chapter }}last_name_{{ author_number }}" type="text" required></label>
+            <label>Author First Name: <input id="{{ chapter }}author-first-name-{{ author_number }}" name="{{ chapter }}first_name_{{ author_number }}" type="text"></label>
+            <label>Author Second Name: <input id="{{ chapter }}author-second-name-{{ author_number }}" name="{{ chapter }}second_name_{{ author_number }}" type="text"></label>
+            <button id="{{ chapter }}add-author-button-{{ author_number }}" type="button">Add Author(s)</button>
             {% if author_number != 0 %}
-                <button id="delete-author-button-{{ author_number }}" type="button">Delete Author</button>
+                <button id="{{ chapter }}delete-author-button-{{ author_number }}" type="button">Delete Author</button>
             {% endif %}
         </div>
     </div>

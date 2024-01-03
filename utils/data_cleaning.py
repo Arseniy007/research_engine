@@ -31,9 +31,9 @@ def clean_author_data(data, chapter_author=False) -> str | bool:
     authors: list = []
     for i in range(number_of_authors):
         if chapter_author:
-            last_name = data.get(f"chapter_last_name_{i}")
-            first_name = data.get(f"chapter_first_name_{i}")
-            second_name = data.get(f"chapter_second_name_{i}")
+            last_name = data.get(f"chapter-last_name_{i}")
+            first_name = data.get(f"chapter-first_name_{i}")
+            second_name = data.get(f"chapter-second_name_{i}")
         else:
             last_name = data.get(f"last_name_{i}")
             first_name = data.get(f"first_name_{i}")

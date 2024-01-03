@@ -17,3 +17,35 @@ function openNav() {
 
     // Show second form
     document.querySelector('#second_form').style.display = 'block';
+
+
+  const number_of_forms = all_forms.length;
+  for (let i = 0; i < number_of_forms; i++) {
+       all_forms[i].style.display = 'none';
+  }
+
+
+  const show_form_buttons = document.getElementsByClassName('show_form_button');
+  const number_of_buttons = show_form_buttons.length;
+  for (let i = 0; i < number_of_buttons; i++) {
+      let button = show_form_buttons[i];
+      button.addEventListener('click', () => show_and_load_form(`${button.id}_form`));
+  }
+
+
+  const forms = document.getElementsByClassName('source_form');
+  const number_of_forms1 = forms.length;
+
+  for (let i = 0; i < number_of_forms1; i++) {
+      forms[i].addEventListener('submit', () => {
+          count_and_set_authors_number(forms[i])
+      })
+  }
+
+  const submit_buttons = document.getElementsByClassName('submit_button');
+  const number_of_submit_buttons = submit_buttons.length;
+
+  for (let i = 0; i < number_of_submit_buttons; i++) {
+      const form_id = submit_buttons[i].parentNode.id;
+      submit_buttons[i].addEventListener('click', () => get_lobby_endnotes(form_id));
+  }

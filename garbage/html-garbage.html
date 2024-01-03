@@ -322,3 +322,14 @@ Don't have an account? <a href="{% url 'user_management:register' %}">Register h
     {{ form }}
     <button id="change_password_button">Change password</button>
 </form>
+
+
+<div class="chapter-author-filed">
+    <div class="chapter_author" id="chapter_author_fields_${author_number}">
+        <label>Author Last Name: <input id="chapter_author_last_name_${author_number}" name="chapter_last_name_${author_number}" type="text" required></label>
+        <label>Author First Name: <input id="chapter_author_first_name_${author_number}" name="chapter_first_name_${author_number}" type="text"></label>
+        <label>Author Second Name: <input id="chapter_author_second_name_${author_number}" name="chapter_second_name_${author_number}" type="text"></label>
+        <button id="add_chapter_author_button_${author_number}" type="button">Add Chapter Author(s)</button>
+        <button id="delete_chapter_author_button_${author_number}" type="button">Delete Author</button>
+    </div>`
+</div>
