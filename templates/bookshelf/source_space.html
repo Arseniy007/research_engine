@@ -5,10 +5,21 @@
     <script src="{% static 'js/source.js' %}"></script>
 {% endblock %}
 
-{% block body %}
+{% block headless %}
     <div id="source_space">
 
         <h3>{{ source }}</h3>
+
+        <!-- Messages -->
+        {% if messages %}
+            <div>
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
         
         <a href="{% url 'file_handling:display_source_file' source.pk %}"><h2>File</h2></a><br><br>

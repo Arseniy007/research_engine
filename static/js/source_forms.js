@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    const space_id = document.querySelector('#space_id').innerHTML;
     
     const show_form_buttons = document.getElementsByClassName('show_form_button');
     Array.from(show_form_buttons).forEach(button => {
@@ -7,14 +9,68 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const forms = document.getElementsByClassName('source_form');
     Array.from(forms).forEach(form => {
-        form.addEventListener('submit', () => count_and_set_authors_number(form));
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+            count_and_set_authors_number(form);
+            submit_source_form(form, space_id);
+        })
     })
 
+    // For lobby
     const submit_buttons = document.getElementsByClassName('submit_button');
     Array.from(submit_buttons).forEach(button => {
         button.addEventListener('click', () => get_lobby_endnotes(button.parentNode.id))
     })
 });
+
+function submit_source_form(form, space_id) {
+
+    // Add-source API route
+    const url = `/add_source/${space_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Fill opened div with new source space
+            load_and_show_new_source_space(result.url);
+        }
+        else {
+            // Redirect back to work space view in case of error
+            window.location.replace(result.url)
+        }
+    });
+}
+
+function load_and_show_new_source_space(url) {
+
+    // Send request to source-space view
+    fetch(url)
+    .then(response => handleErrors(response, url))
+    .then(function(response) {
+        // When the page is loaded convert it to text
+        return response.text()
+    })
+    .then(function(html) {
+        // Initialize the DOM parser
+        let parser = new DOMParser();
+
+        // Parse the text
+        let source_space_page = parser.parseFromString(html, "text/html");
+
+        // Get div for pasting (the one with submitted form)
+        let new_source_div = document.querySelector('#new-source-div');
+
+        // Past fetched html
+        new_source_div.innerHTML = source_space_page.querySelector('#source_space').innerHTML;
+
+        // TODO: change also title of modal (not "add new source")
+    })
+}
 
 async function show_and_load_form(form_id) {
 
@@ -37,7 +93,6 @@ async function show_and_load_form(form_id) {
 
     // Load first author field
     const author_div = form.querySelector('.author-div');
-    console.log(author_div);
     author_div.innerHTML = await render_author_field(number_of_authors);
 
     // Pre-lode next author field
@@ -164,6 +219,5 @@ function get_lobby_endnotes(form_id) {
         APA: ${result.apa_endnote}
         MLA: ${result.mla_endnote}`
         document.querySelector('#result').innerHTML = result_text;
-        
     });
 }

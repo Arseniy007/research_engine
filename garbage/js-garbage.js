@@ -49,3 +49,9 @@ function openNav() {
       const form_id = submit_buttons[i].parentNode.id;
       submit_buttons[i].addEventListener('click', () => get_lobby_endnotes(form_id));
   }
+
+
+  for (let i = 0; i < delete_quote_buttons.length; i++) {
+    let button = delete_quote_buttons[i];
+    button.addEventListener('click', () => delete_quote(button.id));
+}

@@ -2,7 +2,7 @@ import shutil
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.urls import reverse
 from .endnotes import get_endnotes
 from .forms import *
@@ -40,9 +40,6 @@ def source_space(request, source_id):
 def add_source(request, space_id):
     """Add new source info to the work space"""
     
-    # TODO
-    # instead of redirecting to space view - load it with js and open its modal window
-
     # Figure out which of four forms was uploaded
     form = get_type_of_source_form(request.POST)
     
@@ -65,16 +62,18 @@ def add_source(request, space_id):
                 else:
                     display_success_message(request)
                     new_source_pk = create_source(request.user, space, form, author, chapter_author=chapter_author)
-                    return redirect(reverse("bookshelf:source_space", args=(new_source_pk,)))
+                    print(new_source_pk)
+                    return JsonResponse({"status": "ok", "url": reverse("bookshelf:source_space", args=(new_source_pk,))})
             else:
                 display_success_message(request)
                 new_source_pk = create_source(request.user, space, form, author)
-                return redirect(reverse("bookshelf:source_space", args=(new_source_pk,)))
-    
+                print(new_source_pk)
+                return JsonResponse({"status": "ok", "url": reverse("bookshelf:source_space", args=(new_source_pk,))})
+            
     # Redirect back to work space
     display_error_message(request)
-    return redirect(reverse("work_space:space_view", args=(space_id,)))
-    
+    return JsonResponse({"status": "error", "url": reverse("work_space:space_view", args=(space_id,))})
+
 
 @source_ownership_required
 @login_required(redirect_field_name=None)

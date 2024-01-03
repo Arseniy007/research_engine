@@ -33,10 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
         alter_endnote(alter_endnote_form, source_id);
       });
 
-    for (let i = 0; i < delete_quote_buttons.length; i++) {
-        let button = delete_quote_buttons[i];
+    Array.from(delete_quote_buttons).forEach(button => {
         button.addEventListener('click', () => delete_quote(button.id));
-    }
+    })
 });
 
 function alter_source_info(form, source_id) {
