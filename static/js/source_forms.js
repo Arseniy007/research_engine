@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (let i = 0; i < number_of_submit_buttons; i++) {
         const form_id = submit_buttons[i].parentNode.id;
-        console.log(form_id);
         submit_buttons[i].addEventListener('click', () => get_lobby_endnotes(form_id));
     }
 });
@@ -46,7 +45,7 @@ function get_lobby_endnotes(form_id) {
         MLA: ${result.mla_endnote}`
         document.querySelector('#result').innerHTML = result_text;
         
-      });
+    });
 }
 
 function show_and_load_form(form_id) {
@@ -64,7 +63,7 @@ function show_and_load_form(form_id) {
         show_this_form_button.addEventListener('click', () => show_and_load_form(`${button_id}_form`));
     })
 
-    // Set number of authors to 1
+    // Set number of authors to 0
     let number_of_authors = 0;
     let number_of_chapter_authors = 0;
 
@@ -89,6 +88,7 @@ function load_new_fields (author_div, author_number) {
         delete_author_button.addEventListener('click', function() {
             const author_fields = author_div.querySelector(`#author_fields_${author_number - 1}`);
             author_fields.remove();
+            document.querySelector(`#add_author_button_${author_number - 2}`).style.display = 'block';
         })
     }
     author_number++;
@@ -96,6 +96,7 @@ function load_new_fields (author_div, author_number) {
         const new_fields = document.createElement('div');
         new_fields.innerHTML = create_author_fields(author_number);
         author_div.append(new_fields);
+        add_author_button.style.display = 'none';
         load_new_fields(author_div, author_number);
     })
 }

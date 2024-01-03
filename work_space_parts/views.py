@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.urls import reverse
 from .forms import AlterCommentForm, AlterLinkForm, AlterNoteForm, NewCommentForm, NewLinkForm, NewNoteForm
 from utils.decorators import comment_authorship_required, link_ownership_required, note_authorship_required, post_request_required
@@ -147,3 +148,9 @@ def delete_link(request, link_id):
     link = check_space_link(link_id, request.user)
     link.delete()
     return JsonResponse({"status": "ok"})
+
+
+@login_required(redirect_field_name=None)
+def render_author_form_fields(request, author_number):
+
+    return render(request, "bookshelf/author_fields.html", {"author_number": author_number})

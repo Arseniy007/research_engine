@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block script %}
+    
+{% endblock %}
+
+{% block headless %}
+
+
+    <div class="author" id="author-field-{{ author_number }}">
+        <label>Author Last Name: <input id="author-last_name-{{ author_number }}" name="last_name_{{ author_number }}" type="text" required></label>
+        <label>Author First Name: <input id="author-first-name-{{ author_number }}" name="first_name_{{ author_number }}" type="text"></label>
+        <label>Author Second Name: <input id="author-second-name-{{ author_number }}" name="second_name_{{ author_number }}" type="text"></label>
+        <button id="add-author-button-{{ author_number }}" type="button">Add Author(s)</button>
+        {% if author_number != 0 %}
+            <button id="delete-author-button-{{ author_number }}" type="button">Delete Author</button>
+        {% endif %}
+    </div>
+
+
+
+
+{% endblock %}
+
+

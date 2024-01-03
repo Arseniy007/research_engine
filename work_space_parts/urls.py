@@ -12,5 +12,6 @@ urlpatterns = [
     path("alter_note/<int:note_id>", views.alter_note, name="alter_note"),
     path("add_link/<int:space_id>", views.add_link, name="add_link"),
     path("delete_link/<int:link_id>", views.delete_link, name="delete_link"),
-    path("alter_link/<int:link_id>", views.alter_link, name="alter_link")
+    path("alter_link/<int:link_id>", views.alter_link, name="alter_link"),
+    path("render_author_field/<int:author_number>", views.render_author_form_fields, name="render_author_fields")
 ]
