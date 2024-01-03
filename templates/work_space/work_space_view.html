@@ -109,11 +109,10 @@
                         <option value="webpage-form">Webpage</option>
                     </select><br><br><br>
 
-
-
-
-
-                    
+                    <!-- TODO: 1) pass div from author_fields here -->
+                    <!-- TODO: 2) make similar to user_management form layout -->
+                    <!-- TODO: 3) figure out what to do with author fields -->
+                    <!-- TODO: 4) Validation and float labels! -->
 
                     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book-form" class="source-form needs-validation" novalidate>
                         <div class="author-div"></div>
@@ -121,18 +120,7 @@
                         {{ book_form.as_p }}
                         <button value="book" name="book" type="submit">Add Book</button>
                     </form>
-                                     
 
-
-     
-
-
-
-
-
-
-                
-  
                     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article-form" class="source-form">
                         <div class="author-div"></div>
                         {% csrf_token %} 
