@@ -55,3 +55,19 @@ function openNav() {
     let button = delete_quote_buttons[i];
     button.addEventListener('click', () => delete_quote(button.id));
 }
+
+
+
+const show_form_buttons1 = document.getElementsByClassName('show_form_button');
+Array.from(show_form_buttons1).forEach(button => {
+    button.addEventListener('click', () => show_and_load_form(`${button.id}_form`));
+})
+
+
+// Hide this form if button was clicked second time:
+const button_id = form_id.split('_')[0];
+const show_this_form_button = document.querySelector(`#${button_id}`);
+show_this_form_button.addEventListener('click', () => {
+    hide_all_forms();
+    show_this_form_button.addEventListener('click', () => show_and_load_form(`${button_id}_form`));
+})

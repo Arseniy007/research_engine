@@ -131,8 +131,7 @@
     background-color: #ffe3e3;
 }
 
-
-#book_form, #article_form, #chapter_form, #webpage_form, #second_author
+.source-form
 {
     display: none;
 }

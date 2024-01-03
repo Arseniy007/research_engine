@@ -101,26 +101,46 @@
                 </div>
                 <div class="modal-body" id="new-source-div">
 
-                    <button class="show_form_button" id="book" type="button">book</button>
-                    <button class="show_form_button" id="article" type="button">article</button>
-                    <button class="show_form_button" id="chapter" type="button">chapter</button>
-                    <button class="show_form_button" id="webpage" type="button">webpage</button><br><br><br>
-                
-                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book_form" class="source_form">
+                    <select class="form-select" id="source-type-selector">
+                        <option value="" selected>Choose type of source</option>
+                        <option value="book-form">Book</option>
+                        <option value="article-form">Article</option>
+                        <option value="chapter-form">Chapter in a book</option>
+                        <option value="webpage-form">Webpage</option>
+                    </select><br><br><br>
+
+
+
+
+
+                    
+
+                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book-form" class="source-form">
                         <div class="author-div"></div>
                         {% csrf_token %} 
                         {{ book_form.as_p }}
                         <button value="book" name="book" type="submit">Add Book</button>
                     </form>
+                                     
 
-                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article_form" class="source_form">
+
+     
+
+
+
+
+
+
+                
+  
+                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article-form" class="source-form">
                         <div class="author-div"></div>
                         {% csrf_token %} 
                         {{ article_form.as_p }}
                         <button value="article" name="article" type="submit">Add Article</button>
                     </form>
 
-                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter_form" class="source_form">
+                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter-form" class="source-form">
                         <div id="chapter-author-div"></div>
                         {% csrf_token %}
                         {{ chapter_form.as_p }}
@@ -128,7 +148,7 @@
                         <button value="chapter" name="chapter" type="submit">Add Chapter</button>
                     </form>
 
-                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="webpage_form" class="source_form">
+                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="webpage-form" class="source-form">
                         <div class="author-div"></div>
                         {% csrf_token %} 
                         {{ webpage_form.as_p }}
@@ -147,6 +167,14 @@
             </div>
         </div>
     </div><br><br>
+
+
+
+    <h2>Form</h2>
+
+
+
+
 
 
 
