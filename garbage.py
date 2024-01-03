@@ -3335,6 +3335,27 @@ def add_source(request, space_id):
     display_error_message(request)
     return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
     return redirect(reverse("work_space:space_view", args=(space_id,)))
+
+
+
+    @post_request_required
+@login_required(redirect_field_name=None)
+def create_paper(request, space_id):
+    
+    form = NewPaperForm(request.POST)
+
+    if form.is_valid():
+        # Save new paper to db
+        space = check_work_space(space_id, request.user)
+        new_paper = form.save_paper(space, request.user)
+        display_success_message(request)
+
+        # Redirect user to the new paper-space
+        return redirect(reverse("paper_work:paper_space", args=(new_paper.pk,)))
+    
+    display_error_message(request)
+    return JsonResponse({"status": "ok", "url": reverse("work_space:space_view", args=(space_id,))})
+    return redirect(reverse("work_space:space_view", args=(space_id,)))
     
 
 """

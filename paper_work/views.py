@@ -50,11 +50,11 @@ def create_paper(request, space_id):
         display_success_message(request)
 
         # Redirect user to the new paper-space
-        return redirect(reverse("paper_work:paper_space", args=(new_paper.pk,)))
+        return JsonResponse({"status": "ok", "url": reverse("paper_work:paper_space", args=(new_paper.pk,))})
     
     display_error_message(request)
-    return redirect(reverse("work_space:space_view", args=(space_id,)))
-        
+    return JsonResponse({"status": "error", "url": reverse("work_space:space_view", args=(space_id,))})
+
 
 @paper_authorship_required
 @login_required(redirect_field_name=None)
