@@ -71,6 +71,9 @@ function show_and_load_form(form_id) {
     author_div.innerHTML = create_author_fields(number_of_authors);
     load_new_fields(author_div, number_of_authors);
 
+
+
+    
     if (form_id === 'chapter_form') {
        
         // Create separate chapter_author fields for chapter form
@@ -79,6 +82,9 @@ function show_and_load_form(form_id) {
         load_new_chapter_fields(chapter_author_div, number_of_chapter_authors);
     }
 }
+
+
+
 
 function load_new_fields (author_div, author_number) {
     const add_author_button = author_div.querySelector(`#add_author_button_${author_number}`);
@@ -101,6 +107,23 @@ function load_new_fields (author_div, author_number) {
     })
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function load_new_chapter_fields(chapter_author_div, author_number) {
     const add_chapter_author_button = chapter_author_div.querySelector(`#add_chapter_author_button_${author_number}`);
     const delete_chapter_author_button = chapter_author_div.querySelector(`#delete_chapter_author_button_${author_number}`);
@@ -120,6 +143,22 @@ function load_new_chapter_fields(chapter_author_div, author_number) {
     })
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function count_and_set_authors_number(form) {
     if (form.id === "chapter_form") {
         const final_number_of_chapter_authors = form.getElementsByClassName('chapter_author').length;
@@ -128,6 +167,7 @@ function count_and_set_authors_number(form) {
     const final_number_of_authors = form.getElementsByClassName('author').length;
     form.querySelector('.final_number_of_authors').value = final_number_of_authors;
 }
+
 
 function hide_all_forms() {
     let all_forms = document.getElementsByClassName('source_form');

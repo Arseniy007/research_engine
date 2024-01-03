@@ -48,14 +48,11 @@ async function show_and_load_form(form_id) {
 
     // Load first author field
     const author_div = form.querySelector('.author_div');
-
     author_div.innerHTML = await render_author_field(number_of_authors);
 
-    //let ans = render_author_field(number_of_authors);
-    //console.log(ans)
+    // Pre-lode next author field
+    load_new_author_field(author_div, number_of_authors);
 
-
-    //load_new_fields(author_div, number_of_authors);
 
     //if (form_id === 'chapter_form') {
        
@@ -68,9 +65,47 @@ async function show_and_load_form(form_id) {
 
 
 
+function load_new_author_field (author_div, author_number) {
 
+    // Get adding / deleting buttons
+    const add_author_button = author_div.querySelector(`#add-author-button-${author_number}`);
+    const delete_author_button = author_div.querySelector(`#delete-author-button-${author_number}`);
 
+    // Set event listener for delete button
+    if (delete_author_button) {
+        delete_author_button.addEventListener('click', function() {
 
+            // Remove current author field
+            author_div.querySelector(`#author-field-${author_number - 1}`).remove();
+
+            // Show both buttons for previous field again
+            author_div.querySelector(`#add-author-button-${author_number - 2}`).style.display = 'block';
+            const previous_delete_button = author_div.querySelector(`#delete-author-button-${author_number - 2}`);
+            if (previous_delete_button) {
+                previous_delete_button.style.display = 'block';
+            }
+        })
+    }
+    author_number++;
+
+    // Set event listener for add button
+    add_author_button.addEventListener('click', async function() {
+
+        // Create new div and render new author field into it
+        const new_author_div = document.createElement('div');
+        new_author_div.innerHTML = await render_author_field(author_number);
+        author_div.append(new_author_div);
+
+        // Hide both delete and add buttons
+        add_author_button.style.display = 'none';
+
+        if (delete_author_button) {
+            delete_author_button.style.display = 'none';
+        }
+        // Recursive call
+        load_new_author_field(author_div, author_number);
+    })
+}
 
 async function render_author_field(author_number) {
 
@@ -91,9 +126,14 @@ async function render_author_field(author_number) {
         let author_field_page = parser.parseFromString(html, "text/html");
 
         // Return author-field-div
-        return author_field_page.querySelector(`#author-field-${author_number}`).innerHTML;
+        return author_field_page.querySelector('.author-field').innerHTML;
     })
 }
+
+
+
+
+
 
 
 
@@ -105,4 +145,13 @@ function hide_all_forms() {
     for (let i = 0; i < number_of_forms; i++) {
         all_forms[i].style.display = 'none';
     }
+}
+
+function count_and_set_authors_number(form) {
+    if (form.id === "chapter_form") {
+        const final_number_of_chapter_authors = form.getElementsByClassName('chapter_author').length;
+        form.querySelector('.final_number_of_chapter_authors').value = final_number_of_chapter_authors;
+    }
+    const final_number_of_authors = form.getElementsByClassName('author').length;
+    form.querySelector('.final_number_of_authors').value = final_number_of_authors;
 }
