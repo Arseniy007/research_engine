@@ -115,7 +115,7 @@
 
                     
 
-                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book-form" class="source-form">
+                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book-form" class="source-form needs-validation" novalidate>
                         <div class="author-div"></div>
                         {% csrf_token %} 
                         {{ book_form.as_p }}

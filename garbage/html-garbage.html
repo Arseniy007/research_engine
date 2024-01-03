@@ -371,3 +371,37 @@ Don't have an account? <a href="{% url 'user_management:register' %}">Register h
 <button class="show_form_button" id="article" type="button">article</button>
 <button class="show_form_button" id="chapter" type="button">chapter</button>
 <button class="show_form_button" id="webpage" type="button">webpage</button><br><br><br>
+
+
+
+<label>Author Last Name: <input id="{{ chapter }}author-last_name-{{ author_number }}" name="{{ chapter }}last_name_{{ author_number }}" type="text" required></label>
+<label>Author First Name: <input id="{{ chapter }}author-first-name-{{ author_number }}" name="{{ chapter }}first_name_{{ author_number }}" type="text"></label>
+<label>Author Second Name: <input id="{{ chapter }}author-second-name-{{ author_number }}" name="{{ chapter }}second_name_{{ author_number }}" type="text"></label>
+
+
+<div class="form-outline mb-4 row">
+    <div class="col-md">
+        <div class="form-floating">
+            <input id="{{ chapter }}author-last_name-{{ author_number }}" name="{{ chapter }}last_name_{{ author_number }}" type="text" required>
+            <label class="form-label" for="{{ chapter }}author-last_name-{{ author_number }}">Last Name</label>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide authors last name.</div>
+        </div>
+    </div>
+    <div class="col-md">
+        <div class="form-floating">
+            <input id="{{ chapter }}author-first-name-{{ author_number }}" name="{{ chapter }}first_name_{{ author_number }}" type="text">
+            <label class="form-label" for="{{ chapter }}author-first-name-{{ author_number }}">First Name</label>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide authors first name.</div>
+        </div>
+    </div>
+    <div class="col-md">
+        <div class="form-floating">
+            <input id="{{ chapter }}author-second-name-{{ author_number }}" name="{{ chapter }}second_name_{{ author_number }}" type="text">
+            <label class="form-label" for="{{ chapter }}author-second-name-{{ author_number }}">Second Name</label>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide authors second name.</div>
+        </div>
+    </div>
+</div>
