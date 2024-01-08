@@ -109,35 +109,85 @@
                         <option value="webpage-form">Webpage</option>
                     </select><br><br><br>
 
-                    <!-- TODO: 1) pass div from author_fields here -->
-                    <!-- TODO: 2) make similar to user_management form layout -->
-                    <!-- TODO: 3) figure out what to do with author fields -->
-                    <!-- TODO: 4) Validation and float labels! -->
 
-                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book-form" class="source-form needs-validation" novalidate>
-                        <div class="author-div"></div>
+
+                    <div class="source-form" id="book-form">
+                        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+                            <div class="container h-100">
+                                <div class="row d-flex justify-content-center align-items-center h-100">
+                                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                                        <div class="card" style="border-radius: 15px;">
+                                            <div class="card-body p-5" id="form-body">
+                                                <h2 class="text-uppercase text-center mb-5" id="form-header">New Book</h2>
+                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="needs-validation" novalidate>
+                                                    {% csrf_token %} 
+                                                    <div class="form-outline mb-4 row">
+                                                        <div class="col-md">
+                                                            <div class="form-floating">
+                                                                {{ book_form.title }}
+                                                                <label class="form-label" for="title-field">Title</label>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">Please provide books title.</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md">
+                                                            <div class="form-floating">
+                                                                {{ book_form.publishing_house }}
+                                                                <label class="form-label" for="publishing-house-field">Publishing House</label>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">Please provide books publishing house.</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button value="book" name="book" type="submit">Add Book</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+
+
+
+
+
+
+                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book-form1" class="source-form needs-validation" novalidate>
+                        <div class="author-div1"></div>
                         {% csrf_token %} 
                         {{ book_form.as_p }}
                         <button value="book" name="book" type="submit">Add Book</button>
                     </form>
 
+
+
+
+                    <!-- TODO: 1) pass div from author_fields here -->
+                    <!-- TODO: 2) make similar to user_management form layout -->
+                    <!-- TODO: 3) figure out what to do with author fields -->
+                    <!-- TODO: 4) Validation and float labels! -->
+
+
+
                     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article-form" class="source-form">
-                        <div class="author-div"></div>
+                        <div class="author-div1"></div>
                         {% csrf_token %} 
                         {{ article_form.as_p }}
                         <button value="article" name="article" type="submit">Add Article</button>
                     </form>
 
                     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter-form" class="source-form">
-                        <div id="chapter-author-div"></div>
+                        <div id="chapter-author-div1"></div>
                         {% csrf_token %}
                         {{ chapter_form.as_p }}
-                        <div class="author-div"></div>
+                        <div class="author-div1"></div>
                         <button value="chapter" name="chapter" type="submit">Add Chapter</button>
                     </form>
 
                     <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="webpage-form" class="source-form">
-                        <div class="author-div"></div>
+                        <div class="author-div1"></div>
                         {% csrf_token %} 
                         {{ webpage_form.as_p }}
                         <button value="webpage" name="webpage" type="submit">Add Webpage</button>

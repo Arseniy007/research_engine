@@ -16,7 +16,7 @@ class RegisterForm(forms.Form):
         "autocomplete": "off",
         "placeholder": "Username"})                 
     )
-
+    
     first_name = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "first-name-field",

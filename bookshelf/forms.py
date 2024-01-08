@@ -7,57 +7,186 @@ from utils.verification import check_link
 EXCLUDE_FIELDS = ("user", "work_space", "real_type", "file", "link",)
 
 
-# Do I need this?
-class FieldClass:
-    book_class = "book"
-    article_class = "article"
-    chapter_class = "chapter"
-    webpage_class = "webpage"
+class SourceTypes:
+    book = forms.CharField(widget=forms.HiddenInput(attrs={"value": "book"}))
+    article = forms.CharField(widget=forms.HiddenInput(attrs={"value": "article"}))
+    chapter = forms.CharField(widget=forms.HiddenInput(attrs={"value": "chapter"}))
+    webpage = forms.CharField(widget=forms.HiddenInput(attrs={"value": "webpage"}))
+
+
+_CLASS = "form-control"
 
 
 class CommonFields(forms.Form):
     number_of_authors = forms.IntegerField(widget=forms.HiddenInput(attrs={
         "name": "number_of_authors", 
-        "class": "final_number_of_authors"}))
+        "class": "final_number_of_authors"})
+    )
+
+    year = forms.IntegerField(widget=forms.NumberInput(attrs={
+        "type": "number",
+        "id": "year-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Publishing year"})
+    )
 
 
 class BookForm(CommonFields):
-    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "book"}))
-    title = forms.CharField()
-    publishing_house = forms.CharField()
-    year = forms.CharField()
+    source_type = SourceTypes.book
+
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "title-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Book title"})
+    )
+
+    publishing_house = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "publishing-house-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Publishing House"})
+    )
 
 
 class ArticleForm(CommonFields):
-    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "article"}))
-    journal_title = forms.CharField()
-    article_title = forms.CharField()
-    volume = forms.IntegerField()
-    issue = forms.IntegerField()
-    pages = forms.CharField()
-    year = forms.CharField()
-    link_to_journal = forms.CharField()
+    source_type = SourceTypes.article
+
+    journal_title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "journal-title-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Journal Title"})
+    )
+
+    article_title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "article-title-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Article Title"})
+    )
+
+    volume = forms.IntegerField(widget=forms.NumberInput(attrs={
+        "type": "number",
+        "id": "volume-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Journal Volume"})
+    )
+
+    issue = forms.IntegerField(widget=forms.NumberInput(attrs={
+        "type": "number",
+        "id": "issue-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Journal Issue"})
+    )
+
+    pages = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "pages-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Pages range"})
+    )
+
+    link_to_journal = forms.URLField(widget=forms.URLInput(attrs={
+        "type": "url",
+        "id": "link-to-journal-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Link to journal"})
+    )
 
 
 class ChapterForm(CommonFields):
     number_of_chapter_authors = forms.IntegerField(widget=forms.HiddenInput(attrs={
         "name": "number_of_chapter_authors", 
-        "class": "final_number_of_chapter_authors"}))
-    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "chapter"}))
-    chapter_title = forms.CharField()
-    book_title = forms.CharField()
-    publishing_house = forms.CharField()
-    year = forms.CharField()
-    edition = forms.CharField()
-    pages = forms.CharField()
+        "class": "final_number_of_chapter_authors"})
+    )
+
+    source_type = SourceTypes.chapter
+
+    book_title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "book-title-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Book Title"})
+    )
+
+    chapter_title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "chapter-title-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Chapter Title"})
+    )
+
+    publishing_house = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "chapter-publishing-house-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Publishing House"})
+    )
+
+    edition = forms.IntegerField(widget=forms.NumberInput(attrs={
+        "type": "number",
+        "id": "edition-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Book Edition"})
+    )
+
+    pages = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "chapter-pages-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Pages range"})
+    )
 
 
 class WebpageForm(CommonFields):
-    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "webpage"}))
-    page_title = forms.CharField()
-    website_title = forms.CharField()
-    page_url = forms.CharField()
-    date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
+    source_type = SourceTypes.webpage
+
+    page_title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "page-title-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Page Title"})
+    )
+
+    website_title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "website-title-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Website Title"})
+    )
+
+    page_url = forms.URLField(widget=forms.URLInput(attrs={
+        "type": "url",
+        "id": "page-url-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Webpage url"})
+    )
+
+    date = forms.DateField(widget=forms.DateInput(attrs={
+        "type": "date",
+        "id": "date-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Date"})
+    )
 
 
 class AddLinkForm(forms.Form):
@@ -129,7 +258,7 @@ class AlterBookForm(forms.ModelForm):
         fields = "__all__"
         exclude = EXCLUDE_FIELDS
     
-    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "book"}))
+    source_type = SourceTypes.book
 
     def set_initials(self, book: Book):
         for field in self.fields:
@@ -144,7 +273,7 @@ class AlterArticleForm(forms.ModelForm):
         fields = "__all__"
         exclude = EXCLUDE_FIELDS
     
-    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "article"}))
+    source_type = SourceTypes.article
 
     def set_initials(self, article: Article):
         for field in self.fields:
@@ -159,7 +288,7 @@ class AlterChapterForm(forms.ModelForm):
         fields = "__all__"
         exclude = EXCLUDE_FIELDS
 
-    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "chapter"}))
+    source_type = SourceTypes.chapter
 
     def set_initials(self, chapter: Chapter):
         for field in self.fields:
@@ -174,7 +303,7 @@ class AlterWebpageForm(forms.ModelForm):
         fields = "__all__"
         exclude = EXCLUDE_FIELDS
 
-    source_type = forms.CharField(widget=forms.HiddenInput(attrs={"value": "webpage"}))
+    source_type = SourceTypes.webpage
 
     def set_initials(self, webpage: Webpage):
         for field in self.fields:

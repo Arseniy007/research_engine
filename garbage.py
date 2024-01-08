@@ -3356,6 +3356,15 @@ def create_paper(request, space_id):
     display_error_message(request)
     return JsonResponse({"status": "ok", "url": reverse("work_space:space_view", args=(space_id,))})
     return redirect(reverse("work_space:space_view", args=(space_id,)))
+
+
+
+    # Do I need this?
+    class FieldClass:
+    book_class = "book"
+    article_class = "article"
+    chapter_class = "chapter"
+    webpage_class = "webpage"
     
 
 """
