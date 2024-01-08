@@ -100,17 +100,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="new-source-div">
-
                     <select class="form-select" id="source-type-selector">
                         <option value="" selected>Choose type of source</option>
                         <option value="book-form">Book</option>
                         <option value="article-form">Article</option>
                         <option value="chapter-form">Chapter in a book</option>
                         <option value="webpage-form">Webpage</option>
-                    </select><br><br><br>
-
-
-
+                    </select><br>
                     <div class="source-form" id="book-form">
                         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
                             <div class="container h-100">
@@ -120,7 +116,8 @@
                                             <div class="card-body p-5" id="form-body">
                                                 <h2 class="text-uppercase text-center mb-5" id="form-header">New Book</h2>
                                                 <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="needs-validation" novalidate>
-                                                    {% csrf_token %} 
+                                                    {% csrf_token %}
+                                                    {{ book_form.source_type }}
                                                     <div class="form-outline mb-4 form-floating">         
                                                         {{ book_form.title }}
                                                         <label class="form-label" for="title-field">Title</label>
@@ -150,8 +147,6 @@
                             </div>
                         </div>    
                     </div>
-
-
                     <div class="source-form" id="article-form">
                         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
                             <div class="container h-100">
@@ -161,7 +156,8 @@
                                             <div class="card-body p-5" id="form-body">
                                                 <h2 class="text-uppercase text-center mb-5" id="form-header">New Article</h2>
                                                 <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="needs-validation" novalidate>
-                                                    {% csrf_token %} 
+                                                    {% csrf_token %}
+                                                    {{ article_form.source_type }}
                                                     <div class="form-outline mb-4 form-floating">         
                                                         {{ article_form.article_title }}
                                                         <label class="form-label" for="article-title-field">Article Title</label>
@@ -213,62 +209,126 @@
                             </div>
                         </div>    
                     </div>
-
-
-
-
-
-
-  
-
-
-
-
+                    <div class="source-form" id="chapter-form">
+                        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+                            <div class="container h-100">
+                                <div class="row d-flex justify-content-center align-items-center h-100">
+                                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                                        <div class="card" style="border-radius: 15px;">
+                                            <div class="card-body p-5" id="form-body">
+                                                <h2 class="text-uppercase text-center mb-5" id="form-header">New Chapter</h2>
+                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="needs-validation" novalidate>
+                                                    {% csrf_token %}
+                                                    {{ chapter_form.source_type }}
+                                                    <div class="form-outline mb-4 form-floating">         
+                                                        {{ chapter_form.chapter_title }}
+                                                        <label class="form-label" for="chapter-title-field">Chapter Title</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide chapter title.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ chapter_form.book_title }}
+                                                        <label class="form-label" for="book-title-field">Book title</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide book title.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ chapter_form.publishing_house }}
+                                                        <label class="form-label" for="chapter-publishing-house-field">Publishing House</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide publishing house.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 row">
+                                                        <div class="col-md">
+                                                            <div class="form-floating">
+                                                                {{ chapter_form.edition }}
+                                                                <label class="form-label" for="edition-field">Edition</label>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">Please provide book edition.</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md">
+                                                            <div class="form-floating">
+                                                                {{ chapter_form.pages }}
+                                                                <label class="form-label" for="chapter-pages-field">Pages</label>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">Please provide chapters pages.</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ chapter_form.year }}
+                                                        <label class="form-label" for="chapter-year-field">Year</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide publishing year.</div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-center">
+                                                        <input type="submit" value="Add Chapter" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="source-form" id="webpage-form">
+                        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+                            <div class="container h-100">
+                                <div class="row d-flex justify-content-center align-items-center h-100">
+                                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                                        <div class="card" style="border-radius: 15px;">
+                                            <div class="card-body p-5" id="form-body">
+                                                <h2 class="text-uppercase text-center mb-5" id="form-header">New Webpage</h2>
+                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="needs-validation" novalidate>
+                                                    {% csrf_token %}
+                                                    {{ webpage_form.source_type }}
+                                                    <div class="form-outline mb-4 form-floating">         
+                                                        {{ webpage_form.page_title }}
+                                                        <label class="form-label" for="page-title-field">Page Title</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide page title.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ webpage_form.website_title }}
+                                                        <label class="form-label" for="website-title-field">Website title</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide website title.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ webpage_form.page_url }}
+                                                        <label class="form-label" for="page-url-field">Page URL</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide page url.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ webpage_form.date }}
+                                                        <label class="form-label" for="date-field">Date</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide date.</div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-center">
+                                                        <input type="submit" value="Add book" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
                     <!-- TODO: 1) pass div from author_fields here -->
                     <!-- TODO: 2) make similar to user_management form layout -->
                     <!-- TODO: 3) figure out what to do with author fields -->
                     <!-- TODO: 4) Validation and float labels! -->
-
-
-                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book-form1" class="source-form needs-validation" novalidate>
-                        <div class="author-div1"></div>
-                        {% csrf_token %} 
-                        {{ book_form.as_p }}
-                        <button value="book" name="book" type="submit">Add Book</button>
-                    </form>
-
-
-                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article-form" class="source-form">
-                        <div class="author-div1"></div>
-                        {% csrf_token %} 
-                        {{ article_form.as_p }}
-                        <button value="article" name="article" type="submit">Add Article</button>
-                    </form>
-
-                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter-form" class="source-form">
-                        <div id="chapter-author-div1"></div>
-                        {% csrf_token %}
-                        {{ chapter_form.as_p }}
-                        <div class="author-div1"></div>
-                        <button value="chapter" name="chapter" type="submit">Add Chapter</button>
-                    </form>
-
-                    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="webpage-form" class="source-form">
-                        <div class="author-div1"></div>
-                        {% csrf_token %} 
-                        {{ webpage_form.as_p }}
-                        <button value="webpage" name="webpage" type="submit">Add Webpage</button>
-                    </form>
-
                 </div>
                 <div class="modal-footer">
+                    <!-- TODO -->
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Understood</button>
                 </div>
-
-
-
-
             </div>
         </div>
     </div><br><br>
