@@ -4,6 +4,8 @@ from research_engine.constants import ACCEPTED_UPLOAD_FORMATS
 from utils.verification import check_link
 
 
+_CLASS = "form-control"
+
 EXCLUDE_FIELDS = ("user", "work_space", "real_type", "file", "link",)
 
 
@@ -14,21 +16,10 @@ class SourceTypes:
     webpage = forms.CharField(widget=forms.HiddenInput(attrs={"value": "webpage"}))
 
 
-_CLASS = "form-control"
-
-
 class CommonFields(forms.Form):
     number_of_authors = forms.IntegerField(widget=forms.HiddenInput(attrs={
         "name": "number_of_authors", 
         "class": "final_number_of_authors"})
-    )
-
-    year = forms.IntegerField(widget=forms.NumberInput(attrs={
-        "type": "number",
-        "id": "year-field",
-        "class": _CLASS,
-        "autocomplete": "off",
-        "placeholder": "Publishing year"})
     )
 
 
@@ -49,6 +40,14 @@ class BookForm(CommonFields):
         "class": _CLASS,
         "autocomplete": "off",
         "placeholder": "Publishing House"})
+    )
+
+    year = forms.IntegerField(widget=forms.NumberInput(attrs={
+        "type": "number",
+        "id": "book-year-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Publishing year"})
     )
 
 
@@ -89,13 +88,13 @@ class ArticleForm(CommonFields):
 
     pages = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
-        "id": "pages-field",
+        "id": "article-pages-field",
         "class": _CLASS,
         "autocomplete": "off",
         "placeholder": "Pages range"})
     )
 
-    link_to_journal = forms.URLField(widget=forms.URLInput(attrs={
+    link_to_journal = forms.URLField(required=False, widget=forms.URLInput(attrs={
         "type": "url",
         "id": "link-to-journal-field",
         "class": _CLASS,
@@ -150,6 +149,14 @@ class ChapterForm(CommonFields):
         "class": _CLASS,
         "autocomplete": "off",
         "placeholder": "Pages range"})
+    )
+
+    year = forms.IntegerField(widget=forms.NumberInput(attrs={
+        "type": "number",
+        "id": "chapter-year-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Publishing year"})
     )
 
 

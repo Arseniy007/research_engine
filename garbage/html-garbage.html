@@ -405,3 +405,31 @@ Don't have an account? <a href="{% url 'user_management:register' %}">Register h
         </div>
     </div>
 </div>
+
+<button value="book" name="book" type="submit">Add Book</button>
+
+
+<div class="form-outline mb-4 row">
+    <div class="col-md">
+        <div class="form-floating">
+            {{ book_form.title }}
+            <label class="form-label" for="title-field">Title</label>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide books title.</div>
+        </div>
+    </div>
+    <div class="col-md">
+        <div class="form-floating">
+            {{ book_form.publishing_house }}
+            <label class="form-label" for="publishing-house-field">Publishing House</label>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide books publishing house.</div>
+        </div>
+    </div>
+</div>
+<div class="form-outline mb-4 form-floating">
+    {{ book_form.year }}
+    <label class="form-label" for="book-year-field">Year</label>
+    <div class="valid-feedback">Looks good!</div>
+    <div class="invalid-feedback">Please provide publishing year.</div>
+</div>
