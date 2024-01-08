@@ -147,7 +147,14 @@
   margin-left: 0cm;
 }
 
-#form-body
+.form-body
 {
-  background-color: rgba(189, 138, 61, 0.363)
+  background-color: rgba(189, 138, 61, 0.363);
+}
+
+.form-card 
+{
+ 
+  margin: 0 auto;
+  text-align: center;
 }

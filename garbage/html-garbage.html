@@ -450,7 +450,7 @@ Don't have an account? <a href="{% url 'user_management:register' %}">Register h
 </form>
 
 <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter-form1" class="source-form">
-    <div id="chapter-author-div1"></div>
+    <div id="chapter-author-div"></div>
     {% csrf_token %}
     {{ chapter_form.as_p }}
     <div class="author-div1"></div>
@@ -463,3 +463,6 @@ Don't have an account? <a href="{% url 'user_management:register' %}">Register h
     {{ webpage_form.as_p }}
     <button value="webpage" name="webpage" type="submit">Add Webpage</button>
 </form>
+
+
+<div class="col-md-12 col-md-9 col-lg-7 col-xl-6"></div>

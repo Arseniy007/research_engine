@@ -71,3 +71,10 @@ show_this_form_button.addEventListener('click', () => {
     hide_all_forms();
     show_this_form_button.addEventListener('click', () => show_and_load_form(`${button_id}_form`));
 })
+
+
+return author_field_page.querySelector('.author-field').innerHTML;
+
+return author_field_page.querySelector('.form-body').innerHTML;
+
+//author_div.innerHTML = await render_author_field(number_of_authors);

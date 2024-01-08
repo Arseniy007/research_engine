@@ -7,57 +7,36 @@
 
 {% block headless %}
     <div class="author-field">
-
-        <div class="{{ chapter }}author" id="{{ chapter }}author-field-{{ author_number }}">
-            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+        <div class="{{ chapter }}author" id="1{{ chapter }}author-field-{{ author_number }}">
+            <div class="col-lg-12 col-lg-9 col-lg-7 col-lg-6">
                 <div class="card" style="border-radius: 15px;">
-                    <div class="card-body p-5" id="form-body">
-                        <h2 class="text-uppercase text-center mb-5" id="form-header">Create an account</h2>
-                        <div class="form-outline mb-4 row">
-                            <div class="col-md">
-                                <div class="form-floating">
-                                    <input class="form-control" id="{{ chapter }}author-last_name-{{ author_number }}" name="{{ chapter }}last_name_{{ author_number }}" type="text" placeholder="Last Name" required>
-                                    <label class="form-label" for="{{ chapter }}author-last_name-{{ author_number }}">Last Name</label>
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please provide authors last name.</div>
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <div class="form-floating">
-                                    <input class="form-control" id="{{ chapter }}author-first-name-{{ author_number }}" name="{{ chapter }}first_name_{{ author_number }}" type="text" placeholder="First Name">
-                                    <label class="form-label" for="{{ chapter }}author-first-name-{{ author_number }}">First Name</label>
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please provide authors first name.</div>
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <div class="form-floating">
-                                    <input class="form-control" id="{{ chapter }}author-second-name-{{ author_number }}" name="{{ chapter }}second_name_{{ author_number }}" type="text" placeholder="Second Name">
-                                    <label class="form-label" for="{{ chapter }}author-second-name-{{ author_number }}">Second Name</label>
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please provide authors second name.</div>
-                                </div>
-                            </div>
+                    <div class="card-body p-5 form-body" id="{{ chapter }}author-field-{{ author_number }}">
+                        <div class="form-outline mb-4 form-floating">
+                            <input class="form-control" id="{{ chapter }}author-last_name-{{ author_number }}" name="{{ chapter }}last_name_{{ author_number }}" type="text" placeholder="Last Name" required>
+                            <label class="form-label" for="{{ chapter }}author-last_name-{{ author_number }}">Last Name</label>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please provide authors last name.</div>
                         </div>
+                        <div class="form-outline mb-4 form-floating">
+                            <input class="form-control" id="{{ chapter }}author-first-name-{{ author_number }}" name="{{ chapter }}first_name_{{ author_number }}" type="text" placeholder="First Name">
+                            <label class="form-label" for="{{ chapter }}author-first-name-{{ author_number }}">First Name</label>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please provide authors first name.</div>
+                        </div>
+                        <div class="form-outline mb-4 form-floating">
+                            <input class="form-control" id="{{ chapter }}author-second-name-{{ author_number }}" name="{{ chapter }}second_name_{{ author_number }}" type="text" placeholder="Second Name">
+                            <label class="form-label" for="{{ chapter }}author-second-name-{{ author_number }}">Second Name</label>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please provide authors second name.</div>
+                        </div>
+                        <button id="{{ chapter }}add-author-button-{{ author_number }}" type="button">Add Author(s)</button>
+                        {% if author_number != 0 %}
+                            <button id="{{ chapter }}delete-author-button-{{ author_number }}" type="button">Delete Author</button>
+                        {% endif %}
+                       
                     </div>
                 </div>
             </div>
-            <button id="{{ chapter }}add-author-button-{{ author_number }}" type="button">Add Author(s)</button>
-            {% if author_number != 0 %}
-                <button id="{{ chapter }}delete-author-button-{{ author_number }}" type="button">Delete Author</button>
-            {% endif %}
         </div>
-    </div><br><br><br><br>
-
-
-
-   
-
-
-    <div class="d-flex justify-content-center">
-        <input type="submit" value="Register" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
     </div>
-
-
-
 {% endblock %}

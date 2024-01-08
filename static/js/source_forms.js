@@ -50,7 +50,9 @@ async function show_and_load_form(form_id) {
 
     // Load first author field
     const author_div = form.querySelector('.author-div');
-    author_div.innerHTML = await render_author_field(number_of_authors);
+    const author_form_body = await render_author_field(number_of_authors);
+    author_div.innerHTML = author_form_body.innerHTML;
+    author_div.id = author_form_body.id
 
     // Pre-lode next author field
     load_new_author_field(author_div, number_of_authors);
@@ -99,7 +101,14 @@ function load_new_author_field (author_div, author_number, is_chapter=false) {
 
         // Create new div and render new author field into it
         const new_author_div = document.createElement('div');
-        new_author_div.innerHTML = await render_author_field(author_number, chapter);
+
+        const author_form_body = await render_author_field(author_number, chapter);
+        new_author_div.innerHTML = author_form_body.innerHTML;
+        new_author_div.id = author_form_body.id
+
+
+
+        //new_author_div.innerHTML = await render_author_field(author_number, chapter);
         author_div.append(new_author_div);
 
         // Hide both delete and add buttons
@@ -137,7 +146,11 @@ async function render_author_field(author_number, chapter=false) {
         let author_field_page = parser.parseFromString(html, "text/html");
 
         // Return author-field-div
-        return author_field_page.querySelector('.author-field').innerHTML;
+        const form_body = author_field_page.querySelector('.form-body');
+
+
+
+        return author_field_page.querySelector('.form-body');
     })
 }
 
