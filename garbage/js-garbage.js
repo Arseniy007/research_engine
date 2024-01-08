@@ -78,3 +78,6 @@ return author_field_page.querySelector('.author-field').innerHTML;
 return author_field_page.querySelector('.form-body').innerHTML;
 
 //author_div.innerHTML = await render_author_field(number_of_authors);
+
+    // Get form one more time (in order to full version)
+    const form = document.querySelector(`#${form_id}`);

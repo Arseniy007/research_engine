@@ -15,12 +15,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const forms = document.getElementsByClassName('source-form');
+    //set_form_validation(forms);
     Array.from(forms).forEach(form => {
         form.addEventListener('submit', event => {
-            event.preventDefault();
-            count_and_set_authors_number(form);
-            submit_source_form(form, space_id);
-        })
+
+            // Set form Validation
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+                form.classList.add('was-validated')
+              }
+            else {
+                // If everything alright - submit form with custom function
+                event.preventDefault();
+                count_and_set_authors_number(form);
+                submit_source_form(form, space_id);
+            }
+        }, false)
     })
 
     // For lobby
@@ -31,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function hide_all_forms() {
-    const all_forms = document.getElementsByClassName('source-form');
+    const all_forms = document.getElementsByClassName('source-form-area');
     Array.from(all_forms).forEach(form => {
         form.style.display = 'none';
     })
@@ -105,8 +116,8 @@ function load_new_author_field (author_div, author_number, is_chapter=false) {
         const author_form_body = await render_author_field(author_number, chapter);
         new_author_div.innerHTML = author_form_body.innerHTML;
         new_author_div.id = author_form_body.id
-
-
+        new_author_div.class = author_form_body.class
+        console.log(author_form_body.class);
 
         //new_author_div.innerHTML = await render_author_field(author_number, chapter);
         author_div.append(new_author_div);

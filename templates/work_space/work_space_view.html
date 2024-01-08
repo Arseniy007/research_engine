@@ -107,7 +107,7 @@
                         <option value="chapter-form">Chapter in a book</option>
                         <option value="webpage-form">Webpage</option>
                     </select><br>
-                    <div class="source-form" id="book-form">
+                    <div class="source-form-area" id="book-form">
                         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
                             <div class="container h-100">
                                 <div class="row d-flex justify-content-center align-items-center h-100">
@@ -115,9 +115,10 @@
                                         <div class="card form-card" style="border-radius: 15px;">
                                             <div class="card-body p-5 form-body">
                                                 <h2 class="text-uppercase text-center mb-5" id="form-header">New Book</h2>
-                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="needs-validation" novalidate>
+                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="source-form needs-validation" novalidate>
                                                     {% csrf_token %}
                                                     {{ book_form.source_type }}
+                                                    {{ book_form.number_of_authors }}
                                                     <div class="author-div"></div><br>
                                                     <div class="form-outline mb-4 form-floating">         
                                                         {{ book_form.title }}
@@ -148,7 +149,7 @@
                             </div>
                         </div>    
                     </div>
-                    <div class="source-form" id="article-form">
+                    <div class="source-form-area" id="article-form">
                         <div class="mask d-flex align-items-center h-100 gradient-custom-3 form-card">
                             <div class="container h-100">
                                 <div class="row d-flex justify-content-center align-items-center h-100">
@@ -156,9 +157,10 @@
                                         <div class="card" style="border-radius: 15px;">
                                             <div class="card-body p-5 form-body">
                                                 <h2 class="text-uppercase text-center mb-5" id="form-header">New Article</h2>
-                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="needs-validation" novalidate>
+                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="source-form needs-validation" novalidate>
                                                     {% csrf_token %}
                                                     {{ article_form.source_type }}
+                                                    {{ article_form.number_of_authors }}
                                                     <div class="author-div"></div><br>
                                                     <div class="form-outline mb-4 form-floating">         
                                                         {{ article_form.article_title }}
@@ -211,7 +213,7 @@
                             </div>
                         </div>    
                     </div>
-                    <div class="source-form" id="chapter-form">
+                    <div class="source-form-area" id="chapter-form">
                         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
                             <div class="container h-100">
                                 <div class="row d-flex justify-content-center align-items-center h-100">
@@ -219,9 +221,10 @@
                                         <div class="card form-card" style="border-radius: 15px;">
                                             <div class="card-body p-5 form-body">
                                                 <h2 class="text-uppercase text-center mb-5" id="form-header">New Chapter</h2>
-                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="needs-validation" novalidate>
+                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="source-form needs-validation" novalidate>
                                                     {% csrf_token %}
                                                     {{ chapter_form.source_type }}
+                                                    {{ chapter_form.number_of_authors }}
                                                     <div class="author-div"></div><br>
                                                     <div class="form-outline mb-4 form-floating">         
                                                         {{ chapter_form.chapter_title }}
@@ -276,7 +279,7 @@
                             </div>
                         </div>    
                     </div>
-                    <div class="source-form" id="webpage-form">
+                    <div class="source-form-area" id="webpage-form">
                         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
                             <div class="container h-100">
                                 <div class="row d-flex justify-content-center align-items-center h-100">
@@ -284,9 +287,10 @@
                                         <div class="card form-card" style="border-radius: 15px;">
                                             <div class="card-body p-5 form-body">
                                                 <h2 class="text-uppercase text-center mb-5" id="form-header">New Webpage</h2>
-                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="needs-validation" novalidate>
+                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="source-form needs-validation" novalidate>
                                                     {% csrf_token %}
                                                     {{ webpage_form.source_type }}
+                                                    {{ webpage_form.number_of_authors }}
                                                     <div class="author-div"></div><br>
                                                     <div class="form-outline mb-4 form-floating">         
                                                         {{ webpage_form.page_title }}
