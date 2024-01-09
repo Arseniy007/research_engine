@@ -67,7 +67,7 @@ def add_source(request, space_id):
                 display_success_message(request)
                 new_source_pk = create_source(request.user, space, form, author)
                 return JsonResponse({"status": "ok", "url": reverse("bookshelf:source_space", args=(new_source_pk,))})
-            
+                        
     # Redirect back to work space
     display_error_message(request)
     return JsonResponse({"status": "error", "url": reverse("work_space:space_view", args=(space_id,))})

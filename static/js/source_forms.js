@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const forms = document.getElementsByClassName('source-form');
-    //set_form_validation(forms);
     Array.from(forms).forEach(form => {
         form.addEventListener('submit', event => {
 
@@ -64,6 +63,7 @@ async function show_and_load_form(form_id) {
     const author_form_body = await render_author_field(number_of_authors);
     author_div.innerHTML = author_form_body.innerHTML;
     author_div.id = author_form_body.id
+    author_div.className = 'author';
 
     // Pre-lode next author field
     load_new_author_field(author_div, number_of_authors);
@@ -112,12 +112,10 @@ function load_new_author_field (author_div, author_number, is_chapter=false) {
 
         // Create new div and render new author field into it
         const new_author_div = document.createElement('div');
-
         const author_form_body = await render_author_field(author_number, chapter);
         new_author_div.innerHTML = author_form_body.innerHTML;
         new_author_div.id = author_form_body.id
-        new_author_div.class = author_form_body.class
-        console.log(author_form_body.class);
+        new_author_div.className = author_form_body.className
 
         //new_author_div.innerHTML = await render_author_field(author_number, chapter);
         author_div.append(new_author_div);
@@ -157,10 +155,6 @@ async function render_author_field(author_number, chapter=false) {
         let author_field_page = parser.parseFromString(html, "text/html");
 
         // Return author-field-div
-        const form_body = author_field_page.querySelector('.form-body');
-
-
-
         return author_field_page.querySelector('.form-body');
     })
 }
@@ -198,7 +192,9 @@ function count_and_set_authors_number(form) {
         form.querySelector('.final_number_of_chapter_authors').value = form.getElementsByClassName('chapter-author').length;
     }
     // Count how many "author" divs are there
+    console.log(form.querySelector('.final_number_of_authors'));
     form.querySelector('.final_number_of_authors').value = form.getElementsByClassName('author').length;
+    console.log(form);
 }
 
 function submit_source_form(form, space_id) {
