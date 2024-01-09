@@ -84,6 +84,16 @@ class Endnote(models.Model):
     mla = models.CharField(max_length=50)
 
 
+class BibliographicRecord(models.Model):
+    source = models.OneToOneField(Source, on_delete=models.CASCADE, related_name="record")
+    endnote_apa = models.CharField(max_length=50)
+    endnote_mla = models.CharField(max_length=50)
+    footnote_apa = models.CharField(max_length=50)
+    footnote_mla = models.CharField(max_length=50)
+
+    # do i need to store footnotes without knowing quote page???
+
+
 class Quote(models.Model):
     source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="quotes")
     page = models.IntegerField()

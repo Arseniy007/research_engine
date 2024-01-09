@@ -55,7 +55,7 @@
 
         <form action="{% url 'bookshelf:alter_endnote' endnotes.pk %}" id="alter_endnote_form" method="post">
             {% csrf_token %} 
-            {{ endnote_form }}
+            {{ alter_endnotes_form }}
             <button>Alter Endnotes</button>
         </form>
 
@@ -63,7 +63,7 @@
         <br><br><br>
         <br><br><br>
 
-        <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post">
+        <form action="{% url 'bookshelf:alter_source' source.pk %}" id="alter_source_form" method="post">
             {% csrf_token %} 
             {{ alter_source_form.as_p }}
             <button type="submit">Alter Source Info</button>

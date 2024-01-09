@@ -3367,6 +3367,75 @@ def create_paper(request, space_id):
     webpage_class = "webpage"
     
 
+
+    class AlterBookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = "__all__"
+        exclude = EXCLUDE_FIELDS
+    
+    source_type = SourceTypes.book
+
+    def set_initials(self, book: Book):
+        for field in self.fields:
+            if field != "source_type":
+                self.fields[field].initial = book.__getattribute__(field)
+        return self
+
+
+        class AlterArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = "__all__"
+        exclude = EXCLUDE_FIELDS
+    
+    source_type = SourceTypes.article
+
+    def set_initials(self, article: Article):
+        for field in self.fields:
+            if field != "source_type":
+                self.fields[field].initial = article.__getattribute__(field)
+        return self
+
+
+class AlterChapterForm(forms.ModelForm):
+    class Meta:
+        model = Chapter
+        fields = "__all__"
+        exclude = EXCLUDE_FIELDS
+
+    source_type = SourceTypes.chapter
+
+    def set_initials(self, chapter: Chapter):
+        for field in self.fields:
+            if field != "source_type":
+                self.fields[field].initial = chapter.__getattribute__(field)
+        return self
+
+
+class AlterWebpageForm(forms.ModelForm):
+    class Meta:
+        model = Webpage
+        fields = "__all__"
+        exclude = EXCLUDE_FIELDS
+
+    source_type = SourceTypes.webpage
+
+    def set_initials(self, webpage: Webpage):
+        for field in self.fields:
+            if field != "source_type":
+                self.fields[field].initial = webpage.__getattribute__(field)
+        return self
+
+
+        EXCLUDE_FIELDS = ("user", "work_space", "real_type", "file", "link",)
+
+
+    class Endnote(models.Model):
+    source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    apa = models.CharField(max_length=50)
+    mla = models.CharField(max_length=50)
+
 """
 
 

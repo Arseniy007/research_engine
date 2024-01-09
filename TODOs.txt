@@ -7,8 +7,7 @@ TODOs:
 
 3. when sharing workspace sources not only share a space with them, but allow user to download zip with all sources! (Done!)
 
-
-
+4. Last name with two parts!!! (see quoting.author_formatting and utils.data_cleaning)
 
 
 

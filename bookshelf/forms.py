@@ -6,9 +6,6 @@ from utils.verification import check_link
 
 _CLASS = "form-control"
 
-EXCLUDE_FIELDS = ("user", "work_space", "real_type", "file", "link",)
-
-
 class SourceTypes:
     book = forms.CharField(widget=forms.HiddenInput(attrs={"value": "book"}))
     article = forms.CharField(widget=forms.HiddenInput(attrs={"value": "article"}))
@@ -196,6 +193,78 @@ class WebpageForm(CommonFields):
     )
 
 
+class AlterBookForm(BookForm):
+    author = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "author-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Book author"})
+    )
+
+    def set_initials(self, book: Book):
+        for field in self.fields:
+            if field not in ("source_type", "number_of_authors",):
+                self.fields[field].initial = book.__getattribute__(field)
+        return self
+
+
+class AlterArticleForm(ArticleForm):
+    author = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "author-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Article author"})
+    )
+
+    def set_initials(self, article: Article):
+        for field in self.fields:
+            if field != "source_type":
+                self.fields[field].initial = article.__getattribute__(field)
+        return self
+
+
+class AlterChapterForm(ChapterForm):
+    author = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "author-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Book author"})
+    )
+
+    chapter_author = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "author-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Chapter author"})
+    )
+
+    def set_initials(self, chapter: Chapter):
+        for field in self.fields:
+            if field not in ("source_type", "number_of_authors",):
+                self.fields[field].initial = chapter.__getattribute__(field)
+        return self
+
+
+class AlterWebpageForm(WebpageForm):
+    webpage_author = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "author-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Webpage author"})
+    )
+
+    def set_initials(self, webpage: Webpage):
+        for field in self.fields:
+            if field not in ("source_type", "number_of_authors",):
+                self.fields[field].initial = webpage.__getattribute__(field)
+        return self
+
+
 class AddLinkForm(forms.Form):
     link = forms.CharField()
 
@@ -241,8 +310,8 @@ class AlterQuoteForm(forms.ModelForm):
         
 
 class AlterEndnoteForm(forms.Form):
-    apa = forms.CharField(widget=forms.Textarea)
-    mla = forms.CharField(widget=forms.Textarea)
+    apa = forms.CharField(widget=forms.TextInput)
+    mla = forms.CharField(widget=forms.TextInput)
 
     def set_initials(self, endnote: Endnote):
         """Pre-populate fields"""
@@ -257,66 +326,6 @@ class AlterEndnoteForm(forms.Form):
         endnote.mla = self.cleaned_data["mla"]
         endnote.save(update_fields=("apa", "mla",))
         return endnote
-
-
-class AlterBookForm(forms.ModelForm):
-    class Meta:
-        model = Book
-        fields = "__all__"
-        exclude = EXCLUDE_FIELDS
-    
-    source_type = SourceTypes.book
-
-    def set_initials(self, book: Book):
-        for field in self.fields:
-            if field != "source_type":
-                self.fields[field].initial = book.__getattribute__(field)
-        return self
-
-
-class AlterArticleForm(forms.ModelForm):
-    class Meta:
-        model = Article
-        fields = "__all__"
-        exclude = EXCLUDE_FIELDS
-    
-    source_type = SourceTypes.article
-
-    def set_initials(self, article: Article):
-        for field in self.fields:
-            if field != "source_type":
-                self.fields[field].initial = article.__getattribute__(field)
-        return self
-
-
-class AlterChapterForm(forms.ModelForm):
-    class Meta:
-        model = Chapter
-        fields = "__all__"
-        exclude = EXCLUDE_FIELDS
-
-    source_type = SourceTypes.chapter
-
-    def set_initials(self, chapter: Chapter):
-        for field in self.fields:
-            if field != "source_type":
-                self.fields[field].initial = chapter.__getattribute__(field)
-        return self
-
-
-class AlterWebpageForm(forms.ModelForm):
-    class Meta:
-        model = Webpage
-        fields = "__all__"
-        exclude = EXCLUDE_FIELDS
-
-    source_type = SourceTypes.webpage
-
-    def set_initials(self, webpage: Webpage):
-        for field in self.fields:
-            if field != "source_type":
-                self.fields[field].initial = webpage.__getattribute__(field)
-        return self
 
 
 def get_type_of_source_form(data, alter_source=False):

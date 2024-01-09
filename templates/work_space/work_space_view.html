@@ -67,7 +67,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="source-space-label-{{ source.pk }}">{{ source }}</h1>
+                        <h1 class="modal-title fs-5" id="source-space-label-{{ source.pk }}">{{ source }} <i class="fa-solid fa-gears source-settings-icon" id="settings-icon-{{ source.pk }}"></i></h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="source-space-div-{{ source.pk }}"></div>
@@ -327,10 +327,6 @@
                             </div>
                         </div>    
                     </div>
-                    <!-- TODO: 1) pass div from author_fields here -->
-                    <!-- TODO: 2) make similar to user_management form layout -->
-                    <!-- TODO: 3) figure out what to do with author fields -->
-                    <!-- TODO: 4) Validation and float labels! -->
                 </div>
                 <div class="modal-footer">
                     <!-- TODO -->
