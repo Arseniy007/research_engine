@@ -115,7 +115,7 @@ function load_new_author_field (author_div, author_number, is_chapter=false) {
         const author_form_body = await render_author_field(author_number, chapter);
         new_author_div.innerHTML = author_form_body.innerHTML;
         new_author_div.id = author_form_body.id
-        new_author_div.className = author_form_body.className
+        new_author_div.className = `${chapter}author`;
 
         //new_author_div.innerHTML = await render_author_field(author_number, chapter);
         author_div.append(new_author_div);
