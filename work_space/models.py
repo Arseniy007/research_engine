@@ -65,6 +65,17 @@ class WorkSpace(models.Model):
         return self.guests.remove(guest)
 
 
+class Link(models.Model):
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="links")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="links")
+    name = models.CharField(max_length=50)
+    url = models.URLField()
+
+
+    def __str__(self):
+        return self.name
+
+
 class Invitation(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
     code = models.CharField(max_length=15, unique=True)
@@ -73,3 +84,5 @@ class Invitation(models.Model):
 class ShareSourcesCode(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
     code = models.CharField(max_length=15, unique=True)
+
+

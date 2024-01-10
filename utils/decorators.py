@@ -15,16 +15,6 @@ def post_request_required(func: Callable) -> Callable | HttpResponseBadRequest:
     return wrapper
 
 
-def profile_ownership_required(func: Callable) -> Callable | PermissionDenied:
-    """Checks if current user if owner of the profile page"""
-    def wrapper(request, profile_id):
-        profile_page = check_profile(profile_id)
-        if profile_page.user != request.user:
-            raise PermissionDenied
-        return func(request, profile_id)
-    return wrapper
-
-
 def space_ownership_required(func: Callable) -> Callable | PermissionDenied:
     """Checks if current user is owner of the work_space"""
     def wrapper(request, space_id):
@@ -52,26 +42,6 @@ def quote_ownership_required(func: Callable) -> Callable | PermissionDenied:
         if quote.source.user != request.user:
             raise PermissionDenied
         return func(request, quote_id)
-    return wrapper
-
-
-def comment_authorship_required(func: Callable) -> Callable | PermissionDenied:
-    """Checks if current user wrote this comment"""
-    def wrapper(request, comment_id):
-        comment = check_comment(comment_id, request.user)
-        if comment.user != request.user:
-            raise PermissionDenied
-        return func(request, comment_id)
-    return wrapper
-
-
-def note_authorship_required(func: Callable) -> Callable | PermissionDenied:
-    """Checks if current user wrote this note"""
-    def wrapper(request, note_id):
-        note = check_note(note_id, request.user)
-        if note.user != request.user:
-            raise PermissionDenied
-        return func(request, note_id)
     return wrapper
 
 

@@ -2,10 +2,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const space_id = document.querySelector('#space_id').innerHTML;
     const rename_space_form = document.querySelector('#rename_space_form');
+    const link_form = document.querySelector('#link_form');
 
     rename_space_form.addEventListener('submit', event => {
         event.preventDefault();
         rename_space(rename_form, space_id);
+      });
+
+    link_form.addEventListener('submit', event => {
+        event.preventDefault();
+        add_link(link_form, space_id);
       });
 
 
@@ -60,6 +66,62 @@ function rename_space(form, space_id) {
         }
     });
 }
+
+function add_link(form, space_id) {
+
+    // Add-link view url
+    const url = `/add_link/${space_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            
+            console.log(result.link_name);
+            // TODO!
+            // What to do?
+        }
+        else {
+            redirect(result.url)
+        }
+    });
+}
+
+
+function alter_link(link_id) {
+
+    // Alter-link view url
+    const url = `/alter_link/${link_id}`;
+
+    // TODO
+
+}
+
+function delete_link(link_id) {
+
+    // Delete-link view url
+    const url = `/delete_link/${link_id}`;
+
+    // Send request to delete_link view
+    fetch(url)
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            
+            document.querySelector(`#link_${link_id}`).remove();
+        }
+        else {
+            console.log("error")
+        }
+    });
+    // TODO: animation!
+}
+
+
 
 
 function redirect(url) {

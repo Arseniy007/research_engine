@@ -43,7 +43,6 @@
                         {% endfor %}
                     </div>
                 </div>
-                <a href="{% url 'profile_page:profile_view' user.pk %}">Profile</a>
                 <a href="#">Settings</a>
                 <a href="{% url 'user_management:logout' %}">Logout</a>
             {% else %}

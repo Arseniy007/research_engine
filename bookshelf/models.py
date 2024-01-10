@@ -78,7 +78,7 @@ class Webpage(Source):
 
 
 class Reference(models.Model):
-    source = models.OneToOneField(Source, on_delete=models.CASCADE, related_name="endnotes")
+    source = models.OneToOneField(Source, on_delete=models.CASCADE, related_name="reference")
     endnote_apa = models.CharField(max_length=50)
     endnote_mla = models.CharField(max_length=50)
 

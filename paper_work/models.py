@@ -63,15 +63,3 @@ class Paper(models.Model):
         """Return paper in its work_space"""
         self.archived = False
         return self.save(update_fields=("archived",))
-    
-
-    def publish(self):
-        """Mark paper as published or vice versa"""
-        self.published = True
-        return self.save(update_fields=("published",))
-    
-
-    def unpublish(self):
-        """Stop displaying paper in profile page"""
-        self.published = False
-        return self.save(update_fields=("published",))

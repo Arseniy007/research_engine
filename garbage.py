@@ -3469,7 +3469,268 @@ class Endnote(models.Model):
     apa = models.CharField(max_length=50)
     mla = models.CharField(max_length=50)
 
+    
+    class Comment(models.Model):
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    reply_to = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True, related_name="replies")
+    text = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
 
+
+    def get_creation_time(self):
+
+        return self.created.strftime(SAVING_TIME_FORMAT)
+
+
+    def __str__(self):
+
+        if self.work_space.guests.all():
+            return f'{self.user}: "{self.text}" ({self.get_creation_time()})'
+        return f'"{self.text}" ({self.get_creation_time()})'
+
+
+class Note(models.Model):
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="notes")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notes")
+    title = models.CharField(max_length=50)
+    text = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    
+    def __str__(self):
+        return self.text
+
+
+        @post_request_required
+@login_required(redirect_field_name=None)
+def leave_comment(request, space_id):
+
+    
+    form = NewCommentForm(request.POST)
+
+    if form and form.is_valid():
+        # Create new comment obj
+        space = check_work_space(space_id, request.user)
+        new_comment = form.save_comment(space, request.user)
+        return JsonResponse({"status": "ok", "comment": model_to_dict(new_comment)})
+
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
+
+
+@post_request_required
+@comment_authorship_required
+@login_required(redirect_field_name=None)
+def alter_comment(request, comment_id):
+
+
+    form = AlterCommentForm(request.POST)
+    comment = check_comment(comment_id, request.user)
+
+    if form and form.is_valid():
+        altered_comment = form.save_altered_comment(comment)
+        return JsonResponse({"status": "ok", "altered_comment": model_to_dict(altered_comment)})
+
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("work_space:space_view", args=(comment.work_space.pk,))})
+
+
+@comment_authorship_required
+@login_required(redirect_field_name=None)
+def delete_comment(request, comment_id):
+
+
+    # Check comment and delete it from the db
+    comment = check_comment(comment_id, request.user)
+    comment.delete()
+    return JsonResponse({"status": "ok"})
+
+
+@post_request_required
+@login_required(redirect_field_name=None)
+def leave_note(request, space_id):
+
+
+    form = NewNoteForm(request.POST)
+
+    if form and form.is_valid():
+        # Create new Note obj
+        space = check_work_space(space_id, request.user)
+        new_note = form.save_note(space, request.user)
+        return JsonResponse({"status": "ok", "new_note": model_to_dict(new_note)})
+    
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
+
+
+@post_request_required
+@note_authorship_required
+@login_required(redirect_field_name=None)
+def alter_note(request, note_id):
+  
+    
+    form = AlterNoteForm(request.POST)
+    note = check_note(note_id, request.user)
+
+    if form and form.is_valid():
+        altered_note = form.save_altered_note(note)
+        return JsonResponse({"status": "ok", "altered_note": model_to_dict(altered_note)})
+    
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("work_space:space_view", args=(note.work_space.pk,))})
+
+
+@note_authorship_required
+@login_required(redirect_field_name=None)
+def delete_note(request, note_id):
+
+
+    # Check note and delete it from the db
+    note = check_note(note_id, request.user)
+    note.delete()
+    return JsonResponse({"status": "ok"})
+
+
+    def comment_authorship_required(func: Callable) -> Callable | PermissionDenied:
+
+    def wrapper(request, comment_id):
+        comment = check_comment(comment_id, request.user)
+        if comment.user != request.user:
+            raise PermissionDenied
+        return func(request, comment_id)
+    return wrapper
+
+
+def note_authorship_required(func: Callable) -> Callable | PermissionDenied:
+
+    def wrapper(request, note_id):
+        note = check_note(note_id, request.user)
+        if note.user != request.user:
+            raise PermissionDenied
+        return func(request, note_id)
+    return wrapper
+
+
+    def check_comment(comment_id: int, user: User) -> Comment | Http404:
+
+    try:
+        comment = Comment.objects.get(pk=comment_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(comment.work_space.pk, user)
+    return comment
+
+
+def check_note(note_id: int, user: User) -> Note | Http404:
+
+    try:
+        note = Note.objects.get(pk=note_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(note.work_space.pk, user)
+    return note
+
+    
+    def create_friendly_notes_dir(notes, authors: list, root_path: str) -> None:
+
+
+    notes_root = os.path.join(root_path, "notes")
+    os.makedirs(notes_root, exist_ok=True)
+
+    # Get all users
+    for author in authors:
+        if len(authors) == 1:
+            # Don't create author dir if there is only one user
+            author_root = notes_root
+        else:
+            # Create new "user" dirs inside "notes" dir if there are multiple users
+            author_name = f"{author.last_name} {author.first_name}"
+            author_root = os.path.join(notes_root, author_name)
+            os.makedirs(author_root, exist_ok=True)
+
+        # Get all user notes
+        author_notes = [note for note in notes if note.user == author]
+        for author_note in author_notes:
+            # Get path to new note .txt file
+            path_to_note = os.path.join(author_root, f"{author_note.title}.txt")
+
+            # Create file and write in note text
+            with open(path_to_note, "w") as note_file:
+                note_file.write(author_note.text)
+
+
+def create_friendly_comments_file(comments, root_path: str) -> None:
+
+
+    # Get path to new comments.txt file
+    comments_file_path = os.path.join(root_path, "comments.txt")
+
+    # Create file and write in all comments
+    with open(comments_file_path, "w") as comment_file:
+        for comment in comments:
+            comment_file.write(f"{comment}\n\n")
+
+
+            @post_request_required
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def publish_paper(request, paper_id):
+
+
+    # Check if user has right to publish this paper
+    paper = check_paper(paper_id, request.user)
+
+    # Check if paper file wsa uploaded
+    if paper.get_number_of_files() != 0:
+        # Publish paper
+        paper.publish()
+        display_success_message(request)
+    else:
+        display_error_message(request, "no files were uploaded")
+        # TODO redirect back
+
+    # Redirect to profile page
+    return redirect(reverse("profile_page:profile_view", args=(get_profile_id(request.user),)))
+
+
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def hide_published_paper(request, paper_id):
+
+
+    # Check if user has right to hide this paper
+    paper = check_paper(paper_id, request.user)
+
+    # Error case
+    if paper.published:
+        # Mark paper as not published
+        paper.unpublish()
+        display_success_message(request)
+    else:
+        display_error_message(request)
+        # TODO
+        pass
+
+    # TODO
+    # Redirect back to profile page? Maybe Json would be better!
+    return redirect(reverse("profile_page:profile_view", args=(get_profile_id(request.user),)))
+
+
+    def profile_ownership_required(func: Callable) -> Callable | PermissionDenied:
+
+    def wrapper(request, profile_id):
+        profile_page = check_profile(profile_id)
+        if profile_page.user != request.user:
+            raise PermissionDenied
+        return func(request, profile_id)
+    return wrapper
 """
 
 

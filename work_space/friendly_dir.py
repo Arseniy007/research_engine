@@ -7,9 +7,10 @@ from bookshelf.source_citation import get_source_reference
 def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:
     """Creates user-friendly directory for future zip-archiving and downloading"""
 
-    # Get all sources, papers, comments, notes and links in given work space
-    sources, papers = work_space.sources.all(), work_space.papers.all()
-    comments, notes, links = work_space.comments.all(), work_space.notes.all(), work_space.links.all()
+    # Get all sources, papers and links in given work space
+    sources = work_space.sources.all()
+    papers =  work_space.papers.all()
+    links = work_space.links.all()
 
     if not sources and not papers:
         # In case work space is empty
@@ -37,14 +38,6 @@ def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:
     if papers:
         # Create new "papers" dir
        create_friendly_papers_dir(papers, users, root_path)
-
-    if notes:
-        # Create new "notes" txt-file
-        create_friendly_notes_dir(notes, users, root_path)
-                    
-    if comments:
-        # Create new "comments" txt-file
-        create_friendly_comments_file(comments, root_path)
 
     if links:
         # Create new "links" txt-file
@@ -165,46 +158,6 @@ def create_friendly_papers_dir(papers, authors: list, root_path: str) -> None:
                 destination = os.path.join(path_to_paper_file, file.file_name())
                 original_file = file.get_path_to_file()
                 shutil.copyfile(original_file, destination)         
-
-
-def create_friendly_notes_dir(notes, authors: list, root_path: str) -> None:
-    """Create new "notes" txt file with all space-related notes inside"""
-
-    notes_root = os.path.join(root_path, "notes")
-    os.makedirs(notes_root, exist_ok=True)
-
-    # Get all users
-    for author in authors:
-        if len(authors) == 1:
-            # Don't create author dir if there is only one user
-            author_root = notes_root
-        else:
-            # Create new "user" dirs inside "notes" dir if there are multiple users
-            author_name = f"{author.last_name} {author.first_name}"
-            author_root = os.path.join(notes_root, author_name)
-            os.makedirs(author_root, exist_ok=True)
-
-        # Get all user notes
-        author_notes = [note for note in notes if note.user == author]
-        for author_note in author_notes:
-            # Get path to new note .txt file
-            path_to_note = os.path.join(author_root, f"{author_note.title}.txt")
-
-            # Create file and write in note text
-            with open(path_to_note, "w") as note_file:
-                note_file.write(author_note.text)
-
-
-def create_friendly_comments_file(comments, root_path: str) -> None:
-    """Create new "comments" txt file with all space-related comments inside"""
-
-    # Get path to new comments.txt file
-    comments_file_path = os.path.join(root_path, "comments.txt")
-
-    # Create file and write in all comments
-    with open(comments_file_path, "w") as comment_file:
-        for comment in comments:
-            comment_file.write(f"{comment}\n\n")
 
 
 def create_friendly_links_file(links, root_path: str) -> None:

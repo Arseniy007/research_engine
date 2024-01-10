@@ -1,20 +1,20 @@
 import os
 import shutil
 from django.contrib.auth.decorators import login_required
+from django.forms.models import model_to_dict
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
-from .forms import DeleteSpaceForm, NewSpaceForm, ReceiveCodeForm, ReceiveSourcesForm, RenameSpaceForm
+from .forms import AlterLinkForm, DeleteSpaceForm, NewLinkForm, NewSpaceForm, ReceiveCodeForm, ReceiveSourcesForm, RenameSpaceForm
 from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 from paper_work.forms import NewPaperForm
 from research_engine.constants import ERROR_PAGE, FRIENDLY_TMP_ROOT
 from .space_creation import copy_space_with_all_sources, create_new_space
 from .space_sharing import generate_invitation, get_space_sharing_code, share_sources, stop_sharing_sources
-from utils.decorators import post_request_required, space_ownership_required
+from utils.decorators import link_ownership_required, post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
-from utils.verification import check_invitation, check_share_sources_code, check_work_space
-from work_space_parts.forms import AlterCommentForm, AlterLinkForm, AlterNoteForm, NewCommentForm, NewLinkForm, NewNoteForm
+from utils.verification import check_invitation, check_share_sources_code, check_space_link, check_work_space
 
 from .models import WorkSpace
 
@@ -29,18 +29,12 @@ def work_space_view(request, space_id):
         "space": space, 
         "papers": space.papers.all(),
         "sources": space.sources.all(),
-        "comments": space.comments.all(),
-        "notes": space.notes.all(),
         "links": space.links.all(),
         "new_paper_form": NewPaperForm(),
         "book_form": BookForm(),
         "article_form": ArticleForm(),
         "chapter_form": ChapterForm(),
         "webpage_form": WebpageForm(),
-        "comment_form": NewCommentForm(),
-        "alter_comment_form": AlterCommentForm(),
-        "note_form": NewNoteForm(),
-        "alter_note_form": AlterNoteForm(),
         "link_form": NewLinkForm(),
         "alter_link_form": AlterLinkForm(),
         "rename_form": RenameSpaceForm().set_initial(space),
@@ -297,3 +291,62 @@ def leave_work_space(request, space_id):
     # Redirect to index?
 
     return JsonResponse({"message": "ok"})
+
+
+@post_request_required
+@login_required(redirect_field_name=None)
+def add_link(request, space_id):
+    """Add link to given workspace"""
+
+    form = NewLinkForm(request.POST)
+
+    if form and form.is_valid():
+        # Create new Note obj
+        space = check_work_space(space_id, request.user)
+        new_link = form.save_link(space, request.user)
+        return JsonResponse({"status": "ok", "link_name": new_link.name, "url": model_to_dict(new_link)})
+    
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
+
+
+@post_request_required
+@link_ownership_required
+@login_required(redirect_field_name=None)
+def alter_link(request, link_id):
+    """Alter link name or url"""
+
+    form = AlterLinkForm(request.POST)
+    link = check_space_link(link_id, request.user)
+
+    if form and form.is_valid():
+        altered_link = form.save_altered_link(link)
+        return JsonResponse({"status": "ok", "altered_link": model_to_dict(altered_link)})
+    
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("work_space:space_view", args=(link.work_space.pk,))})
+
+
+@link_ownership_required
+@login_required(redirect_field_name=None)
+def delete_link(request, link_id):
+    """Deletes added link"""
+    
+    # Check link and delete if from the db
+    link = check_space_link(link_id, request.user)
+    link.delete()
+    return JsonResponse({"status": "ok"})
+
+
+@login_required(redirect_field_name=None)
+def render_author_form_fields(request, author_number, chapter):
+    
+    # Chapter parameter is boolean (0/1). In case of True: pass "chapter-" as prefix to html tag ids, classes and names
+    if chapter:
+       chapter = "chapter-"
+    else:
+        chapter = ""
+
+    return render(request, "bookshelf/author_fields.html", {"author_number": author_number, "chapter": chapter})

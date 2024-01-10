@@ -117,18 +117,7 @@
         <button value="webpage" name="webpage" type="submit">Add Webpage</button>
     </form><br><br><br><br>
 
-    <h4>New comment:</h4>
-    <form action="{% url 'work_space_parts:leave_comment' space.pk %}" id="comment_form" method="post">
-        {% csrf_token %} 
-        {{ comment_form }}
-        <button type="submit">Add Comment</button>
-    </form><br><br>
-    <h4>New Note:</h4>
-    <form action="{% url 'work_space_parts:leave_note' space.pk %}" id="note_form" method="post">
-        {% csrf_token %} 
-        {{ note_form }}
-        <button type="submit">Add Note</button>
-    </form><br><br>
+
     <h4>New Link:</h4>
     <form action="{% url 'work_space_parts:add_link' space.pk %}" id="link_form" method="post">
         {% csrf_token %} 
@@ -136,59 +125,6 @@
         <button type="submit">Add Link</button>
     </form><br><br>
 
-    
-    <h3>Comments:</h3>
-    <ul>
-        {% for comment in comments %}
-        <div id="comment_{{ comment.pk }}">
-            <li>{{ comment }}</li>
-            <button onclick="delete_comment('{{ comment.pk }}')" type="button">Delete Comment</button>
-            <small>{{ comment.created }}</small>
-            <div class="alter_comment_forms">
-                <form action="{% url 'work_space_parts:alter_comment' comment.pk %}" id="alter_comment_form_{{ comment.pk }}" method="post">
-                    {% csrf_token %} 
-                    {{ alter_comment_form }}
-                    <button>Alter Comment</button>
-                </form>
-            </div>
-        </div>
-        {% endfor %}
-    </ul><br><br><br>
-
-    <h3>Alter Comments:</h3>
-    <button type="button" onclick="leave_comment('{{ space.pk }}')">Test</button>
-    <br><br><br>
-
-    <h3>Notes:</h3>
-    <ul>
-        {% for note in notes %}
-            <div id="note_{{ note.pk }}">
-                <li>{{ note }}</li>
-                <button onclick="delete_note('{{ note.pk }}')" type="button">Delete Note</button>
-                <small>{{ note.created }}</small>
-            </div>
-        {% endfor %}
-    </ul><br><br><br>
-
-                
-
-    <h3>Alter Notes:</h3>
-    # TODO
-    <br><br><br>
-
-    <h3>Links:</h3>
-    <ul>
-        {% for link in links %}
-            <div id="link_{{ link.pk }}">
-                <li>
-                    <a href="{{ link.url }}">{{ link }}</a>
-                    <button onclick="delete_link('{{ link.pk }}')" type="button">Delete Link</button>
-                    <small>{{ link.added }}</small>
-                </li>
-            </div>
-            
-        {% endfor %}
-    </ul><br><br><br>
 
     <h3>Alter Links:</h3>
     # TODO

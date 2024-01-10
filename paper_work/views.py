@@ -7,7 +7,6 @@ from bookshelf.source_citation import get_source_reference
 from .forms import CitationStyleForm, ChooseSourcesForm, NewPaperForm, RenamePaperForm
 from file_handling.forms import UploadPaperFileForm
 from file_handling.models import PaperFile
-from profile_page.helpers import get_profile_id
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_paper, check_work_space
@@ -139,51 +138,6 @@ def archive_or_unarchive_paper(request, paper_id):
     display_success_message(request)
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
         
-
-@post_request_required
-@paper_authorship_required
-@login_required(redirect_field_name=None)
-def publish_paper(request, paper_id):
-    """Mark paper as published so it appears at the account page"""
-
-    # Check if user has right to publish this paper
-    paper = check_paper(paper_id, request.user)
-
-    # Check if paper file wsa uploaded
-    if paper.get_number_of_files() != 0:
-        # Publish paper
-        paper.publish()
-        display_success_message(request)
-    else:
-        display_error_message(request, "no files were uploaded")
-        # TODO redirect back
-
-    # Redirect to profile page
-    return redirect(reverse("profile_page:profile_view", args=(get_profile_id(request.user),)))
-
-
-@paper_authorship_required
-@login_required(redirect_field_name=None)
-def hide_published_paper(request, paper_id):
-    """Hide already published paper from users profile page"""
-
-    # Check if user has right to hide this paper
-    paper = check_paper(paper_id, request.user)
-
-    # Error case
-    if paper.published:
-        # Mark paper as not published
-        paper.unpublish()
-        display_success_message(request)
-    else:
-        display_error_message(request)
-        # TODO
-        pass
-
-    # TODO
-    # Redirect back to profile page? Maybe Json would be better!
-    return redirect(reverse("profile_page:profile_view", args=(get_profile_id(request.user),)))
-
 
 @post_request_required
 @paper_authorship_required
