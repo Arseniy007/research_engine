@@ -3436,6 +3436,34 @@ class AlterWebpageForm(forms.ModelForm):
     apa = models.CharField(max_length=50)
     mla = models.CharField(max_length=50)
 
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
+from .models import Endnote, Source
+from .source_citation import make_source_endnote_apa, make_source_endnote_mla
+
+
+def create_endnotes(source: Source):
+
+    endnotes = Endnote(source=source, apa=make_source_endnote_apa(source), mla=make_source_endnote_mla(source))
+    return endnotes.save()
+
+
+def update_endnotes(source: Source):
+
+    endnotes = get_endnotes(source)
+    endnotes.apa = make_source_endnote_apa(source)
+    endnotes.mla = make_source_endnote_mla(source)
+    return endnotes.save(update_fields=("apa", "mla",))
+
+
+def get_endnotes(source: Source) -> Endnote | Http404:
+
+    try:
+        return Endnote.objects.get(source=source)
+    except ObjectDoesNotExist:
+        raise Http404
+
+
 """
 
 

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from bookshelf.endnotes import get_endnotes
+from bookshelf.source_citation import get_endnotes
 from .forms import CitationStyleForm, ChooseSourcesForm, NewPaperForm, RenamePaperForm
 from file_handling.forms import UploadPaperFileForm
 from file_handling.models import PaperFile

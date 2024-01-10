@@ -1,4 +1,4 @@
-from .endnotes import save_endnotes
+from .source_citation import create_endnotes
 from .models import Article, Book, Chapter, Source, Webpage
 from user_management.models import User
 from work_space.models import WorkSpace
@@ -43,7 +43,7 @@ def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source
             quote.save()
 
     # Create new Endnote obj based on new source
-    save_endnotes(source)
+    create_endnotes(source)
     return source
 
 

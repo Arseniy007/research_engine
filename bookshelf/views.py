@@ -4,10 +4,10 @@ from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
-from .endnotes import get_endnotes
 from .forms import *
 from file_handling.forms import UploadSourceFileForm
 from .source_alteration import alter_source
+from .source_citation import get_endnotes
 from .source_creation import create_source
 from utils.data_cleaning import clean_author_data
 from utils.decorators import quote_ownership_required, post_request_required, source_ownership_required

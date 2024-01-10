@@ -1,9 +1,9 @@
 from typing import Callable
 from django import forms
-from .endnotes import update_endnotes
+from .source_citation import update_endnotes
 from .forms import AlterWebpageForm
 from .models import Article, Book, Chapter, Source, Webpage
-from quoting.dates import validate_date
+from citation.dates import validate_date
 from utils.data_cleaning import clean_text_data
 from utils.verification import check_link
 

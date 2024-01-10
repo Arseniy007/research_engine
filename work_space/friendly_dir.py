@@ -1,7 +1,7 @@
 import os
 import shutil
 from work_space.models import WorkSpace
-from bookshelf.endnotes import get_endnotes
+from bookshelf.source_citation import get_endnotes
 
 
 def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:

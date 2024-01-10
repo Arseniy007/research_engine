@@ -1,9 +1,9 @@
 from typing import Callable
 from django import forms
-from .endnotes import save_endnotes
+from .source_citation import create_endnotes
 from .forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from .models import Article, Book, Chapter, Webpage
-from quoting.dates import validate_date
+from citation.dates import validate_date
 from user_management.models import User
 from utils.data_cleaning import clean_source_form_fields
 from utils.verification import check_link
@@ -37,7 +37,7 @@ def create_book_obj(user: User, space: WorkSpace, cleaned_data: dict, author: st
                     year=cleaned_data["year"], publishing_house=cleaned_data["publishing_house"])
     new_book.save()
     # Create new Endnote obj with Foreign key to this Book obj
-    save_endnotes(new_book)
+    create_endnotes(new_book)
     return new_book.pk
 
 
@@ -51,7 +51,7 @@ def create_article_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
                           pages=cleaned_data["pages"], link_to_journal=cleaned_data["link_to_journal"])
     new_article.save()
     # Create new Endnote obj with Foreign key to this Article obj
-    save_endnotes(new_article)
+    create_endnotes(new_article)
     return new_article.pk
 
 
@@ -65,7 +65,7 @@ def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_au
                           edition = cleaned_data["edition"], pages=cleaned_data["pages"])
     new_chapter.save()
     # Create new Endnote obj with Foreign key to this Chapter obj
-    save_endnotes(new_chapter)
+    create_endnotes(new_chapter)
     return new_chapter.pk
 
 
@@ -87,5 +87,5 @@ def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
                           website_title=cleaned_data["website_title"])
     new_webpage.save()
     # Create new Endnote obj with Foreign key to this Webpage obj
-    save_endnotes(new_webpage)
+    create_endnotes(new_webpage)
     return new_webpage.pk
