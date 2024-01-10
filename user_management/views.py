@@ -42,6 +42,7 @@ def register(request):
             return redirect(LOGIN_URL)
         else:
             display_error_message(request)
+            return redirect(reverse("user_management:register"))
     return render(request, "user_management/register.html", {"register_form": form})
 
 
