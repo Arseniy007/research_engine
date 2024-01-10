@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from bookshelf.source_citation import get_endnotes
+from bookshelf.source_citation import get_source_reference
 from .forms import CitationStyleForm, ChooseSourcesForm, NewPaperForm, RenamePaperForm
 from file_handling.forms import UploadPaperFileForm
 from file_handling.models import PaperFile
@@ -18,7 +18,7 @@ def paper_space(request, paper_id):
     """Main paper view"""
     
     paper = check_paper(paper_id, request.user)
-    endnotes = [get_endnotes(source) for source in paper.sources.all()]
+    endnotes = [get_source_reference(source) for source in paper.sources.all()]
     paper_files = PaperFile.objects.filter(paper=paper).order_by("saving_time")
     links = [reverse("file_handling:display_paper_file", args=(file.pk,)) for file in paper_files]
     choose_sources_form = ChooseSourcesForm().set_initials(paper.work_space.sources.all())

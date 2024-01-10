@@ -3464,6 +3464,12 @@ def get_endnotes(source: Source) -> Endnote | Http404:
         raise Http404
 
 
+class Endnote(models.Model):
+    source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    apa = models.CharField(max_length=50)
+    mla = models.CharField(max_length=50)
+
+
 """
 
 

@@ -7,7 +7,7 @@ from django.urls import reverse
 from .forms import *
 from file_handling.forms import UploadSourceFileForm
 from .source_alteration import alter_source
-from .source_citation import get_endnotes
+from .source_citation import get_source_reference
 from .source_creation import create_source
 from utils.data_cleaning import clean_author_data
 from utils.decorators import quote_ownership_required, post_request_required, source_ownership_required
@@ -20,17 +20,17 @@ def source_space(request, source_id):
     """Main source view"""
     
     source = check_source(source_id, request.user)
-    endnotes = get_endnotes(source)
+    reference = get_source_reference(source)
 
     source_data = {
             "source": source,
             "quotes": source.quotes.all(),
-            "endnotes": endnotes,
+            "reference": reference,
             "alter_source_form": get_and_set_alter_form(source),
             "upload_file_form": UploadSourceFileForm(),
             "link_form": AddLinkForm(),
             "new_quote_form": NewQuoteForm(),
-            "alter_endnotes_form": AlterEndnoteForm().set_initials(endnotes)
+            "alter_reference_form": AlterReferenceForm().set_initials(reference)
     }
     return render(request, "bookshelf/source_space.html", source_data)
 
@@ -132,16 +132,16 @@ def add_link_to_source(request, source_id):
 @post_request_required
 @source_ownership_required
 @login_required(redirect_field_name=None)
-def alter_endnote(request, source_id):
-    """Alter endnote text"""
+def alter_source_reference(request, source_id):
+    """Alter source reference text"""
 
-    form = AlterEndnoteForm(request.POST)
+    form = AlterReferenceForm(request.POST)
     source = check_source(source_id, request.user)
-    endnote = get_endnotes(source)
+    reference = get_source_reference(source)
 
     if form and form.is_valid():
-        altered_endnote = form.save_altered_endnote(endnote)
-        return JsonResponse({"status": "ok", "endnote": model_to_dict(altered_endnote)})
+        altered_reference = form.save_altered_reference(reference)
+        return JsonResponse({"status": "ok", "reference": model_to_dict(altered_reference)})
 
     # Send redirect url to js
     display_error_message(request)

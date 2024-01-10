@@ -1,6 +1,6 @@
 from typing import Callable
 from django import forms
-from .source_citation import create_endnotes
+from .source_citation import create_source_reference
 from .forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from .models import Article, Book, Chapter, Webpage
 from citation.dates import validate_date
@@ -36,8 +36,8 @@ def create_book_obj(user: User, space: WorkSpace, cleaned_data: dict, author: st
     new_book = Book(work_space=space, user=user, author=author, title=cleaned_data["title"], 
                     year=cleaned_data["year"], publishing_house=cleaned_data["publishing_house"])
     new_book.save()
-    # Create new Endnote obj with Foreign key to this Book obj
-    create_endnotes(new_book)
+    # Create new Reference obj with Foreign key to this Book obj
+    create_source_reference(new_book)
     return new_book.pk
 
 
@@ -50,8 +50,8 @@ def create_article_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
                           volume=cleaned_data["volume"], issue=cleaned_data["issue"], 
                           pages=cleaned_data["pages"], link_to_journal=cleaned_data["link_to_journal"])
     new_article.save()
-    # Create new Endnote obj with Foreign key to this Article obj
-    create_endnotes(new_article)
+    # Create new Reference obj with Foreign key to this Article obj
+    create_source_reference(new_article)
     return new_article.pk
 
 
@@ -64,8 +64,8 @@ def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_au
                           publishing_house = cleaned_data["publishing_house"], year=cleaned_data["year"],
                           edition = cleaned_data["edition"], pages=cleaned_data["pages"])
     new_chapter.save()
-    # Create new Endnote obj with Foreign key to this Chapter obj
-    create_endnotes(new_chapter)
+    # Create new Reference obj with Foreign key to this Chapter obj
+    create_source_reference(new_chapter)
     return new_chapter.pk
 
 
@@ -86,6 +86,6 @@ def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
                           page_url=page_url, date=date, title=cleaned_data["page_title"],
                           website_title=cleaned_data["website_title"])
     new_webpage.save()
-    # Create new Endnote obj with Foreign key to this Webpage obj
-    create_endnotes(new_webpage)
+    # Create new Reference obj with Foreign key to this Webpage obj
+    create_source_reference(new_webpage)
     return new_webpage.pk

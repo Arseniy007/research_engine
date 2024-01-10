@@ -77,13 +77,7 @@ class Webpage(Source):
     date = models.CharField(max_length=20)
 
 
-class Endnote(models.Model):
-    source = models.ForeignKey(Source, on_delete=models.CASCADE)
-    apa = models.CharField(max_length=50)
-    mla = models.CharField(max_length=50)
-
-
-class BibliographicRecord(models.Model):
+class Reference(models.Model):
     source = models.OneToOneField(Source, on_delete=models.CASCADE, related_name="endnotes")
     endnote_apa = models.CharField(max_length=50)
     endnote_mla = models.CharField(max_length=50)

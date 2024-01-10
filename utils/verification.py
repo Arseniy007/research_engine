@@ -2,7 +2,7 @@ import requests
 from requests.exceptions import RequestException
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
-from bookshelf.models import Article, Book, Chapter, Endnote, Quote, Source, Webpage
+from bookshelf.models import Article, Book, Chapter, Quote, Source, Webpage
 from file_handling.models import PaperFile
 from paper_work.models import Paper
 from profile_page.models import ProfilePage

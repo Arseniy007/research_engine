@@ -47,16 +47,16 @@
 
         <br><br>
 
-        <h4>Endnotes</h4>
+        <h4>Reference</h4>
         <ul>
-            <li>{{ endnotes.apa }}</li>
-            <li>{{ endnotes.mla }}</li>
+            <li>{{ reference.endnote_apa }}</li>
+            <li>{{ reference.endnote_mla }}</li>
         </ul>
 
-        <form action="{% url 'bookshelf:alter_endnote' endnotes.pk %}" id="alter_endnote_form" method="post">
+        <form action="{% url 'bookshelf:alter_source_reference' source.pk  %}" id="alter_reference_form" method="post">
             {% csrf_token %} 
-            {{ alter_endnotes_form }}
-            <button>Alter Endnotes</button>
+            {{ alter_reference_form }}
+            <button>Alter Source Reference</button>
         </form>
 
     

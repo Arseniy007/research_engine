@@ -1,6 +1,6 @@
 from typing import Callable
 from django import forms
-from .source_citation import update_endnotes
+from .source_citation import update_source_reference
 from .forms import AlterWebpageForm
 from .models import Article, Book, Chapter, Source, Webpage
 from citation.dates import validate_date
@@ -37,7 +37,7 @@ def update_source_fields(source: Book | Article | Chapter, form: forms.Form) -> 
                 # Update field and save obj
                 source.__setattr__(field, info)
                 source.save(update_fields=(field,))
-    update_endnotes(source)
+    update_source_reference(source)
     return source
 
 
@@ -62,5 +62,5 @@ def update_webpage_fields(webpage: Webpage, form: AlterWebpageForm) -> Webpage:
                 # Update field and save obj
                 webpage.__setattr__(field, info)
                 webpage.save(update_fields=(field,))
-    update_endnotes(webpage)
+    update_source_reference(webpage)
     return webpage

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Article, Book, Chapter, Endnote, Quote, Source, Webpage
+from .models import Article, Book, Chapter, Quote, Reference, Source, Webpage
 from research_engine.constants import ACCEPTED_UPLOAD_FORMATS
 from utils.verification import check_link
 
@@ -309,23 +309,23 @@ class AlterQuoteForm(forms.ModelForm):
         return quote
         
 
-class AlterEndnoteForm(forms.Form):
+class AlterReferenceForm(forms.Form):
     apa = forms.CharField(widget=forms.TextInput)
     mla = forms.CharField(widget=forms.TextInput)
 
-    def set_initials(self, endnote: Endnote):
+    def set_initials(self, reference: Reference):
         """Pre-populate fields"""
-        self.fields["apa"].initial = endnote.apa
-        self.fields["mla"].initial = endnote.mla
+        self.fields["apa"].initial = reference.endnote_apa
+        self.fields["mla"].initial = reference.endnote_mla
         return self
         
 
-    def save_altered_endnote(self, endnote: Endnote) -> Endnote:
+    def save_altered_reference(self, reference: Reference) -> Reference:
         """Alter text field in Endnote obj"""
-        endnote.apa = self.cleaned_data["apa"]
-        endnote.mla = self.cleaned_data["mla"]
-        endnote.save(update_fields=("apa", "mla",))
-        return endnote
+        reference.endnote_apa = self.cleaned_data["apa"]
+        reference.endnote_mla = self.cleaned_data["mla"]
+        reference.save(update_fields=("apa", "mla",))
+        return reference
 
 
 def get_type_of_source_form(data, alter_source=False):

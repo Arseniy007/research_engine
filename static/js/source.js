@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const add_link_form = document.querySelector('#link_form');
     const new_quote_form = document.querySelector('#new_quote_form');
     const alter_quote_form = document.querySelector('#alter_quote_form');
-    const alter_endnote_form = document.querySelector('#alter_endnote_form');
+    const alter_reference_form = document.querySelector('#alter_reference_form');
     const delete_quote_buttons = document.getElementsByClassName('delete_quote_buttons');
 
     alter_source_form.addEventListener('submit', event => {
@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
         alter_quote(alter_quote_form, source_id);
       });
 
-    alter_endnote_form.addEventListener('submit', event => {
+    alter_reference_form.addEventListener('submit', event => {
         event.preventDefault();
-        alter_endnote(alter_endnote_form, source_id);
+        alter_reference(alter_reference_form, source_id);
       });
 
     Array.from(delete_quote_buttons).forEach(button => {
@@ -159,10 +159,10 @@ function alter_quote(form, quote_id) {
     });
 }
 
-function alter_endnote(form, source_id) {
+function alter_reference(form, source_id) {
 
     // Alter-source-endnote view url
-    const url = `/alter_source_endnote/${source_id}`;
+    const url = `/alter_source_reference/${source_id}`;
 
     // Send POST request
     fetch(url, {
@@ -174,7 +174,7 @@ function alter_endnote(form, source_id) {
         if (result.status === 'ok') {
             // Change space title tag
 
-            console.log(result.endnote);
+            console.log(result.reference);
 
             // TODO
             

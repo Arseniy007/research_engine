@@ -1,7 +1,7 @@
 import os
 import shutil
 from work_space.models import WorkSpace
-from bookshelf.source_citation import get_endnotes
+from bookshelf.source_citation import get_source_reference
 
 
 def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:
@@ -81,8 +81,8 @@ def create_friendly_sources_dir(sources, root_path: str) -> None:
     os.makedirs(books_root, exist_ok=True)
 
     # Get, quote and sort alphabetically all sources
-    sources_apa = sorted([get_endnotes(source).apa for source in sources])
-    sources_mla = sorted([get_endnotes(source).mla for source in sources])
+    sources_apa = sorted([get_source_reference(source).endnote_apa for source in sources])
+    sources_mla = sorted([get_source_reference(source).endnote_mla for source in sources])
 
     # Get paths to new .txt files
     apa_file_path = os.path.join(books_root, "books_apa.txt")

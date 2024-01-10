@@ -1,29 +1,29 @@
 from typing import Callable
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
-from .models import Article, Book, Chapter, Endnote, Source, Webpage
-from citation.quoting_apa import make_article_endnote_apa, make_book_endnote_apa, make_chapter_endnote_apa, make_webpage_endnote_apa
-from citation.quoting_mla import make_article_endnote_mla, make_book_endnote_mla, make_chapter_endnote_mla, make_webpage_endnote_mla
+from .models import Article, Book, Chapter, Reference, Source, Webpage
+from citation.citation_apa import make_article_endnote_apa, make_book_endnote_apa, make_chapter_endnote_apa, make_webpage_endnote_apa
+from citation.citation_mla import make_article_endnote_mla, make_book_endnote_mla, make_chapter_endnote_mla, make_webpage_endnote_mla
 
 
-def create_endnotes(source: Source):
+def create_source_reference(source: Source):
     """Creates and saves new Endnote obj for given source"""
-    endnotes = Endnote(source=source, apa=make_source_endnote_apa(source), mla=make_source_endnote_mla(source))
-    return endnotes.save()
+    reference = Reference(source=source, endnote_apa=make_source_endnote_apa(source), endnote_mla=make_source_endnote_mla(source))
+    return reference.save()
 
 
-def update_endnotes(source: Source):
+def update_source_reference(source: Source):
     """Updates apa & mla endnotes if source info was altered"""
-    endnotes = get_endnotes(source)
-    endnotes.apa = make_source_endnote_apa(source)
-    endnotes.mla = make_source_endnote_mla(source)
-    return endnotes.save(update_fields=("apa", "mla",))
+    reference = get_source_reference(source)
+    reference.endnote_apa = make_source_endnote_apa(source)
+    reference.endnote_mla = make_source_endnote_mla(source)
+    return reference.save(update_fields=("apa", "mla",))
 
 
-def get_endnotes(source: Source) -> Endnote | Http404:
+def get_source_reference(source: Source) -> Reference | Http404:
     """Get endnote for given source"""
     try:
-        return Endnote.objects.get(source=source)
+        return Reference.objects.get(source=source)
     except ObjectDoesNotExist:
         raise Http404
 
