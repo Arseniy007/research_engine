@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     rename_space_form.addEventListener('submit', event => {
         event.preventDefault();
-        rename_space(rename_form, space_id);
+        rename_space(rename_space_form, space_id);
       });
 
     link_form.addEventListener('submit', event => {
@@ -70,7 +70,7 @@ function rename_space(form, space_id) {
 function add_link(form, space_id) {
 
     // Add-link view url
-    const url = `/add_link/${space_id}`;
+    const url = `/add_link_to_space/${space_id}`;
 
     // Send POST request
     fetch(url, {

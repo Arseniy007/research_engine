@@ -43,7 +43,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                <a href="#">Settings</a>
+                <a href="{% url 'user_management:change_password' %}">Settings</a>
                 <a href="{% url 'user_management:logout' %}">Logout</a>
             {% else %}
                 <a href="{% url 'user_management:logout' %}">Login</a>

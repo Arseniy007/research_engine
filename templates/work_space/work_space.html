@@ -3,7 +3,6 @@
 
 {% block script %}
     <script src="{% static 'js/source_forms.js' %}"></script>
-    <script src="{% static 'js/work_space_parts.js' %}"></script>
     <script src="{% static 'js/work_space.js' %}"></script>
     <script src="{% static 'js/paper_space.js' %}"></script>
 {% endblock %}
@@ -350,6 +349,15 @@
             
         {% endfor %}
     </ul><br><br><br>
+
+
+    <h3>New Link:</h3>
+    <form action="{% url 'work_space:add_link' space.pk %}" method="post" id="link_form">
+        {% csrf_token %}
+        {{ link_form }}
+        <button>Add link</button>
+    </form>
+
 
     <h3>Alter Links:</h3>
     # TODO

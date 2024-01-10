@@ -40,7 +40,7 @@ def work_space_view(request, space_id):
         "rename_form": RenameSpaceForm().set_initial(space),
         "spaces": WorkSpace.objects.all() 
     }
-    return render(request, "work_space/work_space_view.html", work_space_data)
+    return render(request, "work_space/work_space.html", work_space_data)
 
 
 @post_request_required
