@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     add_link_form.addEventListener('submit', event => {
         event.preventDefault();
-        add_link(add_link_form, source_id);
+        add_link_to_source(add_link_form, source_id);
       });
 
     new_quote_form.addEventListener('submit', event => {
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-function add_link(form, source_id) {
+function add_link_to_source(form, source_id) {
 
     // Add-link-to-source view url
     const url = `/add_link_to_source/${source_id}`;

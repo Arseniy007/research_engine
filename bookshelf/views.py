@@ -130,6 +130,17 @@ def add_link_to_source(request, source_id):
     return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
 
 
+@login_required(redirect_field_name=None)
+@source_ownership_required
+def delete_source_link(request, source_id):
+    # TODO
+
+    source = check_source(source_id, request.user)
+    source.link = None
+    source.save(update_fields=("link",))
+    return JsonResponse({"status": "ok"})
+
+
 @post_request_required
 @source_ownership_required
 @login_required(redirect_field_name=None)

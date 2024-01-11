@@ -188,7 +188,6 @@ function add_link(form, space_id) {
     });
 }
 
-
 function alter_link(link_id) {
 
     // Alter-link view url
@@ -225,7 +224,6 @@ function redirect(url) {
     // Imitate django redirect func
     window.location.replace(url)
 }
-
 
 function handleErrors(response, url) {
     if (!response.ok) {
