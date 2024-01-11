@@ -3,7 +3,7 @@ from requests.exceptions import RequestException
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
 from bookshelf.models import Article, Book, Chapter, Quote, Source, Webpage
-from file_handling.models import PaperFile
+from file_handling.models import PaperFile, SourceFile
 from paper_work.models import Paper
 from user_management.models import PasswordResetCode, User
 from work_space.models import Link, Invitation, ShareSourcesCode, WorkSpace
@@ -32,8 +32,8 @@ def check_paper(paper_id: int, user: User) -> Paper | Http404:
     return paper
 
 
-def check_file(file_id: int, user: User) -> PaperFile | Http404:
-    """Checks if user is the author of the given paper file and this file exists"""
+def check_paper_file(file_id: int, user: User) -> PaperFile | Http404:
+    """Checks if this file exists"""
     try:
         file = PaperFile.objects.get(pk=file_id)
     except ObjectDoesNotExist:
@@ -43,6 +43,16 @@ def check_file(file_id: int, user: User) -> PaperFile | Http404:
     return file
 
 
+def check_source_file(file_id: int, user: User) -> SourceFile | Http404:
+    try:
+        file = SourceFile.objects.get(pk=file_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_source(file.source.pk, user)
+    return file
+    
+    
 def check_source(source_id: int, user: User) -> Source | Http404:
     """Checks source, its type and work space"""
     try:

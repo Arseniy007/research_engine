@@ -20,10 +20,13 @@
                     </ul>
                 </div>
             {% endif %}
-
             
-            <a href="{% url 'file_handling:display_source_file' source.pk %}"><h2>File</h2></a><br>
-
+            {% if source.file %}
+            <h4>File</h4>
+                <a href="{% url 'file_handling:display_source_file' source.pk %}">
+                    <i class="fa-solid fa-file fa-4x"></i>
+                </a><br><br><br>
+            {% endif %}
             <form enctype="multipart/form-data" action="{% url 'file_handling:upload_source_file' source.pk %}" method="post">
                 {% csrf_token %} 
                 {{ upload_file_form }}

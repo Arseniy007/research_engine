@@ -9,7 +9,7 @@ from django.urls import reverse
 from .forms import UploadPaperFileForm, UploadSourceFileForm
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
-from utils.verification import check_file, check_paper, check_source
+from utils.verification import check_paper_file, check_paper, check_source, check_source_file
 
 
 @post_request_required
@@ -36,7 +36,7 @@ def upload_paper_file(request, paper_id):
 def delete_paper_file(request, file_id):
 
     # Get and check file
-    file = check_file(file_id, request.user)
+    file = check_paper_file(file_id, request.user)
 
     # Delete file directory with file inside
     shutil.rmtree(file.get_directory_path())
@@ -50,7 +50,7 @@ def delete_paper_file(request, file_id):
 def display_paper_file(request, file_id):
 
     # Get, check, open and send file
-    file = check_file(file_id, request.user)
+    file = check_paper_file(file_id, request.user)
     return FileResponse(open(file.get_path_to_file(), "rb"))
 
 
@@ -59,7 +59,7 @@ def get_paper_file_info(request, file_id):
     """Returns info about text-file"""
     
     # Get, check and open file
-    file = check_file(file_id, request.user)
+    file = check_paper_file(file_id, request.user)
     raw_text = textract.process(file.get_path_to_file())
 
     # Translate it into hexadecimal in order to handle different languages (äöü)
@@ -106,7 +106,7 @@ def upload_source_file(request, source_id):
         source = check_source(source_id, request.user)
 
         # In case user already uploaded a file - delete it first
-        if source.file:
+        if source.file.all():
             shutil.rmtree(source.get_path())
         # Upload file
         source.file = request.FILES["file"]
@@ -120,15 +120,14 @@ def upload_source_file(request, source_id):
 
 
 @login_required(redirect_field_name=None)
-def display_source_file(request, source_id):
+def display_source_file(request, source_file_id):
 
     # Get and check source
-    source = check_source(source_id, request.user)
+    file = check_source_file(source_file_id, request.user)
 
-    source_file = source.file.get_path_to_file()
-    if not source_file:
+    if not file:
         display_error_message(request, "no file was uploaded")
-        return redirect(reverse("bookshelf:source_space", args=(source_id,)))
+        return redirect(reverse("bookshelf:source_space", args=(file.source.pk,)))
     
     # Open source file and send it
-    return FileResponse(open(source_file, "rb"))
+    return FileResponse(open(file, "rb"))

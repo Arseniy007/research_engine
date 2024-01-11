@@ -27,9 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
-
 function add_link_to_source(form, source_id) {
 
     // Add-link-to-source view url
@@ -55,6 +52,23 @@ function add_link_to_source(form, source_id) {
         }
     });
 }
+
+function delete_source_link(source_id) {
+
+    // Delete-source-link view url
+    const url = `/delete_source_link/${source_id}`;
+
+    // Send GET request
+    fetch(url)
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // TODO            
+        }
+        // TODO
+    });
+}
+
 
 function add_quote(form, source_id) {
 

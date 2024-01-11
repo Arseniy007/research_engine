@@ -112,6 +112,25 @@ def alter_source_info(request, source_id):
 
 
 @post_request_required
+@source_ownership_required
+@login_required(redirect_field_name=None)
+def alter_source_reference(request, source_id):
+    """Alter source reference text"""
+
+    form = AlterReferenceForm(request.POST)
+    source = check_source(source_id, request.user)
+    reference = get_source_reference(source)
+
+    if form and form.is_valid():
+        altered_reference = form.save_altered_reference(reference)
+        return JsonResponse({"status": "ok"})
+
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
+
+
+@post_request_required
 @login_required(redirect_field_name=None)
 def add_link_to_source(request, source_id):
     """Adds link to a given source"""
@@ -133,31 +152,13 @@ def add_link_to_source(request, source_id):
 @login_required(redirect_field_name=None)
 @source_ownership_required
 def delete_source_link(request, source_id):
-    # TODO
-
+    "Delete previously added source link"
+    
     source = check_source(source_id, request.user)
     source.link = None
     source.save(update_fields=("link",))
+
     return JsonResponse({"status": "ok"})
-
-
-@post_request_required
-@source_ownership_required
-@login_required(redirect_field_name=None)
-def alter_source_reference(request, source_id):
-    """Alter source reference text"""
-
-    form = AlterReferenceForm(request.POST)
-    source = check_source(source_id, request.user)
-    reference = get_source_reference(source)
-
-    if form and form.is_valid():
-        altered_reference = form.save_altered_reference(reference)
-        return JsonResponse({"status": "ok"})
-
-    # Send redirect url to js
-    display_error_message(request)
-    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
 
 
 @post_request_required
