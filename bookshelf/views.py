@@ -142,7 +142,7 @@ def alter_source_reference(request, source_id):
 
     if form and form.is_valid():
         altered_reference = form.save_altered_reference(reference)
-        return JsonResponse({"status": "ok", "reference": model_to_dict(altered_reference)})
+        return JsonResponse({"status": "ok"})
 
     # Send redirect url to js
     display_error_message(request)

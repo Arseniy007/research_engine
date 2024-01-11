@@ -465,3 +465,10 @@ Don't have an account? <a href="{% url 'user_management:register' %}">Register h
 
 
 <div class="col-md-12 col-md-9 col-lg-7 col-xl-6"></div>
+
+
+<form action="{% url 'bookshelf:alter_source_reference' source.pk  %}" id="alter_reference_form1" method="post">
+    {% csrf_token %} 
+    {{ alter_reference_form }}
+    <button>Alter Source Reference</button>
+</form>

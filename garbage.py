@@ -3731,6 +3731,8 @@ def hide_published_paper(request, paper_id):
             raise PermissionDenied
         return func(request, profile_id)
     return wrapper
+
+            return JsonResponse({"status": "ok", "reference": model_to_dict(altered_reference)})
 """
 
 

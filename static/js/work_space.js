@@ -45,15 +45,39 @@ function load_and_show_source_space(source_id) {
         // Past source space body
         source_space_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
 
+        set_form_validation();
+
+        // Get all new forms
         const alter_source_form = document.querySelector('#alter-source-form');
+        const alter_source_reference_form = document.querySelector('#alter-reference-form');
 
         alter_source_form.addEventListener('submit', event => {
-            event.preventDefault();
-            alter_source_info(alter_source_form, source_id);
+
+            // Set form validation
+            if (!alter_source_form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+                alter_source_form.classList.add('was-validated')
+            }
+            else {
+                event.preventDefault();
+                alter_source_info(alter_source_form, source_id);
+            }
           });
-        
 
+          alter_source_reference_form.addEventListener('submit', event => {
 
+            // Set form validation
+            if (!alter_source_reference_form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+                alter_source_reference_form.classList.add('was-validated')
+            }
+            else {
+                event.preventDefault();
+                alter_source_reference(alter_source_reference_form, source_id);
+            }
+          });
     })
 }
 
@@ -71,7 +95,30 @@ function alter_source_info(form, source_id) {
     .then(result => {
         if (result.status === 'ok') {
 
-            // updated source space
+            // Updated source space
+            load_and_show_source_space(source_id)
+        }
+        else {
+            redirect(result.url)
+        }
+    });
+}
+
+function alter_source_reference(form, source_id) {
+
+    // Alter-source-endnote view url
+    const url = `/alter_source_reference/${source_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+
+            // Updated source space
             load_and_show_source_space(source_id)
         }
         else {
@@ -189,15 +236,4 @@ function handleErrors(response, url) {
         // TODO: other errors 
     }
     return response;
-}
-
-
-function load_script (script_path) {
-
-    const head = document.getElementsByTagName('head')[0];
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = script_path;
-    head.appendChild(script);
-
 }

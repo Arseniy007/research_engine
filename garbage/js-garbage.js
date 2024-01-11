@@ -134,3 +134,42 @@ function load_and_show_source_space(source_id) {
         source_space_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
     })
 }
+
+
+
+function load_script (script_path) {
+
+    const head = document.getElementsByTagName('head')[0];
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = script_path;
+    head.appendChild(script);
+
+}
+
+
+function alter_source_reference(form, source_id) {
+
+    // Alter-source-endnote view url
+    const url = `/alter_source_reference/${source_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Change space title tag
+
+            console.log(result.reference);
+
+            // TODO
+            
+        }
+        else {
+            redirect(result.url)
+        }
+    });
+}

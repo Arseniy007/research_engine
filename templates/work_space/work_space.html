@@ -66,12 +66,14 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="source-space-label-{{ source.pk }}"></h1>
+                         <h1 class="modal-title fs-5" id="source-space-label-{{ source.pk }}"></h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="source-space-div-{{ source.pk }}"></div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Next / previous source</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Open / Upload new file?</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Link to source</button>
                         <button onclick="show_or_hide_source_settings()" type="button" class="btn btn-warning">Alter Source info<i class="fa-solid fa-gears source-settings-icon"></i></button>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 from django import forms
 from .models import Article, Book, Chapter, Quote, Reference, Source, Webpage
-from research_engine.constants import ACCEPTED_UPLOAD_FORMATS
+from utils.data_cleaning import clean_text_data
 from utils.verification import check_link
 
 
@@ -271,29 +271,62 @@ class AlterWebpageForm(WebpageForm):
             if field not in ("source_type", "number_of_authors",):
                 self.fields[field].initial = webpage.__getattribute__(field)
         return self
+    
+
+class AlterReferenceForm(forms.Form):
+    apa = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "apa-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "APA"})
+    )
+
+    mla = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "mla-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "MLA"})
+    )
+
+    def set_initials(self, reference: Reference):
+        """Pre-populate fields"""
+        self.fields["apa"].initial = reference.endnote_apa
+        self.fields["mla"].initial = reference.endnote_mla
+        return self
+        
+
+    def save_altered_reference(self, reference: Reference) -> Reference:
+        """Alter text field in Endnote obj"""
+        reference.endnote_apa = clean_text_data(self.cleaned_data["apa"])
+        reference.endnote_mla = clean_text_data(self.cleaned_data["mla"])
+        reference.save(update_fields=("endnote_apa", "endnote_mla",))
+        return reference
 
 
-class AddLinkForm(forms.Form):
-    link = forms.CharField()
+class NewQuoteForm(forms.Form):
 
-    def save_link(self, source: Source) -> bool | str:
-        """Checks and saves link for given source"""
-        link = self.cleaned_data["link"]
-        if not check_link(link):
-            return False
-        source.link = link
-        source.save(update_fields=("link",))
-        return link
+    text = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "text-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Quote text"})
+    )
 
+    page = forms.IntegerField(widget=forms.NumberInput(attrs={
+        "type": "number",
+        "id": "page-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Quote text"
+    }))
 
-class NewQuoteForm(forms.ModelForm):
-    class Meta:
-        model = Quote
-        fields = ["text", "page"]
     
     def save_quote(self, source: Source) -> Quote:
         """Save new Quote object"""
-        new_quote = Quote(source=source, page=self.cleaned_data["page"], text=self.cleaned_data["text"])
+        new_quote = Quote(source=source, page=self.cleaned_data["page"], text=clean_text_data(self.cleaned_data["text"]))
         new_quote.save()
         return new_quote
 
@@ -317,23 +350,17 @@ class AlterQuoteForm(forms.ModelForm):
         return quote
         
 
-class AlterReferenceForm(forms.Form):
-    apa = forms.CharField(widget=forms.TextInput)
-    mla = forms.CharField(widget=forms.TextInput)
+class AddLinkForm(forms.Form):
+    link = forms.CharField()
 
-    def set_initials(self, reference: Reference):
-        """Pre-populate fields"""
-        self.fields["apa"].initial = reference.endnote_apa
-        self.fields["mla"].initial = reference.endnote_mla
-        return self
-        
-
-    def save_altered_reference(self, reference: Reference) -> Reference:
-        """Alter text field in Endnote obj"""
-        reference.endnote_apa = self.cleaned_data["apa"]
-        reference.endnote_mla = self.cleaned_data["mla"]
-        reference.save(update_fields=("apa", "mla",))
-        return reference
+    def save_link(self, source: Source) -> bool | str:
+        """Checks and saves link for given source"""
+        link = self.cleaned_data["link"]
+        if not check_link(link):
+            return False
+        source.link = link
+        source.save(update_fields=("link",))
+        return link
 
 
 def get_type_of_source_form(data, alter_source=False):
