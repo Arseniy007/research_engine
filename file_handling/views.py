@@ -106,6 +106,9 @@ def upload_source_file(request, source_id):
         source = check_source(source_id, request.user)
 
         # In case user already uploaded a file - delete it first
+
+        # TODO!!!! HERE is a bug :)
+
         if source.file.all():
             shutil.rmtree(source.get_path())
         # Upload file
@@ -125,9 +128,5 @@ def display_source_file(request, source_file_id):
     # Get and check source
     file = check_source_file(source_file_id, request.user)
 
-    if not file:
-        display_error_message(request, "no file was uploaded")
-        return redirect(reverse("bookshelf:source_space", args=(file.source.pk,)))
-    
     # Open source file and send it
     return FileResponse(open(file, "rb"))

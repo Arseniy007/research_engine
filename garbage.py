@@ -3733,6 +3733,12 @@ def hide_published_paper(request, paper_id):
     return wrapper
 
             return JsonResponse({"status": "ok", "reference": model_to_dict(altered_reference)})
+
+
+    if not file:
+        display_error_message(request, "no file was uploaded")
+        return redirect(reverse("bookshelf:source_space", args=(file.source.pk,)))
+    
 """
 
 
