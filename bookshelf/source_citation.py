@@ -17,7 +17,7 @@ def update_source_reference(source: Source):
     reference = get_source_reference(source)
     reference.endnote_apa = make_source_endnote_apa(source)
     reference.endnote_mla = make_source_endnote_mla(source)
-    return reference.save(update_fields=("apa", "mla",))
+    return reference.save(update_fields=("endnote_apa", "endnote_mla",))
 
 
 def get_source_reference(source: Source) -> Reference | Http404:

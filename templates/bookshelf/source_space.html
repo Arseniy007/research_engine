@@ -6,93 +6,146 @@
 {% endblock %}
 
 {% block headless %}
-    <div id="source_space">
+    <div id="source-space-div">
 
-        <h3>{{ source }}</h3>
+        <div id="source-space">
 
-        <!-- Messages -->
-        {% if messages %}
-            <div>
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
+            <h3>{{ source }}</h3>
+
+            <!-- Messages -->
+            {% if messages %}
+                <div>
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            
+            <a href="{% url 'file_handling:display_source_file' source.pk %}"><h2>File</h2></a><br><br>
+
+            <form enctype="multipart/form-data" action="{% url 'file_handling:upload_source_file' source.pk %}" method="post">
+                {% csrf_token %} 
+                {{ upload_file_form }}
+                <button type="submit">Upload Book</button>
+            </form>
+
+            <br><br>
+
+            <h4>Add link</h4>
+            <form action="{% url 'bookshelf:add_link' source.pk %}" id="link_form" method="post">
+                {% csrf_token %} 
+                {{ link_form }}
+                <button>Add</button>
+            </form>
+            <br><br>
+            {% if source.link %}
+                <div id="source_link">
+                    <h5><a id="link_tag" href="{{ source.link }}">Link</a></h5>
+                </div>
+            {% endif %}
+
+            <br><br>
+
+            <h4>Reference</h4>
+            <ul>
+                <li>{{ reference.endnote_apa }}</li>
+                <li>{{ reference.endnote_mla }}</li>
+            </ul>
+
+            <form action="{% url 'bookshelf:alter_source_reference' source.pk  %}" id="alter_reference_form" method="post">
+                {% csrf_token %} 
+                {{ alter_reference_form }}
+                <button>Alter Source Reference</button>
+            </form>
 
         
-        <a href="{% url 'file_handling:display_source_file' source.pk %}"><h2>File</h2></a><br><br>
+            <br><br><br>
+            <br><br><br>
 
-        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_source_file' source.pk %}" method="post">
-            {% csrf_token %} 
-            {{ upload_file_form }}
-            <button type="submit">Upload Book</button>
-        </form>
 
-        <br><br>
+            <form action="{% url 'bookshelf:add_quote' source.pk %}" id="new_quote_form" method="post">
+                {% csrf_token %} 
+                {{ new_quote_form }}
+                <button type="submit">Add Quote</button>
+            </form>
 
-        <h4>Add link</h4>
-        <form action="{% url 'bookshelf:add_link' source.pk %}" id="link_form" method="post">
-            {% csrf_token %} 
-            {{ link_form }}
-            <button>Add</button>
-        </form>
-        <br><br>
-        {% if source.link %}
-            <div id="source_link">
-                <h5><a id="link_tag" href="{{ source.link }}">Link</a></h5>
+
+            <h3>Quotes</h3>
+            <ul>
+                {% for quote in quotes %}
+                <div id="quote_{{ quote.pk }}">
+                    <li>
+                        {{ quote }} | Quote apa: {{ quote.apa }} | Quote mla: {{ quote.mla }}
+                        <button class="delete_quote_buttons" id="{{ quote.pk }}">Delete Quote</button>
+                    </li>
+                </div>
+                {% endfor %}
+            </ul>
+
+            <div id="source_id" style="display: none;">{{ source.pk }}</div>
+        </div>
+
+
+        <div id="source-settings" style="display: none;">
+
+            <div id="TODO">
+                <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+                    <div class="container h-100">
+                        <div class="row d-flex justify-content-center align-items-center h-100">
+                            <div class="col-lg-12 col-lg-9 col-lg-7 col-lg-6">
+                                <div class="card form-card" style="border-radius: 15px;">
+                                    <div class="card-body p-5 form-body">
+                                        <h2 class="text-uppercase text-center mb-5" id="form-header">Alter Source Info</h2>
+                                        <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" class="needs-validation" novalidate>
+                                            {% csrf_token %}
+                                            {{ alter_source_form.source_type }}
+                                            {{ alter_source_form.number_of_authors }}
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ alter_source_form.author }}
+                                                <label class="form-label" for="author-field">Title</label>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please provide books title.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ alter_source_form.title }}
+                                                <label class="form-label" for="title-field">Title</label>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please provide books title.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">
+                                                {{ alter_source_form.publishing_house }}
+                                                <label class="form-label" for="publishing-house-field">Publishing House</label>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please provide books publishing house.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">
+                                                {{ alter_source_form.year }}
+                                                <label class="form-label" for="book-year-field">Year</label>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please provide publishing year.</div>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <input type="submit" value="Alter Info" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
             </div>
-        {% endif %}
 
-        <br><br>
+        </div>
 
-        <h4>Reference</h4>
-        <ul>
-            <li>{{ reference.endnote_apa }}</li>
-            <li>{{ reference.endnote_mla }}</li>
-        </ul>
-
-        <form action="{% url 'bookshelf:alter_source_reference' source.pk  %}" id="alter_reference_form" method="post">
-            {% csrf_token %} 
-            {{ alter_reference_form }}
-            <button>Alter Source Reference</button>
-        </form>
-
-    
-        <br><br><br>
-        <br><br><br>
-
-        <form action="{% url 'bookshelf:alter_source' source.pk %}" id="alter_source_form" method="post">
-            {% csrf_token %} 
-            {{ alter_source_form.as_p }}
-            <button type="submit">Alter Source Info</button>
-        </form>
-
-        <br><br><br>
-        <br><br><br>
-        <br><br><br>
-
-        <form action="{% url 'bookshelf:add_quote' source.pk %}" id="new_quote_form" method="post">
-            {% csrf_token %} 
-            {{ quote_form }}
-            <button type="submit">Add Quote</button>
-        </form>
+     
 
 
-        <h3>Quotes</h3>
-        <ul>
-            {% for quote in quotes %}
-            <div id="quote_{{ quote.pk }}">
-                <li>
-                    {{ quote }} | Quote apa: {{ quote.apa }} | Quote mla: {{ quote.mla }}
-                    <button class="delete_quote_buttons" id="{{ quote.pk }}">Delete Quote</button>
-                </li>
-            </div>
-            {% endfor %}
-        </ul>
 
-        <div id="source_id" style="display: none;">{{ source.pk }}</div>
+
 
     </div>
 {% endblock %}

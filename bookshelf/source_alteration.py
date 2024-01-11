@@ -28,7 +28,7 @@ def update_source_fields(source: Book | Article | Chapter, form: forms.Form) -> 
     """Alter book / article / chapter objs."""
     for field in form.fields:
         # Ignore "source_type" field
-        if field != "source_type":
+        if field not in ("source_type", "number_of_authors",):
             info = form.cleaned_data[field]
             # Check if field was indeed altered
             if source.__getattribute__(field) != info:
@@ -45,7 +45,7 @@ def update_webpage_fields(webpage: Webpage, form: AlterWebpageForm) -> Webpage:
     """Alter webpage obj."""
     for field in form.fields:
         # Ignore "source_type" field
-        if field != "source_type":
+        if field not in ("source_type", "number_of_authors",):
             info = form.cleaned_data[field]
             # Check if field was indeed altered
             if webpage.__getattribute__(field) != info:

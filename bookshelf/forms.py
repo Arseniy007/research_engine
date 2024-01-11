@@ -202,6 +202,8 @@ class AlterBookForm(BookForm):
         "placeholder": "Book author"})
     )
 
+    number_of_authors = forms.IntegerField(widget=forms.HiddenInput, required=False)
+
     def set_initials(self, book: Book):
         for field in self.fields:
             if field not in ("source_type", "number_of_authors",):
@@ -217,6 +219,8 @@ class AlterArticleForm(ArticleForm):
         "autocomplete": "off",
         "placeholder": "Article author"})
     )
+
+    number_of_authors = forms.IntegerField(widget=forms.HiddenInput, required=False)
 
     def set_initials(self, article: Article):
         for field in self.fields:
@@ -242,6 +246,8 @@ class AlterChapterForm(ChapterForm):
         "placeholder": "Chapter author"})
     )
 
+    number_of_authors = forms.IntegerField(widget=forms.HiddenInput, required=False)
+
     def set_initials(self, chapter: Chapter):
         for field in self.fields:
             if field not in ("source_type", "number_of_authors",):
@@ -257,6 +263,8 @@ class AlterWebpageForm(WebpageForm):
         "autocomplete": "off",
         "placeholder": "Webpage author"})
     )
+
+    number_of_authors = forms.IntegerField(widget=forms.HiddenInput, required=False)
 
     def set_initials(self, webpage: Webpage):
         for field in self.fields:

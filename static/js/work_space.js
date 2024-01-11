@@ -40,8 +40,23 @@ function load_and_show_source_space(source_id) {
         let source_space_div = document.querySelector(`#source-space-div-${source_id}`);
 
         // Past fetched html
-        source_space_div.innerHTML = source_space_page.querySelector('#source_space').innerHTML;
+        source_space_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
     })
+}
+
+function show_or_hide_source_settings() {
+
+    const source_div = document.querySelector('#source-space');
+    const source_settings_div = document.querySelector('#source-settings');
+
+    if (source_settings_div.style.display === 'none') {
+        source_div.style.display = 'none';
+        source_settings_div.style.display = 'block';
+    }
+    else {
+        source_settings_div.style.display = 'none';
+        source_div.style.display = 'block';
+    }
 }
 
 
