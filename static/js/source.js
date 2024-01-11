@@ -1,17 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     const source_id = document.querySelector('#source_id').innerHTML;
-    const alter_source_form = document.querySelector('#alter_source_form');
     const add_link_form = document.querySelector('#link_form');
     const new_quote_form = document.querySelector('#new_quote_form');
     const alter_quote_form = document.querySelector('#alter_quote_form');
     const alter_reference_form = document.querySelector('#alter_reference_form');
     const delete_quote_buttons = document.getElementsByClassName('delete_quote_buttons');
-
-    alter_source_form.addEventListener('submit', event => {
-        event.preventDefault();
-        alter_source_info(alter_source_form, source_id);
-      });
     
     add_link_form.addEventListener('submit', event => {
         event.preventDefault();
@@ -38,6 +32,21 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 });
 
+function show_or_hide_source_settings() {
+
+    const source_div = document.querySelector('#source-space');
+    const source_settings_div = document.querySelector('#source-settings');
+
+    if (source_settings_div.style.display === 'none') {
+        source_div.style.display = 'none';
+        source_settings_div.style.display = 'block';
+    }
+    else {
+        source_settings_div.style.display = 'none';
+        source_div.style.display = 'block';
+    }
+}
+
 function alter_source_info(form, source_id) {
 
     // Alter-source-info view url
@@ -52,15 +61,42 @@ function alter_source_info(form, source_id) {
     .then(result => {
         if (result.status === 'ok') {
 
-
-            // TODO
-
+            // updated source space
+            load_and_show_source_space(source_id)
         }
         else {
             redirect(result.url)
         }
     });
 }
+
+function load_and_show_source_space(source_id) {
+
+    // Source-space view url
+    const url = `/source_space/${source_id}`;
+
+    // Send request to source-space view
+    fetch(url)
+    .then(response => handleErrors(response, url))
+    .then(function(response) {
+        // When the page is loaded convert it to text
+        return response.text()
+    })
+    .then(function(html) {
+        // Initialize the DOM parser
+        let parser = new DOMParser();
+
+        // Parse the text
+        let source_space_page = parser.parseFromString(html, "text/html");
+
+        // Get empty div for pasting
+        let source_space_div = document.querySelector(`#source-space-div-${source_id}`);
+
+        // Past fetched html
+        source_space_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
+    })
+}
+
 
 function add_link(form, source_id) {
 

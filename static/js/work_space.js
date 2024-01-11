@@ -41,7 +41,42 @@ function load_and_show_source_space(source_id) {
 
         // Past fetched html
         source_space_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
+
+        //load_script('/static/js/source.js')
+
+        const alter_source_form = document.querySelector('#alter-source-form');
+
+        alter_source_form.addEventListener('submit', event => {
+            event.preventDefault();
+            alter_source_info(alter_source_form, source_id);
+          });
+        
+
+
     })
+}
+
+function alter_source_info(form, source_id) {
+
+    // Alter-source-info view url
+    const url = `/alter_source_info/${source_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+
+            // updated source space
+            load_and_show_source_space(source_id)
+        }
+        else {
+            redirect(result.url)
+        }
+    });
 }
 
 function show_or_hide_source_settings() {
@@ -58,7 +93,6 @@ function show_or_hide_source_settings() {
         source_div.style.display = 'block';
     }
 }
-
 
 function rename_space(form, space_id) {
 
@@ -154,4 +188,15 @@ function handleErrors(response, url) {
         // TODO: other errors 
     }
     return response;
+}
+
+
+function load_script (script_path) {
+
+    const head = document.getElementsByTagName('head')[0];
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = script_path;
+    head.appendChild(script);
+
 }

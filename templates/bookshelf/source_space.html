@@ -99,7 +99,7 @@
                                 <div class="card form-card" style="border-radius: 15px;">
                                     <div class="card-body p-5 form-body">
                                         <h2 class="text-uppercase text-center mb-5" id="form-header">Alter Source Info</h2>
-                                        <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" class="needs-validation" novalidate>
+                                        <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form" class="needs-validation" novalidate>
                                             {% csrf_token %}
                                             {{ alter_source_form.source_type }}
                                             {{ alter_source_form.number_of_authors }}
