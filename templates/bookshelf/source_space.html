@@ -6,12 +6,10 @@
 {% endblock %}
 
 {% block headless %}
+    <div id="source-space-header">"{{ source }}" by {{ source.author }}</div>
     <div id="source-space-div">
 
         <div id="source-space">
-
-            <h3>{{ source }}</h3>
-
             <!-- Messages -->
             {% if messages %}
                 <div>

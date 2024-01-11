@@ -32,70 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 });
 
-function show_or_hide_source_settings() {
 
-    const source_div = document.querySelector('#source-space');
-    const source_settings_div = document.querySelector('#source-settings');
 
-    if (source_settings_div.style.display === 'none') {
-        source_div.style.display = 'none';
-        source_settings_div.style.display = 'block';
-    }
-    else {
-        source_settings_div.style.display = 'none';
-        source_div.style.display = 'block';
-    }
-}
-
-function alter_source_info(form, source_id) {
-
-    // Alter-source-info view url
-    const url = `/alter_source_info/${source_id}`;
-
-    // Send POST request
-    fetch(url, {
-        method: 'POST',
-        body: new FormData(form)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.status === 'ok') {
-
-            // updated source space
-            load_and_show_source_space(source_id)
-        }
-        else {
-            redirect(result.url)
-        }
-    });
-}
-
-function load_and_show_source_space(source_id) {
-
-    // Source-space view url
-    const url = `/source_space/${source_id}`;
-
-    // Send request to source-space view
-    fetch(url)
-    .then(response => handleErrors(response, url))
-    .then(function(response) {
-        // When the page is loaded convert it to text
-        return response.text()
-    })
-    .then(function(html) {
-        // Initialize the DOM parser
-        let parser = new DOMParser();
-
-        // Parse the text
-        let source_space_page = parser.parseFromString(html, "text/html");
-
-        // Get empty div for pasting
-        let source_space_div = document.querySelector(`#source-space-div-${source_id}`);
-
-        // Past fetched html
-        source_space_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
-    })
-}
 
 
 function add_link(form, source_id) {

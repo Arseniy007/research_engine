@@ -39,10 +39,11 @@ function load_and_show_source_space(source_id) {
         // Get empty div for pasting
         let source_space_div = document.querySelector(`#source-space-div-${source_id}`);
 
-        // Past fetched html
-        source_space_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
+        // Past source space header
+        document.querySelector(`#source-space-label-${source_id}`).innerHTML = source_space_page.querySelector('#source-space-header').innerHTML;
 
-        //load_script('/static/js/source.js')
+        // Past source space body
+        source_space_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
 
         const alter_source_form = document.querySelector('#alter-source-form');
 
