@@ -85,7 +85,7 @@ return author_field_page.querySelector('.form-body').innerHTML;
 
 
 
-function alter_source_info(form, source_id) {
+function alter_source_info1(form, source_id) {
 
     // Alter-source-info view url
     const url = `/alter_source_info/${source_id}`;
@@ -167,6 +167,77 @@ function alter_source_reference(form, source_id) {
 
             // TODO
             
+        }
+        else {
+            redirect(result.url)
+        }
+    });
+}
+
+
+function open_source_file(source_file_id) {
+
+    // Display source-file url
+    const url = `/source_file/${source_file_id}`;
+
+}
+
+
+// Get all new forms
+const alter_source_form = document.querySelector(`#alter-source-form-${source_id}`);
+const alter_source_reference_form = document.querySelector(`#alter-reference-form-${source_id}`);
+
+
+alter_source_form.addEventListener('submit', event => {
+
+    // Set form validation
+    if (!alter_source_form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+        alter_source_form.classList.add('was-validated')
+    }
+    else {
+        event.preventDefault();
+        alter_source_info(alter_source_form, source_id);
+    }
+  });
+
+alter_source_reference_form.addEventListener('submit', event => {
+
+    // Set form validation
+    if (!alter_source_reference_form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+        alter_source_reference_form.classList.add('was-validated')
+    }
+    else {
+        event.preventDefault();
+        alter_source_reference(alter_source_reference_form, source_id);
+    }
+});
+
+
+Array.from(forms).forEach(form => async function() {
+
+        
+            
+})
+
+
+function add_link_to_source(form, source_id) {
+
+    // Add-link-to-source view url
+    const url = `/add_link_to_source/${source_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            return true;
         }
         else {
             redirect(result.url)

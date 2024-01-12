@@ -102,6 +102,8 @@ def delete_source(request, source_id):
 def alter_source_info(request, source_id):
     """Allow user to change all source related info"""
 
+    # do I need to change endnotes?
+
     form = get_type_of_source_form(request.POST, alter_source=True)
     print(form.errors)
 

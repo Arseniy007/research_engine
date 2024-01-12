@@ -64,7 +64,7 @@
                                     <div class="card-body p-5 form-body">
                                         <h2 class="text-uppercase text-center mb-5" id="form-header">Edit</h2>
                                         <h4>Source Info</h4>
-                                        <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form" class="needs-validation" novalidate>
+                                        <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
                                             {% csrf_token %}
                                             {{ alter_source_form.source_type }}
                                             {{ alter_source_form.number_of_authors }}
@@ -90,7 +90,7 @@
                                             </div>
                                         </form>
                                         <h4>Reference</h4>
-                                        <form action="{% url 'bookshelf:alter_source_reference' source.pk %}" method="post" id="alter-reference-form" class="needs-validation" novalidate>
+                                        <form action="{% url 'bookshelf:alter_source_reference' source.pk %}" method="post" id="alter-reference-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
                                             {% csrf_token %}
                                             <div class="form-outline mb-4 form-floating">         
                                                 {{ alter_reference_form.apa }}
@@ -104,7 +104,7 @@
                                             </div>
                                         </form>
                                         <h4>Add link to source</h4>
-                                        <form action="{% url 'bookshelf:add_link' source.pk %}" id="link_form" method="post">
+                                        <form action="{% url 'bookshelf:add_link' source.pk %}" id="add-link-form-{{ source.pk }}" method="post" class="edit-form">
                                             {% csrf_token %}
                                             <div class="form-outline mb-4 form-floating">         
                                                 {{ link_form.link }}
@@ -112,7 +112,7 @@
                                             </div>   
                                         </form>
                                         <h4>Upload source file</h4>
-                                        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_source_file' source.pk %}" method="post">
+                                        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_source_file' source.pk %}" method="post" id="upload-file-form-{{ source.pk }}" class="edit-form">
                                             {% csrf_token %}
                                             <div class="form-outline mb-4">         
                                                 {{ upload_file_form.file }}
@@ -120,7 +120,7 @@
                                         </form>
 
                                         <div class="d-flex justify-content-center">
-                                            <input type="submit" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                            <input onclick="submit_source_forms('{{ source.pk }}')" type="button" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
                                         </div>
                                     </div>
                                 </div>

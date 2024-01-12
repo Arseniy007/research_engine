@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     const source_id = document.querySelector('#source_id').innerHTML;
-    const add_link_form = document.querySelector('#link_form');
+    const add_link_form = document.querySelector('#link-form');
     const new_quote_form = document.querySelector('#new_quote_form');
     const alter_quote_form = document.querySelector('#alter_quote_form');
     const delete_quote_buttons = document.getElementsByClassName('delete_quote_buttons');
@@ -26,32 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 });
 
-
-function add_link_to_source(form, source_id) {
-
-    // Add-link-to-source view url
-    const url = `/add_link_to_source/${source_id}`;
-
-    // Send POST request
-    fetch(url, {
-        method: 'POST',
-        body: new FormData(form)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.status === 'ok') {
-  
-            // TODO
-
-            let link_div = document.querySelector('#source_link');
-            link_div.querySelector('#link_tag').href = result.link;
-            link_div.style.display = 'block';
-        }
-        else {
-            redirect(result.url)
-        }
-    });
-}
 
 function delete_source_link(source_id) {
 

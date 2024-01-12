@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
         add_link(link_form, space_id);
       });
 
-
 });
 
 function load_and_show_source_space(source_id) {
@@ -47,86 +46,150 @@ function load_and_show_source_space(source_id) {
 
         set_form_validation();
 
-        // Get all new forms
-        const alter_source_form = document.querySelector('#alter-source-form');
-        const alter_source_reference_form = document.querySelector('#alter-reference-form');
+        const edit_forms = document.getElementsByClassName('edit-form');
+        Array.from(edit_forms).forEach(form => {
+            form.addEventListener('change', function() {
+                form.classList.add('was-changed')
+            })
+        })
 
-        alter_source_form.addEventListener('submit', event => {
-
-            // Set form validation
-            if (!alter_source_form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-                alter_source_form.classList.add('was-validated')
-            }
-            else {
-                event.preventDefault();
-                alter_source_info(alter_source_form, source_id);
-            }
-          });
-
-        alter_source_reference_form.addEventListener('submit', event => {
-
-            // Set form validation
-            if (!alter_source_reference_form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-                alter_source_reference_form.classList.add('was-validated')
-            }
-            else {
-                event.preventDefault();
-                alter_source_reference(alter_source_reference_form, source_id);
-            }
-        });
-
-        // Get open-source-file button to display file
+        // Get open-source-file-button to display file
         const source_file_id = source_space_div.querySelector('#source-file-id').innerHTML;
         document.querySelector(`#open-source-file-button-${source_id}`).href = `/source_file/${source_file_id}`;
     })
 }
 
-function alter_source_info(form, source_id) {
+async function submit_source_forms(source_id) {
+
+    // how to update source button at modal footer?????????????
+
+    // Get all changed forms
+    const forms = document.getElementsByClassName('was-changed');
+
+    if (!forms.length) {
+        // TODO
+        console.log('no form was changed');
+    }
+    else {
+        for await (const form of forms) {
+
+            if (form.id === `alter-source-form-${source_id }`) {
+
+                // Set form validation
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated')
+                }
+                else {
+                    await alter_source_info(form, source_id);
+                }
+            }
+
+            else if (form.id === `alter-reference-form-${source_id}`) {
+
+                // Set form validation
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated')
+                }
+                else {
+                    await alter_source_reference(form, source_id);
+                    // I don't need to update references
+                }
+            }
+
+            else if (form.id === `add-link-form-${source_id}`) {
+                await add_link_to_source(form, source_id);
+            }
+
+            else if (form.id === `upload-file-form-${source_id}`) {
+                await upload_source_file(form, source_id);
+            }
+        }
+        // Update source space
+        load_and_show_source_space(source_id);
+    }
+}
+
+async function alter_source_info(form, source_id) {
 
     // Alter-source-info view url
     const url = `/alter_source_info/${source_id}`;
 
     // Send POST request
-    fetch(url, {
+    return fetch(url, {
         method: 'POST',
         body: new FormData(form)
     })
     .then(response => response.json())
     .then(result => {
         if (result.status === 'ok') {
-
-            // Updated source space
-            load_and_show_source_space(source_id)
+            return true;
+    
         }
         else {
-            redirect(result.url)
+            return redirect(result.url)
         }
-    });
+    })
 }
 
-function alter_source_reference(form, source_id) {
+async function alter_source_reference(form, source_id) {
 
     // Alter-source-endnote view url
     const url = `/alter_source_reference/${source_id}`;
 
     // Send POST request
-    fetch(url, {
+    return fetch(url, {
         method: 'POST',
         body: new FormData(form)
     })
     .then(response => response.json())
     .then(result => {
         if (result.status === 'ok') {
-
-            // Updated source space
-            load_and_show_source_space(source_id)
+            return true;
         }
         else {
-            redirect(result.url)
+            return redirect(result.url)
+        }
+    });
+}
+
+async function add_link_to_source(form, source_id) {
+
+    // Add-link-to-source view url
+    const url = `/add_link_to_source/${source_id}`;
+
+    // Send POST request
+    return fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            return true;
+        }
+        else {
+            return redirect(result.url)
+        }
+    });
+}
+
+async function upload_source_file(form, source_id) {
+
+    // Add-link-to-source view url
+    const url = `/upload_source_file/${source_id}`;
+
+    // Send POST request
+    return fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            return true;
+        }
+        else {
+            return redirect(result.url)
         }
     });
 }
@@ -179,19 +242,6 @@ function show_or_hide_source_settings(source_id) {
         }
     }
 }
-
-function open_source_file(source_file_id) {
-
-    // Display source-file url
-    const url = `/source_file/${source_file_id}`;
-
-
-
-
-
-}
-
-
 
 function rename_space(form, space_id) {
 

@@ -12,7 +12,7 @@ def make_article_endnote_mla(article: dict) -> str:
     """Create mla endnote for given article"""
     author = format_authors_mla(article["author"])
     result: str = (
-        f'{author} "{article["article_title"]}". {article["journal_title"]}, vol. {article["volume"]}, '
+        f'{author}. "{article["article_title"]}". {article["journal_title"]}, vol. {article["volume"]}, '
         f'no. {article["issue"]}, {article["year"]}, pp. {article["pages"]}.'
     )
     return result
