@@ -43,12 +43,12 @@ class Source(models.Model):
     
     
     def get_path(self):
-        """Returns a path to the book directory"""
+        """Returns a path to the source directory"""
         return os.path.join(self.work_space.get_path(), "sources", f"user_{self.user.pk}", f"source_{self.pk}")
     
 
-    def has_file(self):
-        return len(SourceFile.objects.filter(source=self))
+    def has_file(self) -> bool:
+        return bool(len(SourceFile.objects.filter(source=self)))
 
 
 class Book(Source):

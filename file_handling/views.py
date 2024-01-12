@@ -4,11 +4,10 @@ from binascii import hexlify
 from office_word_count import Counter
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
-from django.shortcuts import redirect
 from django.urls import reverse
 from .forms import UploadPaperFileForm, UploadSourceFileForm
 from utils.decorators import paper_authorship_required, post_request_required
-from utils.messages import display_error_message, display_success_message
+from utils.messages import display_error_message
 from utils.verification import check_paper_file, check_paper, check_source, check_source_file
 
 
@@ -22,13 +21,11 @@ def upload_paper_file(request, paper_id):
     if form.is_valid():
         # Get and save new file
         paper = check_paper(paper_id, request.user)
-        form.save_new_file(paper, request.user)
-        display_success_message(request)
-    else:
-        display_error_message(request)
-
-    # TODO Redirect where?
-    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
+        form.save_new_paper_file(paper, request.user)
+        return JsonResponse({"status"" ok"})
+    
+    display_error_message(request, "Something wrong with uploaded file. Try again!")
+    return JsonResponse({"url": reverse("paper_work:paper_space", args=(paper_id,))})
 
 
 @paper_authorship_required
@@ -91,7 +88,7 @@ def clear_paper_file_history(request, paper_id):
 
     paper.clear_file_history()
 
-    return JsonResponse({"message": "ok"})
+    return JsonResponse({"status": "ok"})
 
 
 @post_request_required
@@ -105,21 +102,15 @@ def upload_source_file(request, source_id):
         # Get and save new file
         source = check_source(source_id, request.user)
 
-        # In case user already uploaded a file - delete it first
-
-        # TODO!!!! HERE is a bug :)
-
-        if source.file.all():
+        if source.has_file():
+            # In case user already uploaded a file - delete it first
             shutil.rmtree(source.get_path())
-        # Upload file
-        source.file = request.FILES["file"]
-        source.save(update_fields=("file",))
-        display_success_message(request)
-    else:
-        display_error_message(request)
 
-    # TODO
-    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
+        form.save_new_source_file(source)
+        return JsonResponse({"status": "ok"})
+
+    display_error_message(request, "Something wrong with uploaded file. Try again!")
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
 
 
 @login_required(redirect_field_name=None)
