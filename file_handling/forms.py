@@ -6,6 +6,8 @@ from research_engine.constants import ACCEPTED_UPLOAD_FORMATS
 from user_management.models import User
 
 
+_CLASS = "form-control"
+
 class UploadPaperFileForm(forms.Form):
     file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
 
@@ -16,7 +18,11 @@ class UploadPaperFileForm(forms.Form):
 
 
 class UploadSourceFileForm(forms.Form):
-    file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
+    file = forms.FileField(widget=forms.FileInput(attrs={
+        "accept": ACCEPTED_UPLOAD_FORMATS,
+        "id": "file-field",
+        "class": _CLASS,
+        "placeholder": "File"}))
 
     def save_new_source_file(self, source: Source):
         """Create and save new SourceFile obj"""

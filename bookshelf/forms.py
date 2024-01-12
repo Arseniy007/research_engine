@@ -303,6 +303,25 @@ class AlterReferenceForm(forms.Form):
         reference.endnote_mla = clean_text_data(self.cleaned_data["mla"])
         reference.save(update_fields=("endnote_apa", "endnote_mla",))
         return reference
+    
+
+class AddLinkForm(forms.Form):
+    link = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "link-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Link"})
+    )
+
+    def save_link(self, source: Source) -> bool | str:
+        """Checks and saves link for given source"""
+        link = self.cleaned_data["link"]
+        if not check_link(link):
+            return False
+        source.link = link
+        source.save(update_fields=("link",))
+        return link
 
 
 class NewQuoteForm(forms.Form):
@@ -349,19 +368,6 @@ class AlterQuoteForm(forms.ModelForm):
         quote.save(update_fields=("text", "page",))
         return quote
         
-
-class AddLinkForm(forms.Form):
-    link = forms.CharField()
-
-    def save_link(self, source: Source) -> bool | str:
-        """Checks and saves link for given source"""
-        link = self.cleaned_data["link"]
-        if not check_link(link):
-            return False
-        source.link = link
-        source.save(update_fields=("link",))
-        return link
-
 
 def get_type_of_source_form(data, alter_source=False):
     """

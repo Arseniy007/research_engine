@@ -20,28 +20,6 @@
                     </ul>
                 </div>
             {% endif %}
-
-            <form enctype="multipart/form-data" action="{% url 'file_handling:upload_source_file' source.pk %}" method="post">
-                {% csrf_token %} 
-                {{ upload_file_form }}
-                <button type="submit">Upload File</button>
-            </form>
-
-            <br>
-
-            <h4>Add link</h4>
-            <form action="{% url 'bookshelf:add_link' source.pk %}" id="link_form" method="post">
-                {% csrf_token %} 
-                {{ link_form }}
-                <button>Add</button>
-            </form>
-            <br>
-            {% if source.link %}
-                <div id="source_link">
-                    <h5><a id="link_tag" href="{{ source.link }}">Link</a></h5>
-                </div>
-            {% endif %}
-
             <br>
 
             <h4>Reference</h4>
@@ -84,14 +62,15 @@
                             <div class="col-lg-12 col-lg-9 col-lg-7 col-lg-6">
                                 <div class="card form-card" style="border-radius: 15px;">
                                     <div class="card-body p-5 form-body">
-                                        <h2 class="text-uppercase text-center mb-5" id="form-header">Alter Source Info</h2>
+                                        <h2 class="text-uppercase text-center mb-5" id="form-header">Edit</h2>
+                                        <h4>Source Info</h4>
                                         <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form" class="needs-validation" novalidate>
                                             {% csrf_token %}
                                             {{ alter_source_form.source_type }}
                                             {{ alter_source_form.number_of_authors }}
                                             <div class="form-outline mb-4 form-floating">         
                                                 {{ alter_source_form.author }}
-                                                <label class="form-label" for="author-field">Title</label>
+                                                <label class="form-label" for="author-field">Author</label>
                                                 <div class="invalid-feedback">Please provide books title.</div>
                                             </div>
                                             <div class="form-outline mb-4 form-floating">         
@@ -109,26 +88,8 @@
                                                 <label class="form-label" for="book-year-field">Year</label>
                                                 <div class="invalid-feedback">Please provide publishing year.</div>
                                             </div>
-                                            <div class="d-flex justify-content-center">
-                                                <input type="submit" value="Alter Info" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
-                                            </div>
                                         </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
-            </div>
-            <br><br><br>
-            <div id="TODO">
-                <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-                    <div class="container h-100">
-                        <div class="row d-flex justify-content-center align-items-center h-100">
-                            <div class="col-lg-12 col-lg-9 col-lg-7 col-lg-6">
-                                <div class="card form-card" style="border-radius: 15px;">
-                                    <div class="card-body p-5 form-body">
-                                        <h2 class="text-uppercase text-center mb-5" id="form-header">Edit Reference</h2>
+                                        <h4>Reference</h4>
                                         <form action="{% url 'bookshelf:alter_source_reference' source.pk %}" method="post" id="alter-reference-form" class="needs-validation" novalidate>
                                             {% csrf_token %}
                                             <div class="form-outline mb-4 form-floating">         
@@ -141,10 +102,26 @@
                                                 <label class="form-label" for="mla-field">MLA</label>
                                                 <div class="invalid-feedback">Please provide MLA Reference.</div>
                                             </div>
-                                            <div class="d-flex justify-content-center">
-                                                <input type="submit" value="Edit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                        </form>
+                                        <h4>Add link to source</h4>
+                                        <form action="{% url 'bookshelf:add_link' source.pk %}" id="link_form" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ link_form.link }}
+                                                <label class="form-label" for="link-field">Link</label>
+                                            </div>   
+                                        </form>
+                                        <h4>Upload source file</h4>
+                                        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_source_file' source.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-outline mb-4">         
+                                                {{ upload_file_form.file }}
                                             </div>
                                         </form>
+
+                                        <div class="d-flex justify-content-center">
+                                            <input type="submit" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -152,6 +129,8 @@
                     </div>
                 </div>    
             </div>
+            <br><br><br>
+           
 
 
             </div>
