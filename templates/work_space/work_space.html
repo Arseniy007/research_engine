@@ -70,14 +70,23 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="source-space-div-{{ source.pk }}"></div>
-                    <div class="modal-footer">
-                        <a href="#" id="open-source-file-button-{{ source.pk }}">
-                            <button type="button" class="btn btn-dark">Open File <i class="fa-solid fa-file"></i></button>
-                        </a>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Next / previous source</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Open / Upload new file?</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Link to source</button>
-                        <button onclick="show_or_hide_source_settings()" type="button" class="btn btn-warning">Alter Source info<i class="fa-solid fa-gears source-settings-icon"></i></button>
+                    <div class="modal-footer source-footer">
+                        <div class="left-source-buttons">
+                            <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" id="show-source-settings-button-{{ source.pk }}" class="btn btn-warning">Edit<i class="fa-solid fa-gears source-modal-icon"></i></button>
+                            {% if source.has_file %}
+                                <a href="#" id="open-source-file-button-{{ source.pk }}">
+                                    <button type="button" class="btn btn-dark">Open File <i class="fa-solid fa-file"></i></button>
+                                </a>
+                            {% endif %}
+                            {% if source.link %}
+                                <a href="{{ source.link }}" id="source-link-button-{{ source.pk }}">
+                                    <button type="button" class="btn btn-dark">Link<i class="fa-solid fa-link source-modal-icon"></i></button>
+                                </a>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="btn btn-secondary" style="display: none;">Next / previous source</button>
+                        <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" class="btn btn-secondary" id="close-source-settings-button-{{ source.pk }}" style="display: none;">Back</button>
+                        <button type="button" class="btn btn-secondary" id="close-source-button-{{ source.pk }}" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

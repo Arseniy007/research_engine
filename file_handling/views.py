@@ -102,7 +102,7 @@ def upload_source_file(request, source_id):
         # Get and save new file
         source = check_source(source_id, request.user)
 
-        if source.has_file():
+        if source.has_file:
             # In case user already uploaded a file - delete it first
             old_file = source.get_file()
             old_file.delete()

@@ -18,6 +18,7 @@ class Source(models.Model):
     author = models.CharField(max_length=70, blank=True)
     year = models.CharField(max_length=5, blank=True)
     link = models.CharField(max_length=40, blank=True)
+    has_file = models.BooleanField(default=False)
     
 
     def __str__(self):
@@ -46,9 +47,6 @@ class Source(models.Model):
         """Returns a path to the source directory"""
         return os.path.join(self.work_space.get_path(), "sources", f"user_{self.user.pk}", f"source_{self.pk}")
     
-
-    def has_file(self) -> bool:
-        return bool(len(SourceFile.objects.filter(source=self)))
     
     def get_file(self) -> SourceFile:
         return SourceFile.objects.get(source=self)

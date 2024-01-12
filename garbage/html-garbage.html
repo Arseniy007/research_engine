@@ -472,3 +472,6 @@ Don't have an account? <a href="{% url 'user_management:register' %}">Register h
     {{ alter_reference_form }}
     <button>Alter Source Reference</button>
 </form>
+
+
+<button type="button" class="btn btn-dark" id="upload-file-button-{{ source.pk }}" style="display: none;">Upload new file <i class="fa-solid fa-upload"></i></button>

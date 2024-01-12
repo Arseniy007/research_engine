@@ -22,9 +22,14 @@ def source_space(request, source_id):
     source = check_source(source_id, request.user)
     reference = get_source_reference(source)
 
+    if source.has_file:
+        source_file = source.get_file()
+    else:
+        source_file = None
+
     source_data = {
             "source": source,
-            "source_file": source.get_file(),
+            "source_file": source_file,
             "quotes": source.quotes.all(),
             "reference": reference,
             "alter_source_form": get_and_set_alter_form(source),
@@ -83,7 +88,7 @@ def delete_source(request, source_id):
     source = check_source(source_id, request.user)
 
     # Delete paper directory with all files inside
-    if source.file:
+    if source.has_file:
         shutil.rmtree(source.get_path())
 
     # Delete source from the db
