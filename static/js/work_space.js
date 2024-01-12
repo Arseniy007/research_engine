@@ -65,7 +65,7 @@ function load_and_show_source_space(source_id) {
             }
           });
 
-          alter_source_reference_form.addEventListener('submit', event => {
+        alter_source_reference_form.addEventListener('submit', event => {
 
             // Set form validation
             if (!alter_source_reference_form.checkValidity()) {
@@ -77,7 +77,11 @@ function load_and_show_source_space(source_id) {
                 event.preventDefault();
                 alter_source_reference(alter_source_reference_form, source_id);
             }
-          });
+        });
+
+        // Get open-source-file button to display file
+        const source_file_id = source_space_div.querySelector('#source-file-id').innerHTML;
+        document.querySelector(`#open-source-file-button-${source_id}`).href = `/source_file/${source_file_id}`;
     })
 }
 
@@ -141,6 +145,19 @@ function show_or_hide_source_settings() {
         source_div.style.display = 'block';
     }
 }
+
+function open_source_file(source_file_id) {
+
+    // Display source-file url
+    const url = `/source_file/${source_file_id}`;
+
+
+
+
+
+}
+
+
 
 function rename_space(form, space_id) {
 

@@ -20,17 +20,11 @@
                     </ul>
                 </div>
             {% endif %}
-            
-            {% if source.file %}
-            <h4>File</h4>
-                <a href="{% url 'file_handling:display_source_file' source_file.pk %}">
-                    <i class="fa-solid fa-file fa-4x"></i>
-                </a><br><br><br>
-            {% endif %}
+
             <form enctype="multipart/form-data" action="{% url 'file_handling:upload_source_file' source.pk %}" method="post">
                 {% csrf_token %} 
                 {{ upload_file_form }}
-                <button type="submit">Upload Book</button>
+                <button type="submit">Upload File</button>
             </form>
 
             <br>
@@ -77,6 +71,7 @@
             </ul>
 
             <div id="source_id" style="display: none;">{{ source.pk }}</div>
+            <div id="source-file-id" style="display: none;">{{ source_file.pk }}</div>
         </div>
 
 
