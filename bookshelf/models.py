@@ -49,6 +49,9 @@ class Source(models.Model):
 
     def has_file(self) -> bool:
         return bool(len(SourceFile.objects.filter(source=self)))
+    
+    def get_file(self) -> SourceFile:
+        return SourceFile.objects.get(source=self)
 
 
 class Book(Source):

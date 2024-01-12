@@ -23,7 +23,7 @@
             
             {% if source.file %}
             <h4>File</h4>
-                <a href="{% url 'file_handling:display_source_file' source.pk %}">
+                <a href="{% url 'file_handling:display_source_file' source_file.pk %}">
                     <i class="fa-solid fa-file fa-4x"></i>
                 </a><br><br><br>
             {% endif %}

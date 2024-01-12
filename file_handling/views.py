@@ -22,7 +22,7 @@ def upload_paper_file(request, paper_id):
         # Get and save new file
         paper = check_paper(paper_id, request.user)
         form.save_new_paper_file(paper, request.user)
-        return JsonResponse({"status"" ok"})
+        return JsonResponse({"status": "ok"})
     
     display_error_message(request, "Something wrong with uploaded file. Try again!")
     return JsonResponse({"url": reverse("paper_work:paper_space", args=(paper_id,))})
@@ -104,6 +104,8 @@ def upload_source_file(request, source_id):
 
         if source.has_file():
             # In case user already uploaded a file - delete it first
+            old_file = source.get_file()
+            old_file.delete()
             shutil.rmtree(source.get_path())
 
         form.save_new_source_file(source)
@@ -120,4 +122,4 @@ def display_source_file(request, source_file_id):
     file = check_source_file(source_file_id, request.user)
 
     # Open source file and send it
-    return FileResponse(open(file, "rb"))
+    return FileResponse(open(file.get_path_to_file(), "rb"))

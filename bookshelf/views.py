@@ -24,6 +24,7 @@ def source_space(request, source_id):
 
     source_data = {
             "source": source,
+            "source_file": source.get_file(),
             "quotes": source.quotes.all(),
             "reference": reference,
             "alter_source_form": get_and_set_alter_form(source),

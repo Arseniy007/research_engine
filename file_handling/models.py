@@ -14,8 +14,8 @@ def paper_saving_path(instance, filename):
 
 def source_saving_path(instance, filename):
     """File will be uploaded to MEDIA_ROOT/work_space_<id>/books/user_<id>/source_<id>/<filename>"""
-    space_path = instance.work_space.get_base_dir()
-    user_id, source_id = instance.user.pk, instance.pk
+    space_path = instance.source.work_space.get_base_dir()
+    user_id, source_id = instance.source.user.pk, instance.source.pk
     return os.path.join(space_path, "sources", f"user_{user_id}", f"source_{source_id}", filename)
 
 
