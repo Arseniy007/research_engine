@@ -113,21 +113,35 @@
         </div>
     </div>
     <div id="source-footer">
-        <div class="left-source-buttons">
-            <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" id="show-source-settings-button-{{ source.pk }}" class="btn btn-warning">Edit<i class="fa-solid fa-gears source-modal-icon"></i></button>
+        <div class="footer-elems-left">
+            <div class="footer-elem">
+                <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" id="show-source-settings-button-{{ source.pk }}" class="btn btn-warning">Edit<i class="fa-solid fa-gears source-modal-icon"></i></button>
+            </div>
             {% if source.has_file %}
-                <a href="#" id="open-source-file-button-{{ source.pk }}">
-                    <button type="button" class="btn btn-dark">Open File <i class="fa-solid fa-file"></i></button>
-                </a>
+                <div class="footer-elem">
+                    <a href="#" id="open-source-file-button-{{ source.pk }}">
+                        <button type="button" class="btn btn-dark">Open File <i class="fa-solid fa-file"></i></button>
+                    </a>
+                </div>
             {% endif %}
             {% if source.link %}
-                <a href="{{ source.link }}" id="source-link-button-{{ source.pk }}">
-                    <button type="button" class="btn btn-dark">Link<i class="fa-solid fa-link source-modal-icon"></i></button>
-                </a>
+                <div class="footer-elem source-link-button">
+                    <a href="{{ source.link }}" id="source-link-button-{{ source.pk }}">
+                        <button type="button" class="btn btn-dark">Link<i class="fa-solid fa-link source-modal-icon"></i></button>
+                    </a>
+                </div>
             {% endif %}
         </div>
-        <button type="button" class="btn btn-secondary" style="display: none;">Next / previous source</button>
-        <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" class="btn btn-secondary" id="close-source-settings-button-{{ source.pk }}" style="display: none;">Back</button>
-        <button type="button" class="btn btn-secondary" id="close-source-button-{{ source.pk }}" data-bs-dismiss="modal">Close</button>
+        <div class="footer-elems-right">
+            <div class="footer-elem previous-source-button">
+                <button type="button" class="btn btn-secondary"><i class="fa-solid fa-left-long"></i></button>
+            </div>
+            <div class="footer-elem">
+                <button type="button" class="btn btn-secondary"><i class="fa-solid fa-right-long"></i></button>
+            </div>
+            <div class="footer-elem">
+                <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" class="btn btn-secondary" id="close-source-settings-button-{{ source.pk }}" style="display: none;">Back</button>
+            </div>
+        </div>
     </div>
 {% endblock %}

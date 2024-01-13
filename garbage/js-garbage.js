@@ -290,3 +290,8 @@ add_link_form.addEventListener('submit', event => {
     event.preventDefault();
     add_link_to_source(add_link_form, source_id);
   });
+
+
+  const close_button = document.querySelector(`#close-source-button-${source_id}`);
+  close_button.style.display = 'none';
+  close_button.style.display = 'inline-block';

@@ -180,7 +180,6 @@ function show_or_hide_source_settings(source_id) {
     // Get all buttons
     const show_settings_button = document.querySelector(`#show-source-settings-button-${source_id}`);
     const close_settings_button = document.querySelector(`#close-source-settings-button-${source_id}`);
-    const close_button = document.querySelector(`#close-source-button-${source_id}`);
     const link_button = document.querySelector(`#source-link-button-${source_id}`);
     const open_file_button = document.querySelector(`#open-source-file-button-${source_id}`);
 
@@ -189,9 +188,8 @@ function show_or_hide_source_settings(source_id) {
         source_settings_div.style.display = 'block';
 
         // Change all buttons
-        close_button.style.display = 'none';
         show_settings_button.style.display = 'none';
-        close_settings_button.style.display = 'block';
+        close_settings_button.style.display = 'inline-block';
 
         if (open_file_button) {
             open_file_button.style.display = 'none';
@@ -208,15 +206,14 @@ function show_or_hide_source_settings(source_id) {
 
         // Change all buttons
         close_settings_button.style.display = 'none';
-        show_settings_button.style.display = 'inline';
-        close_button.style.display = 'block';
+        show_settings_button.style.display = 'inline-block';
 
         if (open_file_button) {
-            open_file_button.style.display = 'inline';
+            open_file_button.style.display = 'inline-block';
         }
 
         if (link_button) {
-            link_button.style.display = 'inline';
+            link_button.style.display = 'inline-block';
         }
     }
 }

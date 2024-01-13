@@ -149,7 +149,6 @@
 
 .form-card 
 {
- 
   margin: 0 auto;
   text-align: center;
 }
@@ -162,11 +161,6 @@
 .source-modal-icon
 {
   margin-left: 5px;
-}
-
-.left-source-buttons
-{
-  float: left;
 }
 
 a:link { 
@@ -182,13 +176,22 @@ a:active {
   text-decoration: none; 
 }
 
-.left-source-buttons
+.source-footer 
 {
-  margin: 0 125px;
-  
+  background-color: red;
 }
 
-.source-footer
+.footer-elem
 {
   display: inline;
+}
+
+.source-link-button
+{
+  margin-right: 180px;
+}
+
+.previous-source-button
+{
+  margin-left: 180px;
 }

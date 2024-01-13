@@ -233,3 +233,17 @@ body
   /* Chrome 26+, Safari 7+ */
   background: linear-gradient(to right, rgba(189, 138, 61, 0.944), rgba(189, 138, 61, 0.944))
 }
+
+
+.right-source-buttons
+{
+  float: right;
+  width: 30%;
+  align-items: right;
+}
+
+.left-source-buttons
+{
+  width: auto;
+  margin-right: 20px;
+}
