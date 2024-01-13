@@ -102,7 +102,6 @@ def alter_source_info(request, source_id):
     """Allow user to change all source related info"""
 
     form = get_type_of_source_form(request.POST, alter_source=True)
-    print(form.errors)
 
     if form and form.is_valid():
         # Check source and get its attrs

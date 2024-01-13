@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Set form Validation
             if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
+                event.preventDefault();
+                event.stopPropagation();
                 form.classList.add('was-validated')
               }
             else {

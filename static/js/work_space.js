@@ -35,17 +35,18 @@ function load_and_show_source_space(source_id) {
         // Parse the text
         let source_space_page = parser.parseFromString(html, "text/html");
 
-        // Get empty div for pasting
+        // Get empty divs for pasting
         let source_space_div = document.querySelector(`#source-space-div-${source_id}`);
+        let source_footer_div = document.querySelector(`#source-footer-div-${source_id}`);
 
         // Past source space header
-        document.querySelector(`#source-space-label-${source_id}`).innerHTML = source_space_page.querySelector('#source-space-header').innerHTML;
+        let source_space_header = source_space_page.querySelector('#source-space-header');
+        document.querySelector(`#source-space-label-${source_id}`).innerHTML = source_space_header.innerHTML;
 
-        // Past source space body
+        // Past source space body and footer
         source_space_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
-
-        set_form_validation();
-
+        source_footer_div.innerHTML= source_space_page.querySelector('#source-footer').innerHTML;
+  
         const edit_forms = document.getElementsByClassName('edit-form');
         Array.from(edit_forms).forEach(form => {
             form.addEventListener('change', function() {
@@ -55,19 +56,23 @@ function load_and_show_source_space(source_id) {
 
         // Get open-source-file-button to display file
         const source_file_id = source_space_div.querySelector('#source-file-id').innerHTML;
-        document.querySelector(`#open-source-file-button-${source_id}`).href = `/source_file/${source_file_id}`;
+        const open_file_button = document.querySelector(`#open-source-file-button-${source_id}`);
+        if (open_file_button) {
+            open_file_button.href = `/source_file/${source_file_id}`;
+        }
     })
 }
 
 async function submit_source_forms(source_id) {
 
+    // TODO
     // how to update source button at modal footer?????????????
 
     // Get all changed forms
     const forms = document.getElementsByClassName('was-changed');
 
     if (!forms.length) {
-
+        // In case no form was changed
         return;
     }
 
@@ -76,6 +81,7 @@ async function submit_source_forms(source_id) {
             // Set form validation
             if (!form.checkValidity()) {
                 form.classList.add('was-validated')
+                return;
             }
             else {
                 // Update source main info
@@ -86,6 +92,7 @@ async function submit_source_forms(source_id) {
             // Set form validation
             if (!form.checkValidity()) {
                 form.classList.add('was-validated')
+                return;
             }
             else {
                 // Update source link
@@ -99,7 +106,6 @@ async function submit_source_forms(source_id) {
     }
     // Update source space
     load_and_show_source_space(source_id);
-    
 }
 
 async function alter_source_info(form, source_id) {

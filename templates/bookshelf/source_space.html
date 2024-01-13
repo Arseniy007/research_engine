@@ -51,70 +51,83 @@
             <div id="source_id" style="display: none;">{{ source.pk }}</div>
             <div id="source-file-id" style="display: none;">{{ source_file.pk }}</div>
         </div>
-
-
         <div id="source-settings" style="display: none;">
-
-            <div id="TODO">
-                <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-                    <div class="container h-100">
-                        <div class="row d-flex justify-content-center align-items-center h-100">
-                            <div class="col-lg-12 col-lg-9 col-lg-7 col-lg-6">
-                                <div class="card form-card" style="border-radius: 15px;">
-                                    <div class="card-body p-5 form-body">
-                                        <h2 class="text-uppercase text-center mb-4" id="form-header">Edit</h2>
-                                        <h4>Source Info</h4>
-                                        <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
-                                            {% csrf_token %}
-                                            {{ alter_source_form.source_type }}
-                                            {{ alter_source_form.number_of_authors }}
-                                            <div class="form-outline mb-4 form-floating">         
-                                                {{ alter_source_form.author }}
-                                                <label class="form-label" for="author-field">Author</label>
-                                                <div class="invalid-feedback">Please provide books title.</div>
-                                            </div>
-                                            <div class="form-outline mb-4 form-floating">         
-                                                {{ alter_source_form.title }}
-                                                <label class="form-label" for="title-field">Title</label>
-                                                <div class="invalid-feedback">Please provide books title.</div>
-                                            </div>
-                                            <div class="form-outline mb-4 form-floating">
-                                                {{ alter_source_form.publishing_house }}
-                                                <label class="form-label" for="publishing-house-field">Publishing House</label>
-                                                <div class="invalid-feedback">Please provide books publishing house.</div>
-                                            </div>
-                                            <div class="form-outline mb-4 form-floating">
-                                                {{ alter_source_form.year }}
-                                                <label class="form-label" for="book-year-field">Year</label>
-                                                <div class="invalid-feedback">Please provide publishing year.</div>
-                                            </div>
-                                        </form>
-                                        <h4>Add link to source</h4>
-                                        <form action="{% url 'bookshelf:add_link' source.pk %}" id="add-link-form-{{ source.pk }}" method="post" class="needs-validation edit-form" novalidate>
-                                            {% csrf_token %}
-                                            <div class="form-outline mb-4 form-floating">         
-                                                {{ link_form.link }}
-                                                <label class="form-label" for="link-field">Link</label>
-                                            </div>   
-                                        </form>
-                                        <h4>Upload source file</h4>
-                                        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_source_file' source.pk %}" method="post" id="upload-file-form-{{ source.pk }}" class="edit-form">
-                                            {% csrf_token %}
-                                            <div class="form-outline mb-4">         
-                                                {{ upload_file_form.file }}
-                                            </div>
-                                        </form>
-
-                                        <div class="d-flex justify-content-center">
-                                            <input onclick="submit_source_forms('{{ source.pk }}')" type="button" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+            <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+                <div class="container h-100">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col-lg-12 col-lg-9 col-lg-7 col-lg-6">
+                            <div class="card form-card" style="border-radius: 15px;">
+                                <div class="card-body p-5 form-body">
+                                    <h2 class="text-uppercase text-center mb-4" id="form-header">Edit</h2>
+                                    <h4>Source Info</h4>
+                                    <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
+                                        {% csrf_token %}
+                                        {{ alter_source_form.source_type }}
+                                        {{ alter_source_form.number_of_authors }}
+                                        <div class="form-outline mb-4 form-floating">         
+                                            {{ alter_source_form.author }}
+                                            <label class="form-label" for="author-field">Author</label>
+                                            <div class="invalid-feedback">Please provide books title.</div>
                                         </div>
+                                        <div class="form-outline mb-4 form-floating">         
+                                            {{ alter_source_form.title }}
+                                            <label class="form-label" for="title-field">Title</label>
+                                            <div class="invalid-feedback">Please provide books title.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ alter_source_form.publishing_house }}
+                                            <label class="form-label" for="publishing-house-field">Publishing House</label>
+                                            <div class="invalid-feedback">Please provide books publishing house.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ alter_source_form.year }}
+                                            <label class="form-label" for="book-year-field">Year</label>
+                                            <div class="invalid-feedback">Please provide publishing year.</div>
+                                        </div>
+                                    </form>
+                                    <h4>Add link to source</h4>
+                                    <form action="{% url 'bookshelf:add_link' source.pk %}" id="add-link-form-{{ source.pk }}" method="post" class="needs-validation edit-form" novalidate>
+                                        {% csrf_token %}
+                                        <div class="form-outline mb-4 form-floating">         
+                                            {{ link_form.link }}
+                                            <label class="form-label" for="link-field">Link</label>
+                                            <div class="invalid-feedback">Please provide a valid url.</div>
+                                        </div>   
+                                    </form>
+                                    <h4>Upload source file</h4>
+                                    <form enctype="multipart/form-data" action="{% url 'file_handling:upload_source_file' source.pk %}" method="post" id="upload-file-form-{{ source.pk }}" class="edit-form">
+                                        {% csrf_token %}
+                                        <div class="form-outline mb-4">         
+                                            {{ upload_file_form.file }}
+                                        </div>
+                                    </form>
+                                    <div class="d-flex justify-content-center">
+                                        <input onclick="submit_source_forms('{{ source.pk }}')" type="button" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" formnovalidate></input>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>    
-            </div>
+                </div>
+            </div>    
         </div>
+    </div>
+    <div id="source-footer">
+        <div class="left-source-buttons">
+            <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" id="show-source-settings-button-{{ source.pk }}" class="btn btn-warning">Edit<i class="fa-solid fa-gears source-modal-icon"></i></button>
+            {% if source.has_file %}
+                <a href="#" id="open-source-file-button-{{ source.pk }}">
+                    <button type="button" class="btn btn-dark">Open File <i class="fa-solid fa-file"></i></button>
+                </a>
+            {% endif %}
+            {% if source.link %}
+                <a href="{{ source.link }}" id="source-link-button-{{ source.pk }}">
+                    <button type="button" class="btn btn-dark">Link<i class="fa-solid fa-link source-modal-icon"></i></button>
+                </a>
+            {% endif %}
+        </div>
+        <button type="button" class="btn btn-secondary" style="display: none;">Next / previous source</button>
+        <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" class="btn btn-secondary" id="close-source-settings-button-{{ source.pk }}" style="display: none;">Back</button>
+        <button type="button" class="btn btn-secondary" id="close-source-button-{{ source.pk }}" data-bs-dismiss="modal">Close</button>
     </div>
 {% endblock %}
