@@ -549,7 +549,7 @@ Don't have an account? <a href="{% url 'user_management:register' %}">Register h
 
 <div id="source-footer">
     <div class="left-source-buttons">
-        <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" id="show-source-settings-button-{{ source.pk }}" class="btn btn-warning">Edit<i class="fa-solid fa-gears source-modal-icon"></i></button>
+        <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" id="show-source-settings-button-{{ source.id }}" class="btn btn-warning">Edit<i class="fa-solid fa-gears source-modal-icon"></i></button>
         {% if source.has_file %}
             <a href="#" id="open-source-file-button-{{ source.pk }}">
                 <button type="button" class="btn btn-dark">Open File <i class="fa-solid fa-file"></i></button>
@@ -570,3 +570,5 @@ Don't have an account? <a href="{% url 'user_management:register' %}">Register h
 
 
         <button type="button" class="btn btn-secondary" id="close-source-button-{{ source.pk }}" data-bs-dismiss="modal">Close</button>
+
+onclick="load_and_show_source_space('{{ source.id }}')"

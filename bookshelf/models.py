@@ -48,8 +48,10 @@ class Source(models.Model):
         return os.path.join(self.work_space.get_path(), "sources", f"user_{self.user.pk}", f"source_{self.pk}")
     
     
-    def get_file(self) -> SourceFile:
+    def get_file(self) -> SourceFile | None:
+        """Get file attached to source obj"""
         return SourceFile.objects.get(source=self)
+
 
 
 class Book(Source):

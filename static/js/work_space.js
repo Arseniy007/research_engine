@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    //connect_modals_to_sources();
+
     const space_id = document.querySelector('#space_id').innerHTML;
     const rename_space_form = document.querySelector('#rename_space_form');
     const link_form = document.querySelector('#link_form');
@@ -16,17 +18,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-function set_id_to_source_modals() {
+
+function toggle_between_modals(source_number) {
+    console.log('yes');
+    const open_source_button = document.querySelector(`#open-modal-button-${source_number}`);
+    open_source_button.click();
+    open_source_button.click();
+    open_source_button.click();
+}
+
+
+function connect_modals_to_sources() {
 
     const sources = document.getElementsByClassName('source-modal');
-    const number_of_sources = sources.length;
 
-    for (let i = 0; i < number_of_sources; i++) {
+    Array.from(sources).forEach(source => {
+        source.addEventListener('shown.bs.modal', () => {
 
-        // Set id for source modal
-        const source = sources[i];
-        source.id = `source-space-${i}`;
-    }
+            const source_id = source.querySelector('#source-id').innerHTML;
+            load_and_show_source_space(source_id);
+        })
+    })
 }
 
 function load_and_show_source_space(source_id) {
