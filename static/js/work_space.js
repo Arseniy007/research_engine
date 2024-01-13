@@ -182,6 +182,7 @@ function show_or_hide_source_settings(source_id) {
     const close_settings_button = document.querySelector(`#close-source-settings-button-${source_id}`);
     const link_button = document.querySelector(`#source-link-button-${source_id}`);
     const open_file_button = document.querySelector(`#open-source-file-button-${source_id}`);
+    const arrow_buttons = document.getElementsByClassName('arrow-button');
 
     if (source_settings_div.style.display === 'none') {
         source_div.style.display = 'none';
@@ -198,6 +199,10 @@ function show_or_hide_source_settings(source_id) {
         if (link_button) {
             link_button.style.display = 'none';
         }
+
+        Array.from(arrow_buttons).forEach(button => {
+            button.style.display = 'none';
+        })
         
     }
     else {
@@ -215,6 +220,10 @@ function show_or_hide_source_settings(source_id) {
         if (link_button) {
             link_button.style.display = 'inline-block';
         }
+
+        Array.from(arrow_buttons).forEach(button => {
+            button.style.display = 'inline-block';
+        })
     }
 }
 

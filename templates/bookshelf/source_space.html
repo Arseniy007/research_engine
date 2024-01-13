@@ -115,6 +115,9 @@
     <div id="source-footer">
         <div class="footer-elems-left">
             <div class="footer-elem">
+                <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" class="btn btn-secondary" id="close-source-settings-button-{{ source.pk }}" style="display: none;">Back</button>
+            </div>
+            <div class="footer-elem">
                 <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" id="show-source-settings-button-{{ source.pk }}" class="btn btn-warning">Edit<i class="fa-solid fa-gears source-modal-icon"></i></button>
             </div>
             {% if source.has_file %}
@@ -134,13 +137,10 @@
         </div>
         <div class="footer-elems-right">
             <div class="footer-elem previous-source-button">
-                <button type="button" class="btn btn-secondary"><i class="fa-solid fa-left-long"></i></button>
+                <button type="button" class="btn btn-secondary arrow-button"><i class="fa-solid fa-left-long"></i></button>
             </div>
             <div class="footer-elem">
-                <button type="button" class="btn btn-secondary"><i class="fa-solid fa-right-long"></i></button>
-            </div>
-            <div class="footer-elem">
-                <button onclick="show_or_hide_source_settings('{{ source.pk }}')" type="button" class="btn btn-secondary" id="close-source-settings-button-{{ source.pk }}" style="display: none;">Back</button>
+                <button type="button" class="btn btn-secondary arrow-button"><i class="fa-solid fa-right-long"></i></button>
             </div>
         </div>
     </div>

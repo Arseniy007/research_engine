@@ -179,11 +179,23 @@ a:active {
 .source-footer 
 {
   background-color: red;
+  padding: 0px;
 }
 
 .footer-elem
 {
   display: inline;
+  margin-right: 5px;
+}
+
+.footer-elems-left
+{
+  padding-left: 0px;
+}
+
+.footer-elems-right
+{
+  padding-right: 0px;
 }
 
 .source-link-button
