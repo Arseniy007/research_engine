@@ -295,3 +295,19 @@ add_link_form.addEventListener('submit', event => {
   const close_button = document.querySelector(`#close-source-button-${source_id}`);
   close_button.style.display = 'none';
   close_button.style.display = 'inline-block';
+
+
+
+        // Get open-source-file-button to display file
+        //const source_file_id = source_space_page.querySelector('#source-file-id').innerHTML;
+        //const open_file_button = source_space_page.querySelector(`#open-source-file-button-${source_id}`);
+        //if (open_file_button) {
+           // open_file_button.href = `/source_file/${source_file_id}`;
+       // }
+
+        // Enable toggle between modals
+        const next_button = source_footer_div.querySelector('#next');
+        const previous_button = source_footer_div.querySelector('previous');
+
+        const source_footer_div = document.querySelector(`#source-footer-div-${source_id}`);
+        //source_footer_div.innerHTML= source_space_page.querySelector('#source-footer').innerHTML;

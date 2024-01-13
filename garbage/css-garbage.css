@@ -247,3 +247,8 @@ body
   width: auto;
   margin-right: 20px;
 }
+
+.source-settings-button
+{
+  margin-right: 1000px;
+}

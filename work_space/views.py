@@ -6,6 +6,7 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
+from django.forms.models import model_to_dict
 from .forms import AlterLinkForm, DeleteSpaceForm, NewLinkForm, NewSpaceForm, ReceiveCodeForm, ReceiveSourcesForm, RenameSpaceForm
 from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 from paper_work.forms import NewPaperForm
@@ -25,10 +26,25 @@ def work_space_view(request, space_id):
 
     space = check_work_space(space_id, request.user)
 
+    # Add in each source its number in order to enable toggle between bootstrap modal
+    sources: list = []
+    source_number = 1
+    for source in space.sources.all():
+        if source.has_file:
+            file_id = source.get_file().pk
+        else:
+            file_id = None
+        source = model_to_dict(source)
+        source["number"] = source_number
+        source["file_id"] = file_id
+        sources.append(source)
+        source_number += 1
+
     work_space_data = {
         "space": space, 
         "papers": space.papers.all(),
-        "sources": space.sources.all(),
+        "sources": sources,
+        "number_of_sources": len(sources),
         "links": space.links.all(),
         "new_paper_form": NewPaperForm(),
         "book_form": BookForm(),
