@@ -55,7 +55,7 @@ def work_space_view(request, space_id):
         "link_form": NewLinkForm(),
         "alter_link_form": AlterLinkForm(),
         "rename_form": RenameSpaceForm().set_initial(space),
-        "spaces": WorkSpace.objects.all() 
+        "spaces": WorkSpace.objects.all() # TODO
     }
     return render(request, "work_space/work_space.html", work_space_data)
 

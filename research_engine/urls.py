@@ -26,5 +26,4 @@ urlpatterns = [
     path("", include("bookshelf.urls")),
     path("", include("paper_work.urls")),
     path("", include("file_handling.urls")),
-    path("", include("lobby.urls"))
 ]
