@@ -36,7 +36,6 @@ def source_space(request, source_id):
             "upload_file_form": UploadSourceFileForm(),
             "link_form": AddLinkForm(),
             "new_quote_form": NewQuoteForm(),
-            "alter_reference_form": AlterReferenceForm().set_initials(reference)
     }
     return render(request, "bookshelf/source_space.html", source_data)
 
@@ -102,8 +101,6 @@ def delete_source(request, source_id):
 def alter_source_info(request, source_id):
     """Allow user to change all source related info"""
 
-    # do I need to change endnotes?
-
     form = get_type_of_source_form(request.POST, alter_source=True)
     print(form.errors)
 
@@ -113,25 +110,6 @@ def alter_source_info(request, source_id):
         # Alter and save source obj
         altered_source = alter_source(source, form)
         return JsonResponse({"status": "ok", "source": model_to_dict(altered_source)})
-
-    # Send redirect url to js
-    display_error_message(request)
-    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
-
-
-@post_request_required
-@source_ownership_required
-@login_required(redirect_field_name=None)
-def alter_source_reference(request, source_id):
-    """Alter source reference text"""
-
-    form = AlterReferenceForm(request.POST)
-    source = check_source(source_id, request.user)
-    reference = get_source_reference(source)
-
-    if form and form.is_valid():
-        altered_reference = form.save_altered_reference(reference)
-        return JsonResponse({"status": "ok"})
 
     # Send redirect url to js
     display_error_message(request)
@@ -153,18 +131,6 @@ def add_link_to_source(request, source_id):
     # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
-
-
-@login_required(redirect_field_name=None)
-@source_ownership_required
-def delete_source_link(request, source_id):
-    "Delete previously added source link"
-    
-    source = check_source(source_id, request.user)
-    source.link = None
-    source.save(update_fields=("link",))
-
-    return JsonResponse({"status": "ok"})
 
 
 @post_request_required

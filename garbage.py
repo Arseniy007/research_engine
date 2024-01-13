@@ -3761,7 +3761,67 @@ def hide_published_paper(request, paper_id):
 
             import requests
 from requests.exceptions import RequestException
+
+
+@post_request_required
+@source_ownership_required
+@login_required(redirect_field_name=None)
+def alter_source_reference(request, source_id):
+
+    form = AlterReferenceForm(request.POST)
+    source = check_source(source_id, request.user)
+    reference = get_source_reference(source)
+
+    if form and form.is_valid():
+        form.save_altered_reference(reference)
+        return JsonResponse({"status": "ok"})
+
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
+
+
+class AlterReferenceForm(forms.Form):
+    apa = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "apa-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "APA"})
+    )
+
+    mla = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "mla-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "MLA"})
+    )
+
+    def set_initials(self, reference: Reference):
+
+        self.fields["apa"].initial = reference.endnote_apa
+        self.fields["mla"].initial = reference.endnote_mla
+        return self
+        
+
+    def save_altered_reference(self, reference: Reference) -> Reference:
+        reference.endnote_apa = clean_text_data(self.cleaned_data["apa"])
+        reference.endnote_mla = clean_text_data(self.cleaned_data["mla"])
+        reference.save(update_fields=("endnote_apa", "endnote_mla",))
+        return reference
     
+        
+@login_required(redirect_field_name=None)
+@source_ownership_required
+def delete_source_link(request, source_id):
+    "Delete previously added source link"
+    
+    source = check_source(source_id, request.user)
+    source.link = None
+    source.save(update_fields=("link",))
+
+    return JsonResponse({"status": "ok"})
 """
 
 

@@ -531,3 +531,18 @@ Don't have an account? <a href="{% url 'user_management:register' %}">Register h
 {% endif %}
 
 <br>
+
+<h4>Reference</h4>
+<form action="{% url 'bookshelf:alter_source_reference' source.pk %}" method="post" id="alter-reference-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
+    {% csrf_token %}
+    <div class="form-outline mb-4 form-floating">         
+        {{ alter_reference_form.apa }}
+        <label class="form-label" for="apa-field">APA</label>
+        <div class="invalid-feedback">Please provide APA Reference.</div>
+    </div>
+    <div class="form-outline mb-4 form-floating">         
+        {{ alter_reference_form.mla }}
+        <label class="form-label" for="mla-field">MLA</label>
+        <div class="invalid-feedback">Please provide MLA Reference.</div>
+    </div>
+</form>

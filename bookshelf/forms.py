@@ -1,5 +1,5 @@
 from django import forms
-from .models import Article, Book, Chapter, Quote, Reference, Source, Webpage
+from .models import Article, Book, Chapter, Quote, Source, Webpage
 from utils.data_cleaning import clean_text_data
 
 
@@ -272,41 +272,9 @@ class AlterWebpageForm(WebpageForm):
         return self
     
 
-class AlterReferenceForm(forms.Form):
-    apa = forms.CharField(widget=forms.TextInput(attrs={
-        "type": "text",
-        "id": "apa-field",
-        "class": _CLASS,
-        "autocomplete": "off",
-        "placeholder": "APA"})
-    )
-
-    mla = forms.CharField(widget=forms.TextInput(attrs={
-        "type": "text",
-        "id": "mla-field",
-        "class": _CLASS,
-        "autocomplete": "off",
-        "placeholder": "MLA"})
-    )
-
-    def set_initials(self, reference: Reference):
-        """Pre-populate fields"""
-        self.fields["apa"].initial = reference.endnote_apa
-        self.fields["mla"].initial = reference.endnote_mla
-        return self
-        
-
-    def save_altered_reference(self, reference: Reference) -> Reference:
-        """Alter text field in Endnote obj"""
-        reference.endnote_apa = clean_text_data(self.cleaned_data["apa"])
-        reference.endnote_mla = clean_text_data(self.cleaned_data["mla"])
-        reference.save(update_fields=("endnote_apa", "endnote_mla",))
-        return reference
-    
-
 class AddLinkForm(forms.Form):
-    link = forms.CharField(widget=forms.TextInput(attrs={
-        "type": "text",
+    link = forms.URLField(widget=forms.URLInput(attrs={
+        "type": "url",
         "id": "link-field",
         "class": _CLASS,
         "autocomplete": "off",

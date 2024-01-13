@@ -1,16 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     const source_id = document.querySelector('#source_id').innerHTML;
-    const add_link_form = document.querySelector('#link-form');
     const new_quote_form = document.querySelector('#new_quote_form');
     const alter_quote_form = document.querySelector('#alter_quote_form');
     const delete_quote_buttons = document.getElementsByClassName('delete_quote_buttons');
     
-    add_link_form.addEventListener('submit', event => {
-        event.preventDefault();
-        add_link_to_source(add_link_form, source_id);
-      });
-
     new_quote_form.addEventListener('submit', event => {
         event.preventDefault();
         add_quote(new_quote_form, source_id);
@@ -25,24 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', () => delete_quote(button.id));
     })
 });
-
-
-function delete_source_link(source_id) {
-
-    // Delete-source-link view url
-    const url = `/delete_source_link/${source_id}`;
-
-    // Send GET request
-    fetch(url)
-    .then(response => response.json())
-    .then(result => {
-        if (result.status === 'ok') {
-            // TODO            
-        }
-        // TODO
-    });
-}
-
 
 function add_quote(form, source_id) {
 

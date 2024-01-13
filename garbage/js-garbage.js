@@ -244,3 +244,49 @@ function add_link_to_source(form, source_id) {
         }
     });
 }
+
+async function alter_source_reference(form, source_id) {
+
+    // Alter-source-endnote view url
+    const url = `/alter_source_reference/${source_id}`;
+
+    // Send POST request
+    return fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            return true;
+        }
+        else {
+            return redirect(result.url)
+        }
+    });
+}
+
+
+if (form.id === `alter-reference-form-${source_id}`) {
+
+    // Set form validation
+    if (!form.checkValidity()) {
+        form.classList.add('was-validated')
+    }
+    else {
+        await alter_source_reference(form, source_id);
+        // I don't need to update references
+    }
+}
+
+if (!forms.length) {
+    // TODO
+    console.log('no form was changed');
+}
+
+const add_link_form = document.querySelector('#link-form');
+
+add_link_form.addEventListener('submit', event => {
+    event.preventDefault();
+    add_link_to_source(add_link_form, source_id);
+  });

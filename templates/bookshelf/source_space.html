@@ -62,7 +62,7 @@
                             <div class="col-lg-12 col-lg-9 col-lg-7 col-lg-6">
                                 <div class="card form-card" style="border-radius: 15px;">
                                     <div class="card-body p-5 form-body">
-                                        <h2 class="text-uppercase text-center mb-5" id="form-header">Edit</h2>
+                                        <h2 class="text-uppercase text-center mb-4" id="form-header">Edit</h2>
                                         <h4>Source Info</h4>
                                         <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
                                             {% csrf_token %}
@@ -89,22 +89,8 @@
                                                 <div class="invalid-feedback">Please provide publishing year.</div>
                                             </div>
                                         </form>
-                                        <h4>Reference</h4>
-                                        <form action="{% url 'bookshelf:alter_source_reference' source.pk %}" method="post" id="alter-reference-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
-                                            {% csrf_token %}
-                                            <div class="form-outline mb-4 form-floating">         
-                                                {{ alter_reference_form.apa }}
-                                                <label class="form-label" for="apa-field">APA</label>
-                                                <div class="invalid-feedback">Please provide APA Reference.</div>
-                                            </div>
-                                            <div class="form-outline mb-4 form-floating">         
-                                                {{ alter_reference_form.mla }}
-                                                <label class="form-label" for="mla-field">MLA</label>
-                                                <div class="invalid-feedback">Please provide MLA Reference.</div>
-                                            </div>
-                                        </form>
                                         <h4>Add link to source</h4>
-                                        <form action="{% url 'bookshelf:add_link' source.pk %}" id="add-link-form-{{ source.pk }}" method="post" class="edit-form">
+                                        <form action="{% url 'bookshelf:add_link' source.pk %}" id="add-link-form-{{ source.pk }}" method="post" class="needs-validation edit-form" novalidate>
                                             {% csrf_token %}
                                             <div class="form-outline mb-4 form-floating">         
                                                 {{ link_form.link }}
@@ -129,19 +115,6 @@
                     </div>
                 </div>    
             </div>
-            <br><br><br>
-           
-
-
-            </div>
-
         </div>
-
-     
-
-
-
-
-
     </div>
 {% endblock %}

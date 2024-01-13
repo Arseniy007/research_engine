@@ -67,46 +67,39 @@ async function submit_source_forms(source_id) {
     const forms = document.getElementsByClassName('was-changed');
 
     if (!forms.length) {
-        // TODO
-        console.log('no form was changed');
+
+        return;
     }
-    else {
-        for await (const form of forms) {
 
-            if (form.id === `alter-source-form-${source_id }`) {
-
-                // Set form validation
-                if (!form.checkValidity()) {
-                    form.classList.add('was-validated')
-                }
-                else {
-                    await alter_source_info(form, source_id);
-                }
+    for await (const form of forms) {
+        if (form.id === `alter-source-form-${source_id }`) {
+            // Set form validation
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated')
             }
-
-            else if (form.id === `alter-reference-form-${source_id}`) {
-
-                // Set form validation
-                if (!form.checkValidity()) {
-                    form.classList.add('was-validated')
-                }
-                else {
-                    await alter_source_reference(form, source_id);
-                    // I don't need to update references
-                }
-            }
-
-            else if (form.id === `add-link-form-${source_id}`) {
-                await add_link_to_source(form, source_id);
-            }
-
-            else if (form.id === `upload-file-form-${source_id}`) {
-                await upload_source_file(form, source_id);
+            else {
+                // Update source main info
+                await alter_source_info(form, source_id);
             }
         }
-        // Update source space
-        load_and_show_source_space(source_id);
+        else if (form.id === `add-link-form-${source_id}`) {
+            // Set form validation
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated')
+            }
+            else {
+                // Update source link
+                await add_link_to_source(form, source_id);
+            }
+        }
+        else if (form.id === `upload-file-form-${source_id}`) {
+            // Save new source file
+            await upload_source_file(form, source_id);
+        }
     }
+    // Update source space
+    load_and_show_source_space(source_id);
+    
 }
 
 async function alter_source_info(form, source_id) {
@@ -129,27 +122,6 @@ async function alter_source_info(form, source_id) {
             return redirect(result.url)
         }
     })
-}
-
-async function alter_source_reference(form, source_id) {
-
-    // Alter-source-endnote view url
-    const url = `/alter_source_reference/${source_id}`;
-
-    // Send POST request
-    return fetch(url, {
-        method: 'POST',
-        body: new FormData(form)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.status === 'ok') {
-            return true;
-        }
-        else {
-            return redirect(result.url)
-        }
-    });
 }
 
 async function add_link_to_source(form, source_id) {
