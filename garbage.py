@@ -3738,6 +3738,29 @@ def hide_published_paper(request, paper_id):
     if not file:
         display_error_message(request, "no file was uploaded")
         return redirect(reverse("bookshelf:source_space", args=(file.source.pk,)))
+
+
+        def check_link(link: str) -> bool:
+
+    try: 
+        response = requests.get(link)
+    except RequestException:
+        return False
+    else:
+        return response.ok
+
+
+                        elif field == "page_url":
+                    if not check_link(info):
+                        # TODO
+                        pass
+                        
+
+        if not check_link(link):
+            return False
+
+            import requests
+from requests.exceptions import RequestException
     
 """
 

@@ -1,5 +1,3 @@
-import requests
-from requests.exceptions import RequestException
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
 from bookshelf.models import Article, Book, Chapter, Quote, Source, Webpage
@@ -19,7 +17,39 @@ def check_work_space(space_id: int, user: User) -> WorkSpace | Http404 | Permiss
         if space.owner != user and user not in space.guests.all():
             raise PermissionDenied
     return space
-        
+
+
+def check_source(source_id: int, user: User) -> Source | Http404:
+    """Checks source, its type and work space"""
+    try:
+        source = Source.objects.get(pk=source_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        source_type = source.cast()
+        match source_type:
+            case Book():
+                check_work_space(source.book.work_space.pk, user)
+            case Article():
+                check_work_space(source.article.work_space.pk, user)
+            case Chapter():
+                check_work_space(source.chapter.work_space.pk, user)
+            case Webpage():
+                check_work_space(source.webpage.work_space.pk, user)
+            case _:
+                return None
+    return source
+
+
+def check_source_file(file_id: int, user: User) -> SourceFile | Http404:
+    try:
+        file = SourceFile.objects.get(pk=file_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_source(file.source.pk, user)
+    return file
+
 
 def check_paper(paper_id: int, user: User) -> Paper | Http404:
     """Checks if user is the author of the given page and page exists"""
@@ -41,38 +71,6 @@ def check_paper_file(file_id: int, user: User) -> PaperFile | Http404:
     else:
         check_paper(file.paper.pk, user)
     return file
-
-
-def check_source_file(file_id: int, user: User) -> SourceFile | Http404:
-    try:
-        file = SourceFile.objects.get(pk=file_id)
-    except ObjectDoesNotExist:
-        raise Http404
-    else:
-        check_source(file.source.pk, user)
-    return file
-    
-    
-def check_source(source_id: int, user: User) -> Source | Http404:
-    """Checks source, its type and work space"""
-    try:
-        source = Source.objects.get(pk=source_id)
-    except ObjectDoesNotExist:
-        raise Http404
-    else:
-        source_type = source.cast()
-        match source_type:
-            case Book():
-                check_work_space(source.book.work_space.pk, user)
-            case Article():
-                check_work_space(source.article.work_space.pk, user)
-            case Chapter():
-                check_work_space(source.chapter.work_space.pk, user)
-            case Webpage():
-                check_work_space(source.webpage.work_space.pk, user)
-            case _:
-                return None
-    return source
 
 
 def check_quote(quote_id: int, user: User) -> Quote | Http404:
@@ -119,13 +117,3 @@ def check_reset_password_code(reset_code: str, user: User) -> PasswordResetCode 
         return PasswordResetCode.objects.get(code=reset_code, user=user)
     except ObjectDoesNotExist:
         return None
-
-
-def check_link(link: str) -> bool:
-    """Checks if given link is indeed a link and gets you to a real webpage"""
-    try: 
-        response = requests.get(link)
-    except RequestException:
-        return False
-    else:
-        return response.ok

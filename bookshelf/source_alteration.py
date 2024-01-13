@@ -5,7 +5,6 @@ from .forms import AlterWebpageForm
 from .models import Article, Book, Chapter, Source, Webpage
 from citation.dates import validate_date
 from utils.data_cleaning import clean_text_data
-from utils.verification import check_link
 
 
 def alter_source(source: Source, form: forms.Form) -> Callable | None:
@@ -53,10 +52,6 @@ def update_webpage_fields(webpage: Webpage, form: AlterWebpageForm) -> Webpage:
                     info = clean_text_data(info)
                 if field == "date":
                     if not validate_date(info):
-                        # TODO
-                        pass
-                elif field == "page_url":
-                    if not check_link(info):
                         # TODO
                         pass
                 # Update field and save obj

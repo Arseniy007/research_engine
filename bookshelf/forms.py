@@ -1,7 +1,6 @@
 from django import forms
 from .models import Article, Book, Chapter, Quote, Reference, Source, Webpage
 from utils.data_cleaning import clean_text_data
-from utils.verification import check_link
 
 
 _CLASS = "form-control"
@@ -314,14 +313,10 @@ class AddLinkForm(forms.Form):
         "placeholder": "Link"})
     )
 
-    def save_link(self, source: Source) -> bool | str:
+    def save_link(self, source: Source):
         """Checks and saves link for given source"""
-        link = self.cleaned_data["link"]
-        if not check_link(link):
-            return False
-        source.link = link
+        source.link = clean_text_data(self.cleaned_data["link"])
         source.save(update_fields=("link",))
-        return link
 
 
 class NewQuoteForm(forms.Form):

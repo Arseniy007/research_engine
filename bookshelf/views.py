@@ -147,10 +147,8 @@ def add_link_to_source(request, source_id):
 
     if form and form.is_valid():
         source = check_source(source_id, request.user)
-        added_link = form.save_link(source)
-        if not added_link:
-            return JsonResponse({"status": "error"})
-        return JsonResponse({"status": "ok", "link": added_link})
+        form.save_link(source)
+        return JsonResponse({"status": "ok"})
 
     # Send redirect url to js
     display_error_message(request)
