@@ -159,32 +159,6 @@ async function render_author_field(author_number, chapter=false) {
     })
 }
 
-function load_and_show_new_source_space(url) {
-
-    // Send request to source-space view
-    fetch(url)
-    .then(response => handleErrors(response, url))
-    .then(function(response) {
-        // When the page is loaded convert it to text
-        return response.text()
-    })
-    .then(function(html) {
-        // Initialize the DOM parser
-        let parser = new DOMParser();
-
-        // Parse the text
-        let source_space_page = parser.parseFromString(html, "text/html");
-
-        // Get div for pasting (the one with submitted form)
-        let new_source_div = document.querySelector('#new-source-div');
-
-        // Past fetched html
-        new_source_div.innerHTML = source_space_page.querySelector('#source-space').innerHTML;
-
-        // TODO: change also title of modal (not "add new source")
-    })
-}
-
 function count_and_set_authors_number(form) {
 
     if (form.id === "chapter-form") {
@@ -218,6 +192,30 @@ function submit_source_form(form, space_id) {
             window.location.replace(result.url)
         }
     });
+}
+
+function load_and_show_new_source_space(url) {
+
+    // Send request to source-space view
+    fetch(url)
+    .then(response => handleErrors(response, url))
+    .then(function(response) {
+        // When the page is loaded convert it to text
+        return response.text()
+    })
+    .then(function(html) {
+        // Initialize the DOM parser
+        let parser = new DOMParser();
+
+        // Parse the text
+        let source_space_page = parser.parseFromString(html, "text/html");
+
+        // Get div for pasting (the one with submitted form)
+        let new_source_div = document.querySelector('#new-source-div');
+
+        // Past fetched html
+        new_source_div.innerHTML = source_space_page.querySelector('#source-space').innerHTML;
+    })
 }
 
 function get_lobby_endnotes(form_id) {

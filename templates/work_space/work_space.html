@@ -56,6 +56,8 @@
 
     <h3>Sources</h3>
 
+    <h4>TODO: Toggle between modals</h4>
+
     {% for source in sources %}
         <!-- Button trigger modal -->
         <button onclick="load_and_show_source_space('{{ source.id }}')" type="button" class="btn btn-primary" id="open-modal-button-{{ source.number }}" data-bs-toggle="modal" data-bs-target="#source-space-{{ source.number }}">
@@ -94,20 +96,20 @@
                         <div class="footer-elems-right">
                             {% if source.number != 1 %}
                                 <div class="footer-elem previous-source-button">
-                                    <button onclick="toggle_between_modals(2)" type="button" class="btn btn-secondary arrow-button"><i class="fa-solid fa-left-long"></i></button>
+                                    <button type="button" class="btn btn-secondary arrow-button" data-bs-target="#source-space-{{ source.number | add:'-1' }}"  data-bs-toggle="modal"><i class="fa-solid fa-left-long"></i></button>
                                 </div>
                             {% else %}
                                 <div class="footer-elem previous-source-button">
-                                    <button onclick="toggle_between_modals(1)" type="button" class="btn btn-secondary arrow-button"><i class="fa-solid fa-left-long"></i></button>
+                                    <button type="button" class="btn btn-secondary arrow-button" data-bs-target="#source-space-{{ number_of_sources }}" data-bs-toggle="modal"><i class="fa-solid fa-left-long"></i></button>
                                 </div>
                             {% endif %}
                             {% if source.number != number_of_sources %}
                             <div class="footer-elem">
-                                <button onclick="toggle_between_modals(1)" type="button" class="btn btn-secondary arrow-button"><i class="fa-solid fa-right-long"></i></button>
+                                <button type="button" class="btn btn-secondary arrow-button" data-bs-target="#source-space-{{ source.number | add:'1' }}" data-bs-toggle="modal"><i class="fa-solid fa-right-long"></i></button>
                             </div>
                             {% else %}
                                 <div class="footer-elem">
-                                    <button onclick="toggle_between_modals(2)" type="button" class="btn btn-secondary arrow-button"><i class="fa-solid fa-right-long"></i></button>
+                                    <button type="button" class="btn btn-secondary arrow-button" data-bs-target="#source-space-1" data-bs-toggle="modal"><i class="fa-solid fa-right-long"></i></button>
                                 </div>
                             {% endif %}
                             <div class="footer-elem">

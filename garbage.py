@@ -3857,6 +3857,54 @@ def add_link_to_source(request, source_id):
     # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
+
+
+    @post_request_required
+@source_ownership_required
+@login_required(redirect_field_name=None)
+def alter_source_info(request, source_id):
+
+    form = get_type_of_source_form(request.POST, alter_source=True)
+
+    if form and form.is_valid():
+        # Check source and get its attrs
+        source = check_source(source_id, request.user)
+        # Alter and save source obj
+        altered_source = alter_source(source, form)
+        return JsonResponse({"status": "ok", "source": model_to_dict(altered_source)})
+
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
+
+
+@post_request_required
+@login_required(redirect_field_name=None)
+def add_link_to_source(request, source_id):
+
+    form = AddLinkForm(request.POST)
+
+    if form and form.is_valid():
+        source = check_source(source_id, request.user)
+        form.save_link(source)
+        return JsonResponse({"status": "ok"})
+
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
+
+
+
+
+
+
+
+
+
+
+
+
+
 """
 
 

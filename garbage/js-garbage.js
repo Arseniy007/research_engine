@@ -311,3 +311,25 @@ add_link_form.addEventListener('submit', event => {
 
         const source_footer_div = document.querySelector(`#source-footer-div-${source_id}`);
         //source_footer_div.innerHTML= source_space_page.querySelector('#source-footer').innerHTML;
+
+        function toggle_between_modals(source_number) {
+            console.log('yes');
+            const open_source_button = document.querySelector(`#open-modal-button-${source_number}`);
+            open_source_button.click();
+            open_source_button.click();
+            open_source_button.click();
+        }
+        
+        
+        function connect_modals_to_sources() {
+        
+            const sources = document.getElementsByClassName('source-modal');
+        
+            Array.from(sources).forEach(source => {
+                source.addEventListener('shown.bs.modal', () => {
+        
+                    const source_id = source.querySelector('#source-id').innerHTML;
+                    load_and_show_source_space(source_id);
+                })
+            })
+        }

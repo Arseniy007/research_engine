@@ -53,6 +53,11 @@
                             <div class="card form-card" style="border-radius: 15px;">
                                 <div class="card-body p-5 form-body">
                                     <h2 class="text-uppercase text-center mb-4" id="form-header">Edit</h2>
+                                    <div id="edit-source-error-message" style="display: none;">
+                                        <ul class="messages">
+                                            <li class="error">Error</li>
+                                        </ul>
+                                    </div>
                                     <h4>Source Info</h4>
                                     <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
                                         {% csrf_token %}
@@ -139,8 +144,3 @@
         </div>
     </div>
 {% endblock %}
-
-
-data-bs-target="#source-space-{{ source.number | add:'-1' }}" data-bs-toggle="modal"
-data-bs-target="#source-space-{{ number_of_sources }}" data-bs-toggle="modal"
-data-bs-target="#source-space-{{ source.number | add:'1' }}" data-bs-toggle="modal"

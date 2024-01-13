@@ -111,8 +111,7 @@ def upload_source_file(request, source_id):
         form.save_new_source_file(source)
         return JsonResponse({"status": "ok"})
 
-    display_error_message(request, "Something wrong with uploaded file. Try again!")
-    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
+    return JsonResponse({"status": "error"})
 
 
 @login_required(redirect_field_name=None)

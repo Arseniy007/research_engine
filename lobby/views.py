@@ -52,5 +52,3 @@ def get_lobby_endnotes(request):
     # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("lobby:view")})
-
- 

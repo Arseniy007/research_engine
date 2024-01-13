@@ -40,6 +40,7 @@ def work_space_view(request, space_id):
         sources.append(source)
         source_number += 1
 
+    # Get all needed source-related data
     work_space_data = {
         "space": space, 
         "papers": space.papers.all(),

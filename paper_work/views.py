@@ -16,6 +16,7 @@ from utils.verification import check_paper, check_work_space
 def paper_space(request, paper_id):
     """Main paper view"""
     
+    # Get all needed paper-related data
     paper = check_paper(paper_id, request.user)
     endnotes = [get_source_reference(source) for source in paper.sources.all()]
     paper_files = PaperFile.objects.filter(paper=paper).order_by("saving_time")
@@ -69,7 +70,6 @@ def delete_paper(request, paper_id):
 
     # Delete paper from the db
     paper.delete()
-
     return JsonResponse({"message": "ok"})
 
 
@@ -97,6 +97,8 @@ def rename_paper(request, paper_id):
 @login_required(redirect_field_name=None)
 def select_sources_for_paper(request, paper_id):
     """Allow user to choose from all sources in a work space to be used (cited) in a paper"""
+
+    # TODO
     
     form = ChooseSourcesForm(request.POST)
     
@@ -123,6 +125,8 @@ def select_sources_for_paper(request, paper_id):
 def archive_or_unarchive_paper(request, paper_id):
     """Mark paper is archived or vice versa"""
 
+    # TODO
+
     # Check if user has right to archive this paper
     paper = check_paper(paper_id, request.user)
 
@@ -144,6 +148,8 @@ def archive_or_unarchive_paper(request, paper_id):
 @login_required(redirect_field_name=None)
 def set_citation_style(request, paper_id):
     """Choose citation style for all sources in work space"""
+
+    # TODO
     
     form = CitationStyleForm(request.POST)
 

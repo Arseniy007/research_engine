@@ -27,6 +27,7 @@ def source_space(request, source_id):
     else:
         source_file = None
 
+    # Get all needed source-related data
     source_data = {
             "source": source,
             "source_file": source_file,
@@ -107,12 +108,10 @@ def alter_source_info(request, source_id):
         # Check source and get its attrs
         source = check_source(source_id, request.user)
         # Alter and save source obj
-        altered_source = alter_source(source, form)
-        return JsonResponse({"status": "ok", "source": model_to_dict(altered_source)})
-
-    # Send redirect url to js
-    display_error_message(request)
-    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
+        alter_source(source, form)
+        return JsonResponse({"status": "ok"})
+    
+    return JsonResponse({"status": "error"})
 
 
 @post_request_required
@@ -123,19 +122,21 @@ def add_link_to_source(request, source_id):
     form = AddLinkForm(request.POST)
 
     if form and form.is_valid():
+        # Check source and get its attrs
         source = check_source(source_id, request.user)
+        # Add link
         form.save_link(source)
         return JsonResponse({"status": "ok"})
 
-    # Send redirect url to js
-    display_error_message(request)
-    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
+    return JsonResponse({"status": "error"})
 
 
 @post_request_required
 @login_required(redirect_field_name=None)
 def add_quote(request, source_id):
     """Saves quote from given source"""
+
+    # TODO
 
     form = NewQuoteForm(request.POST)
 
@@ -154,6 +155,8 @@ def add_quote(request, source_id):
 def delete_quote(request, quote_id):
     """Delete added quote"""
 
+    # TODO
+
     # Check quote and delete it from the db
     quote = check_quote(quote_id, request.user)
     quote.delete()
@@ -165,6 +168,8 @@ def delete_quote(request, quote_id):
 @login_required(redirect_field_name=None)
 def alter_quote(request, quote_id):
     """Alter quote text / page num."""
+
+    # TODO
 
     form = AlterQuoteForm(request.POST)
     quote = check_quote(quote_id, request.user)

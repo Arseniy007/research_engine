@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    //connect_modals_to_sources();
-
     const space_id = document.querySelector('#space_id').innerHTML;
     const rename_space_form = document.querySelector('#rename_space_form');
     const link_form = document.querySelector('#link_form');
@@ -17,29 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
 });
-
-
-function toggle_between_modals(source_number) {
-    console.log('yes');
-    const open_source_button = document.querySelector(`#open-modal-button-${source_number}`);
-    open_source_button.click();
-    open_source_button.click();
-    open_source_button.click();
-}
-
-
-function connect_modals_to_sources() {
-
-    const sources = document.getElementsByClassName('source-modal');
-
-    Array.from(sources).forEach(source => {
-        source.addEventListener('shown.bs.modal', () => {
-
-            const source_id = source.querySelector('#source-id').innerHTML;
-            load_and_show_source_space(source_id);
-        })
-    })
-}
 
 function load_and_show_source_space(source_id) {
 
@@ -89,7 +64,6 @@ async function submit_source_forms(source_id) {
         // In case no form was changed
         return;
     }
-
     for await (const form of forms) {
         if (form.id === `alter-source-form-${source_id }`) {
             // Set form validation
@@ -99,7 +73,10 @@ async function submit_source_forms(source_id) {
             }
             else {
                 // Update source main info
-                await alter_source_info(form, source_id);
+                if (!await alter_source_info(form, source_id)) {
+                    // Error case
+                    return show_edit_source_error_message();
+                }
             }
         }
         else if (form.id === `add-link-form-${source_id}`) {
@@ -110,15 +87,21 @@ async function submit_source_forms(source_id) {
             }
             else {
                 // Update source link
-                await add_link_to_source(form, source_id);
+                if (!await add_link_to_source(form, source_id)) {
+                    // Error case
+                    return show_edit_source_error_message();
+                }
             }
         }
         else if (form.id === `upload-file-form-${source_id}`) {
             // Save new source file
-            await upload_source_file(form, source_id);
+            if (!await upload_source_file(form, source_id)) {
+                // Error case
+                return show_edit_source_error_message();
+            }
         }
     }
-    // Update source space
+    // Update source space in case of success
     load_and_show_source_space(source_id);
 }
 
@@ -136,10 +119,9 @@ async function alter_source_info(form, source_id) {
     .then(result => {
         if (result.status === 'ok') {
             return true;
-    
         }
         else {
-            return redirect(result.url)
+            return false;
         }
     })
 }
@@ -160,7 +142,7 @@ async function add_link_to_source(form, source_id) {
             return true;
         }
         else {
-            return redirect(result.url)
+            return false;
         }
     });
 }
@@ -181,7 +163,7 @@ async function upload_source_file(form, source_id) {
             return true;
         }
         else {
-            return redirect(result.url)
+            return false;
         }
     });
 }
@@ -240,6 +222,16 @@ function show_or_hide_source_settings(source_id) {
         })
     }
 }
+
+function show_edit_source_error_message() {
+
+    document.querySelector('#edit-source-error-message').style.display = 'block';
+
+
+}
+
+
+
 
 function rename_space(form, space_id) {
 
