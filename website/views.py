@@ -10,6 +10,8 @@ from utils.data_cleaning import clean_author_data
 from utils.decorators import post_request_required
 from utils.messages import display_error_message, display_success_message
 
+from user_management.forms import AccountSettingsForm
+
 
 @login_required(redirect_field_name=None)
 def index(request):

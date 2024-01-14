@@ -3949,7 +3949,15 @@ def change_password(request):
     return render(request, "user_management/change_password.html", {"change_password_form": form})
 
 
+ATTRS = {"class": "form-control", "autocomplete": "off"}
 
+        # Error case
+        display_error_message(request)
+        return redirect(reverse("user_management:account_settings"))
+
+
+                  display_success_message(request, "Account details were successfully updated!")
+                return redirect(LOGIN_URL)
 
 """
 

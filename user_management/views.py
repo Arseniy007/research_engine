@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from .forms import *
@@ -50,6 +51,9 @@ def register(request):
 def login_view(request):
     """Log user in"""
 
+    # Log out user first
+    logout(request)
+
     form = LoginForm(request.POST or None)
 
     if request.method == "POST":
@@ -90,11 +94,11 @@ def account_settings(request):
                 settings_form.update_user_info(user)
                 # Redirect to login-view
                 display_success_message(request, "Account details were successfully updated!")
-                return redirect(LOGIN_URL)
-            
+                return JsonResponse({"status": "ok"})
+
         # Error case
         display_error_message(request)
-        return redirect(reverse("user_management:account_settings"))
+        return JsonResponse({"status": "error"})
 
     forms = {
         "change_password_form": ChangePasswordForm(),
@@ -122,11 +126,11 @@ def change_password(request):
             user.set_password(new_password)
             user.save(update_fields=("password",))
             display_success_message(request, "Password was successfully updated!")
-            return redirect(LOGIN_URL)
+            return JsonResponse({"status": "ok"})
         
     # Redirect back in case of error
     display_error_message(request)
-    return redirect(reverse("user_management:change_password"))
+    return JsonResponse({"status": "error"})
     
 
 def forget_password(request):

@@ -224,14 +224,8 @@ function show_or_hide_source_settings(source_id) {
 }
 
 function show_edit_source_error_message() {
-
     document.querySelector('#edit-source-error-message').style.display = 'block';
-
-
 }
-
-
-
 
 function rename_space(form, space_id) {
 

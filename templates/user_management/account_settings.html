@@ -11,9 +11,9 @@
             <div class="container h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                        <div class="card" style="border-radius: 15px;">
+                        <div class="card form-card" style="border-radius: 15px;">
                             <div class="card-body p-5 form-body">
-                                <h2 class="text-uppercase text-center mb-5" id="form-header">Account Settings</h2>
+                                <h2 class="text-uppercase text-center mb-3" id="form-header">Account Settings</h2>
                                 <!-- Messages -->
                                 {% if messages %}
                                     <div>
@@ -25,7 +25,7 @@
                                     </div>
                                 {% endif %}
                                 <h4>Main Info</h4>
-                                <form action="{% url 'user_management:account_settings' %}" class="needs-validation" id="account-settings-form" method="post" novalidate>
+                                <form action="{% url 'user_management:account_settings' %}" class="account-settings-form needs-validation" id="main-info-form" method="post" novalidate>
                                     {% csrf_token %}
                                     <div class="form-outline mb-4 form-floating">
                                         {{ settings_form.username }}
@@ -33,17 +33,23 @@
                                         <div class="valid-feedback">Looks good!</div>
                                         <div class="invalid-feedback">Please provide a username.</div>
                                     </div>
-                                    <div class="form-outline mb-4 form-floating">
-                                        {{ settings_form.last_name }}
-                                        <label class="form-label" for="last-name-field">Last Name</label>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please provide a last name<div>
-                                    </div>
-                                    <div class="form-outline mb-4 form-floating">
-                                        {{ settings_form.first_name }}
-                                        <label class="form-label" for="first-name-field">First Name</label>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please provide a first name.</div>
+                                    <div class="form-outline mb-4 row">
+                                        <div class="col-md">
+                                            <div class="form-floating">
+                                                {{ settings_form.first_name }}
+                                                <label class="form-label" for="first-name-field">First Name</label>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please provide a first name.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <div class="form-floating">
+                                                {{ settings_form.last_name }}
+                                                <label class="form-label" for="last-name-field">Last Name</label>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please provide a last name.</div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-outline mb-4 form-floating">
                                         {{ settings_form.email }}
@@ -59,7 +65,7 @@
                                     </div>
                                 </form>
                                 <h4>Change password</h4>
-                                <form action="{% url 'user_management:change_password' %}" class="needs-validation" id="change-password-form" method="post" novalidate>
+                                <form action="{% url 'user_management:change_password' %}" class="account-settings-form needs-validation" id="change-password-form" method="post" novalidate>
                                     {% csrf_token %}
                                     <div class="form-outline mb-4 form-floating">
                                         {{ change_password_form.old_password }}
@@ -81,7 +87,7 @@
                                     </div>
                                 </form>
                                 <div class="d-flex justify-content-center">
-                                    <input type="button" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                    <input onclick="submit_settings_forms()" type="button" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
                                 </div>
                             </div>
                         </div>

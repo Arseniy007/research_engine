@@ -3,8 +3,6 @@ from .models import User
 from .user_finder import get_user_by_name, get_user_by_username
 
 
-ATTRS = {"class": "form-control", "autocomplete": "off"}
-
 _CLASS = "form-control"
 
 
@@ -152,6 +150,7 @@ class ResetPasswordForm(forms.Form):
 
 
 class AccountSettingsForm(RegisterForm):
+    confirmation = forms.CharField(required=False)
 
     def set_initials(self, user: User):
         """Pre-populate fields"""

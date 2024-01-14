@@ -572,3 +572,75 @@ Don't have an account? <a href="{% url 'user_management:register' %}">Register h
         <button type="button" class="btn btn-secondary" id="close-source-button-{{ source.pk }}" data-bs-dismiss="modal">Close</button>
 
 onclick="load_and_show_source_space('{{ source.id }}')"
+
+
+<h4>Change password</h4>
+<form action="{% url 'user_management:change_password' %}" class="needs-validation" id="change-password-form" method="post" novalidate>
+    {% csrf_token %}
+    <div class="form-outline mb-4 form-floating">
+        {{ change_password_form.old_password }}
+        <label class="form-label" for="old-password-field">Old Password</label>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please provide a password.</div>
+    </div>
+    <div class="form-outline mb-4 form-floating">
+        {{ change_password_form.new_password }}
+        <label class="form-label" for="new-password-field">New Password</label>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please provide a new password.</div>
+    </div>
+    <div class="form-outline mb-4 form-floating">
+        {{ change_password_form.confirmation }}
+        <label class="form-label" for="confirmation-field">Repeat New Password</label>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please repeat your new password.</div>
+    </div>
+</form>
+
+
+<form action="{% url 'user_management:account_settings' %}" class="needs-validation" id="account-settings-form" method="post" novalidate>
+    {% csrf_token %}
+    <div class="form-outline mb-4 form-floating">
+        {{ settings_form.username }}
+        <label class="form-label" for="username-field">Username</label>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please provide a username.</div>
+    </div>
+    <div class="form-outline mb-4 form-floating">
+        {{ settings_form.last_name }}
+        <label class="form-label" for="last-name-field">Last Name</label>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please provide a last name<div>
+    </div>
+    <div class="form-outline mb-4 form-floating">
+        {{ settings_form.first_name }}
+        <label class="form-label" for="first-name-field">First Name</label>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please provide a first name.</div>
+    </div>
+    <div class="form-outline mb-4 form-floating">
+        {{ settings_form.email }}
+        <label class="form-label" for="email-field">Email</label>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please provide an email.</div>
+    </div>
+    <div class="form-outline mb-4 form-floating">
+        {{ settings_form.password }}
+        <label class="form-label" for="password-field">Password</label>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please provide a password.</div>
+    </div>
+</form>
+
+<div class="form-outline mb-4 form-floating">
+    {{ settings_form.last_name }}
+    <label class="form-label" for="last-name-field">Last Name</label>
+    <div class="valid-feedback">Looks good!</div>
+    <div class="invalid-feedback">Please provide a last name</div>
+</div>
+<div class="form-outline mb-4 form-floating">
+    {{ settings_form.first_name }}
+    <label class="form-label" for="first-name-field">First Name</label>
+    <div class="valid-feedback">Looks good!</div>
+    <div class="invalid-feedback">Please provide a first name.</div>
+</div>
