@@ -159,6 +159,7 @@ class AccountSettingsForm(RegisterForm):
         self.fields["last_name"].initial = user.last_name
         self.fields["first_name"].initial = user.first_name
         self.fields["email"].initial = user.email
+        return self
 
     
     def update_user_info(self, user: User):

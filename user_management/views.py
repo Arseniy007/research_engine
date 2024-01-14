@@ -77,7 +77,7 @@ def login_view(request):
 
 
 @login_required(redirect_field_name=None)
-def update_account_settings(request):
+def account_settings(request):
     """Update user info"""
 
     if request.method == "POST": 
@@ -91,7 +91,7 @@ def update_account_settings(request):
                 # Redirect to login-view
                 display_success_message(request, "Account details were successfully updated!")
                 return redirect(LOGIN_URL)
-
+            
         # Error case
         display_error_message(request)
         return redirect(reverse("user_management:account_settings"))
