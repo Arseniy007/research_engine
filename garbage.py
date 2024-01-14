@@ -3920,7 +3920,33 @@ class AccountSettingsForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput)
 
 
+@login_required
+@post_request_required
+def change_password(request):
 
+    form = ChangePasswordForm(request.POST or None)
+
+    if request.method == "POST":
+        if form and form.is_valid():
+            # Get input
+            old_password = form.cleaned_data["old_password"]
+            new_password = form.cleaned_data["new_password"]
+            confirmation = form.cleaned_data["confirmation"]
+
+            # Check old password and confirmation
+            user = authenticate(request, username=request.user.username, password=old_password)
+            if user and new_password == confirmation:
+                # Update password
+                user.set_password(new_password)
+                user.save(update_fields=("password",))
+                display_success_message(request, "Password was successfully updated!")
+                return redirect(LOGIN_URL)
+            
+        # Redirect back in case of error
+        display_error_message(request)
+        return redirect(reverse("user_management:change_password"))
+    
+    return render(request, "user_management/change_password.html", {"change_password_form": form})
 
 
 

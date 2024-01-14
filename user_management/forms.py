@@ -17,18 +17,18 @@ class RegisterForm(forms.Form):
         "placeholder": "Username"})                 
     )
     
-    first_name = forms.CharField(widget=forms.TextInput(attrs={
-        "type": "text",
-        "id": "first-name-field",
-        "class": _CLASS,
-        "placeholder": "First name"})
-    )
-
     last_name = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "last-name-field",
         "class": _CLASS,
         "placeholder": "Last name"})
+    )
+
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "first-name-field",
+        "class": _CLASS,
+        "placeholder": "First name"})
     )
 
     email = forms.EmailField(widget=forms.EmailInput(attrs={
@@ -68,10 +68,6 @@ class LoginForm(forms.Form):
         "class": _CLASS,
         "placeholder": "Password"})
     )
-
-
-class AccountSettingsForm(RegisterForm):
-    pass
 
 
 class ChangePasswordForm(forms.Form):
@@ -153,6 +149,25 @@ class ResetPasswordForm(forms.Form):
         "class": _CLASS,
         "placeholder": "Repeat Password"})
     )
+
+
+class AccountSettingsForm(RegisterForm):
+
+    def set_initials(self, user: User):
+        """Pre-populate fields"""
+        self.fields["username"].initial = user.username
+        self.fields["last_name"].initial = user.last_name
+        self.fields["first_name"].initial = user.first_name
+        self.fields["email"].initial = user.email
+
+    
+    def update_user_info(self, user: User):
+        """Save all changes"""
+        user.username = self.cleaned_data["username"]
+        user.last_name = self.cleaned_data["last_name"]
+        user.first_name = self.cleaned_data["first_name"]
+        user.email = self.cleaned_data["email"]
+        user.save(update_fields=("username", "last_name", "first_name", "email",))
 
 
 def check_forget_password_form_info(request) -> User | None:

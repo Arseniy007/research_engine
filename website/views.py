@@ -36,14 +36,14 @@ def about_view(request):
 
 def lobby_view(request):
 
-    params = {
+    data = {
         "article_form": ArticleForm(),
         "book_form": BookForm(),
         "chapter_form": ChapterForm(),
         "webpage_form": WebpageForm()
     }
 
-    return render(request, "website/lobby.html", params)
+    return render(request, "website/lobby.html", data)
 
 
 @post_request_required
