@@ -84,5 +84,3 @@ class Invitation(models.Model):
 class ShareSourcesCode(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE)
     code = models.CharField(max_length=15, unique=True)
-
-

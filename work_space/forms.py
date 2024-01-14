@@ -3,8 +3,6 @@ from .models import Link, WorkSpace
 from user_management.models import User
 
 
-CONFIRMATION = (("Yes", "Yes"), ("No", "No"),)
-
 SOURCES_RECEIVING_OPTIONS = (("copy", "Create New Work Space"), ("download", "Download sources"),)
 
 
@@ -30,11 +28,6 @@ class RenameSpaceForm(forms.Form):
         space.title = self.cleaned_data["new_title"]
         space.save(update_fields=("title",))
         return space
-    
-
-class DeleteSpaceForm(forms.Form):
-    confirm = forms.ChoiceField(choices=CONFIRMATION)
-
 
 class NewLinkForm(forms.Form):
     name = forms.CharField()

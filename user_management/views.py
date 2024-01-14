@@ -133,8 +133,8 @@ def forget_password(request):
     return render(request, "user_management/forget_password.html", forms)
 
 
-def reset_forgotten_password(request, reset_code):
-    """Reset user password ;)"""
+def reset_password(request, reset_code):
+    """Reset user forgotten password ;)"""
 
     # Check reset_code
     user = get_user_by_reset_code(reset_code)
@@ -145,7 +145,6 @@ def reset_forgotten_password(request, reset_code):
         return redirect(LOGIN_URL)
 
     form = ResetPasswordForm(request.POST or None)
-
     if request.method == "POST":
         if form and form.is_valid():
             # Get form input
@@ -179,9 +178,10 @@ def logout_view(request):
 
 
 @login_required(redirect_field_name=None)
-def account_settings(request):
+def update_account_settings(request):
     """Update user info"""
     # TODO
-    # JS!
 
-    form = AccountSettingsForm()
+    form = AccountSettingsForm(request.POST or None)
+
+    return None

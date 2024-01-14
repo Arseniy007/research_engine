@@ -31,7 +31,7 @@ class RegisterForm(forms.Form):
         "placeholder": "Last name"})
     )
 
-    email = forms.EmailField(widget=forms.TextInput(attrs={
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
         "type": "email",
         "id": "email-field",
         "class": _CLASS,
@@ -68,6 +68,10 @@ class LoginForm(forms.Form):
         "class": _CLASS,
         "placeholder": "Password"})
     )
+
+
+class AccountSettingsForm(RegisterForm):
+    pass
 
 
 class ChangePasswordForm(forms.Form):
@@ -163,20 +167,3 @@ def check_forget_password_form_info(request) -> User | None:
         if form.is_valid():
             return get_user_by_name(form.cleaned_data["first_name"], form.cleaned_data["last_name"], form.cleaned_data["email"])
     return None
-
-
-
-
-class AccountDetailsForm(forms.Form):
-    first_name = forms.CharField(required=False, widget=forms.TextInput(attrs=ATTRS))
-    last_name = forms.CharField(required=False, widget=forms.TextInput(attrs=ATTRS))
-    date_of_birth = forms.CharField(required=False, widget=forms.DateInput(attrs=ATTRS))
-
-
-class AccountSettingsForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ("username", "first_name", "last_name", "email",)
-
-    # TODO
-    # Maybe regular form?

@@ -3894,10 +3894,30 @@ def add_link_to_source(request, source_id):
     return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
 
 
+@login_required(redirect_field_name=None)
+def render_author_form_fields(request, author_number, chapter):
+    
+    # Chapter parameter is boolean (0/1). In case of True: pass "chapter-" as prefix to html tag ids, classes and names
+    if chapter:
+       chapter = "chapter-"
+    else:
+        chapter = ""
+    return render(request, "bookshelf/author_fields.html", {"author_number": author_number, "chapter": chapter})
 
 
 
+    class AccountSettingsForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("username", "first_name", "last_name", "email",)
 
+    # TODO
+    # Maybe regular form?
+
+class AccountSettingsForm(forms.Form):
+    first_name = forms.CharField(required=False, widget=forms.TextInput(attrs=ATTRS))
+    last_name = forms.CharField(required=False, widget=forms.TextInput(attrs=ATTRS))
+    email = forms.EmailField(widget=forms.EmailInput)
 
 
 

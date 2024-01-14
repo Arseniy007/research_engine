@@ -78,3 +78,15 @@ def get_input_reference(request):
     # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("lobby:view")})
+
+
+@login_required(redirect_field_name=None)
+def render_author_form_fields(request, author_number, chapter):
+    """API route for getting author input fields for add-source-form"""
+    
+    # Chapter parameter is boolean (0/1). In case of True: pass "chapter-" as prefix to html tag ids, classes and names
+    if chapter:
+       chapter = "chapter-"
+    else:
+        chapter = ""
+    return render(request, "bookshelf/author_fields.html", {"author_number": author_number, "chapter": chapter})

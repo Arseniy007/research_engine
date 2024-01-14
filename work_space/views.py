@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from django.forms.models import model_to_dict
-from .forms import AlterLinkForm, DeleteSpaceForm, NewLinkForm, NewSpaceForm, ReceiveCodeForm, ReceiveSourcesForm, RenameSpaceForm
+from .forms import AlterLinkForm, NewLinkForm, NewSpaceForm, ReceiveCodeForm, ReceiveSourcesForm, RenameSpaceForm
 from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 from paper_work.forms import NewPaperForm
 from research_engine.constants import ERROR_PAGE, FRIENDLY_TMP_ROOT
@@ -89,7 +89,7 @@ def delete_work_space(request, space_id):
 
     # TODO
 
-    form = DeleteSpaceForm(request.POST)
+    form = None
 
     if form and form.is_valid():
 
@@ -355,15 +355,3 @@ def delete_link(request, link_id):
     link = check_space_link(link_id, request.user)
     link.delete()
     return JsonResponse({"status": "ok"})
-
-
-@login_required(redirect_field_name=None)
-def render_author_form_fields(request, author_number, chapter):
-    
-    # Chapter parameter is boolean (0/1). In case of True: pass "chapter-" as prefix to html tag ids, classes and names
-    if chapter:
-       chapter = "chapter-"
-    else:
-        chapter = ""
-
-    return render(request, "bookshelf/author_fields.html", {"author_number": author_number, "chapter": chapter})

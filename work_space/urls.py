@@ -18,6 +18,5 @@ urlpatterns = [
     path("work_space/<int:space_id>", views.work_space_view, name="space_view"),
     path("add_link_to_space/<int:space_id>", views.add_link, name="add_link"),
     path("delete_link/<int:link_id>", views.delete_link, name="delete_link"),
-    path("alter_link/<int:link_id>", views.alter_link, name="alter_link"),
-    path("render_author_field/<int:author_number>/<int:chapter>", views.render_author_form_fields, name="render_author_fields")
+    path("alter_link/<int:link_id>", views.alter_link, name="alter_link")
 ]
