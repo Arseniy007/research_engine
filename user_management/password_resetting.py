@@ -20,10 +20,9 @@ def get_reset_url(request, reset_code: str):
 
 def send_password_resetting_email(user: User, reset_url: str) -> None:
     """Send user "I-forgot-password" email"""
-    # TODO
 
     subject = "Password Resetting"
-    message = f"Hi {user}.\n\nHere is your url: {reset_url}"
+    message = f"Hi {user}.\n\nYou can resend your password here: {reset_url}"
     sender = EMAIL_HOST_USER
     recipient = (user.email,)
 

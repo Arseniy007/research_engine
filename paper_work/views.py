@@ -33,7 +33,7 @@ def paper_space(request, paper_id):
         "rename_paper_form": RenamePaperForm().set_initial(paper),
         "citation_form": CitationStyleForm()
     }
-    return render(request, "paper_work/paper_space.html", paper_data)
+    return render(request, "paper_space.html", paper_data)
 
 
 @post_request_required

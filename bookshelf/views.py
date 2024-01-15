@@ -38,7 +38,7 @@ def source_space(request, source_id):
             "link_form": AddLinkForm(),
             "new_quote_form": NewQuoteForm(),
     }
-    return render(request, "bookshelf/source_space.html", source_data)
+    return render(request, "source_space.html", source_data)
 
 
 @post_request_required
