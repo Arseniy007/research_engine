@@ -53,7 +53,6 @@ class Source(models.Model):
         return SourceFile.objects.get(source=self)
 
 
-
 class Book(Source):
     publishing_house = models.CharField(max_length=20)
 

@@ -124,9 +124,7 @@ function check_password(form_name) {
     // Show error message if password and confirmation don't match
     if (password != confirmation) {
 
-        console.log("password and confirmation don't match");
         return false;
-        // TODO Swal.Fire error message
     }
 
     for (let i = 0; i < length; i++) {
@@ -147,15 +145,12 @@ function check_password(form_name) {
 
     if (!(digit && upper && length > 5)) {
 
-        // TODO
-        console.log('sorry')
         return false;
     }
 
     // Submit the form if password is ok
     return true;
 }
-
 
 function set_form_validation() {
 

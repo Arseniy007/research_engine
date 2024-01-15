@@ -3,7 +3,6 @@ from django import forms
 from .source_citation import update_source_reference
 from .forms import AlterWebpageForm
 from .models import Article, Book, Chapter, Source, Webpage
-from citation.dates import validate_date
 from utils.data_cleaning import clean_text_data
 
 
@@ -50,10 +49,6 @@ def update_webpage_fields(webpage: Webpage, form: AlterWebpageForm) -> Webpage:
             if webpage.__getattribute__(field) != info:
                 if type(info) == str:
                     info = clean_text_data(info)
-                if field == "date":
-                    if not validate_date(info):
-                        # TODO
-                        pass
                 # Update field and save obj
                 webpage.__setattr__(field, info)
                 webpage.save(update_fields=(field,))

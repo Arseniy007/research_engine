@@ -3959,6 +3959,35 @@ ATTRS = {"class": "form-control", "autocomplete": "off"}
                   display_success_message(request, "Account details were successfully updated!")
                 return redirect(LOGIN_URL)
 
+
+    def validate_date(date: str) -> bool:
+    try:
+        year, month, day = date.split("-")
+    except IndexError:
+        return False
+    else:
+        try:
+            year_num, month_num, day_num = int(year), int(month), int(day)
+        except ValueError:
+            return False
+
+    if len(year) != 4:
+        return False
+    elif int(year[0]) > 2:
+        return False
+    elif year_num < INTERNET_BIRTHDAY:
+        return False
+    elif len(month) != 2:
+        return False
+    elif month_num < 1 or month_num > 12:
+        return False
+    elif len(day) != 2:
+        return False
+    if day_num < 1 or day_num > 31:
+        return False
+    else:
+        return True
+
 """
 
 

@@ -3,7 +3,6 @@ from django import forms
 from .source_citation import create_source_reference
 from .forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from .models import Article, Book, Chapter, Webpage
-from citation.dates import validate_date
 from user_management.models import User
 from utils.data_cleaning import clean_source_form_fields
 from work_space.models import WorkSpace
@@ -76,9 +75,6 @@ def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
 
     # Checks date and if a given page url is indeed a link and gets you to a real webpage
     page_url, date = cleaned_data["page_url"], cleaned_data["date"]
-    if not validate_date(date):
-        # TODO
-        pass
 
     # Create and save new Webpage obj
     new_webpage = Webpage(work_space=space, user=user, author=author, 

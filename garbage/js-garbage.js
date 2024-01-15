@@ -165,7 +165,7 @@ function alter_source_reference(form, source_id) {
 
             console.log(result.reference);
 
-            // TODO
+      
             
         }
         else {
@@ -280,7 +280,7 @@ if (form.id === `alter-reference-form-${source_id}`) {
 }
 
 if (!forms.length) {
-    // TODO
+  
     console.log('no form was changed');
 }
 
@@ -333,3 +333,21 @@ add_link_form.addEventListener('submit', event => {
                 })
             })
         }
+
+
+function set_form_validation() {
+
+    // Fetch all the forms
+    const forms = document.querySelectorAll('.needs-validation')
+    
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+        }, false)
+    })
+    }

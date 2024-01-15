@@ -166,9 +166,7 @@ function count_and_set_authors_number(form) {
         form.querySelector('.final_number_of_chapter_authors').value = form.getElementsByClassName('chapter-author').length;
     }
     // Count how many "author" divs are there
-    console.log(form.querySelector('.final_number_of_authors'));
     form.querySelector('.final_number_of_authors').value = form.getElementsByClassName('author').length;
-    console.log(form);
 }
 
 function submit_source_form(form, space_id) {
@@ -208,13 +206,25 @@ function load_and_show_new_source_space(url) {
         let parser = new DOMParser();
 
         // Parse the text
-        let source_space_page = parser.parseFromString(html, "text/html");
+        const source_space_page = parser.parseFromString(html, "text/html");
 
         // Get div for pasting (the one with submitted form)
-        let new_source_div = document.querySelector('#new-source-div');
+        const new_source_div = document.querySelector('#new-source-div');
+
+        // Past source space header
+        const source_space_header = source_space_page.querySelector('#source-space-header');
+        document.querySelector(`#source-space-label-${source_id}`).innerHTML = source_space_header.innerHTML;
 
         // Past fetched html
         new_source_div.innerHTML = source_space_page.querySelector('#source-space').innerHTML;
+
+        // Set validation for source-edit-forms
+        const edit_forms = document.getElementsByClassName('edit-form');
+        Array.from(edit_forms).forEach(form => {
+            form.addEventListener('change', function() {
+                form.classList.add('was-changed')
+            })
+        })
     })
 }
 

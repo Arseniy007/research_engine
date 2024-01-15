@@ -14,7 +14,6 @@ class Paper(models.Model):
     sources = models.ManyToManyField(Source, related_name="papers")
     citation_style = models.CharField(max_length=10, default="APA & MLA")
     archived = models.BooleanField(default=False)
-    published = models.BooleanField(default=False)
 
 
     def __str__(self):

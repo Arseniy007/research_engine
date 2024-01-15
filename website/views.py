@@ -91,4 +91,4 @@ def render_author_form_fields(request, author_number, chapter):
        chapter = "chapter-"
     else:
         chapter = ""
-    return render(request, "bookshelf/author_fields.html", {"author_number": author_number, "chapter": chapter})
+    return render(request, "website/author_fields.html", {"author_number": author_number, "chapter": chapter})
