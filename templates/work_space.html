@@ -58,6 +58,8 @@
 
     <h4>TODO: Toggle between modals</h4>
     <h4>TODO: Buttons at add new source (should all be there by display none)</h4>
+    <h4>TODO: Quotes and deleting source (add button to edit source div!)</h4>
+    <button type="button" class="btn btn-danger" data-bs-toggle="popover" data-bs-placement="right" data-bs-custom-class="custom-popover" data-bs-title="Are you sure?" data-bs-content="Right popover">Delete source</button>
 
     {% for source in sources %}
         <!-- Button trigger modal -->
@@ -79,6 +81,7 @@
                             <div class="footer-elem">
                                 <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" id="show-source-settings-button-{{ source.id }}" class="btn btn-warning">Edit<i class="fa-solid fa-gears source-modal-icon"></i></button>
                             </div>
+                            <button id="delete-source-button-{{ source.id }}" type="button" class="btn btn-danger" data-bs-toggle="popover" data-bs-placement="right" data-bs-custom-class="custom-popover" data-bs-title="Are you sure?" data-bs-content="Right popover" style="display: none;">Delete source</button>
                             {% if source.has_file %}
                                 <div class="footer-elem">
                                     <a href="{% url 'file_handling:display_source_file' source.file_id %}" id="open-source-file-button-{{ source.id }}">

@@ -176,6 +176,7 @@ function show_or_hide_source_settings(source_id) {
     // Get all buttons
     const show_settings_button = document.querySelector(`#show-source-settings-button-${source_id}`);
     const close_settings_button = document.querySelector(`#close-source-settings-button-${source_id}`);
+    const delete_button = document.querySelector(`#delete-source-button-${source_id}`);
     const link_button = document.querySelector(`#source-link-button-${source_id}`);
     const open_file_button = document.querySelector(`#open-source-file-button-${source_id}`);
     const arrow_buttons = document.getElementsByClassName('arrow-button');
@@ -187,6 +188,7 @@ function show_or_hide_source_settings(source_id) {
         // Change all buttons
         show_settings_button.style.display = 'none';
         close_settings_button.style.display = 'inline-block';
+        delete_button.style.display = 'inline-block';
 
         if (open_file_button) {
             open_file_button.style.display = 'none';
@@ -207,6 +209,7 @@ function show_or_hide_source_settings(source_id) {
 
         // Change all buttons
         close_settings_button.style.display = 'none';
+        delete_button.style.display = 'none';
         show_settings_button.style.display = 'inline-block';
 
         if (open_file_button) {

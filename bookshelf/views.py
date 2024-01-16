@@ -87,7 +87,7 @@ def add_source(request, space_id):
 def delete_source(request, source_id):
     """Deletes added source and all related info"""
 
-    # Check if user has right to delete this paper
+    # Check if user has right to delete this source
     source = check_source(source_id, request.user)
 
     # Delete paper directory with all files inside
