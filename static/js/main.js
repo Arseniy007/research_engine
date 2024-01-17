@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         add_link(link_form, space_id);
       });
-
+    
 });
 
 function load_and_show_source_space(source_id) {
@@ -209,6 +209,7 @@ function show_or_hide_source_settings(source_id) {
 
         // Change all buttons
         close_settings_button.style.display = 'none';
+        delete_button.innerHTML = 'Delete source';
         delete_button.style.display = 'none';
         show_settings_button.style.display = 'inline-block';
 
@@ -225,6 +226,32 @@ function show_or_hide_source_settings(source_id) {
         })
     }
 }
+
+function delete_source(source_id) {
+
+    // Get delete button and ask user for conformation
+    const delete_button = document.querySelector(`#delete-source-button-${source_id}`);
+    delete_button.innerHTML = "Are you sure?";
+
+    delete_button.addEventListener('click', () => {
+
+        // Rename-space url
+        const url = `/delete_source/${source_id}`;
+
+        // Send POST request
+        fetch(url)
+        .then(response => response.json())
+        .then(result => {
+            if (result.status === 'ok') {
+
+                // TODO
+                // redirect somewhere?
+            }
+        });
+    })
+}
+
+
 
 function show_edit_source_error_message() {
     document.querySelector('#edit-source-error-message').style.display = 'block';
