@@ -9,19 +9,18 @@ from work_space.models import WorkSpace
 from utils.data_cleaning import clean_author_data
 from utils.decorators import post_request_required
 from utils.messages import display_error_message, display_success_message
-
-from user_management.forms import AccountSettingsForm
+from user_management.helpers import get_users_work_spaces
 
 
 @login_required(redirect_field_name=None)
 def index(request):
 
-    params = {"form": NewSpaceForm(), 
-            "spaces": WorkSpace.objects.all(),
+    data = {"form": NewSpaceForm(), 
+            "work_spaces": get_users_work_spaces(request.user),
             "invitation_form": ReceiveCodeForm(),
             "shared_sources_form": ReceiveSourcesForm()}
 
-    return render(request, "website/index.html", params)
+    return render(request, "website/index.html", data)
 
 
 def show_error_page(request):

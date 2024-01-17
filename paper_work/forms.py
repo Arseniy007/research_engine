@@ -9,7 +9,7 @@ CITATION_STYLES = (("APA", "APA"), ("MLA", "MLA"), ("APA & MLA", "APA & MLA"),)
 
 
 class NewPaperForm(forms.Form):
-    title = forms.CharField(max_length=50)
+    title = forms.CharField()
 
     def save_paper(self, space: WorkSpace, user: User):
         """Save new Paper object"""
@@ -19,7 +19,7 @@ class NewPaperForm(forms.Form):
 
 
 class RenamePaperForm(forms.Form):
-    title = forms.CharField(max_length=50)
+    title = forms.CharField()
 
     def set_initial(self, paper: Paper):
         self.fields["title"].initial = paper.title
@@ -49,4 +49,3 @@ class CitationStyleForm(forms.Form):
         "Update citation_style field in Workspace obj"
         paper.citation_style = self.cleaned_data["citation_style"]
         return paper.save(update_fields=("citation_style",))
-

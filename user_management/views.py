@@ -5,13 +5,13 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from .forms import *
+from .helpers import get_user_by_reset_code, get_users_work_spaces
 from .models import User
 from .password_resetting import generate_password_reset_code, get_reset_url, send_password_resetting_email
 from research_engine.settings import LOGIN_URL
 from utils.decorators import post_request_required
 from utils.messages import display_error_message, display_info_message, display_success_message
 from utils.verification import check_reset_password_code
-from .user_finder import get_user_by_reset_code
 
 
 def register(request):
@@ -100,11 +100,12 @@ def account_settings(request):
         display_error_message(request)
         return JsonResponse({"status": "error"})
 
-    forms = {
+    data = {
         "change_password_form": ChangePasswordForm(),
-        "settings_form": AccountSettingsForm().set_initials(request.user)
+        "settings_form": AccountSettingsForm().set_initials(request.user),
+        "work_spaces": get_users_work_spaces(request.user)
     }
-    return render(request, "user_management/account_settings.html", forms)
+    return render(request, "user_management/account_settings.html", data)
 
 
 @login_required

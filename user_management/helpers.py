@@ -2,6 +2,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import PasswordResetCode, User
 
 
+def get_users_work_spaces(user: User):
+    """Get all work spaces user owns or were invited to"""
+    return list(user.work_spaces.all()) + list(user.guest_work_spaces.all())
+
+
 def get_user_by_name(first_name: str, last_name: str, email: str) -> User | None:
     """Checks if user with given name and email exists"""
     try:

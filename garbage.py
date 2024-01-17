@@ -3988,6 +3988,39 @@ ATTRS = {"class": "form-control", "autocomplete": "off"}
     else:
         return True
 
+
+class AlterLinkForm(forms.Form):
+    name = forms.CharField()
+    url = forms.URLField()
+
+    def set_initial(self, link: Link):
+        self.fields["name"].initial = link.name
+        self.fields["url"].initial = link.url
+        return self
+
+    def save_altered_link(self, link: Link) -> Link:
+        link.name = self.cleaned_data["name"]
+        link.url = self.cleaned_data["url"]
+        link.save(update_fields=("name", "url",))
+        return link
+
+
+@post_request_required
+@link_ownership_required
+@login_required(redirect_field_name=None)
+def alter_link(request, link_id):
+
+    form = AlterLinkForm(request.POST)
+    link = check_space_link(link_id, request.user)
+
+    if form and form.is_valid():
+        altered_link = form.save_altered_link(link)
+        return JsonResponse({"status": "ok", "altered_link": model_to_dict(altered_link)})
+    
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("work_space:space_view", args=(link.work_space.pk,))})
+
 """
 
 

@@ -1,6 +1,6 @@
 from django import forms
 from .models import User
-from .user_finder import get_user_by_name, get_user_by_username
+from .helpers import get_user_by_name, get_user_by_username
 
 
 _CLASS = "form-control"

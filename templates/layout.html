@@ -38,7 +38,7 @@
                 <div>
                     <a onclick="dropdown_spaces()" id="workspaces-dropdown" class="dropbtn">Workspaces</a>
                     <div id="myDropdown" class="dropdown-content">
-                        {% for space in spaces %}
+                        {% for space in work_spaces %}
                             <a href="{% url 'work_space:space_view' space.pk %}" class="space_link"><small>{{ space }}</small></a>
                         {% endfor %}
                     </div>
