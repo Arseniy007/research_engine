@@ -1,7 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    const space_id = document.querySelector('#space_id').innerHTML;
-    
+    let space_id = document.querySelector('#space_id');
+    if (space_id) {
+        // Get space id if current page is not lobby
+        space_id = space_id.innerHTML;
+    }
     // When source type gets selected - show selected form
     const source_type_selector = document.querySelector('#source-type-selector');
     source_type_selector.addEventListener('change', () => {
@@ -231,6 +234,8 @@ function get_quick_reference(form_id) {
 
     const url = '/get_quick_reference';
     const form = document.querySelector(`#${form_id}`);
+    const error_message = document.querySelector('.form-error-message');
+
     count_and_set_authors_number(form);
 
     // Send a POST request to the /get_lobby_endnotes
@@ -241,6 +246,10 @@ function get_quick_reference(form_id) {
     .then(response => response.json())
     .then(result => {
         if (result.status === 'ok') {
+            // Hide error message in case it's shown
+            if (error_message.style.display == 'block') {
+                error_message.style.display = 'none';
+            }
 
             // TODO
             const result_text = `
@@ -251,12 +260,7 @@ function get_quick_reference(form_id) {
         }
         else {
             // Error case
-
-
+            error_message.style.display = 'block';
         }
     });
-}
-
-function show_form_error_message() {
-    document.querySelector('.form-error-message').style.display = 'block';
 }

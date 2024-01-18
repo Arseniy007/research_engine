@@ -23,7 +23,181 @@
                                         <li class="error">Error</li>
                                     </ul>
                                 </div>
-
+                                <select class="form-select" id="source-type-selector">
+                                    <option value="" selected>Choose type of source</option>
+                                    <option value="book-form">Book</option>
+                                    <option value="article-form">Article</option>
+                                    <option value="chapter-form">Chapter in a book</option>
+                                    <option value="webpage-form">Webpage</option>
+                                </select><br>
+                                <div class="source-form-area" id="book-form">
+                                    <form action="{% url 'website:get_quick_reference' %}" method="post" class="source-form needs-validation" novalidate>
+                                        {% csrf_token %}
+                                        {{ book_form.source_type }}
+                                        {{ book_form.number_of_authors }}
+                                        <div class="author-div"></div><br>
+                                        <div class="form-outline mb-4 form-floating">         
+                                            {{ book_form.title }}
+                                            <label class="form-label" for="title-field">Title</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide books title.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ book_form.publishing_house }}
+                                            <label class="form-label" for="publishing-house-field">Publishing House</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide books publishing house.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ book_form.year }}
+                                            <label class="form-label" for="book-year-field">Year</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide publishing year.</div>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="submit" value="Add book" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="source-form-area" id="article-form">
+                                    <form action="{% url 'website:get_quick_reference' %}" method="post" class="source-form needs-validation" novalidate>
+                                        {% csrf_token %}
+                                        {{ article_form.source_type }}
+                                        {{ article_form.number_of_authors }}
+                                        <div class="author-div"></div><br>
+                                        <div class="form-outline mb-4 form-floating">         
+                                            {{ article_form.article_title }}
+                                            <label class="form-label" for="article-title-field">Article Title</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide article title.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ article_form.journal_title }}
+                                            <label class="form-label" for="journal-title-field">Journal Title</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide journal title.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 row">
+                                            <div class="col-md">
+                                                <div class="form-floating">
+                                                    {{ article_form.volume }}
+                                                    <label class="form-label" for="volume-field">Volume</label>
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="invalid-feedback">Please provide journal volume.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-floating">
+                                                    {{ article_form.issue }}
+                                                    <label class="form-label" for="issue-field">Issue</label>
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="invalid-feedback">Please provide journals issue.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ article_form.pages }}
+                                            <label class="form-label" for="article-pages-field">Article pages</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide article pages.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ article_form.link_to_journal }}
+                                            <label class="form-label" for="link-to-journal-field">Link to Journal</label>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="submit" value="Add article" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                        </div>
+                                    </form> 
+                                </div>
+                                <div class="source-form-area" id="chapter-form">
+                                    <form action="{% url 'website:get_quick_reference' %}" method="post" class="source-form needs-validation" novalidate>
+                                        {% csrf_token %}
+                                        {{ chapter_form.source_type }}
+                                        {{ chapter_form.number_of_authors }}
+                                        <div class="author-div"></div><br>
+                                        <div class="form-outline mb-4 form-floating">         
+                                            {{ chapter_form.chapter_title }}
+                                            <label class="form-label" for="chapter-title-field">Chapter Title</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide chapter title.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ chapter_form.book_title }}
+                                            <label class="form-label" for="book-title-field">Book title</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide book title.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ chapter_form.publishing_house }}
+                                            <label class="form-label" for="chapter-publishing-house-field">Publishing House</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide publishing house.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 row">
+                                            <div class="col-md">
+                                                <div class="form-floating">
+                                                    {{ chapter_form.edition }}
+                                                    <label class="form-label" for="edition-field">Edition</label>
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="invalid-feedback">Please provide book edition.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-floating">
+                                                    {{ chapter_form.pages }}
+                                                    <label class="form-label" for="chapter-pages-field">Pages</label>
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="invalid-feedback">Please provide chapters pages.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ chapter_form.year }}
+                                            <label class="form-label" for="chapter-year-field">Year</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide publishing year.</div>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="submit" value="Add Chapter" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="source-form-area" id="webpage-form">
+                                    <form action="{% url 'website:get_quick_reference' %}" method="post" class="source-form needs-validation" novalidate>
+                                        {% csrf_token %}
+                                        {{ webpage_form.source_type }}
+                                        {{ webpage_form.number_of_authors }}
+                                        <div class="author-div"></div><br>
+                                        <div class="form-outline mb-4 form-floating">         
+                                            {{ webpage_form.page_title }}
+                                            <label class="form-label" for="page-title-field">Page Title</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide page title.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ webpage_form.website_title }}
+                                            <label class="form-label" for="website-title-field">Website title</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide website title.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ webpage_form.page_url }}
+                                            <label class="form-label" for="page-url-field">Page URL</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide page url.</div>
+                                        </div>
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ webpage_form.date }}
+                                            <label class="form-label" for="date-field">Date</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide date.</div>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <input type="submit" value="Add book" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                        </div>
+                                    </form>         
+                                </div>
                             </div>
                         </div>
                     </div>
