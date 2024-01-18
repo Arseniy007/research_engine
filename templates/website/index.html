@@ -12,7 +12,7 @@
 
 
     <ul>
-        {% for space in spaces %}
+        {% for space in work_spaces %}
         <li>
             <a href="{% url 'work_space:space_view' space.pk %}">{{ space }}</a>
         </li>

@@ -9,7 +9,7 @@ from work_space.models import WorkSpace
 
 class Paper(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="papers")
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="papers")
     title = models.CharField(max_length=50, unique=True)
     sources = models.ManyToManyField(Source, related_name="papers")
     citation_style = models.CharField(max_length=10, default="APA & MLA")

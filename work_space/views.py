@@ -16,7 +16,7 @@ from .space_sharing import generate_invitation, get_space_sharing_code, share_so
 from utils.decorators import link_ownership_required, post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_invitation, check_share_sources_code, check_space_link, check_work_space
-from user_management.helpers import get_users_work_spaces
+from user_management.helpers import get_user_papers, get_user_work_spaces
 
 
 @login_required
@@ -53,7 +53,8 @@ def work_space_view(request, space_id):
         "webpage_form": WebpageForm(),
         "link_form": NewLinkForm(),
         "rename_form": RenameSpaceForm().set_initial(space),
-        "work_spaces": get_users_work_spaces(request.user)
+        "work_spaces": get_user_work_spaces(request.user),
+        "papers": get_user_papers(request.user)
     }
     return render(request, "work_space.html", work_space_data)
 

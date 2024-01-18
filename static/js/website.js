@@ -12,7 +12,11 @@ window.onclick = function(event) {
 }
 
 function dropdown_spaces() {
-  document.getElementById("myDropdown").classList.toggle("show");
+  document.getElementById("spaces-dropdown").classList.toggle("show");
+}
+
+function dropdown_papers() {
+  document.getElementById("papers-dropdown").classList.toggle("show");
 }
 
 function dark_mode_toggle() {

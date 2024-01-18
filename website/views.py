@@ -9,14 +9,15 @@ from work_space.models import WorkSpace
 from utils.data_cleaning import clean_author_data
 from utils.decorators import post_request_required
 from utils.messages import display_error_message, display_success_message
-from user_management.helpers import get_users_work_spaces
+from user_management.helpers import get_user_papers, get_user_work_spaces
 
 
 @login_required(redirect_field_name=None)
 def index(request):
 
     data = {"form": NewSpaceForm(), 
-            "work_spaces": get_users_work_spaces(request.user),
+            "work_spaces": get_user_work_spaces(request.user),
+            "papers": get_user_papers(request.user),
             "invitation_form": ReceiveCodeForm(),
             "shared_sources_form": ReceiveSourcesForm()}
 
@@ -38,12 +39,13 @@ def about_view(request):
 def lobby_view(request):
 
     data = {
+        "work_spaces": get_user_work_spaces(request.user),
+        "papers": get_user_papers(request.user),
         "article_form": ArticleForm(),
         "book_form": BookForm(),
         "chapter_form": ChapterForm(),
         "webpage_form": WebpageForm()
     }
-
     return render(request, "website/lobby.html", data)
 
 

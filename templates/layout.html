@@ -36,10 +36,16 @@
             </div>
             {% if user.is_authenticated %}
                 <div>
-                    <a onclick="dropdown_spaces()" id="workspaces-dropdown" class="dropbtn">Workspaces</a>
-                    <div id="myDropdown" class="dropdown-content">
+                    <a onclick="dropdown_spaces()" class="dropbtn">Workspaces</a>
+                    <div class="dropdown-content" id="spaces-dropdown">
                         {% for space in work_spaces %}
-                            <a href="{% url 'work_space:space_view' space.pk %}" class="space_link"><small>{{ space }}</small></a>
+                            <a href="{% url 'work_space:space_view' space.pk %}"><small>{{ space }}</small></a>
+                        {% endfor %}
+                    </div>
+                    <a onclick="dropdown_papers()" class="dropbtn">Papers</a>
+                    <div class="dropdown-content" id="papers-dropdown">
+                        {% for paper in papers %}
+                            <a href="{% url 'paper_work:paper_space' paper.pk %}"><small>{{ paper }}</small></a>
                         {% endfor %}
                     </div>
                 </div>
