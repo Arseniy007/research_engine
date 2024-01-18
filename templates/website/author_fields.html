@@ -1,10 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
 
-{% block script %}
-    
-{% endblock %}
-
 {% block headless %}
     <div class="author-field">
         <div class="{{ chapter }}author" id="1{{ chapter }}author-field-{{ author_number }}">
@@ -36,7 +32,7 @@
                                 </div>
                             </div>
                         </div>                    
-                        <input value="Add Author" id="{{ chapter }}add-author-button-{{ author_number }}" class="btn btn-dark btn-block btn-md gradient-custom-4 text-body mx-3" type="button"></input>
+                        <input value="Add Author" id="{{ chapter }}add-author-button-{{ author_number }}" class="btn btn-secondary btn-block btn-md gradient-custom-4 text-body mx-3" type="button"></input>
                     </div>
                 </div>
             </div>
