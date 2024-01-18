@@ -51,8 +51,6 @@ def lobby_view(request):
     data["chapter_from"] = ChapterForm()
     data["webpage_from"] = WebpageForm()
 
-    request.user.last_name
-
     return render(request, "website/lobby.html", data)
 
 
