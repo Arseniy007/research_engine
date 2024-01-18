@@ -47,9 +47,9 @@ def lobby_view(request):
     else:
         data = {}
     data["book_form"] =  BookForm()
-    data["article_from"] = ArticleForm()
-    data["chapter_from"] = ChapterForm()
-    data["webpage_from"] = WebpageForm()
+    data["article_form"] = ArticleForm()
+    data["chapter_form"] = ChapterForm()
+    data["webpage_form"] = WebpageForm()
 
     return render(request, "website/lobby.html", data)
 

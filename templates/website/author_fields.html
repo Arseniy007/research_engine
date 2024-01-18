@@ -12,52 +12,31 @@
                 <div class="card form-card" style="border-radius: 15px;">
                     <div class="card-body p-5 form-body {{ chapter }}author" id="{{ chapter }}author-field-{{ author_number }}">
                         {% if author_number == 0 %}
-                            <h4>Author</h4>
+                            <h5>Author</h5>
                         {% else %}
-                            <h4>Author {{ author_number| add:"+1" }}</h4>
+                            <h5>Author {{ author_number| add:"+1" }} <span class="badge bg-danger" id="{{ chapter }}delete-author-button-{{ author_number }}" style="font-size: .6em;"><i class="fa-solid fa-trash"></i></span></h5>
                         {% endif %}
+                        <div class="form-outline mb-4 form-floating">
+                            <input class="form-control" id="{{ chapter }}author-last_name-{{ author_number }}" name="{{ chapter }}last_name_{{ author_number }}" type="text" placeholder="Last Name" autocomplete="off" required>
+                            <label class="form-label" for="{{ chapter }}author-last_name-{{ author_number }}">Last Name</label>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please provide authors last name.</div>
+                        </div>
                         <div class="form-outline mb-4 row">
-                            <div class="col-md">
-                                <div class="form-floating">
-                                    <input class="form-control" id="{{ chapter }}author-last_name-{{ author_number }}" name="{{ chapter }}last_name_{{ author_number }}" type="text" placeholder="Last Name" autocomplete="off" required>
-                                    <label class="form-label" for="{{ chapter }}author-last_name-{{ author_number }}">Last Name</label>
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please provide authors last name.</div>
-                                </div>
-                            </div>
                             <div class="col-md">
                                 <div class="form-floating">
                                     <input class="form-control" id="{{ chapter }}author-first-name-{{ author_number }}" name="{{ chapter }}first_name_{{ author_number }}" type="text" placeholder="First Name" autocomplete="off">
                                     <label class="form-label" for="{{ chapter }}author-first-name-{{ author_number }}">First Name</label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-outline mb-4 row">
-                            {% if author_number != 0 %}
-                                <div class="col-md author-buttons">
-                                    <input value="Add Author" id="{{ chapter }}add-author-button-{{ author_number }}" class="btn btn-primary btn-block btn-md gradient-custom-4 text-body mx-3" type="button"></input>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input class="form-control" id="{{ chapter }}author-second-name-{{ author_number }}" name="{{ chapter }}second_name_{{ author_number }}" type="text" placeholder="Second Name" autocomplete="off">
+                                    <label class="form-label" for="{{ chapter }}author-second-name-{{ author_number }}">Middle Name</label>
                                 </div>
-                                <div class="col-md">
-                                    <div class="form-floating">
-                                        <input class="form-control" id="{{ chapter }}author-second-name-{{ author_number }}" name="{{ chapter }}second_name_{{ author_number }}" type="text" placeholder="Second Name" autocomplete="off">
-                                        <label class="form-label" for="{{ chapter }}author-second-name-{{ author_number }}">Middle Name</label>
-                                    </div>
-                                </div>
-                                <div class="col-md author-buttons">
-                                    <input value="Delete Author" id="{{ chapter }}delete-author-button-{{ author_number }}" class="btn btn-danger btn-block btn-md gradient-custom-4 text-body mx-3" type="button"></input>
-                                </div>
-                            {% else %}
-                                <div class="col-md">
-                                    <div class="form-floating">
-                                        <input class="form-control" id="{{ chapter }}author-second-name-{{ author_number }}" name="{{ chapter }}second_name_{{ author_number }}" type="text" placeholder="Second Name" autocomplete="off">
-                                        <label class="form-label" for="{{ chapter }}author-second-name-{{ author_number }}">Middle Name</label>
-                                    </div>
-                                </div>
-                                <div class="col-md author-buttons">
-                                    <input value="Add Author" id="{{ chapter }}add-author-button-{{ author_number }}" class="btn btn-primary btn-block btn-md gradient-custom-4 text-body mx-3" type="button"></input>
-                                </div>
-                            {% endif %}
-                        </div>
+                            </div>
+                        </div>                    
+                        <input value="Add Author" id="{{ chapter }}add-author-button-{{ author_number }}" class="btn btn-dark btn-block btn-md gradient-custom-4 text-body mx-3" type="button"></input>
                     </div>
                 </div>
             </div>

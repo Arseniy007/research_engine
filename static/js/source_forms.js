@@ -107,10 +107,10 @@ function load_new_author_field (author_div, author_number, is_chapter=false) {
             author_div.querySelector(`#${chapter}author-field-${author_number - 1}`).remove();
 
             // Show both buttons for previous field again
-            author_div.querySelector(`#${chapter}add-author-button-${author_number - 2}`).style.display = 'block';
+            author_div.querySelector(`#${chapter}add-author-button-${author_number - 2}`).style.display = 'inline-block';
             const previous_delete_button = author_div.querySelector(`#${chapter}delete-author-button-${author_number - 2}`);
             if (previous_delete_button) {
-                previous_delete_button.style.display = 'block';
+                previous_delete_button.style.display = 'inline-block';
             }
         })
     }

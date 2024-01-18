@@ -657,4 +657,33 @@ onclick="load_and_show_source_space('{{ source.id }}')"
 
 
 
+                  
+<div class="form-outline mb-4 row">
+    {% if author_number != 0 %}
+        <div class="col-md author-buttons">
+            <input value="Add Author" id="{{ chapter }}add-author-button-{{ author_number }}" class="btn btn-primary btn-block btn-md gradient-custom-4 text-body mx-3" type="button"></input>
+        </div>
+        <div class="col-md">
+            <div class="form-floating">
+                <input class="form-control" id="{{ chapter }}author-second-name-{{ author_number }}" name="{{ chapter }}second_name_{{ author_number }}" type="text" placeholder="Second Name" autocomplete="off">
+                <label class="form-label" for="{{ chapter }}author-second-name-{{ author_number }}">Middle Name</label>
+            </div>
+        </div>
+        <div class="col-md author-buttons">
+            <input value="Delete Author" id="{{ chapter }}delete-author-button-{{ author_number }}" class="btn btn-danger btn-block btn-md gradient-custom-4 text-body mx-3" type="button"></input>
+        </div>
+    {% else %}
+        <div class="col-md">
+            <div class="form-floating">
+                <input class="form-control" id="{{ chapter }}author-second-name-{{ author_number }}" name="{{ chapter }}second_name_{{ author_number }}" type="text" placeholder="Second Name" autocomplete="off">
+                <label class="form-label" for="{{ chapter }}author-second-name-{{ author_number }}">Middle Name</label>
+            </div>
+        </div>
+        <div class="col-md author-buttons">
+            <input value="Add Author" id="{{ chapter }}add-author-button-{{ author_number }}" class="btn btn-primary btn-block btn-md gradient-custom-4 text-body mx-3" type="button"></input>
+        </div>
+    {% endif %}
+
+
+
 
