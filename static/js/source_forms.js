@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
             hide_all_forms();
         }
     });
-
     const forms = document.getElementsByClassName('source-form');
     Array.from(forms).forEach(form => {
         form.addEventListener('submit', event => {
@@ -33,10 +32,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }, false)
     })
 
-    // For lobby
+    // For lobby (get quick reference)
     const submit_buttons = document.getElementsByClassName('submit_button');
     Array.from(submit_buttons).forEach(button => {
-        button.addEventListener('click', () => get_lobby_endnotes(button.parentNode.id));
+        button.addEventListener('click', () => get_quick_reference(button.parentNode.id));
     })
 });
 
@@ -228,9 +227,9 @@ function load_and_show_new_source_space(url) {
     })
 }
 
-function get_lobby_endnotes(form_id) {
+function get_quick_reference(form_id) {
 
-    const url = '/get_lobby_endnotes';
+    const url = '/get_quick_reference';
     const form = document.querySelector(`#${form_id}`);
     count_and_set_authors_number(form);
 
@@ -241,10 +240,23 @@ function get_lobby_endnotes(form_id) {
     })
     .then(response => response.json())
     .then(result => {
-        // TODO
-        const result_text = `
-        APA: ${result.apa_endnote}
-        MLA: ${result.mla_endnote}`
-        document.querySelector('#result').innerHTML = result_text;
+        if (result.status === 'ok') {
+
+            // TODO
+            const result_text = `
+            APA: ${result.apa_endnote}
+            MLA: ${result.mla_endnote}`
+            document.querySelector('#result').innerHTML = result_text;
+
+        }
+        else {
+            // Error case
+
+
+        }
     });
+}
+
+function show_form_error_message() {
+    document.querySelector('.form-error-message').style.display = 'block';
 }

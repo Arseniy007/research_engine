@@ -75,7 +75,7 @@ async function submit_source_forms(source_id) {
                 // Update source main info
                 if (!await alter_source_info(form, source_id)) {
                     // Error case
-                    return show_edit_source_error_message();
+                    return show_form_error_message();
                 }
             }
         }
@@ -89,7 +89,7 @@ async function submit_source_forms(source_id) {
                 // Update source link
                 if (!await add_link_to_source(form, source_id)) {
                     // Error case
-                    return show_edit_source_error_message();
+                    return show_form_error_message();
                 }
             }
         }
@@ -97,7 +97,7 @@ async function submit_source_forms(source_id) {
             // Save new source file
             if (!await upload_source_file(form, source_id)) {
                 // Error case
-                return show_edit_source_error_message();
+                return show_form_error_message();
             }
         }
     }
@@ -253,8 +253,8 @@ function delete_source(source_id) {
 
 
 
-function show_edit_source_error_message() {
-    document.querySelector('#edit-source-error-message').style.display = 'block';
+function show_form_error_message() {
+    document.querySelector('.form-error-message').style.display = 'block';
 }
 
 function rename_space(form, space_id) {

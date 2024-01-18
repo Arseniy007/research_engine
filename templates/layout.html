@@ -49,6 +49,7 @@
                         {% endfor %}
                     </div>
                 </div>
+                <a href="{% url 'website:lobby' %}">Quick Reference</a>
                 <a href="{% url 'user_management:account_settings' %}">Settings</a>
                 <a href="{% url 'user_management:logout' %}">Logout</a>
             {% else %}

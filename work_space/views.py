@@ -42,7 +42,7 @@ def work_space_view(request, space_id):
     # Get all needed source-related data
     work_space_data = {
         "space": space, 
-        "papers": space.papers.all(),
+        "space_papers": space.papers.all(),
         "sources": sources,
         "number_of_sources": len(sources),
         "links": space.links.all(),

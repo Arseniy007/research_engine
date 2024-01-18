@@ -32,7 +32,7 @@
     </form>
 
     <h3>Papers</h3>
-    {% for paper in papers %}
+    {% for paper in space_papers %}
         <!-- Button trigger modal -->
         <button onclick="load_and_show_paper_space('{{ paper.pk }}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paper-space-{{ paper.pk }}">
             {{ paper }}
@@ -402,6 +402,7 @@
         {{ link_form }}
         <button>Add link</button>
     </form>
+    <br><br><br>
 
 
     <div id="space_id" style="display: none;">{{ space.pk }}</div>

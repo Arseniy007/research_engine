@@ -5,7 +5,6 @@ from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm, get_type_of_source_form
 from citation.input_reference import create_input_reference
 from work_space.forms import NewSpaceForm, ReceiveCodeForm, ReceiveSourcesForm
-from work_space.models import WorkSpace
 from utils.data_cleaning import clean_author_data
 from utils.decorators import post_request_required
 from utils.messages import display_error_message, display_success_message
@@ -33,7 +32,11 @@ def show_error_page(request):
 def about_view(request):
     # TODO
 
-    return render(request, "website/about.html")
+    data = {
+        "work_spaces": get_user_work_spaces(request.user),
+        "papers": get_user_papers(request.user),
+    }
+    return render(request, "website/about.html", data)
 
 
 def lobby_view(request):
@@ -50,7 +53,7 @@ def lobby_view(request):
 
 
 @post_request_required
-def get_input_reference(request):
+def get_quick_reference(request):
     """Get reference for source that was inputted"""
 
     form = get_type_of_source_form(request.POST)
@@ -61,26 +64,26 @@ def get_input_reference(request):
 
         # Webpage is the only obj there author field could be blank
         if not author and type(form) != WebpageForm:
-            display_error_message(request)
+            # Error case
+            pass
         else:
             if type(form) == ChapterForm:
                 # Chapter is the only source type with two author fields
                 chapter_author = clean_author_data(request.POST, chapter_author=True)
-                # Error case
                 if not chapter_author:
-                    display_error_message()
+                    # Error case
+                    pass
                 else:
                     # Get reference for chapter
-                    reference = create_input_reference(form, author, chapter_author)
+                    reference: dict | None = create_input_reference(form, author, chapter_author)
             else:
                 # Get endnotes for all other types
-                reference = create_input_reference(form, author)
+                reference: dict| None = create_input_reference(form, author)
             if reference:
-                return JsonResponse(reference)
-    
-    # Send redirect url to js
-    display_error_message(request)
-    return JsonResponse({"url": reverse("lobby:view")})
+                return JsonResponse({"status": "ok", "reference": reference})
+            
+    # Error case
+    return JsonResponse({"status": "error"})
 
 
 @login_required(redirect_field_name=None)
