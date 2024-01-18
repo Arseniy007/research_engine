@@ -644,3 +644,17 @@ onclick="load_and_show_source_space('{{ source.id }}')"
     <div class="valid-feedback">Looks good!</div>
     <div class="invalid-feedback">Please provide a first name.</div>
 </div>
+
+
+<div class="col-md">
+    <div class="d-flex justify-content-center">
+        <input value="Add Author(s)" id="{{ chapter }}add-author-button-{{ author_number }}" class="btn btn-primary btn-block btn-md gradient-custom-4 text-body mx-3" type="button"></input>
+        {% if author_number != 0 %}
+            <input value="Delete Author" id="{{ chapter }}delete-author-button-{{ author_number }}" class="btn btn-danger btn-block btn-md gradient-custom-4 text-body mx-3" type="button"></input>
+        {% endif %}
+    </div>
+</div>
+
+
+
+

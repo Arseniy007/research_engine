@@ -354,3 +354,13 @@ function set_form_validation() {
 
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+
+
+// TODO
+const result_text = `
+APA: ${result.apa_endnote}
+MLA: ${result.mla_endnote}`
+document.querySelector('#result').innerHTML = result_text;
+
+

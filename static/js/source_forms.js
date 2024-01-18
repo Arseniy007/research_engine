@@ -34,11 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, false)
     })
-
     // For lobby (get quick reference)
-    const submit_buttons = document.getElementsByClassName('submit_button');
-    Array.from(submit_buttons).forEach(button => {
-        button.addEventListener('click', () => get_quick_reference(button.parentNode.id));
+    const get_reference_buttons = document.getElementsByClassName('get-reference-button');
+    Array.from(get_reference_buttons).forEach(button => {
+        button.addEventListener('click', () => get_quick_reference(button.parentNode.parentNode.parentNode.id));
     })
 });
 
@@ -54,6 +53,14 @@ async function show_and_load_form(form_id) {
     // Hide all forms and show the one that user clicked on
     hide_all_forms();
     const form = document.querySelector(`#${form_id}`);
+
+    if (document.querySelector('#reference-result')) {
+        // For lobby page
+        document.querySelector('#reference-result').style.display = 'none';
+        form.querySelector('.get-reference-button').style.display = 'block';
+        form.querySelector('.source-form').reset();
+    }
+
     form.style.display = 'block';
 
     // Set number of authors to 0
@@ -233,8 +240,14 @@ function load_and_show_new_source_space(url) {
 function get_quick_reference(form_id) {
 
     const url = '/get_quick_reference';
-    const form = document.querySelector(`#${form_id}`);
+    const form = document.querySelector(`#${form_id}`).querySelector('.source-form');
     const error_message = document.querySelector('.form-error-message');
+
+    // Set form validation
+    if (!form.checkValidity()) {
+        form.classList.add('was-validated')
+        return;
+    }
 
     count_and_set_authors_number(form);
 
@@ -250,13 +263,12 @@ function get_quick_reference(form_id) {
             if (error_message.style.display == 'block') {
                 error_message.style.display = 'none';
             }
+            // Hide get reference button
+            form.querySelector('.get-reference-button').style.display = 'none';
 
-            // TODO
-            const result_text = `
-            APA: ${result.apa_endnote}
-            MLA: ${result.mla_endnote}`
-            document.querySelector('#result').innerHTML = result_text;
-
+            const result_field = document.querySelector('#reference-result-field');
+            result_field.innerHTML = `APA:\n${result.reference.apa_endnote}\n\nMLA:\n${result.reference.mla_endnote}`
+            document.querySelector('#reference-result').style.display = 'block';
         }
         else {
             // Error case

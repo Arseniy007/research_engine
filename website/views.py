@@ -40,15 +40,19 @@ def about_view(request):
 
 
 def lobby_view(request):
+    """View for get-quick-reference-page"""
 
-    data = {
-        "work_spaces": get_user_work_spaces(request.user),
-        "papers": get_user_papers(request.user),
-        "article_form": ArticleForm(),
-        "book_form": BookForm(),
-        "chapter_form": ChapterForm(),
-        "webpage_form": WebpageForm()
-    }
+    if request.user.is_authenticated:
+        data = {"work_spaces": get_user_work_spaces(request.user), "papers": get_user_papers(request.user)}
+    else:
+        data = {}
+    data["book_form"] =  BookForm()
+    data["article_from"] = ArticleForm()
+    data["chapter_from"] = ChapterForm()
+    data["webpage_from"] = WebpageForm()
+
+    request.user.last_name
+
     return render(request, "website/lobby.html", data)
 
 

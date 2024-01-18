@@ -60,7 +60,11 @@
     <h4>TODO: Toggle between modals</h4>
     <h4>TODO: Buttons at add new source (should all be there by display none)</h4>
     <h4>TODO: Quotes and deleting source (add button to edit source div!)</h4>
-
+    <h4>TODO: Author buttons</h4>
+    <h4>TODO: Author chapter fields</h4>
+    <h4>TODO: Background image repetition</h4>
+    
+    <br><br>
     {% for source in sources %}
         <!-- Button trigger modal -->
         <button onclick="load_and_show_source_space('{{ source.id }}')" type="button" class="btn btn-primary" id="open-modal-button-{{ source.number }}" data-bs-toggle="modal" data-bs-target="#source-space-{{ source.number }}">
