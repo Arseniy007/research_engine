@@ -4021,6 +4021,33 @@ def alter_link(request, link_id):
     display_error_message(request)
     return JsonResponse({"url": reverse("work_space:space_view", args=(link.work_space.pk,))})
 
+@login_required(redirect_field_name=None)
+def account_settings(request):
+
+    if request.method == "POST": 
+        settings_form = AccountSettingsForm(request.POST)
+
+        if settings_form.is_valid():
+            user = authenticate(request, username=request.user.username, password=settings_form.cleaned_data["password"])
+            if user is not None and user == request.user:
+                # Save all changes
+                settings_form.update_user_info(user)
+                # Redirect to login-view
+                display_success_message(request, "Account details were successfully updated!")
+                return JsonResponse({"status": "ok"})
+
+        # Error case
+        display_error_message(request)
+        return JsonResponse({"status": "error"})
+
+    data = {
+        "change_password_form": ChangePasswordForm(),
+        "settings_form": AccountSettingsForm().set_initials(request.user),
+        "work_spaces": get_user_work_spaces(request.user),
+        "papers": get_user_papers(request.user)
+    }
+    return render(request, "user_management/account_settings.html", data)
+
 """
 
 

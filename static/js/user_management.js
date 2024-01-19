@@ -1,14 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     set_form_validation();
-
-    // Set validation for settings forms
-    const account_settings_forms = document.getElementsByClassName('account-settings-form');
-    Array.from(account_settings_forms).forEach(form => {
-        form.addEventListener('change', function() {
-            form.classList.add('was-changed')
-        })
-    })
 });
 
 async function submit_settings_forms() {

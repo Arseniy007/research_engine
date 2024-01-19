@@ -81,24 +81,8 @@ def login_view(request):
 
 
 @login_required(redirect_field_name=None)
-def account_settings(request):
-    """Update user info"""
-
-    if request.method == "POST": 
-        settings_form = AccountSettingsForm(request.POST)
-
-        if settings_form.is_valid():
-            user = authenticate(request, username=request.user.username, password=settings_form.cleaned_data["password"])
-            if user is not None and user == request.user:
-                # Save all changes
-                settings_form.update_user_info(user)
-                # Redirect to login-view
-                display_success_message(request, "Account details were successfully updated!")
-                return JsonResponse({"status": "ok"})
-
-        # Error case
-        display_error_message(request)
-        return JsonResponse({"status": "error"})
+def account_settings_view(request):
+    """Main view for all settings"""
 
     data = {
         "change_password_form": ChangePasswordForm(),
@@ -107,6 +91,27 @@ def account_settings(request):
         "papers": get_user_papers(request.user)
     }
     return render(request, "user_management/account_settings.html", data)
+
+
+@login_required
+@post_request_required
+def edit_account_info(request):
+    """Update user main info"""
+
+    form = AccountSettingsForm(request.POST)
+
+    if form.is_valid():
+        user = authenticate(request, username=request.user.username, password=form.cleaned_data["password"])
+        if user is not None and user == request.user:
+            # Save all changes
+            form.update_user_info(user)
+            # Redirect to login-view
+            display_success_message(request, "Account details were successfully updated!")
+            return JsonResponse({"status": "ok"})
+
+    # Error case
+    display_error_message(request)
+    return JsonResponse({"status": "error"})
 
 
 @login_required
