@@ -26,22 +26,26 @@ def index(request):
 def show_error_page(request):
     # TODO
 
+    # Do I need it at all?
+
     return render(request, "website/error_page.html")
 
 
 def about_view(request):
-    # TODO
+    """About page view"""
 
-    data = {
-        "work_spaces": get_user_work_spaces(request.user),
-        "papers": get_user_papers(request.user),
-    }
+    # About page if shown both for logged in and not logged in users
+    if request.user.is_authenticated:
+        data = {"work_spaces": get_user_work_spaces(request.user), "papers": get_user_papers(request.user)}
+    else:
+        data = {}
     return render(request, "website/about.html", data)
 
 
 def lobby_view(request):
     """View for get-quick-reference-page"""
 
+    # About page if shown both for logged in and not logged in users
     if request.user.is_authenticated:
         data = {"work_spaces": get_user_work_spaces(request.user), "papers": get_user_papers(request.user)}
     else:

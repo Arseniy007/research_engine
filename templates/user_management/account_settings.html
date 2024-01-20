@@ -24,7 +24,64 @@
                                         </ul>
                                     </div>
                                 {% endif %}
-                                
+
+                                <br><br>
+
+
+                                <div id="settings-menu">
+
+                                    <div>
+                                        <div class="settings-icon">
+                                            <i class="fa-solid fa-user-pen fa-7x"></i><br><br><h5>Edit main info</h5>
+                                        </div>
+                                        <div class="settings-icon">
+                                            <i class="fa-solid fa-lock fa-7x"></i><br><br><h5>Change password</h5>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <br><br><br>
+
+
+                                    <div>
+                                        <a class="settings-icon settings-link" href="{% url 'website:about' %}">
+                                            <div class="settings-icon">
+                                                <i class="fa-solid fa-circle-info fa-7x"></i><br><br><h5>About</h5>
+                                            </div>
+                                        </a>
+                                        <a class="settings-icon settings-link" href="{% url 'user_management:logout' %}">
+                                            <div class="settings-icon">
+                                                <i class="fa-solid fa-right-from-bracket fa-7x"></i><br><br><h5>Logout</h5>
+                                            </div>
+                                        </a>
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+
+                               
+
+
+                                <br><br><br>
+
+                            
+
+
+                                <br><br><br>
+
+                            
+
+
+
+
+
+
+                                <br><br><br>
                                 <button class="btn btn-primary gap-3" type="button" data-bs-toggle="collapse" data-bs-target="#main-from-area" aria-expanded="false" aria-controls="main-from-area">
                                     Edit main info
                                 </button>
@@ -120,14 +177,7 @@
                                 TODO: Archived papers and work_spaces
 
 
-                                <br><br>
-
-                                <a style="color: black;" href="{% url 'user_management:logout' %}">
-                                    <div>
-                                        <i class="fa-solid fa-right-from-bracket fa-5x"></i><br>Logout
-                                    </div>
-                                </a>
-    
+                      
         
 
 

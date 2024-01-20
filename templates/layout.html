@@ -52,10 +52,10 @@
                 </div>
                 <a href="{% url 'user_management:account_settings' %}">Settings&nbsp;&nbsp;<i class="fa-solid fa-gears"></i></a>
             {% else %}
-                <a href="{% url 'user_management:logout' %}">Login</a>
-                <a href="{% url 'user_management:register' %}">Register</a>
+                <a href="{% url 'user_management:logout' %}">Login&nbsp;&nbsp;<i class="fa-solid fa-right-to-bracket"></i></a>
+                <a href="{% url 'user_management:register' %}">Register&nbsp;&nbsp;<i class="fa-solid fa-address-card"></i></a>
+                <a href="{% url 'website:about' %}">About&nbsp;&nbsp;<i class="fa-solid fa-circle-info"></i></a>
             {% endif %}
-            <a href="{% url 'website:about' %}">About&nbsp;&nbsp;<i class="fa-solid fa-circle-info"></i></a>
         </div>
         <!-- Page content -->
         <main class="main">

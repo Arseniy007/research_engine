@@ -208,3 +208,19 @@ a:active {
 {
   margin-left: 180px;
 }
+
+.settings-icon
+{
+  display: inline-block;
+  margin: 30px;
+}
+
+.settings-link
+{
+  color: rgb(40,36,44);
+}
+
+.settings-link:hover
+{
+  color: #f1f1f1;
+}
