@@ -216,17 +216,20 @@ a:active {
 
 .settings-row-1
 {
-  margin: 20px;
+  margin-block: 15px;
+  margin-inline: 24px;
 }
 
 .settings-row-2
 {
-  margin: 15px;
+  margin-block: 15px;
+  margin-inline: 17px;
 }
 
 .settings-row-3
 {
-  margin: 30px;
+  margin-block: 15px;
+  margin-inline: 33px;
   margin-bottom: 0px;
 }
 
@@ -238,4 +241,14 @@ a:active {
 .settings-link:hover
 {
   color: #f1f1f1;
+}
+
+#archived-work-spaces
+{
+  margin-right: 33px;
+}
+
+#logout-link
+{
+  margin-left: 37px;
 }
