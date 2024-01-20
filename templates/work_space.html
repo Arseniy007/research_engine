@@ -63,7 +63,6 @@
     <h4>TODO: Author buttons</h4>
     <h4>TODO: Author chapter fields</h4>
     <h4>TODO: Background image repetition</h4>
-    <h4>TODO: move logout somewhere</h4>
     
     <br><br>
     {% for source in sources %}
@@ -135,6 +134,29 @@
     <li>
         <a href="{% url 'work_space:download_space' space.pk %}">Download space</a>
     </li><br><br><br>
+
+
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#download-work-space" aria-expanded="false" aria-controls="download-work-space">
+        Download Workspace
+    </button>
+
+    <div class="collapse" id="download-work-space">
+        <div>
+            <a href="{% url 'work_space:download_space' space.pk %}">
+                <i class="fa-solid fa-file-zipper fa-5x"></i><br><h6>Download sources and papers</h6>
+            </a>
+
+            <a href="{% url 'work_space:download_space_sources' space.pk %}">
+                <i class="fa-regular fa-file-zipper fa-5x"></i><br><h6>Download only sources</h6>
+            </a>
+
+
+        </div>
+    </div>
+    
+    
+    
+    <br><br>
     
 
 
