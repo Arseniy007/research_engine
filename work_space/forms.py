@@ -29,6 +29,7 @@ class RenameSpaceForm(forms.Form):
         space.save(update_fields=("title",))
         return space
 
+
 class NewLinkForm(forms.Form):
     name = forms.CharField()
     url = forms.URLField()

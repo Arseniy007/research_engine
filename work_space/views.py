@@ -83,34 +83,6 @@ def create_work_space(request):
 @post_request_required
 @space_ownership_required
 @login_required(redirect_field_name=None)
-def delete_work_space(request, space_id):
-    """Delete workspace ;)"""
-
-    # TODO
-
-    form = None
-
-    if form and form.is_valid():
-
-        # Check if user has right to delete this work space
-        space = check_work_space(space_id, request.user)
-
-        # Delete work pace directory with all files inside
-        shutil.rmtree(space.get_path())
-
-        # Delete workspace from the db
-        space.delete()
-
-        return JsonResponse({"message": "ok"})
-    
-    # TODO
-    # Return to index?
-    return JsonResponse({"message": "error"})
-
-
-@post_request_required
-@space_ownership_required
-@login_required(redirect_field_name=None)
 def rename_work_space(request, space_id):
     """Allow workspace owner to rename space"""
 

@@ -4104,6 +4104,52 @@ def change_password(request):
     # Redirect back in case of error
     display_error_message(request)
     return JsonResponse({"status": "error"})
+
+
+@post_request_required
+@space_ownership_required
+@login_required(redirect_field_name=None)
+def delete_work_space(request, space_id):
+
+    form = None
+
+    if form and form.is_valid():
+
+        # Check if user has right to delete this work space
+        space = check_work_space(space_id, request.user)
+
+        # Delete work pace directory with all files inside
+        shutil.rmtree(space.get_path())
+
+        # Delete workspace from the db
+        space.delete()
+
+        return JsonResponse({"message": "ok"})
+    
+    # TODO
+    # Return to index?
+    return JsonResponse({"message": "error"})
+
+path("delete_space/<int:space_id>", views.delete_work_space, name="delete_space"),
+
+
+
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def delete_paper(request, paper_id):
+
+    # Check if user has right to delete this paper
+    paper = check_paper(paper_id, request.user)
+    
+    # Delete paper directory with all files inside
+    if paper.files.all():
+        shutil.rmtree(paper.get_path())
+
+    # Delete paper from the db
+    paper.delete()
+    return JsonResponse({"message": "ok"})
+
+path("delete_paper/<int:paper_id>", views.delete_paper, name="delete_paper"),
     
 
 """

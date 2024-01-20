@@ -705,3 +705,19 @@ onclick="load_and_show_source_space('{{ source.id }}')"
         </ul>
     </div>
 {% endif %}
+
+
+<ul>
+    {% for link in links %}
+        <li>
+            {{ link }}
+        </li>
+    {% endfor %}
+</ul>
+
+<form action="{% url 'paper_work:rename_paper' paper.pk %}" method="post" id="rename_paper_form">
+    {% csrf_token %} 
+    {{ rename_paper_form }}
+    <button type="submit">Rename Paper</button>
+</form>
+

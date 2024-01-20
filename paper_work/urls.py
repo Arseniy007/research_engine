@@ -6,7 +6,6 @@ app_name = "paper_work"
 urlpatterns = [
     path("paper_space/<int:paper_id>", views.paper_space, name="paper_space"),
     path("create_paper/<space_id>", views.create_paper, name="create_paper"),
-    path("delete_paper/<int:paper_id>", views.delete_paper, name="delete_paper"),
     path("rename_paper/<int:paper_id>", views.rename_paper, name="rename_paper"),
     path("archive_paper/<int:paper_id>", views.archive_or_unarchive_paper, name="archive_paper"),
     path("set_citation_style/<int:paper_id>", views.set_citation_style, name="set_citation_style"),

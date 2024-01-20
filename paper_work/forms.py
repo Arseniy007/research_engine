@@ -5,11 +5,19 @@ from user_management.models import User
 from work_space.models import WorkSpace
 
 
-CITATION_STYLES = (("APA", "APA"), ("MLA", "MLA"), ("APA & MLA", "APA & MLA"),)
+_CLASS = "form-control"
+
+CITATION_STYLES = (("APA", "APA"), ("MLA", "MLA"),)
 
 
 class NewPaperForm(forms.Form):
-    title = forms.CharField()
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "title-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Paper title"})
+    )
 
     def save_paper(self, space: WorkSpace, user: User):
         """Save new Paper object"""
@@ -19,7 +27,13 @@ class NewPaperForm(forms.Form):
 
 
 class RenamePaperForm(forms.Form):
-    title = forms.CharField()
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "title-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Paper title"})
+    )
 
     def set_initial(self, paper: Paper):
         self.fields["title"].initial = paper.title
@@ -27,9 +41,8 @@ class RenamePaperForm(forms.Form):
 
     def save_new_name(self, paper: Paper) -> Paper:
         """Updates title of Paper object"""
-        field = "title"
-        paper.title = self.cleaned_data[field]
-        paper.save(update_fields=(field,))
+        paper.title = self.cleaned_data["title"]
+        paper.save(update_fields=("title",))
         return paper
 
 
@@ -43,7 +56,7 @@ class ChooseSourcesForm(forms.Form):
     
 
 class CitationStyleForm(forms.Form):
-    citation_style = forms.ChoiceField(choices=CITATION_STYLES)
+    citation_style = forms.ChoiceField(choices=CITATION_STYLES, widget=forms.Select(attrs={"class": _CLASS}))
 
     def save_citation_style(self, paper: Paper):
         "Update citation_style field in Workspace obj"

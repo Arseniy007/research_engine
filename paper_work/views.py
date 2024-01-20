@@ -7,6 +7,7 @@ from bookshelf.source_citation import get_source_reference
 from .forms import CitationStyleForm, ChooseSourcesForm, NewPaperForm, RenamePaperForm
 from file_handling.forms import UploadPaperFileForm
 from file_handling.models import PaperFile
+from user_management.helpers import get_user_papers, get_user_work_spaces
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_paper, check_work_space
@@ -31,7 +32,9 @@ def paper_space(request, paper_id):
         "choose_sources_form": choose_sources_form,
         "new_paper_file_form": UploadPaperFileForm(),
         "rename_paper_form": RenamePaperForm().set_initial(paper),
-        "citation_form": CitationStyleForm()
+        "citation_form": CitationStyleForm(),
+        "work_spaces": get_user_work_spaces(request.user),
+        "papers": get_user_papers(request.user)
     }
     return render(request, "paper_space.html", paper_data)
 
@@ -54,23 +57,6 @@ def create_paper(request, space_id):
     
     display_error_message(request)
     return JsonResponse({"status": "error", "url": reverse("work_space:space_view", args=(space_id,))})
-
-
-@paper_authorship_required
-@login_required(redirect_field_name=None)
-def delete_paper(request, paper_id):
-    """Deletes added paper and all related info"""
-
-    # Check if user has right to delete this paper
-    paper = check_paper(paper_id, request.user)
-    
-    # Delete paper directory with all files inside
-    if paper.files.all():
-        shutil.rmtree(paper.get_path())
-
-    # Delete paper from the db
-    paper.delete()
-    return JsonResponse({"message": "ok"})
 
 
 @post_request_required
@@ -148,16 +134,12 @@ def archive_or_unarchive_paper(request, paper_id):
 @login_required(redirect_field_name=None)
 def set_citation_style(request, paper_id):
     """Choose citation style for all sources in work space"""
-
-    # TODO
-    
+ 
     form = CitationStyleForm(request.POST)
 
     if form.is_valid():
         paper = check_paper(paper_id, request.user)
         form.save_citation_style(paper)
-        display_success_message(request)
-    else:
-        display_error_message(request)
-    
-    return redirect(reverse("work_space:space_view", args=(paper.work_space.pk,)))
+        return JsonResponse({"status: ok"})
+
+    return JsonResponse({"status": "error"})

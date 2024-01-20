@@ -5,10 +5,18 @@
     <script src="{% static 'js/paper_space.js' %}"></script>
 {% endblock %}
 
+{% block title %}
+    {{ paper }}
+{% endblock %}
+
+{% block header %}
+   {{ paper }}
+{% endblock %}
+
 {% block body %}
     <div id="paper_space">
 
-        <h3 id="paper_title">{{ paper.title }}</h3>
+        
 
         <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post">
             {% csrf_token %} 
@@ -24,20 +32,7 @@
             {% endfor %}
         </ul>
 
-        <br>
-        <ul>
-            {% for link in links %}
-                <li>
-                    {{ link }}
-                </li>
-            {% endfor %}
-        </ul>
-
-        <form action="{% url 'paper_work:rename_paper' paper.pk %}" method="post" id="rename_paper_form">
-            {% csrf_token %} 
-            {{ rename_paper_form }}
-            <button type="submit">Rename Paper</button>
-        </form>
+        <br><br>
 
 
         <h3>Choose sources</h3>
@@ -47,13 +42,14 @@
             {{ choose_sources_form }}
             <button type="submit">Choose</button>
         </form>
-
+        
+        <br><br>
 
         <h3>Endnotes:</h3>
 
         <ul>
             {% for endnote in endnotes %}
-            <li>{{ endnote.apa }}</li>
+                <li>{{ endnote.endnote_apa }}</li>
             {% endfor %}
         </ul><br><br>
 
@@ -64,8 +60,60 @@
             <button type="submit">Set citation style</button>
         </form><br><br>
 
-
         <div id="paper_id" style="display: none;">{{ paper.pk }}</div>
+
+
+        <div id="paper-settings">
+
+
+            <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+                <div class="container h-100">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col-lg-12 col-lg-9 col-lg-7 col-lg-6">
+                            <div class="card form-card" style="border-radius: 15px;">
+                                <div class="card-body p-5 form-body">
+                                    <h2 class="text-uppercase text-center mb-4" id="form-header">Edit</h2>
+                                    <div id="edit-source-error-message" style="display: none;">
+                                        <ul class="messages">
+                                            <li class="error">Error</li>
+                                        </ul>
+                                    </div>
+                                    <h4>Rename paper</h4>
+                                    <form action="{% url 'paper_work:rename_paper' paper.pk %}" class="needs-validation"  method="post" novalidate>
+                                        {% csrf_token %}
+                                        <div class="form-outline mb-4 form-floating">
+                                            {{ rename_paper_form.title }}
+                                            <label class="form-label" for="title-field">Title</label>
+                                            <div class="invalid-feedback">Please provide paper title.</div>
+                                        </div>
+                                    </form>
+                                    <h4>Set citation style</h4>
+                                    <form action="{% url 'paper_work:set_citation_style' paper.pk %}" class="needs-validation" method="post" novalidate>
+                                        {% csrf_token %}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" value="APA" checked>
+                                            <label class="form-check-label" for="inlineRadio1">APA</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" value="MLA">
+                                            <label class="form-check-label" for="inlineRadio2">MLA</label>
+                                        </div>
+                                    </form>
+                                    <div class="d-flex justify-content-center">
+                                        <input onclick="submit_source_forms('{{ source.pk }}')" type="button" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" formnovalidate></input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+
+
+
+
+
+        </div>
 
         
     </div>
