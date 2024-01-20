@@ -31,6 +31,17 @@ def show_error_page(request):
     return render(request, "website/error_page.html")
 
 
+@login_required(redirect_field_name=None)
+def account_settings_view(request):
+    """Main view for all settings"""
+
+    data = {
+        "work_spaces": get_user_work_spaces(request.user), 
+        "papers": get_user_papers(request.user)
+    }
+    return render(request, "website/account_settings.html", data)
+
+
 def about_view(request):
     """About page view"""
 

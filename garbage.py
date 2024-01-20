@@ -4048,6 +4048,64 @@ def account_settings(request):
     }
     return render(request, "user_management/account_settings.html", data)
 
+
+@login_required(redirect_field_name=None)
+def account_settings_view(request):
+
+    data = {
+        "change_password_form": ChangePasswordForm(),
+        "settings_form": AccountSettingsForm().set_initials(request.user),
+        "work_spaces": get_user_work_spaces(request.user),
+        "papers": get_user_papers(request.user)
+    }
+    return render(request, "user_management/account_settings.html", data)
+
+
+@login_required
+@post_request_required
+def edit_account_info(request):
+
+    form = AccountSettingsForm(request.POST)
+
+    if form.is_valid():
+        user = authenticate(request, username=request.user.username, password=form.cleaned_data["password"])
+        if user is not None and user == request.user:
+            # Save all changes
+            form.update_user_info(user)
+            # Redirect to login-view
+            display_success_message(request, "Account details were successfully updated!")
+            return JsonResponse({"status": "ok"})
+
+    # Error case
+    display_error_message(request)
+    return JsonResponse({"status": "error"})
+
+
+@login_required
+@post_request_required
+def change_password(request):
+
+    form = ChangePasswordForm(request.POST)
+
+    if form.is_valid():
+        old_password = form.cleaned_data["old_password"]
+        new_password = form.cleaned_data["new_password"]
+        confirmation = form.cleaned_data["confirmation"]
+
+        # Check old password and confirmation
+        user = authenticate(request, username=request.user.username, password=old_password)
+        if user and new_password == confirmation:
+            # Update password
+            user.set_password(new_password)
+            user.save(update_fields=("password",))
+            display_success_message(request, "Password was successfully updated!")
+            return JsonResponse({"status": "ok"})
+        
+    # Redirect back in case of error
+    display_error_message(request)
+    return JsonResponse({"status": "error"})
+    
+
 """
 
 

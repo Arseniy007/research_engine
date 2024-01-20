@@ -690,3 +690,18 @@ onclick="load_and_show_source_space('{{ source.id }}')"
 <a href="{% url 'user_management:logout' %}">Logout</a>
 
 
+<button class="btn btn-primary" type="button">
+    <a style="text-decoration: none; color: white;" href="{% url 'user_management:logout' %}">Logout</a>
+</button>
+
+
+<!-- Messages -->
+{% if messages %}
+    <div>
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

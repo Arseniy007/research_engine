@@ -9,7 +9,6 @@ from .helpers import get_user_by_reset_code, get_user_papers, get_user_work_spac
 from .models import User
 from .password_resetting import generate_password_reset_code, get_reset_url, send_password_resetting_email
 from research_engine.settings import LOGIN_URL
-from utils.decorators import post_request_required
 from utils.messages import display_error_message, display_info_message, display_success_message
 from utils.verification import check_reset_password_code
 
@@ -80,64 +79,65 @@ def login_view(request):
     return render(request, "user_management/login.html", {"login_form": form})
 
 
-@login_required(redirect_field_name=None)
-def account_settings_view(request):
-    """Main view for all settings"""
+@login_required
+def edit_account_info(request):
+    """Update user main info"""
 
+    if request.method == "POST":
+        form = AccountSettingsForm(request.POST)
+
+        if form.is_valid():
+            user = authenticate(request, username=request.user.username, password=form.cleaned_data["password"])
+            if user is not None and user == request.user:
+                # Save all changes
+                form.update_user_info(user)
+                # Redirect to settings page
+                display_success_message(request, "Account details were successfully updated!")
+                return redirect(reverse("website:account_settings"))
+            
+        # Error case
+        display_error_message(request)
+        return redirect(reverse("user_management:edit_account"))
+    
     data = {
-        "change_password_form": ChangePasswordForm(),
         "settings_form": AccountSettingsForm().set_initials(request.user),
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user)
     }
-    return render(request, "user_management/account_settings.html", data)
+    return render(request, "user_management/edit_account_info.html", data)
 
 
 @login_required
-@post_request_required
-def edit_account_info(request):
-    """Update user main info"""
-
-    form = AccountSettingsForm(request.POST)
-
-    if form.is_valid():
-        user = authenticate(request, username=request.user.username, password=form.cleaned_data["password"])
-        if user is not None and user == request.user:
-            # Save all changes
-            form.update_user_info(user)
-            # Redirect to login-view
-            display_success_message(request, "Account details were successfully updated!")
-            return JsonResponse({"status": "ok"})
-
-    # Error case
-    display_error_message(request)
-    return JsonResponse({"status": "error"})
-
-
-@login_required
-@post_request_required
 def change_password(request):
     """Allow user to change their password"""
 
-    form = ChangePasswordForm(request.POST)
+    form = ChangePasswordForm(request.POST or None)
 
-    if form.is_valid():
-        old_password = form.cleaned_data["old_password"]
-        new_password = form.cleaned_data["new_password"]
-        confirmation = form.cleaned_data["confirmation"]
+    if request.method == "POST":
+        if form.is_valid():
+            old_password = form.cleaned_data["old_password"]
+            new_password = form.cleaned_data["new_password"]
+            confirmation = form.cleaned_data["confirmation"]
 
-        # Check old password and confirmation
-        user = authenticate(request, username=request.user.username, password=old_password)
-        if user and new_password == confirmation:
-            # Update password
-            user.set_password(new_password)
-            user.save(update_fields=("password",))
-            display_success_message(request, "Password was successfully updated!")
-            return JsonResponse({"status": "ok"})
+            # Check old password and confirmation
+            user = authenticate(request, username=request.user.username, password=old_password)
+            if user and new_password == confirmation:
+                # Update password
+                user.set_password(new_password)
+                user.save(update_fields=("password",))
+                display_success_message(request, "Password was successfully updated!")
+                return redirect(LOGIN_URL)
         
-    # Redirect back in case of error
-    display_error_message(request)
-    return JsonResponse({"status": "error"})
+        # Redirect back in case of error
+        display_error_message(request)
+        return redirect(reverse("user_management:change_password"))
+    
+    data = {
+        "change_password_form": form,
+        "work_spaces": get_user_work_spaces(request.user),
+        "papers": get_user_papers(request.user)
+    }
+    return render(request, "user_management/change_password.html", data)
     
 
 def forget_password(request):

@@ -212,7 +212,22 @@ a:active {
 .settings-icon
 {
   display: inline-block;
+}
+
+.settings-row-1
+{
+  margin: 20px;
+}
+
+.settings-row-2
+{
+  margin: 15px;
+}
+
+.settings-row-3
+{
   margin: 30px;
+  margin-bottom: 0px;
 }
 
 .settings-link
