@@ -61,7 +61,7 @@ def lobby_view(request):
         data = {"work_spaces": get_user_work_spaces(request.user), "papers": get_user_papers(request.user)}
     else:
         data = {}
-    data["book_form"] =  BookForm()
+    data["book_form"] = BookForm()
     data["article_form"] = ArticleForm()
     data["chapter_form"] = ChapterForm()
     data["webpage_form"] = WebpageForm()
@@ -103,7 +103,6 @@ def get_quick_reference(request):
     return JsonResponse({"status": "error"})
 
 
-@login_required(redirect_field_name=None)
 def render_author_form_fields(request, author_number, chapter):
     """API route for getting author input fields for add-source-form"""
     
