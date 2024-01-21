@@ -251,8 +251,6 @@ function delete_source(source_id) {
     })
 }
 
-
-
 function show_form_error_message() {
     document.querySelector('.form-error-message').style.display = 'block';
 }

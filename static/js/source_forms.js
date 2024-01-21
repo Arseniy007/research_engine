@@ -164,7 +164,7 @@ async function render_author_field(author_number, chapter=false) {
         let parser = new DOMParser();
 
         // Parse the text
-        let author_field_page = parser.parseFromString(html, "text/html");
+        const author_field_page = parser.parseFromString(html, "text/html");
 
         // Return author-field-div
         return author_field_page.querySelector('.form-body');

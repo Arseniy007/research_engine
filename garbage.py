@@ -4157,6 +4157,14 @@ path("delete_paper/<int:paper_id>", views.delete_paper, name="delete_paper"),
         new_work_space.save()
         return new_work_space.pk
     
+        
+def show_error_page(request):
+    # TODO
+
+    # Do I need it at all?
+
+    return render(request, "website/error_page.html")
+    path("error_page", views.show_error_page, name="error_page"),
 
 """
 

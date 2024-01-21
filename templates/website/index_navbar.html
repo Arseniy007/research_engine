@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block headless %}
+    <div id="index-div">
+
+        <form action="{% url 'work_space:create_space' %}" class="needs-validation" id="new_space_form" method="post" novalidate>
+            {% csrf_token %} 
+            <div class="form-outline mb-4 form-floating">         
+                {{ new_space_form.title }}
+                <label class="form-label" for="page-title-field">Workspace Title</label>
+                <div class="invalid-feedback">Please provide page title.</div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <input type="submit" value="Create" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+            </div>
+        </form>
+
+
+
+
+
+
+    </div>
+{% endblock %}

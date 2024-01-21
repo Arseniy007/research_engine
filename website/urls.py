@@ -5,7 +5,7 @@ app_name = "website"
 
 urlpatterns = [
     path("index", views.index, name="index"),
-    path("error_page", views.show_error_page, name="error_page"),
+    path("index_loader", views.load_index_content, name="TODO"),
     path("about", views.about_view, name="about"),
     path("lobby", views.lobby_view, name="lobby"),
     path("get_quick_reference", views.get_quick_reference, name="get_quick_reference"),

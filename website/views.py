@@ -14,21 +14,25 @@ from user_management.helpers import get_user_papers, get_user_work_spaces
 @login_required(redirect_field_name=None)
 def index(request):
 
-    data = {"form": NewSpaceForm(), 
-            "work_spaces": get_user_work_spaces(request.user),
-            "papers": get_user_papers(request.user),
-            "invitation_form": ReceiveCodeForm(),
-            "shared_sources_form": ReceiveSourcesForm()}
-
+    data = {
+        "form": NewSpaceForm(), 
+        "work_spaces": get_user_work_spaces(request.user),
+        "papers": get_user_papers(request.user),
+        "invitation_form": ReceiveCodeForm(),
+        "shared_sources_form": ReceiveSourcesForm()
+    }
     return render(request, "website/index.html", data)
 
 
-def show_error_page(request):
-    # TODO
+@login_required(redirect_field_name=None)
+def load_index_content(request):
+    """API route for full-width sidenav"""
 
-    # Do I need it at all?
+    data = {
+        "new_space_form": NewSpaceForm(),
 
-    return render(request, "website/error_page.html")
+    }
+    return render(request, "website/index_navbar.html", data)
 
 
 @login_required(redirect_field_name=None)
