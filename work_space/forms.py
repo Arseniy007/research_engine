@@ -1,23 +1,29 @@
 from django import forms
 from .models import Link, WorkSpace
-from user_management.models import User
+from research_engine.constants import _CLASS
 
 
 SOURCES_RECEIVING_OPTIONS = (("copy", "Create New Work Space"), ("download", "Download sources"),)
 
 
 class NewSpaceForm(forms.Form):
-    title = forms.CharField(max_length=50)
-
-    def save_work_space(self, user: User):
-        """Save new WorkSpace object"""
-        new_work_space = WorkSpace(owner=user, title=self.cleaned_data["title"])
-        new_work_space.save()
-        return new_work_space
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "title-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Paper title"})
+    )
 
 
 class RenameSpaceForm(forms.Form):
-    new_title = forms.CharField(max_length=50)
+    new_title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "title-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Paper title"})
+    )
 
     def set_initial(self, space: WorkSpace):
         self.fields["new_title"].initial = space.title
@@ -31,7 +37,14 @@ class RenameSpaceForm(forms.Form):
 
 
 class NewLinkForm(forms.Form):
-    name = forms.CharField()
+    name = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "name-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Paper title"})
+    )
+
     url = forms.URLField()
 
     def save_link(self, space: WorkSpace) -> Link:

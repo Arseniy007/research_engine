@@ -1,6 +1,8 @@
 from .settings import MEDIA_ROOT
 
 
+_CLASS = "form-control"
+
 ERROR_PAGE = "/error_page"
 
 FRIENDLY_TMP_ROOT = f'{MEDIA_ROOT}/friendly_dirs'

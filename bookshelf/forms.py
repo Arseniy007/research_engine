@@ -1,9 +1,8 @@
 from django import forms
 from .models import Article, Book, Chapter, Quote, Source, Webpage
+from research_engine.constants import _CLASS
 from utils.data_cleaning import clean_text_data
 
-
-_CLASS = "form-control"
 
 class SourceTypes:
     book = forms.CharField(widget=forms.HiddenInput(attrs={"value": "book"}))

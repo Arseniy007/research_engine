@@ -38,13 +38,13 @@
             <a href="{% url 'website:lobby' %}">Quick Reference&nbsp;&nbsp;<i class="fa-solid fa-asterisk"></i></a>
             {% if user.is_authenticated %}
                 <div>
-                    <a onclick="dropdown_spaces()" class="dropbtn">Workspaces&nbsp;&nbsp;<i class="fa-solid fa-folder-open"></i></a>
+                    <a onclick="dropdown_spaces()" class="dropbtn pointy_cursor">Workspaces&nbsp;&nbsp;<i class="fa-solid fa-folder-open"></i></a>
                     <div class="dropdown-content" id="spaces-dropdown">
                         {% for space in work_spaces %}
                             <a href="{% url 'work_space:space_view' space.pk %}"><small>{{ space }}</small></a>
                         {% endfor %}
                     </div>
-                    <a onclick="dropdown_papers()" class="dropbtn">Papers&nbsp;&nbsp;<i class="fa-solid fa-copy"></i></a>
+                    <a onclick="dropdown_papers()" class="dropbtn pointy_cursor">Papers&nbsp;&nbsp;<i class="fa-solid fa-copy"></i></a>
                     <div class="dropdown-content" id="papers-dropdown">
                         {% for paper in papers %}
                             <a href="{% url 'paper_work:paper_space' paper.pk %}"><small>{{ paper }}</small></a>

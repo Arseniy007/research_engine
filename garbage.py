@@ -4150,6 +4150,12 @@ def delete_paper(request, paper_id):
     return JsonResponse({"message": "ok"})
 
 path("delete_paper/<int:paper_id>", views.delete_paper, name="delete_paper"),
+
+
+    def save_work_space(self, user: User) -> int:
+        new_work_space = WorkSpace(owner=user, title=self.cleaned_data["title"])
+        new_work_space.save()
+        return new_work_space.pk
     
 
 """

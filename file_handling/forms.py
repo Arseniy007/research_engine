@@ -2,11 +2,8 @@ from django import forms
 from bookshelf.models import Source
 from .models import PaperFile, SourceFile
 from paper_work.models import Paper
-from research_engine.constants import ACCEPTED_UPLOAD_FORMATS
+from research_engine.constants import ACCEPTED_UPLOAD_FORMATS, _CLASS
 from user_management.models import User
-
-
-_CLASS = "form-control"
 
 
 class UploadPaperFileForm(forms.Form):

@@ -68,11 +68,11 @@ def create_work_space(request):
 
     if form.is_valid():
         # Save new work space to the db and create its directory
-        new_space = create_new_space(request.user, form.cleaned_data["title"])
+        new_space_id = create_new_space(request.user, form.cleaned_data["title"])
         display_success_message(request)
 
         # Redirect user to the new work space
-        return redirect(reverse("work_space:space_view", args=(new_space.pk,)))
+        return redirect(reverse("work_space:space_view", args=(new_space_id,)))
 
     # TODO
     # Redirect to index?
