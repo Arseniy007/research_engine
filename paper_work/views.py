@@ -78,6 +78,24 @@ def rename_paper(request, paper_id):
     return JsonResponse({"url": reverse("paper_work:paper_space", args=(paper_id,))})
 
 
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def archive_or_unarchive_paper(request, paper_id):
+    """Mark paper is archived or vice versa"""
+
+    # Check if user has right to archive this paper
+    paper = check_paper(paper_id, request.user)
+
+    if paper.archived:
+        paper.unarchive()
+        display_success_message(request, f"Paper is now again part of {paper.work_space.title} workspace!")
+        return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
+    
+    paper.archive()
+    display_success_message(request, "Paper was successfully archived")
+    return redirect(reverse("work_space:space_view", args=(paper.work_space.pk,)))
+
+
 @post_request_required
 @paper_authorship_required
 @login_required(redirect_field_name=None)
@@ -105,29 +123,6 @@ def select_sources_for_paper(request, paper_id):
 
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
-
-@paper_authorship_required
-@login_required(redirect_field_name=None)
-def archive_or_unarchive_paper(request, paper_id):
-    """Mark paper is archived or vice versa"""
-
-    # TODO
-
-    # Check if user has right to archive this paper
-    paper = check_paper(paper_id, request.user)
-
-    if paper.archived:
-        paper.unarchive()
-        # TODO
-        # Redirect?
-    else:
-        paper.archive()
-        # TODO
-        # Redirect?
-
-    display_success_message(request)
-    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
-        
 
 @post_request_required
 @paper_authorship_required

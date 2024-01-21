@@ -4,6 +4,7 @@ from . import views
 app_name = "work_space"
 
 urlpatterns = [
+    path("work_space/<int:space_id>", views.work_space_view, name="space_view"),
     path("create_space", views.create_work_space, name="create_space"),
     path("rename_space/<int:space_id>", views.rename_work_space, name="rename_space"),
     path("archive_space/<int:space_id>", views.archive_or_unarchive_space, name="archive_space"),
@@ -14,7 +15,6 @@ urlpatterns = [
     path("share_sources/<int:space_id>", views.share_space_sources, name="share_sources"),
     path("receive_shared_sources", views.receive_shared_sources, name="receive_shared_sources"),
     path("leave_space/<int:space_id>", views.leave_work_space, name="leave_space"),
-    path("work_space/<int:space_id>", views.work_space_view, name="space_view"),
     path("add_link_to_space/<int:space_id>", views.add_link, name="add_link"),
     path("delete_link/<int:link_id>", views.delete_link, name="delete_link"),
 ]
