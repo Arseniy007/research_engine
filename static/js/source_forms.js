@@ -46,6 +46,9 @@ function hide_all_forms() {
     Array.from(all_forms).forEach(form => {
         form.style.display = 'none';
     })
+
+    // Hide result if shown
+    document.querySelector('#reference-result').style.display = 'none';
 }
 
 async function show_and_load_form(form_id) {
@@ -266,8 +269,14 @@ function get_quick_reference(form_id) {
             // Hide get reference button
             form.querySelector('.get-reference-button').style.display = 'none';
 
-            const result_field = document.querySelector('#reference-result-field');
-            result_field.innerHTML = `APA:\n${result.reference.apa_endnote}\n\nMLA:\n${result.reference.mla_endnote}`
+            // Show result fields
+            document.querySelector('#reference-result-field-apa').innerHTML = result.reference.apa_endnote;
+            document.querySelector('#reference-result-field-mla').innerHTML = result.reference.mla_endnote;
+
+            // Hide submitted form
+            hide_all_forms();
+
+            // Show result
             document.querySelector('#reference-result').style.display = 'block';
         }
         else {

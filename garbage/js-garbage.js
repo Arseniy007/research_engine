@@ -540,4 +540,8 @@ async function change_user_password(form) {
     })
 }
 
+result_field.innerHTML = `APA:\n${result.reference.apa_endnote}\n\nMLA:\n${result.reference.mla_endnote}`
+
+
+
 

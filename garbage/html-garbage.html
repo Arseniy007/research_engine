@@ -721,3 +721,9 @@ onclick="load_and_show_source_space('{{ source.id }}')"
     <button type="submit">Rename Paper</button>
 </form>
 
+
+<form action="{% url 'paper_work:set_citation_style' paper.pk %}" method="post">
+    {% csrf_token %} 
+    {{ citation_form }}
+    <button type="submit">Set citation style</button>
+</form><br><br>
