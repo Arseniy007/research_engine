@@ -12,17 +12,24 @@ window.onclick = function(event) {
 }
 
 function openNav() {
+  // Open sidenav 
   const nav = document.querySelector(".sidenav");
   nav.style.width = "100%";
   nav.style.textAlign = 'center';
-  nav.querySelector('#close-nav-button').style.display = 'block';
+  nav.querySelector('#sidenav-closed-view').style.display = 'none';
+  nav.querySelector('#sidenav-full-view').style.display = 'block';
+
+  // Load content
+  load_index_data();
 }
 
 function closeNav() {
+  // SMake sidenav full-width
   const nav = document.querySelector(".sidenav");
   nav.style.width = "240px";
   nav.style.textAlign = 'left';
-  nav.querySelector('#close-nav-button').style.display = 'none';
+  nav.querySelector('#sidenav-full-view').style.display = 'none';
+  nav.querySelector('#sidenav-closed-view').style.display = 'block';
 }
 
 function dropdown_spaces() {
@@ -35,4 +42,11 @@ function dropdown_papers() {
 
 function dark_mode_toggle() {
   document.body.classList.toggle("dark-mode");
+}
+
+function load_index_data() {
+
+  // TODO
+
+  
 }

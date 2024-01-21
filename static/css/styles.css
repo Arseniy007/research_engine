@@ -67,12 +67,6 @@
   border-style: dashed;
   margin-right: 3px;
   border-radius: 20px;
-  cursor: pointer;
-}
-
-#close-nav-button
-{
-  display: none;
 }
 
 .pointy_cursor

@@ -252,3 +252,9 @@ body
 {
   margin-right: 1000px;
 }
+
+#close-nav-button
+{
+  display: none;
+}
+
