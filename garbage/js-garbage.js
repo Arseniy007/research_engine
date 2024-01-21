@@ -543,5 +543,11 @@ async function change_user_password(form) {
 result_field.innerHTML = `APA:\n${result.reference.apa_endnote}\n\nMLA:\n${result.reference.mla_endnote}`
 
 
-
+new_space_form.addEventListener('submit', event => {
+    if (!new_space_form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+        new_space_form.classList.add('was-validated');
+    }
+})
 

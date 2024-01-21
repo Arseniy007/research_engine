@@ -4166,6 +4166,21 @@ def show_error_page(request):
     return render(request, "website/error_page.html")
     path("error_page", views.show_error_page, name="error_page"),
 
+@login_required(redirect_field_name=None)
+def load_index_content(request):
+
+    data = {
+        "work_spaces": get_user_work_spaces(request.user),
+        "new_space_form": NewSpaceForm(),
+        "invitation_form": ReceiveInvitationForm(),
+        "shared_sources_form": ReceiveSourcesForm()
+
+    }
+    return render(request, "website/index_navbar.html", data)
+
+
+    path("index_loader", views.load_index_content, name="TODO"),
+
 """
 
 

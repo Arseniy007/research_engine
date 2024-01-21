@@ -1,38 +1,89 @@
 {% extends "layout.html" %}
 {% load static %}
 
-{% block body %}
+{% block headless %}
+    <div id="index-div">
 
 
-    <form action="{% url 'work_space:create_space' %}" method="post">
-        {% csrf_token %} 
-        {{ form }}
-        <button id="change_password_button" type="submit">Create Space</button>
-    </form>
+        <a data-bs-toggle="collapse" href="#my-workspaces-area" role="button" aria-expanded="false" aria-controls="my-workspaces-area">
+            <h2 class="text-uppercase text-center mb-5 white-header">My Workspaces&nbsp;&nbsp;<i class="fa-solid fa-folder-open"></i></h2>
+        </a>
+        <div class="collapse" id="my-workspaces-area">
+            Hello
+            TODO
+        </div>
 
 
-    <ul>
-        {% for space in work_spaces %}
-        <li>
-            <a href="{% url 'work_space:space_view' space.pk %}">{{ space }}</a>
-        </li>
-        {% endfor %}
-    </ul>
+        <br><br>
+
+        <a data-bs-toggle="collapse" href="#new-space-form-area" role="button" aria-expanded="false" aria-controls="new-space-form-area">
+            <h2 class="text-uppercase text-center mb-5 white-header">Create New Workspace&nbsp;&nbsp;<i class="fa-solid fa-circle-plus"></i></h2>
+        </a>
+        <div class="collapse" id="new-space-form-area">
+            <form action="{% url 'work_space:create_space' %}" class="needs-validation index-form" method="post" novalidate>
+                {% csrf_token %} 
+                <div class="form-outline mb-4 form-floating">         
+                    {{ new_space_form.title }}
+                    <label class="form-label" for="title-field">Workspace Title</label>
+                    <div class="invalid-feedback">Please provide page title.</div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input type="submit" value="Create" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                </div>
+            </form>
+        </div>
+
+        <br><br>
+
+        <a data-bs-toggle="collapse" href="#receive-invitation-form-area" role="button" aria-expanded="false" aria-controls="receive-invitation-form-area">
+            <h2 class="text-uppercase text-center mb-5 white-header">I was invited to a workspace&nbsp;&nbsp;<i class="fa-solid fa-hand-holding-heart"></i></h2>
+        </a>
+        <div class="collapse" id="receive-invitation-form-area">
+            <form action="{% url 'work_space:receive_invitation' %}" class="needs-validation index-form" method="post" novalidate>
+                {% csrf_token %} 
+                <div class="form-outline mb-4 form-floating">         
+                    {{ invitation_form.code }}
+                    <label class="form-label" for="code-field">Invitation Code</label>
+                    <div class="invalid-feedback">Please provide invitation code.</div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input type="submit" value="Submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                </div>
+            </form>
+        </div>
+
+        <br><br>
+
+        <a data-bs-toggle="collapse" href="#shared-sources-form-area" role="button" aria-expanded="false" aria-controls="shared-sources-form-area">
+            <h2 class="text-uppercase text-center mb-5 white-header">Get shared research sources&nbsp;&nbsp;<i class="fa-solid fa-book"></i></h2>
+        </a>
+        <div class="collapse" id="shared-sources-form-area">
+            <form action="{% url 'work_space:receive_shared_sources' %}" class="needs-validation index-form" method="post" novalidate>
+                {% csrf_token %} 
+                <div class="form-outline mb-4 form-floating">         
+                    {{ shared_sources_form.code }}
+                    <label class="form-label" for="sources-code-field">Code</label>
+                    <div class="invalid-feedback">Please provide code.</div>
+                </div>
+                <div class="form-outline mb-4 form-floating">
+                    {{ shared_sources_form.option }}
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input type="submit" value="Submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                </div>
+            </form>
+        </div>
 
 
-    <form action="{% url 'work_space:receive_invitation' %}" method="post">
-        {% csrf_token %} 
-        {{ invitation_form }}
-        <button type="submit">Receive Invitation</button>
-    </form><br><br>
-
-    <h3>Receive shared sources</h3>
-    <form action="{% url 'work_space:receive_shared_sources' %}" method="post">
-        {% csrf_token %} 
-        {{ shared_sources_form }}
-        <button type="submit">Receive Shared Sources</button>
-    </form>
 
 
 
+        
+
+
+
+
+
+
+    </div>
 {% endblock %}

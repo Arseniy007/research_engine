@@ -80,7 +80,23 @@
   padding-left: 20px;
 }
 
-.show {display:block;}
+.show 
+{
+  display: block;
+}
+
+.white-header
+{
+  color: white;
+}
+
+#index-container 
+{
+  width: 40%;
+  text-align: center;
+  margin: auto;
+  margin-top: 50px;
+}
 
 #header
 {

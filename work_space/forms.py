@@ -12,7 +12,7 @@ class NewSpaceForm(forms.Form):
         "id": "title-field",
         "class": _CLASS,
         "autocomplete": "off",
-        "placeholder": "Paper title"})
+        "placeholder": "Workspace title"})
     )
 
 
@@ -54,10 +54,26 @@ class NewLinkForm(forms.Form):
         return new_link
 
 
-class ReceiveCodeForm(forms.Form):
-    code = forms.CharField(max_length=15)
+class ReceiveInvitationForm(forms.Form):
+    code = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "code-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Invitation code"})
+    )
 
 
 class ReceiveSourcesForm(forms.Form):
-    code = forms.CharField(max_length=15)
-    option = forms.ChoiceField(choices=SOURCES_RECEIVING_OPTIONS)
+    code = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "sources-code-field",
+        "class": _CLASS,
+        "autocomplete": "off",
+        "placeholder": "Paper title"})
+    )
+
+    # Maybe make it as a part of html?
+    option = forms.ChoiceField(choices=SOURCES_RECEIVING_OPTIONS, widget=forms.RadioSelect(attrs={
+        #"class": "form-check-input",
+    }))

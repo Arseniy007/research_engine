@@ -1,3 +1,6 @@
+const gray = '#222222';
+const black = '#111';
+
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
     if (!event.target.matches('.dropbtn')) {
@@ -28,6 +31,7 @@ async function openNav() {
     const nav = document.querySelector(".sidenav");
     nav.style.width = "100%";
     nav.style.textAlign = 'center';
+    nav.style.background = gray;
     nav.querySelector('#sidenav-closed-view').style.display = 'none';
 
     // Load content
@@ -35,13 +39,15 @@ async function openNav() {
     nav.querySelector('#index-container').innerHTML = index_content.innerHTML;
 
     // Set form validation
-    const new_space_form = nav.querySelector('#new_space_form');
-    new_space_form.addEventListener('submit', event => {
-        if (!new_space_form.checkValidity()) {
-            event.preventDefault();
-            event.stopPropagation();
-            new_space_form.classList.add('was-validated');
-        }
+    const index_forms = nav.getElementsByClassName('index-form');
+    Array.from(index_forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated');
+            }
+        })
     })
     // Show everything
     nav.querySelector('#sidenav-full-view').style.display = 'block';
@@ -52,6 +58,7 @@ function closeNav() {
     const nav = document.querySelector(".sidenav");
     nav.style.width = "240px";
     nav.style.textAlign = 'left';
+    nav.style.background = black;
     nav.querySelector('#sidenav-full-view').style.display = 'none';
     nav.querySelector('#sidenav-closed-view').style.display = 'block';
 }
@@ -59,7 +66,7 @@ function closeNav() {
 async function load_index_data() {
 
     // API route for loading index content
-    const url = '/index_loader';
+    const url = '/index';
 
     // Send request
     return fetch(url)

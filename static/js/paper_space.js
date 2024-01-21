@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function load_and_show_paper_space(paper_id) {
 
+    // TODO
+    // Delete???
+
     // Source-space view url
     const url = `/paper_space/${paper_id}`;
 
@@ -58,3 +61,4 @@ function rename_paper(form, paper_id) {
         }
     });
 }
+

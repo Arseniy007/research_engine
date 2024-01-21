@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from django.forms.models import model_to_dict
-from .forms import NewLinkForm, NewSpaceForm, ReceiveCodeForm, ReceiveSourcesForm, RenameSpaceForm
+from .forms import NewLinkForm, NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, RenameSpaceForm
 from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 from paper_work.forms import NewPaperForm
 from research_engine.constants import ERROR_PAGE, FRIENDLY_TMP_ROOT
@@ -181,9 +181,9 @@ def invite_to_work_space(request, space_id):
 def receive_invitation(request):
     """Adds user as guest to the new work space if they were invited"""
 
-    form = ReceiveCodeForm(request.POST)
+    form = ReceiveInvitationForm(request.POST)
 
-    if form and form.is_valid():
+    if form.is_valid():
         # Check invitation code
         invitation = check_invitation(form.cleaned_data["code"])
 
