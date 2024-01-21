@@ -29,11 +29,12 @@
         <!-- Side navigation -->
         <div class="sidenav">
             <div id="re">
-                <a id="re-main-link" href="{% url 'website:index' %}">
+                <div id="re-main-button" onclick="openNav()">
                     <i class="fa-solid fa-graduation-cap"></i>
                     research engine
-                </a>
+                </div>
             </div>
+            <a href="javascript:void(0)" class="closebtn" id="close-nav-button" onclick="closeNav()">&times;</a>
             <a href="{% url 'website:lobby' %}">Quick Reference&nbsp;&nbsp;<i class="fa-solid fa-asterisk"></i></a>
             {% if user.is_authenticated %}
                 <div>

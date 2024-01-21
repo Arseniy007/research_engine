@@ -1,4 +1,3 @@
-import shutil
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -92,7 +91,7 @@ def archive_or_unarchive_paper(request, paper_id):
         return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
     
     paper.archive()
-    display_success_message(request, "Paper was successfully archived")
+    display_success_message(request, f"{paper.title} was successfully archived")
     return redirect(reverse("work_space:space_view", args=(paper.work_space.pk,)))
 
 

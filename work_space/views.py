@@ -107,13 +107,12 @@ def archive_or_unarchive_space(request, space_id):
 
     if space.archived:
         space.unarchive()
-    else:
-        space.archive()
-        # TODO
-        # Redirect to index?
+        display_success_message(request)
+        return redirect(reverse("work_space:space_view", args=(space_id,)))
 
-    # TODO
-    return JsonResponse({"message": "ok"})
+    space.archive()
+    display_success_message(request, f"{space.title} was successfully archived!")
+    return redirect(reverse("website:account_settings"))
 
 
 @login_required(redirect_field_name=None)

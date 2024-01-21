@@ -2,10 +2,8 @@
 {% load static %}
 
 {% block script %}
-    <script src="{% static 'js/source_forms.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
-    <script src="{% static 'js/paper_space.js' %}"></script>
-    <script src="{% static 'js/website.js' %}"></script>
+    <script src="{% static 'js/source_forms.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -33,26 +31,11 @@
 
     <h3>Papers</h3>
     {% for paper in space_papers %}
-        <!-- Button trigger modal -->
-        <button onclick="load_and_show_paper_space('{{ paper.pk }}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paper-space-{{ paper.pk }}">
-            {{ paper }}
+        <button type="button" class="btn btn-primary">
+            <a style="color: white;" href="{% url 'paper_work:paper_space' paper.pk %}">
+                {{ paper }}
+            </a>
         </button>
-        <!-- Modal -->
-        <div class="modal fade" id="paper-space-{{ paper.pk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paper-space-label-{{ paper.pk }}" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="paper-space-label-{{ paper.pk }}">{{ paper }}</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="paper-space-div-{{ paper.pk }}"></div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Understood</button>
-                    </div>
-                </div>
-            </div>
-        </div><br><br>
     {% endfor %}
 
     <h3>Sources</h3>
@@ -63,6 +46,7 @@
     <h4>TODO: Author buttons</h4>
     <h4>TODO: Author chapter fields</h4>
     <h4>TODO: Background image repetition</h4>
+    <h4>TODO: Full width side nav instead of index page</h4>
     
     <br><br>
     {% for source in sources %}

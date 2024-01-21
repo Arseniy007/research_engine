@@ -727,3 +727,36 @@ onclick="load_and_show_source_space('{{ source.id }}')"
     {{ citation_form }}
     <button type="submit">Set citation style</button>
 </form><br><br>
+
+
+<h3>Papers</h3>
+{% for paper in space_papers %}
+    <!-- Button trigger modal -->
+    <button onclick="load_and_show_paper_space('{{ paper.pk }}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paper-space-{{ paper.pk }}">
+        {{ paper }}
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="paper-space-{{ paper.pk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paper-space-label-{{ paper.pk }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="paper-space-label-{{ paper.pk }}">{{ paper }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="paper-space-div-{{ paper.pk }}"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div><br><br>
+{% endfor %}
+
+
+<div id="re">
+    <a id="re-main-link" href="{% url 'website:index' %}">
+        <i class="fa-solid fa-graduation-cap"></i>
+        research engine
+    </a>
+</div>

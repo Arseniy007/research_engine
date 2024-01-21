@@ -8,6 +8,7 @@
   left: 0;
   background-color: #111;
   overflow-x: hidden;
+  transition: 0.5s;
   padding-top: 15px;
   border-right: solid;
 }
@@ -19,11 +20,23 @@
   font-size: 25px;
   color: #818181;
   display: block;
+  transition: 0.3s;
 }
 
 .sidenav a:hover 
 {
   color: #f1f1f1;
+}
+
+.sidenav .closebtn 
+{
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-top: 6px;
+  margin-left: 50px;
+  color: #4fc7ee;
 }
 
 .main 
@@ -44,7 +57,7 @@
   margin-bottom: 15px;
 }
 
-#re-main-link
+#re-main-button
 {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
@@ -54,6 +67,11 @@
   border-style: dashed;
   margin-right: 3px;
   border-radius: 20px;
+}
+
+#close-nav-button
+{
+  display: none;
 }
 
 .dropdown-content 

@@ -11,6 +11,20 @@ window.onclick = function(event) {
   }
 }
 
+function openNav() {
+  const nav = document.querySelector(".sidenav");
+  nav.style.width = "100%";
+  nav.style.textAlign = 'center';
+  nav.querySelector('#close-nav-button').style.display = 'block';
+}
+
+function closeNav() {
+  const nav = document.querySelector(".sidenav");
+  nav.style.width = "240px";
+  nav.style.textAlign = 'left';
+  nav.querySelector('#close-nav-button').style.display = 'none';
+}
+
 function dropdown_spaces() {
   document.getElementById("spaces-dropdown").classList.toggle("show");
 }
