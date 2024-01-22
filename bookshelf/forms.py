@@ -1,6 +1,6 @@
 from django import forms
 from .models import Article, Book, Chapter, Quote, Source, Webpage
-from research_engine.constants import _CLASS
+from research_engine.constants import CLASS_
 from utils.data_cleaning import clean_text_data
 
 
@@ -24,7 +24,7 @@ class BookForm(CommonFields):
     title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "title-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Book title"})
     )
@@ -32,7 +32,7 @@ class BookForm(CommonFields):
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "publishing-house-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Publishing House"})
     )
@@ -40,7 +40,7 @@ class BookForm(CommonFields):
     year = forms.IntegerField(widget=forms.NumberInput(attrs={
         "type": "number",
         "id": "book-year-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Publishing year"})
     )
@@ -52,7 +52,7 @@ class ArticleForm(CommonFields):
     journal_title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "journal-title-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Journal Title"})
     )
@@ -60,7 +60,7 @@ class ArticleForm(CommonFields):
     article_title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "article-title-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Article Title"})
     )
@@ -68,7 +68,7 @@ class ArticleForm(CommonFields):
     volume = forms.IntegerField(widget=forms.NumberInput(attrs={
         "type": "number",
         "id": "volume-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Journal Volume"})
     )
@@ -76,7 +76,7 @@ class ArticleForm(CommonFields):
     issue = forms.IntegerField(widget=forms.NumberInput(attrs={
         "type": "number",
         "id": "issue-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Journal Issue"})
     )
@@ -84,7 +84,7 @@ class ArticleForm(CommonFields):
     pages = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "article-pages-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Pages range"})
     )
@@ -92,7 +92,7 @@ class ArticleForm(CommonFields):
     link_to_journal = forms.URLField(required=False, widget=forms.URLInput(attrs={
         "type": "url",
         "id": "link-to-journal-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Link to journal"})
     )
@@ -109,7 +109,7 @@ class ChapterForm(CommonFields):
     book_title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "book-title-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Book Title"})
     )
@@ -117,7 +117,7 @@ class ChapterForm(CommonFields):
     chapter_title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "chapter-title-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Chapter Title"})
     )
@@ -125,7 +125,7 @@ class ChapterForm(CommonFields):
     publishing_house = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "chapter-publishing-house-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Publishing House"})
     )
@@ -133,7 +133,7 @@ class ChapterForm(CommonFields):
     edition = forms.IntegerField(widget=forms.NumberInput(attrs={
         "type": "number",
         "id": "edition-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Book Edition"})
     )
@@ -141,7 +141,7 @@ class ChapterForm(CommonFields):
     pages = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "chapter-pages-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Pages range"})
     )
@@ -149,7 +149,7 @@ class ChapterForm(CommonFields):
     year = forms.IntegerField(widget=forms.NumberInput(attrs={
         "type": "number",
         "id": "chapter-year-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Publishing year"})
     )
@@ -161,7 +161,7 @@ class WebpageForm(CommonFields):
     page_title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "page-title-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Page Title"})
     )
@@ -169,7 +169,7 @@ class WebpageForm(CommonFields):
     website_title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "website-title-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Website Title"})
     )
@@ -177,7 +177,7 @@ class WebpageForm(CommonFields):
     page_url = forms.URLField(widget=forms.URLInput(attrs={
         "type": "url",
         "id": "page-url-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Webpage url"})
     )
@@ -185,7 +185,7 @@ class WebpageForm(CommonFields):
     date = forms.DateField(widget=forms.DateInput(attrs={
         "type": "date",
         "id": "date-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Date"})
     )
@@ -195,7 +195,7 @@ class AlterBookForm(BookForm):
     author = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "author-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Book author"})
     )
@@ -213,7 +213,7 @@ class AlterArticleForm(ArticleForm):
     author = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "author-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Article author"})
     )
@@ -231,7 +231,7 @@ class AlterChapterForm(ChapterForm):
     author = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "author-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Book author"})
     )
@@ -239,7 +239,7 @@ class AlterChapterForm(ChapterForm):
     chapter_author = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "author-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Chapter author"})
     )
@@ -257,7 +257,7 @@ class AlterWebpageForm(WebpageForm):
     webpage_author = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "author-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Webpage author"})
     )
@@ -275,7 +275,7 @@ class AddLinkForm(forms.Form):
     link = forms.URLField(widget=forms.URLInput(attrs={
         "type": "url",
         "id": "link-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Link"})
     )
@@ -291,7 +291,7 @@ class NewQuoteForm(forms.Form):
     text = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "text-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Quote text"})
     )
@@ -299,7 +299,7 @@ class NewQuoteForm(forms.Form):
     page = forms.IntegerField(widget=forms.NumberInput(attrs={
         "type": "number",
         "id": "page-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Quote text"
     }))

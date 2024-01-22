@@ -2,7 +2,7 @@ from django import forms
 from bookshelf.models import Source
 from .models import PaperFile, SourceFile
 from paper_work.models import Paper
-from research_engine.constants import ACCEPTED_UPLOAD_FORMATS, _CLASS
+from research_engine.constants import ACCEPTED_UPLOAD_FORMATS, CLASS_
 from user_management.models import User
 
 
@@ -19,7 +19,7 @@ class UploadSourceFileForm(forms.Form):
     file = forms.FileField(widget=forms.FileInput(attrs={
         "accept": ACCEPTED_UPLOAD_FORMATS,
         "id": "file-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "File"})
     )
 

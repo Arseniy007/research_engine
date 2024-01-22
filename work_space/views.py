@@ -10,7 +10,7 @@ from django.forms.models import model_to_dict
 from .forms import NewLinkForm, NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, RenameSpaceForm
 from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 from paper_work.forms import NewPaperForm
-from research_engine.constants import ERROR_PAGE, FRIENDLY_TMP_ROOT
+from research_engine.constants import FRIENDLY_TMP_ROOT
 from .space_creation import copy_space_with_all_sources, create_new_space
 from .space_sharing import generate_invitation, get_space_sharing_code, share_sources, stop_sharing_sources
 from utils.decorators import link_ownership_required, post_request_required, space_ownership_required
@@ -77,7 +77,7 @@ def create_work_space(request):
     # TODO
     # Redirect to index?
     display_error_message(request)
-    return redirect(ERROR_PAGE)
+    return None
 
 
 @post_request_required
@@ -201,7 +201,7 @@ def receive_invitation(request):
     # TODO
     # Send error to js
     display_error_message(request)
-    return redirect(ERROR_PAGE)
+    return None
 
 
 @space_ownership_required
@@ -219,17 +219,6 @@ def share_space_sources(request, space_id):
     else:
         return JsonResponse({"message": "You can not share empty work space"})
     
-
-@space_ownership_required
-@login_required(redirect_field_name=None)
-def stop_sharing_space_sources(request, space_id):
-    """Mark sharing sources as False and delete sharing code obj"""
-
-    space = check_work_space(space_id, request.user)
-    stop_sharing_sources(space)
-     
-    return JsonResponse({"status": "ok"})
-
 
 @post_request_required
 @login_required(redirect_field_name=None)
@@ -256,7 +245,7 @@ def receive_shared_sources(request):
             return redirect(reverse("work_space:download_space_sources", args=(original_work_space.pk,)))
 
     display_error_message(request)
-    return redirect(ERROR_PAGE)
+    return None
 
 
 @login_required(redirect_field_name=None)

@@ -1,7 +1,7 @@
 from django import forms
 from bookshelf.models import Source
 from .models import Paper
-from research_engine.constants import _CLASS
+from research_engine.constants import CLASS_
 from user_management.models import User
 from work_space.models import WorkSpace
 
@@ -13,7 +13,7 @@ class NewPaperForm(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "title-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Paper title"})
     )
@@ -29,7 +29,7 @@ class RenamePaperForm(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "title-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Paper title"})
     )
@@ -55,7 +55,7 @@ class ChooseSourcesForm(forms.Form):
     
 
 class CitationStyleForm(forms.Form):
-    citation_style = forms.ChoiceField(choices=CITATION_STYLES, widget=forms.Select(attrs={"class": _CLASS}))
+    citation_style = forms.ChoiceField(choices=CITATION_STYLES, widget=forms.Select(attrs={"class": CLASS_}))
 
     def save_citation_style(self, paper: Paper):
         "Update citation_style field in Workspace obj"

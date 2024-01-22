@@ -1,6 +1,6 @@
 from django import forms
 from .models import Link, WorkSpace
-from research_engine.constants import _CLASS
+from research_engine.constants import CLASS_
 
 
 SOURCES_RECEIVING_OPTIONS = (("copy", "Create New Work Space"), ("download", "Download sources"),)
@@ -10,7 +10,7 @@ class NewSpaceForm(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "title-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Workspace title"})
     )
@@ -20,7 +20,7 @@ class RenameSpaceForm(forms.Form):
     new_title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "title-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Paper title"})
     )
@@ -40,7 +40,7 @@ class NewLinkForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "name-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Paper title"})
     )
@@ -58,7 +58,7 @@ class ReceiveInvitationForm(forms.Form):
     code = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "code-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Invitation code"})
     )
@@ -68,7 +68,7 @@ class ReceiveSourcesForm(forms.Form):
     code = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "sources-code-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Paper title"})
     )

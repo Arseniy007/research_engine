@@ -4181,6 +4181,16 @@ def load_index_content(request):
 
     path("index_loader", views.load_index_content, name="TODO"),
 
+
+@space_ownership_required
+@login_required(redirect_field_name=None)
+def stop_sharing_space_sources(request, space_id):
+
+    space = check_work_space(space_id, request.user)
+    stop_sharing_sources(space)
+     
+    return JsonResponse({"status": "ok"})
+
 """
 
 

@@ -1,14 +1,14 @@
 from django import forms
 from .helpers import get_user_by_name, get_user_by_username
 from .models import User
-from research_engine.constants import _CLASS
+from research_engine.constants import CLASS_
 
 
 class RegisterForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "username-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Username"})                 
     )
@@ -16,35 +16,35 @@ class RegisterForm(forms.Form):
     last_name = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "last-name-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "Last name"})
     )
 
     first_name = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "first-name-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "First name"})
     )
 
     email = forms.EmailField(widget=forms.EmailInput(attrs={
         "type": "email",
         "id": "email-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "Email"})
     )
 
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "password-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "Password"})
     )
 
     confirmation = forms.CharField(widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "confirmation-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "Repeat Password"})
     )
 
@@ -53,7 +53,7 @@ class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "username-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Username"})
     )
@@ -61,7 +61,7 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "password-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "Password"})
     )
 
@@ -70,21 +70,21 @@ class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(label=False, widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "old_password-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "Old Password"})
     )
 
     new_password = forms.CharField(label=False, widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "new_password-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "New Password"})
     )
 
     confirmation = forms.CharField(label=False, widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "confirmation-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "Repeat New Password"})
     )
 
@@ -94,7 +94,7 @@ class ForgetPasswordForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "username-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Username"})
     )
@@ -102,7 +102,7 @@ class ForgetPasswordForm(forms.Form):
     email = forms.CharField(widget=forms.EmailInput(attrs={
         "type": "email",
         "id": "email-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "Email"})
     )
 
@@ -112,21 +112,21 @@ class ForgetPasswordForm2(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "first-name-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "First name"})
     )
 
     last_name = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "last-name-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "Last name"})
     )
 
     email = forms.CharField(widget=forms.EmailInput(attrs={
         "type": "email",
         "id": "email-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "Email"})
     )
 
@@ -135,14 +135,14 @@ class ResetPasswordForm(forms.Form):
     new_password = forms.CharField(widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "password-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "New Password"})
     )
 
     confirmation = forms.CharField(widget=forms.PasswordInput(attrs={
         "type": "password",
         "id": "confirmation-field",
-        "class": _CLASS,
+        "class": CLASS_,
         "placeholder": "Repeat Password"})
     )
 
