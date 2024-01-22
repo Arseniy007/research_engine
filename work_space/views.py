@@ -69,15 +69,13 @@ def create_work_space(request):
     if form.is_valid():
         # Save new work space to the db and create its directory
         new_space_id = create_new_space(request.user, form.cleaned_data["title"])
-        display_success_message(request)
-
+    
         # Redirect user to the new work space
-        return redirect(reverse("work_space:space_view", args=(new_space_id,)))
+        display_success_message(request)
+        return JsonResponse({"status": "ok", "url": reverse("work_space:space_view", args=(new_space_id,))})
 
-    # TODO
-    # Redirect to index?
-    display_error_message(request)
-    return None
+    # Error case
+    return JsonResponse({"status": "error"})
 
 
 @post_request_required
@@ -85,6 +83,9 @@ def create_work_space(request):
 @login_required(redirect_field_name=None)
 def rename_work_space(request, space_id):
     """Allow workspace owner to rename space"""
+
+    # TODO
+    # Not sure
 
     form = RenameSpaceForm(request.POST)
 
@@ -198,10 +199,9 @@ def receive_invitation(request):
         display_success_message(request)
         return redirect(reverse("work_space:space_view", args=(new_work_space.pk,)))
 
-    # TODO
-    # Send error to js
+    # Error case
     display_error_message(request)
-    return None
+    return redirect(reverse("website:lobby"))
 
 
 @space_ownership_required
@@ -245,7 +245,7 @@ def receive_shared_sources(request):
             return redirect(reverse("work_space:download_space_sources", args=(original_work_space.pk,)))
 
     display_error_message(request)
-    return None
+    return redirect(reverse("website:lobby"))
 
 
 @login_required(redirect_field_name=None)
@@ -263,16 +263,17 @@ def leave_work_space(request, space_id):
     # Remove user
     space.remove_guest(request.user)
 
-    # TODO
-    # Redirect to index?
-
-    return JsonResponse({"message": "ok"})
+    # Redirect user to lobby page
+    display_success_message(request)
+    return redirect(reverse("website:lobby"))
 
 
 @post_request_required
 @login_required(redirect_field_name=None)
 def add_link(request, space_id):
     """Add link to given workspace"""
+
+    # TODO ???
 
     form = NewLinkForm(request.POST)
 
