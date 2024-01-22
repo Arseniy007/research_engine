@@ -21,7 +21,7 @@
             <h2 class="text-uppercase text-center mb-5 white-header">Create New Workspace&nbsp;&nbsp;<i class="fa-solid fa-circle-plus"></i></h2>
         </a>
         <div class="collapse" id="new-space-form-area">
-            <form action="{% url 'work_space:create_space' %}" class="needs-validation index-form" method="post" novalidate>
+            <form action="{% url 'work_space:create_space' %}" class="needs-validation index-form" id="create-space-form" method="post" novalidate>
                 {% csrf_token %} 
                 <div class="form-outline mb-4 form-floating">         
                     {{ new_space_form.title }}
@@ -40,7 +40,7 @@
             <h2 class="text-uppercase text-center mb-5 white-header">I was invited to a workspace&nbsp;&nbsp;<i class="fa-solid fa-hand-holding-heart"></i></h2>
         </a>
         <div class="collapse" id="receive-invitation-form-area">
-            <form action="{% url 'work_space:receive_invitation' %}" class="needs-validation index-form" method="post" novalidate>
+            <form action="{% url 'work_space:receive_invitation' %}" class="needs-validation index-form" id="receive-invitation-form" method="post" novalidate>
                 {% csrf_token %} 
                 <div class="form-outline mb-4 form-floating">         
                     {{ invitation_form.code }}
@@ -59,7 +59,7 @@
             <h2 class="text-uppercase text-center mb-5 white-header">Get shared research sources&nbsp;&nbsp;<i class="fa-solid fa-book"></i></h2>
         </a>
         <div class="collapse" id="shared-sources-form-area">
-            <form action="{% url 'work_space:receive_shared_sources' %}" class="needs-validation index-form" method="post" novalidate>
+            <form action="{% url 'work_space:receive_shared_sources' %}" class="needs-validation index-form" id="shared-sources-form" method="post" novalidate>
                 {% csrf_token %} 
                 <div class="form-outline mb-4 form-floating">         
                     {{ shared_sources_form.code }}

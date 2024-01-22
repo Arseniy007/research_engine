@@ -5,7 +5,7 @@ app_name = "work_space"
 
 urlpatterns = [
     path("work_space/<int:space_id>", views.work_space_view, name="space_view"),
-    path("create_space", views.create_work_space, name="create_space"),
+    path("create_work_space", views.create_work_space, name="create_space"),
     path("rename_space/<int:space_id>", views.rename_work_space, name="rename_space"),
     path("archive_space/<int:space_id>", views.archive_or_unarchive_space, name="archive_space"),
     path("download_space/<int:space_id>", views.download_work_space, name="download_space"),

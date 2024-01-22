@@ -197,11 +197,10 @@ def receive_invitation(request):
 
         # Send redirect to the new work space
         display_success_message(request)
-        return redirect(reverse("work_space:space_view", args=(new_work_space.pk,)))
+        return JsonResponse({"status": "ok", "url": reverse("work_space:space_view", args=(new_work_space.pk,))})
 
     # Error case
-    display_error_message(request)
-    return redirect(reverse("website:lobby"))
+    return JsonResponse({"status": "error"})
 
 
 @space_ownership_required

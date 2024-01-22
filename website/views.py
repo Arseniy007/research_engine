@@ -11,18 +11,20 @@ from utils.messages import display_error_message, display_success_message
 from user_management.helpers import get_user_papers, get_user_work_spaces
 
 
-@login_required(redirect_field_name=None)
-def index(request):
-    """API route for full-width sidenav"""
+def lobby_view(request):
+    """View for get-quick-reference-page"""
 
-    data = {
-        "work_spaces": get_user_work_spaces(request.user),
-        "papers": get_user_papers(request.user),
-        "new_space_form": NewSpaceForm(),
-        "invitation_form": ReceiveInvitationForm(),
-        "shared_sources_form": ReceiveSourcesForm()
-    }
-    return render(request, "website/index.html", data)
+    # About page if shown both for logged in and not logged in users
+    if request.user.is_authenticated:
+        data = {"work_spaces": get_user_work_spaces(request.user), "papers": get_user_papers(request.user)}
+    else:
+        data = {}
+    data["book_form"] = BookForm()
+    data["article_form"] = ArticleForm()
+    data["chapter_form"] = ChapterForm()
+    data["webpage_form"] = WebpageForm()
+    
+    return render(request, "website/lobby.html", data)
 
 
 @login_required(redirect_field_name=None)
@@ -47,20 +49,18 @@ def about_view(request):
     return render(request, "website/about.html", data)
 
 
-def lobby_view(request):
-    """View for get-quick-reference-page"""
+@login_required(redirect_field_name=None)
+def load_index_content(request):
+    """API route for full-width sidenav"""
 
-    # About page if shown both for logged in and not logged in users
-    if request.user.is_authenticated:
-        data = {"work_spaces": get_user_work_spaces(request.user), "papers": get_user_papers(request.user)}
-    else:
-        data = {}
-    data["book_form"] = BookForm()
-    data["article_form"] = ArticleForm()
-    data["chapter_form"] = ChapterForm()
-    data["webpage_form"] = WebpageForm()
-
-    return render(request, "website/lobby.html", data)
+    data = {
+        "work_spaces": get_user_work_spaces(request.user),
+        "papers": get_user_papers(request.user),
+        "new_space_form": NewSpaceForm(),
+        "invitation_form": ReceiveInvitationForm(),
+        "shared_sources_form": ReceiveSourcesForm()
+    }
+    return render(request, "website/index_content.html", data)
 
 
 @post_request_required

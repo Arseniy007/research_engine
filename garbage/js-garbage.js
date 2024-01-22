@@ -551,3 +551,27 @@ new_space_form.addEventListener('submit', event => {
     }
 })
 
+const index_forms = nav.getElementsByClassName('index-form');
+    Array.from(index_forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated');
+            }
+
+        })
+    })
+
+    const create_space_form = nav.querySelector('#create-space-form');
+    create_space_form.addEventListener('submit', event => {
+        if (!create_space_form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+            create_space_form.classList.add('was-validated');
+        }
+        else {
+            event.preventDefault();
+            create_new_work_space(create_space_form);
+        }
+    })

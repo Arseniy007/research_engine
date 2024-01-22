@@ -39,16 +39,8 @@ async function openNav() {
     nav.querySelector('#index-container').innerHTML = index_content.innerHTML;
 
     // Set form validation
-    const index_forms = nav.getElementsByClassName('index-form');
-    Array.from(index_forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-                form.classList.add('was-validated');
-            }
-        })
-    })
+    set_index_form_validation(nav);
+
     // Show everything
     nav.querySelector('#sidenav-full-view').style.display = 'block';
 }
@@ -66,7 +58,7 @@ function closeNav() {
 async function load_index_data() {
 
     // API route for loading index content
-    const url = '/index';
+    const url = '/index_content';
 
     // Send request
     return fetch(url)
@@ -84,4 +76,113 @@ async function load_index_data() {
         // Return content
         return index_page.querySelector('#index-div');
     })
+}
+
+function set_index_form_validation(nav) {
+
+    // Get all index-forms
+    const index_forms = nav.getElementsByClassName('index-form');
+
+    Array.from(index_forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated');
+            }
+            else {
+                if (form.id === 'create-space-form') {
+                    event.preventDefault();
+                    create_new_work_space(form);
+                }
+                else if (form.id === 'receive-invitation-form') {
+                    event.preventDefault();
+                    receive_invitation(form);
+                }
+                else if (form.id === 'shared-sources-form') {
+                    event.preventDefault();
+                    receive_shared_sources(form);
+                }
+                else {
+                    // Error case
+                    redirect_to_index_with_error();
+                }
+            }
+        })
+    })
+}
+
+function create_new_work_space(form) {
+
+    // Create-workspace route
+    const url = '/create_work_space';
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Redirect to new workspace
+            window.location.replace(result.url);
+        }
+        else {
+            // Redirect back in case of error
+            redirect_to_index_with_error();
+        }
+    });
+}
+
+function receive_invitation(form) {
+
+    // API route
+    const url = '/receive_invitation';
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Redirect to new workspace
+            window.location.replace(result.url);
+        }
+        else {
+            // Redirect back in case of error
+            redirect_to_index_with_error();
+        }
+    });
+}
+
+function receive_shared_sources(form) {
+
+    // API route
+    const url = '/receive_shared_sources';
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // TODO
+
+        }
+        else {
+            // Redirect back in case of error
+            redirect_to_index_with_error();
+        }
+    });
+}
+
+function redirect_to_index_with_error() {
+    window.location.replace("");
+    document.querySelector('#re-main-button').click();
+    document.querySelector('#index-error-message').style.display = 'block';
 }
