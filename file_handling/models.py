@@ -29,7 +29,7 @@ class PaperFile(models.Model):
     def __str__(self):
         """Display file saving time instead of filename"""
         return self.get_saving_time()
-    
+
 
     def file_name(self):
         """Returns only the name of file without trailing dirs"""
@@ -39,12 +39,12 @@ class PaperFile(models.Model):
     def get_saving_time(self):
         """Return saving time in chosen format"""
         return self.saving_time.strftime(SAVING_TIME_FORMAT)
-    
+
 
     def get_path_to_file(self):
         """Returns a full path to the file"""
         return os.path.join(MEDIA_ROOT, str(self.file))
-    
+
 
     def get_directory_path(self):
         """Returns a path to the file directory"""
@@ -59,7 +59,7 @@ class SourceFile(models.Model):
     def file_name(self):
         """Returns only the name of file without trailing dirs"""
         return os.path.basename(self.file.name)
-    
+
 
     def get_path_to_file(self):
         """Returns a path to the source file"""

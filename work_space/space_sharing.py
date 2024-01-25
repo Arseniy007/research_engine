@@ -6,7 +6,7 @@ from utils.code_generator import generate_code
 
 def generate_invitation(space: WorkSpace) -> str:
     """Generates random invitation code and creates its object"""
-    
+
     # Make sure invitation texts never repeat
     while True:
         # Generate random string
@@ -33,24 +33,10 @@ def share_sources(space: WorkSpace) -> None:
     sharing_code = get_space_sharing_code(space)
     if sharing_code:
         sharing_code.delete()
-    
+
     # Create new sharing code
     new_sharing_code = ShareSourcesCode(work_space=space, code=generate_code())
     return new_sharing_code.save()
-
-
-def stop_sharing_sources(space: WorkSpace) -> None:
-    """Mark sharing sources as False and delete sharing code obj"""
-
-    # Mark that space sources are not shared
-    if space.share_sources:
-        space.share_sources = False
-        space.save(update_fields=("share_sources",))
-
-    # Delete sharing code if it was already made
-    sharing_code = get_space_sharing_code(space)
-    if sharing_code:
-        sharing_code.delete()
 
 
 def get_space_sharing_code(space: WorkSpace) -> ShareSourcesCode | None:

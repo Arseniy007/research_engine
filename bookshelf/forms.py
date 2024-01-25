@@ -269,7 +269,7 @@ class AlterWebpageForm(WebpageForm):
             if field not in ("source_type", "number_of_authors",):
                 self.fields[field].initial = webpage.__getattribute__(field)
         return self
-    
+
 
 class AddLinkForm(forms.Form):
     link = forms.URLField(widget=forms.URLInput(attrs={
@@ -304,7 +304,7 @@ class NewQuoteForm(forms.Form):
         "placeholder": "Quote text"
     }))
 
-    
+
     def save_quote(self, source: Source) -> Quote:
         """Save new Quote object"""
         new_quote = Quote(source=source, page=self.cleaned_data["page"], text=clean_text_data(self.cleaned_data["text"]))
@@ -329,7 +329,7 @@ class AlterQuoteForm(forms.ModelForm):
         quote.page = self.cleaned_data["page"]
         quote.save(update_fields=("text", "page",))
         return quote
-        
+
 
 def get_type_of_source_form(data, alter_source=False):
     """

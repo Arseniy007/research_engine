@@ -52,7 +52,7 @@ def make_source_endnote_apa(source: Source) -> Callable | bool:
 
 def make_source_endnote_mla(source: Source) -> Callable | bool:
     """Get source type and call corresponding func"""
-    
+
     source_type: type(object) = source.cast()
     match source_type:
         # Go to child model and turn it into dict in order to call needed func
@@ -70,4 +70,3 @@ def make_source_endnote_mla(source: Source) -> Callable | bool:
             return make_webpage_endnote_mla(webpage)
         case _:
             return None
-

@@ -23,7 +23,7 @@ def lobby_view(request):
     data["article_form"] = ArticleForm()
     data["chapter_form"] = ChapterForm()
     data["webpage_form"] = WebpageForm()
-    
+
     return render(request, "website/lobby.html", data)
 
 
@@ -92,17 +92,17 @@ def get_quick_reference(request):
                 reference: dict | None = create_input_reference(form, author)
             if reference:
                 return JsonResponse({"status": "ok", "reference": reference})
-            
+
     # Error case
     return JsonResponse({"status": "error"})
 
 
 def render_author_form_fields(request, author_number, chapter):
     """API route for getting author input fields for add-source-form"""
-    
+
     # Chapter parameter is boolean (0/1). In case of True: pass "chapter-" as prefix to html tag ids, classes and names
     if chapter:
-       chapter = "chapter-"
+        chapter = "chapter-"
     else:
         chapter = ""
     return render(request, "website/author_fields.html", {"author_number": author_number, "chapter": chapter})

@@ -20,7 +20,7 @@ class WorkSpace(models.Model):
     def get_path(self):
         """Returns a path to the work space directory"""
         return os.path.join(MEDIA_ROOT, f"work_space_{self.pk}")
-    
+
 
     def get_friendly_path(self):
         """Returns a path to the user-friendly version of space directory"""
@@ -30,30 +30,30 @@ class WorkSpace(models.Model):
     def create_dir(self):
         """Creates a directory for a work space"""
         return os.mkdir(self.get_path())
-    
+
 
     def create_friendly_dir(self):
         """Creates directory for future zip-archiving and downloading"""
         return os.makedirs(self.get_friendly_path(), exist_ok=True)
-    
+
 
     def get_base_dir(self):
         """Returns base directory without MEDIA_ROOT"""
         return f"work_space_{self.pk}"
-    
+
 
     def archive(self):
         """Mark space as archived"""
         self.archived = True
         return self.save(update_fields=("archived",))
-    
+
 
     def unarchive(self):
         """Mark space as unarchived"""
         self.archived = False
         return self.save(update_fields=("archived",))
-    
-    
+
+
     def add_guest(self, guest: User):
         """Add new guest to a space"""
         return self.guests.add(guest)

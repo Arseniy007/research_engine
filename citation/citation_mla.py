@@ -34,6 +34,6 @@ def make_webpage_endnote_mla(webpage: dict) -> str:
     date = format_date(webpage.date, "mla")
     if webpage.author == "No author":
         return f'"{webpage["title"]}" {webpage["website_title"]}, {date}, {webpage["page_url"]}.'
-    
+
     author = format_authors_mla(webpage.author)
     return f'{author}. "{webpage["title"]}" {webpage["website_title"]}, {date}, {webpage["page_url"]}.'

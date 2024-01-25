@@ -54,7 +54,7 @@ def create_friendly_sources_directory(work_space: WorkSpace) -> str | bool:
     sources = work_space.sources.all()
     if not sources:
         return False
-    
+
     # Create new empty directory
     work_space.create_friendly_dir()
     original_path = work_space.get_friendly_path()
@@ -69,7 +69,7 @@ def create_friendly_sources_directory(work_space: WorkSpace) -> str | bool:
 
 def create_friendly_sources_dir(sources, root_path: str) -> None:
     """Create new "books" dir with all space-related sources inside"""
-    
+
     books_root = os.path.join(root_path, "books")
     os.makedirs(books_root, exist_ok=True)
 
@@ -125,7 +125,7 @@ def create_friendly_sources_dir(sources, root_path: str) -> None:
 
 def create_friendly_papers_dir(papers, authors: list, root_path: str) -> None:
     """Create new "papers" dir with all space-related papers inside"""
-    
+
     papers_root = os.path.join(root_path, "papers")
     os.makedirs(papers_root, exist_ok=True)
 
@@ -162,7 +162,7 @@ def create_friendly_papers_dir(papers, authors: list, root_path: str) -> None:
 
 def create_friendly_links_file(links, root_path: str) -> None:
     """Create new "links" txt file with all space-related links inside"""
-    
+
     # Get path to new links.txt file
     links_file_path = os.path.join(root_path, "links.txt")
 

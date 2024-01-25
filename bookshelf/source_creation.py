@@ -55,7 +55,7 @@ def create_article_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
 
 def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_author: str, chapter_author: str) -> int:
     """Validate Chapter form, create Chapter obj and return its id"""
-    
+
     # Create and save new Chapter obj
     new_chapter = Chapter(work_space=space, user=user, author=chapter_author, book_author=book_author, 
                           title=cleaned_data["chapter_title"], book_title=cleaned_data["book_title"],

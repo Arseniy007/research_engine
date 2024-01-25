@@ -28,8 +28,8 @@ def copy_space_with_all_sources(original_space: WorkSpace, new_owner: User) -> W
     # Copy all sources into db and keep track of new sources id
     new_sources_id: dict = {}
     for source in original_sources:
-      new_source = copy_source(source, new_space, new_owner)
-      new_sources_id[source.pk] = new_source.pk
+        new_source = copy_source(source, new_space, new_owner)
+        new_sources_id[source.pk] = new_source.pk
 
     # Get array with only sources which files were uploaded
     sources_with_files = [source for source in original_sources if source.file]
@@ -49,5 +49,5 @@ def copy_space_with_all_sources(original_space: WorkSpace, new_owner: User) -> W
             original_file = source.get_path_to_file()
             shutil.copyfile(original_file, destination)
 
-    # Return new Workspace obj       
+    # Return new Workspace obj
     return new_space

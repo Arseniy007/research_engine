@@ -1,6 +1,6 @@
+from binascii import hexlify
 import shutil
 import textract
-from binascii import hexlify
 from office_word_count import Counter
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
@@ -23,7 +23,7 @@ def upload_paper_file(request, paper_id):
         paper = check_paper(paper_id, request.user)
         form.save_new_paper_file(paper, request.user)
         return JsonResponse({"status": "ok"})
-    
+
     display_error_message(request, "Something wrong with uploaded file. Try again!")
     return JsonResponse({"url": reverse("paper_work:paper_space", args=(paper_id,))})
 
@@ -54,7 +54,7 @@ def display_paper_file(request, file_id):
 @login_required(redirect_field_name=None)
 def get_paper_file_info(request, file_id):
     """Returns info about text-file"""
-    
+
     # Get, check and open file
     file = check_paper_file(file_id, request.user)
     raw_text = textract.process(file.get_path_to_file())
@@ -74,7 +74,7 @@ def get_paper_file_info(request, file_id):
     response = {"number of words": info.words, 
                 "characters with no space": info.characters_no_space,
                 "characters with space": info.characters_with_space}
-    
+
     return JsonResponse(response)
 
 

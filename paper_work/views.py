@@ -42,7 +42,7 @@ def paper_space(request, paper_id):
 @login_required(redirect_field_name=None)
 def create_paper(request, space_id):
     """Adds new paper and creates a space for it"""
-    
+
     form = NewPaperForm(request.POST)
 
     if form.is_valid():
@@ -53,7 +53,7 @@ def create_paper(request, space_id):
 
         # Redirect user to the new paper-space
         return JsonResponse({"status": "ok", "url": reverse("paper_work:paper_space", args=(new_paper.pk,))})
-    
+
     display_error_message(request)
     return JsonResponse({"status": "error", "url": reverse("work_space:space_view", args=(space_id,))})
 
@@ -71,7 +71,7 @@ def rename_paper(request, paper_id):
         paper = check_paper(paper_id, request.user)
         renamed_paper = form.save_new_name(paper)
         return JsonResponse({"status": "ok", "new_title": renamed_paper.title})
-    
+
     # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("paper_work:paper_space", args=(paper_id,))})
@@ -89,7 +89,7 @@ def archive_or_unarchive_paper(request, paper_id):
         paper.unarchive()
         display_success_message(request, f"Paper is now again part of {paper.work_space.title} workspace!")
         return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
-    
+
     paper.archive()
     display_success_message(request, f"{paper.title} was successfully archived")
     return redirect(reverse("work_space:space_view", args=(paper.work_space.pk,)))
@@ -102,14 +102,14 @@ def select_sources_for_paper(request, paper_id):
     """Allow user to choose from all sources in a work space to be used (cited) in a paper"""
 
     # TODO
-    
+
     form = ChooseSourcesForm(request.POST)
-    
+
     if form.is_valid():
         # Get all selected sources
         paper = check_paper(paper_id, request.user)
         selected_sources = form.cleaned_data["sources"]
-        
+
         # Remove all sources that were not selected and add all chosen one
         for source in paper.sources.all():
             if source not in selected_sources:
@@ -128,7 +128,7 @@ def select_sources_for_paper(request, paper_id):
 @login_required(redirect_field_name=None)
 def set_citation_style(request, paper_id):
     """Choose citation style for all sources in work space"""
- 
+
     form = CitationStyleForm(request.POST)
 
     if form.is_valid():

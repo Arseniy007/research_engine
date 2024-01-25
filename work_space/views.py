@@ -6,13 +6,12 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
-from django.forms.models import model_to_dict
 from .forms import NewLinkForm, NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, RenameSpaceForm
 from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 from paper_work.forms import NewPaperForm
 from research_engine.constants import FRIENDLY_TMP_ROOT
 from .space_creation import copy_space_with_all_sources, create_new_space
-from .space_sharing import generate_invitation, get_space_sharing_code, share_sources, stop_sharing_sources
+from .space_sharing import generate_invitation, get_space_sharing_code, share_sources
 from utils.decorators import link_ownership_required, post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_invitation, check_share_sources_code, check_space_link, check_work_space
@@ -69,7 +68,7 @@ def create_work_space(request):
     if form.is_valid():
         # Save new work space to the db and create its directory
         new_space_id = create_new_space(request.user, form.cleaned_data["title"])
-    
+
         # Redirect user to the new work space
         display_success_message(request)
         return JsonResponse({"status": "ok", "url": reverse("work_space:space_view", args=(new_space_id,))})
@@ -93,7 +92,7 @@ def rename_work_space(request, space_id):
         space = check_work_space(space_id, request.user)
         renamed_space = form.save_new_title(space)
         return JsonResponse({"status": "ok", "new_title": renamed_space.title})
-    
+
     # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
@@ -149,7 +148,7 @@ def download_space_sources(request, space_id):
     if not user_friendly_dir:
         # If work space is empty
         return JsonResponse({"message": "Empty Work Space"})
-    
+
     # Create zip file of the directory
     dir_title = "My sources"
     saving_destination = os.path.join(space.get_friendly_path(), dir_title)
@@ -191,7 +190,7 @@ def receive_invitation(request):
         # Add user as guest to the new work space
         new_work_space = invitation.work_space
         new_work_space.add_guest(request.user)
-        
+
         # Delete invitation code
         invitation.delete()
 
@@ -215,9 +214,10 @@ def share_space_sources(request, space_id):
         share_sources(space)
         share_space_code = get_space_sharing_code(space).code
         return JsonResponse({"share_space_code": share_space_code})
-    else:
-        return JsonResponse({"message": "You can not share empty work space"})
-    
+
+    # Error case
+    return JsonResponse({"message": "You can not share empty work space"})
+
 
 @post_request_required
 @login_required(redirect_field_name=None)
@@ -237,7 +237,7 @@ def receive_shared_sources(request):
             # Redirect to the new work space
             display_success_message(request)
             return redirect(reverse("work_space:space_view", args=(new_space.pk,)))
-        
+
         if option == "download":
             # Add user to space in order to download it and redirect them to download url
             original_work_space.add_guest(request.user)
@@ -281,7 +281,7 @@ def add_link(request, space_id):
         space = check_work_space(space_id, request.user)
         new_link = form.save_link(space)
         return JsonResponse({"status": "ok", "link_name": new_link.name, "url": model_to_dict(new_link)})
-    
+
     # Send redirect url to js
     display_error_message(request)
     return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
@@ -291,7 +291,7 @@ def add_link(request, space_id):
 @login_required(redirect_field_name=None)
 def delete_link(request, link_id):
     """Deletes added link"""
-    
+
     # Check link and delete if from the db
     link = check_space_link(link_id, request.user)
     link.delete()

@@ -17,19 +17,19 @@ def register(request):
     """Register new user"""
 
     form = RegisterForm(request.POST or None)
-    
+
     if request.method == "POST":
         if form.is_valid():
             # Get input
             username, email = form.cleaned_data["username"], form.cleaned_data["email"]
             first_name, last_name = form.cleaned_data["first_name"], form.cleaned_data["last_name"]
             password, confirmation = form.cleaned_data["password"], form.cleaned_data["confirmation"]
-            
+
             # Ensure password matches confirmation
             if password != confirmation:
                 display_error_message(request, "Passwords must match")
                 return redirect("user_management:register")
-            
+
             # Attempt to create new user
             try:
                 user = User.objects.create_user(username, email, password)
@@ -39,11 +39,13 @@ def register(request):
             except IntegrityError:
                 display_error_message(request, "Username already taken")
                 return redirect("user_management:register")
-            
+
             return redirect(LOGIN_URL)
-        else:
-            display_error_message(request)
-            return redirect(reverse("user_management:register"))
+
+        # Error case
+        display_error_message(request)
+        return redirect(reverse("user_management:register"))
+
     return render(request, "user_management/register.html", {"register_form": form})
 
 
@@ -71,7 +73,7 @@ def login_view(request):
                 if request.POST["redirect_url"]:
                     redirect_url = request.POST["redirect_url"]
                 return redirect(redirect_url)
-            
+
         # Error case
         display_error_message(request, "Invalid username and/or password.")
         return redirect(LOGIN_URL)
@@ -94,11 +96,11 @@ def edit_account_info(request):
                 # Redirect to settings page
                 display_success_message(request, "Account details were successfully updated!")
                 return redirect(reverse("website:account_settings"))
-            
+
         # Error case
         display_error_message(request)
         return redirect(reverse("user_management:edit_account"))
-    
+
     data = {
         "settings_form": AccountSettingsForm().set_initials(request.user),
         "work_spaces": get_user_work_spaces(request.user),
@@ -127,18 +129,18 @@ def change_password(request):
                 user.save(update_fields=("password",))
                 display_success_message(request, "Password was successfully updated!")
                 return redirect(LOGIN_URL)
-        
+
         # Redirect back in case of error
         display_error_message(request)
         return redirect(reverse("user_management:change_password"))
-    
+
     data = {
         "change_password_form": form,
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user)
     }
     return render(request, "user_management/change_password.html", data)
-    
+
 
 def forget_password(request):
     """Send user an email with password-reset url"""
@@ -157,11 +159,11 @@ def forget_password(request):
             # Redirect back to login view
             display_info_message(request, "Check your email")
             return redirect(LOGIN_URL)
-        
+
         # Error case
         display_error_message(request)
         return redirect(reverse("user_management:forget_password"))
-        
+
     forms = {
         "first_form": ForgetPasswordForm(), 
         "second_form": ForgetPasswordForm2()
@@ -203,7 +205,7 @@ def reset_password(request, reset_code):
         # Error case (form is not valid)
         display_error_message(request, "Passwords don't match")
         return redirect(reverse("user_management:reset_password", args=(reset_code,)))
-    
+
     return render(request, "user_management/reset_password.html", {"reset_form": form, "reset_code": reset_code})
 
 

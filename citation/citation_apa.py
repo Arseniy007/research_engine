@@ -35,6 +35,6 @@ def make_webpage_endnote_apa(webpage: dict) -> str:
     date = format_date(webpage["date"], "apa")
     if webpage["author"] == "No author":
         return f"{webpage['title']}. ({date}). {webpage['website_title']}. {webpage['page_url']}"
-    
+
     author = format_authors_apa(webpage["author"])
     return f"{author} ({date}). {webpage['title']}. {webpage['website_title']}. {webpage['page_url']}"

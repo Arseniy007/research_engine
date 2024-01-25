@@ -4191,6 +4191,26 @@ def stop_sharing_space_sources(request, space_id):
      
     return JsonResponse({"status": "ok"})
 
+
+
+
+
+    def stop_sharing_sources(space: WorkSpace) -> None:
+
+
+    # Mark that space sources are not shared
+    if space.share_sources:
+        space.share_sources = False
+        space.save(update_fields=("share_sources",))
+
+    # Delete sharing code if it was already made
+    sharing_code = get_space_sharing_code(space)
+    if sharing_code:
+        sharing_code.delete()
+
 """
+
+
+
 
 

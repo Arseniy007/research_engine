@@ -19,7 +19,7 @@ class Source(models.Model):
     year = models.CharField(max_length=5, blank=True)
     link = models.CharField(max_length=40, blank=True)
     has_file = models.BooleanField(default=False)
-    
+
 
     def __str__(self):
         '''Display book title'''
@@ -36,18 +36,18 @@ class Source(models.Model):
     def get_real_type(self):
         """Get object type"""
         return ContentType.objects.get_for_model(type(self))
-    
+
 
     def cast(self):
         """Get object class (Book / Article / Webpage / etc.)"""
         return self.real_type.get_object_for_this_type(pk=self.pk)
-    
-    
+
+
     def get_path(self):
         """Returns a path to the source directory"""
         return os.path.join(self.work_space.get_path(), "sources", f"user_{self.user.pk}", f"source_{self.pk}")
-    
-    
+
+
     def get_file(self) -> SourceFile | None:
         """Get file attached to source obj"""
         return SourceFile.objects.get(source=self)
@@ -71,7 +71,7 @@ class Chapter(Source):
     publishing_house = models.CharField(max_length=20)
     edition = models.CharField(max_length=10)
     pages = models.CharField(max_length=20)
-    
+
 
 class Webpage(Source):
     website_title = models.CharField(max_length=50)
@@ -91,7 +91,7 @@ class Quote(models.Model):
     text = models.TextField()
     apa = models.CharField(max_length=20)
     mla = models.CharField(max_length=20) 
-    
+
 
     def save(self, *args, **kwargs):
         """Custom save method that stores apa & mla in-text citations"""
