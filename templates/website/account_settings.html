@@ -38,16 +38,50 @@
                                         </a>
                                     </div>
                                     <div>
-                                        <a class="settings-icon settings-row-2 settings-link" id="archived-work-spaces" href="{% url 'website:about' %}">
+                                        <a class="settings-icon settings-row-2 settings-link" id="archived-work-spaces" data-bs-toggle="modal" data-bs-target="#archived-work-spaces-modal" href="#archived-work-spaces-modal">
                                             <div class="settings-icon settings-row-2">
                                                 <i class="fa-solid fa-folder-open fa-7x"></i><br><br><h5>Archived Workspaces</h5>
                                             </div>
                                         </a>
-                                        <a class="settings-icon settings-row-2 settings-link" href="{% url 'website:about' %}">
+                                        <div class="modal fade" id="archived-work-spaces-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="archived-work-spaces-modal-label" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="archived-work-spaces-modal-label">Archived Workspaces</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {% for space in archived_spaces %}
+                                                            {{ space }}
+                                                        {% endfor %}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="settings-icon settings-row-2 settings-link" data-bs-toggle="modal" data-bs-target="#archived-papers-modal" href="#archived-papers-modal">
                                             <div class="settings-icon settings-row-2">
                                                 <i class="fa-solid fa-copy fa-7x"></i><br><br><h5>Archived Papers</h5>
                                             </div>
                                         </a>
+                                        <div class="modal fade" id="archived-papers-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="archived-papers-modal-label" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="archived-papers-modal-label">Archived Papers</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {% for paper in archived_papers %}
+                                                            {{ paper }}
+                                                        {% endfor %}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div>
                                         <a class="settings-icon settings-row-3 settings-link" href="{% url 'website:about' %}">

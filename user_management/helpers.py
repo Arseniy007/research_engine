@@ -2,14 +2,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import PasswordResetCode, User
 
 
-def get_user_work_spaces(user: User):
+def get_user_work_spaces(user: User, archived=False):
     """Get all work spaces user owns or were invited to"""
-    return list(user.work_spaces.filter(archived=False)) + list(user.guest_work_spaces.filter(archived=False))
+    return list(user.work_spaces.filter(archived=archived)) + list(user.guest_work_spaces.filter(archived=archived))
 
 
-def get_user_papers(user: User):
+def get_user_papers(user: User, archived=False):
     """Get all user papers"""
-    return user.papers.filter(archived=False)
+    return user.papers.filter(archived=archived)
 
 
 def get_user_by_name(first_name: str, last_name: str, email: str) -> User | None:

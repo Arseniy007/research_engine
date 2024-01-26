@@ -1,86 +1,72 @@
-<br><br><br>
-<button class="btn btn-primary gap-3" type="button" data-bs-toggle="collapse" data-bs-target="#main-from-area" aria-expanded="false" aria-controls="main-from-area">
-    Edit main info
-</button>
+{% extends "layout.html" %}
+{% load static %}
 
-<div class="collapse" id="main-from-area">
-    <h4>Main Info</h4>
-    <form action="{% url 'user_management:edit_account_info' %}" class="account-settings-form needs-validation" id="main-info-form" method="post" novalidate>
-        {% csrf_token %}
-        <div class="form-outline mb-4 form-floating">
-            {{ settings_form.username }}
-            <label class="form-label" for="username-field">Username</label>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please provide a username.</div>
-        </div>
-        <div class="form-outline mb-4 row">
-            <div class="col-md">
-                <div class="form-floating">
-                    {{ settings_form.first_name }}
-                    <label class="form-label" for="first-name-field">First Name</label>
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please provide a first name.</div>
+{% block script %}
+    <script src="{% static 'js/user_management.js' %}"></script>
+{% endblock %}
+
+{% block headless %}
+    <section class="vh-100 bg-image" id="form-section">
+        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                        <div class="card form-card" style="border-radius: 15px;">
+                            <div class="card-body p-5 form-body">
+                                <h2 class="text-uppercase text-center mb-4" id="form-header">Settings</h2>
+                                <!-- Messages -->
+                                {% if messages %}
+                                    <div>
+                                        <ul class="messages">
+                                            {% for message in messages %}
+                                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                                <div id="settings-menu">
+                                    <div>
+                                        <a class="settings-icon settings-row-1 settings-link" href="{% url 'user_management:edit_account' %}">
+                                            <div class="settings-icon settings-row-1">
+                                                <i class="fa-solid fa-user-pen fa-7x"></i><br><br><h5>Edit main info</h5>
+                                            </div>
+                                        </a>
+                                        <a class="settings-icon settings-row-1 settings-link" href="{% url 'user_management:change_password' %}">
+                                            <div class="settings-icon settings-row-1">
+                                                <i class="fa-solid fa-lock fa-7x"></i><br><br><h5>Change password</h5>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a class="settings-icon settings-row-2 settings-link" id="archived-work-spaces" href="{% url 'website:about' %}">
+                                            <div class="settings-icon settings-row-2">
+                                                <i class="fa-solid fa-folder-open fa-7x"></i><br><br><h5>Archived Workspaces</h5>
+                                            </div>
+                                        </a>
+                                        <a class="settings-icon settings-row-2 settings-link" href="{% url 'website:about' %}">
+                                            <div class="settings-icon settings-row-2">
+                                                <i class="fa-solid fa-copy fa-7x"></i><br><br><h5>Archived Papers</h5>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a class="settings-icon settings-row-3 settings-link" href="{% url 'website:about' %}">
+                                            <div class="settings-icon settings-row-3">
+                                                <i class="fa-solid fa-circle-info fa-7x"></i><br><br><h5>About</h5>
+                                            </div>
+                                        </a>
+                                        <a class="settings-icon settings-row-3 settings-link" id="logout-link" href="{% url 'user_management:logout' %}">
+                                            <div class="settings-icon settings-row-3">
+                                                <i class="fa-solid fa-right-from-bracket fa-7x"></i><br><br><h5>Logout</h5>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    {{ settings_form.last_name }}
-                    <label class="form-label" for="last-name-field">Last Name</label>
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please provide a last name.</div>
-                </div>
-            </div>
         </div>
-        <div class="form-outline mb-4 form-floating">
-            {{ settings_form.email }}
-            <label class="form-label" for="email-field">Email</label>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please provide an email.</div>
-        </div>
-        <div class="form-outline mb-4 form-floating">
-            {{ settings_form.password }}
-            <label class="form-label" for="password-field">Password</label>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please provide a password.</div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <input type="submit" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
-        </div>
-    </form>
-</div>
-
-<br><br>
-
-<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#change-password-area" aria-expanded="false" aria-controls="change-password-area">
-    Change password
-</button>
-
-<div class="collapse" id="change-password-area">   
-    <h4>Change password</h4>
-    <form action="{% url 'user_management:change_password' %}" class="account-settings-form needs-validation" id="change-password-form" method="post" novalidate>
-        {% csrf_token %}
-        <div class="form-outline mb-4 form-floating">
-            {{ change_password_form.old_password }}
-            <label class="form-label" for="old-password-field">Old Password</label>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please provide a password.</div>
-        </div>
-        <div class="form-outline mb-4 form-floating">
-            {{ change_password_form.new_password }}
-            <label class="form-label" for="new-password-field">New Password</label>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please provide a new password.</div>
-        </div>
-        <div class="form-outline mb-4 form-floating">
-            {{ change_password_form.confirmation }}
-            <label class="form-label" for="confirmation-field">Repeat New Password</label>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please repeat your new password.</div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <input type="submit" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
-        </div>
-    </form>
-</div>
-
-<br><br>
+    </section>
+{% endblock %}

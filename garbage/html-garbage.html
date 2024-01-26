@@ -766,4 +766,8 @@ onclick="load_and_show_source_space('{{ source.id }}')"
     <a href="{% url 'work_space:space_view' space.pk %}" class="list-group-item list-group-item-action list-group-item-warning work-space-list">{{ space }}</a>
 </div>
 
-
+<a class="settings-icon settings-row-2 settings-link" id="archived-work-spaces" href="{% url 'website:about' %}">
+    <div class="settings-icon settings-row-2">
+        <i class="fa-solid fa-folder-open fa-7x"></i><br><br><h5>Archived Workspaces</h5>
+    </div>
+</a>

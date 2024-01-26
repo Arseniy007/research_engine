@@ -33,7 +33,9 @@ def account_settings_view(request):
 
     data = {
         "work_spaces": get_user_work_spaces(request.user), 
-        "papers": get_user_papers(request.user)
+        "papers": get_user_papers(request.user),
+        "archived_spaces": get_user_work_spaces(request.user, archived=True),
+        "archived_papers": get_user_papers(request.user, archived=True)
     }
     return render(request, "website/account_settings.html", data)
 
