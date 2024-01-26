@@ -105,4 +105,10 @@ def render_author_form_fields(request, author_number, chapter):
         chapter = "chapter-"
     else:
         chapter = ""
-    return render(request, "website/author_fields.html", {"author_number": author_number, "chapter": chapter})
+        
+    data = {
+        "chapter": chapter,
+        "author_number": author_number,
+        "work_spaces": get_user_work_spaces(request.user),
+    }
+    return render(request, "website/author_fields.html", data)

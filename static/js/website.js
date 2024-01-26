@@ -183,6 +183,6 @@ function receive_shared_sources(form) {
 
 function redirect_to_index_with_error() {
     window.location.replace("");
-    document.querySelector('#re-main-button').click();
+    openNav();
     document.querySelector('#index-error-message').style.display = 'block';
 }

@@ -98,6 +98,11 @@
   margin-top: 50px;
 }
 
+.work-space-list
+{
+  width: 30%;
+}
+
 #header
 {
   display: flex;
