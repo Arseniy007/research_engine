@@ -48,7 +48,10 @@ function hide_all_forms() {
     })
 
     // Hide result if shown
-    document.querySelector('#reference-result').style.display = 'none';
+    const reference_result = document.querySelector('#reference-result');
+    if (reference_result) {
+        reference_result.style.display = 'none';
+    }
 }
 
 async function show_and_load_form(form_id) {
