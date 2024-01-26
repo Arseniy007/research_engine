@@ -86,6 +86,12 @@ def archive_or_unarchive_paper(request, paper_id):
     paper = check_paper(paper_id, request.user)
 
     if paper.archived:
+        if paper.work_space.archived:
+            # Error case
+            error_message = f"{paper.title} is part of archived workspace: {paper.work_space.title}. You need to unarchive it first"
+            display_error_message(request, error_message)
+            return redirect(reverse("website:account_settings"))
+
         paper.unarchive()
         display_success_message(request, f"Paper is now again part of {paper.work_space.title} workspace!")
         return redirect(reverse("paper_work:paper_space", args=(paper_id,)))

@@ -51,11 +51,30 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        {% for space in archived_spaces %}
-                                                            {{ space }}
-                                                        {% endfor %}
+                                                        <div class="accordion" id="archived-work-spaces-accordion">
+                                                            {% for space in archived_spaces %}
+                                                                <div class="accordion-item">
+                                                                    <h2 class="accordion-header">
+                                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#archived-space" aria-expanded="true" aria-controls="archived-space">
+                                                                            {{ space }}
+                                                                        </button>
+                                                                    </h2>
+                                                                    <div id="archived-space" class="accordion-collapse collapse" data-bs-parent="#archived-work-spaces-accordion">
+                                                                        <div class="accordion-body">
+                                                                            # TODO!!!!
+                                                                            <a href="{% url 'work_space:archive_space' space.pk %}">
+                                                                                Unarchive {{ space }}
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% empty %}
+                                                                <strong>You don't have any archived workspaces!</strong>
+                                                            {% endfor %}
+                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -73,11 +92,30 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        {% for paper in archived_papers %}
-                                                            {{ paper }}
-                                                        {% endfor %}
+                                                        <div class="accordion" id="archived-papers-accordion">
+                                                            {% for paper in archived_papers %}
+                                                                <div class="accordion-item">
+                                                                    <h2 class="accordion-header">
+                                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#archived-paper" aria-expanded="true" aria-controls="archived-paper">
+                                                                            {{ paper }}
+                                                                        </button>
+                                                                    </h2>
+                                                                    <div id="archived-paper" class="accordion-collapse collapse" data-bs-parent="#archived-papers-accordion">
+                                                                        <div class="accordion-body">
+                                                                            # TODO!!!!
+                                                                            <a href="{% url 'paper_work:archive_paper' paper.pk %}">
+                                                                                Unarchive {{ paper }}
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% empty %}
+                                                                <strong>You don't have any archived papers!</strong>
+                                                            {% endfor %}
+                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
                                             </div>

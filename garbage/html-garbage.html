@@ -771,3 +771,14 @@ onclick="load_and_show_source_space('{{ source.id }}')"
         <i class="fa-solid fa-folder-open fa-7x"></i><br><br><h5>Archived Workspaces</h5>
     </div>
 </a>
+
+
+{% for space in archived_spaces %}
+    {{ space }}
+{% endfor %}
+
+{% for paper in archived_papers %}
+    {{ paper }}
+{% endfor %}
+
+

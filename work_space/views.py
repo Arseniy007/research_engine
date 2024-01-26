@@ -108,6 +108,9 @@ def archive_or_unarchive_space(request, space_id):
     if space.archived:
         # Mark workspace and all papers related to it as unarchived 
         space.unarchive()
+        for paper in space.papers.all():
+            paper.unarchive()
+
         display_success_message(request)
         return redirect(reverse("work_space:space_view", args=(space_id,)))
 
