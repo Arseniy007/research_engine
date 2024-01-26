@@ -106,11 +106,16 @@ def archive_or_unarchive_space(request, space_id):
     space = check_work_space(space_id, request.user)
 
     if space.archived:
+        # Mark workspace and all papers related to it as unarchived 
         space.unarchive()
         display_success_message(request)
         return redirect(reverse("work_space:space_view", args=(space_id,)))
 
+    # Mark workspace and all papers related to it as archived 
     space.archive()
+    for paper in space.papers.all():
+        paper.archive()
+
     display_success_message(request, f"{space.title} was successfully archived!")
     return redirect(reverse("website:account_settings"))
 
