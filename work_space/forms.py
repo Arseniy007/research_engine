@@ -3,9 +3,6 @@ from .models import Link, WorkSpace
 from research_engine.constants import CLASS_
 
 
-SOURCES_RECEIVING_OPTIONS = (("copy", "Create New Work Space"), ("download", "Download sources"),)
-
-
 class NewSpaceForm(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
@@ -72,8 +69,3 @@ class ReceiveSourcesForm(forms.Form):
         "autocomplete": "off",
         "placeholder": "Paper title"})
     )
-
-    # Maybe make it as a part of html?
-    option = forms.ChoiceField(choices=SOURCES_RECEIVING_OPTIONS, widget=forms.RadioSelect(attrs={
-        #"class": "form-check-input",
-    }))

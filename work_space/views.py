@@ -232,6 +232,8 @@ def share_space_sources(request, space_id):
 def receive_shared_sources(request):
     """Receive a copy of a work space with all its sources if it was shared"""
 
+    # TODO
+
     form = ReceiveSourcesForm(request.POST)
 
     if form.is_valid():

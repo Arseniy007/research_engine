@@ -4208,6 +4208,13 @@ def stop_sharing_space_sources(request, space_id):
     if sharing_code:
         sharing_code.delete()
 
+
+    option = forms.ChoiceField(choices=SOURCES_RECEIVING_OPTIONS, widget=forms.RadioSelect(attrs={
+        #"class": "form-check-input",
+    }))
+
+    SOURCES_RECEIVING_OPTIONS = (("copy", "Create New Work Space"), ("download", "Download sources"),)
+
 """
 
 

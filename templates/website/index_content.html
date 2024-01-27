@@ -3,7 +3,6 @@
 
 {% block headless %}
     <div id="index-div">
-        
         {% if work_spaces %}
             <a data-bs-toggle="collapse" href="#my-workspaces-area" role="button" aria-expanded="false" aria-controls="my-workspaces-area">
                 <h2 class="text-uppercase text-center mb-3 white-header">My Workspaces&nbsp;&nbsp;<i class="fa-solid fa-folder-open"></i></h2>
@@ -55,16 +54,31 @@
         <div class="collapse" id="shared-sources-form-area">
             <form action="{% url 'work_space:receive_shared_sources' %}" class="needs-validation index-form" id="shared-sources-form" method="post" novalidate>
                 {% csrf_token %} 
-                <div class="form-outline mb-4 form-floating">         
-                    {{ shared_sources_form.code }}
-                    <label class="form-label" for="sources-code-field">Code</label>
-                    <div class="invalid-feedback">Please provide code.</div>
-                </div>
-                <div class="form-outline mb-4 form-floating">
-                    {{ shared_sources_form.option }}
+                <div class="form-outline mb-4 row">
+                    <div class="col-md">
+                        <div class="form-floating">
+                            {{ shared_sources_form.code }}
+                            <label class="form-label" for="sources-code-field">Code</label>
+                            <div class="invalid-feedback">Please provide code.</div>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="option" id="work-space-option" checked>
+                            <label class="form-check-label" for="work-space-option" style="color: white;">
+                                Create new workspace
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="option" id="download-option">
+                            <label class="form-check-label" for="download-option" style="color: white;">
+                                Download zip-archive
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <input type="submit" value="Submit" class="btn btn-success btn-block btn-lg gradient-custom-4"></input>
+                    <input type="submit" value="Get" class="btn btn-success btn-block btn-lg gradient-custom-4"></input>
                 </div>
             </form>
         </div>
