@@ -29,7 +29,7 @@ def work_space_view(request, space_id):
     source_number = 1
     for source in space.sources.all():
         if source.has_file:
-            file_id = source.get_file().pk
+            file_id = (source.get_file()).pk
         else:
             file_id = None
         source = model_to_dict(source)
