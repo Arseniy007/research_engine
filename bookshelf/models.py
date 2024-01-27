@@ -1,4 +1,5 @@
 import os
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models 
 from django.contrib.contenttypes.models import ContentType
 from file_handling.models import SourceFile
@@ -50,7 +51,10 @@ class Source(models.Model):
 
     def get_file(self) -> SourceFile | None:
         """Get file attached to source obj"""
-        return SourceFile.objects.get(source=self)
+        try:
+            return SourceFile.objects.get(source=self)
+        except ObjectDoesNotExist:
+            return None
 
 
 class Book(Source):

@@ -15,12 +15,5 @@ def save_new_source_file(file: FileField, source: Source):
     """Create and save new SourceFile obj"""
     new_file = SourceFile(source=source, file=file)
     new_file.save()
-
-
-def copy_source_file():
-    """TODO"""
-
-
-
-
-    return None
+    source.has_file = True
+    source.save(update_fields=("has_file",))

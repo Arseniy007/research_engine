@@ -1,7 +1,9 @@
-from .source_citation import create_source_reference
-from .models import Article, Book, Chapter, Source, Webpage
+from file_handling.file_saving import save_new_source_file
+from file_handling.models import SourceFile
 from user_management.models import User
 from work_space.models import WorkSpace
+from .models import Article, Book, Chapter, Source, Webpage
+from .source_citation import create_source_reference
 
 
 def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source:
@@ -31,16 +33,9 @@ def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source
     source.save()
 
     # Change file info, if file was uploaded
-    source_file = source.get_file()
+    source_file: SourceFile | None = source.get_file()
     if source_file:
-
-
-
-
-        source.file = copy_source_file_info(source, new_space, new_owner.pk)
-
-        
-    source.save(update_fields=("file",))
+        save_new_source_file(source_file.file, source)
 
     # Copy all quotes related to original source if necessary
     if source_quotes:
@@ -54,6 +49,7 @@ def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source
     return source
 
 
+# Do I need it?
 def copy_source_file_info(source: Source, new_space: WorkSpace, new_owner_id: int) -> str:
     """Returns a new path to the copied file"""
     space_path = new_space.get_base_dir()

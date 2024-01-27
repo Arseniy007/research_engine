@@ -228,7 +228,7 @@ function load_and_show_new_source_space(url) {
 
         // Past source space header
         const source_space_header = source_space_page.querySelector('#source-space-header');
-        document.querySelector(`#source-space-label-${source_id}`).innerHTML = source_space_header.innerHTML;
+        document.querySelector('#new-source-label').innerHTML = source_space_header.innerHTML;
 
         // Past fetched html
         new_source_div.innerHTML = source_space_page.querySelector('#source-space').innerHTML;
