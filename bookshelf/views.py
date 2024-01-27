@@ -4,15 +4,15 @@ from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
-from .forms import *
 from file_handling.forms import UploadSourceFileForm
-from .source_alteration import alter_source
-from .source_citation import get_source_reference
-from .source_creation import create_source
 from utils.data_cleaning import clean_author_data
 from utils.decorators import quote_ownership_required, post_request_required, source_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_quote, check_source, check_work_space
+from .forms import *
+from .source_alteration import alter_source
+from .source_citation import get_source_reference
+from .source_creation import create_source
 
 
 @login_required(redirect_field_name=None)

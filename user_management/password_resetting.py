@@ -1,8 +1,8 @@
 from django.core.mail import send_mail
 from django.urls import reverse
-from .models import PasswordResetCode, User
 from research_engine.settings import EMAIL_HOST_USER
 from utils.code_generator import generate_code
+from .models import PasswordResetCode, User
 
 
 def generate_password_reset_code(user: User) -> str:

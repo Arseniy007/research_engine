@@ -4215,6 +4215,28 @@ def stop_sharing_space_sources(request, space_id):
 
     SOURCES_RECEIVING_OPTIONS = (("copy", "Create New Work Space"), ("download", "Download sources"),)
 
+
+class UploadPaperFileForm(forms.Form):
+    file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))
+
+    def save_new_paper_file(self, paper: Paper, user: User):
+        new_file = PaperFile(user=user, paper=paper, file=self.cleaned_data["file"])
+        new_file.save()
+
+
+class UploadSourceFileForm(forms.Form):
+    file = forms.FileField(widget=forms.FileInput(attrs={
+        "accept": ACCEPTED_UPLOAD_FORMATS,
+        "id": "file-field",
+        "class": CLASS_,
+        "placeholder": "File"})
+    )
+
+    def save_new_source_file(self, source: Source):
+        new_file = SourceFile(source=source, file=self.cleaned_data["file"])
+        new_file.save()
+
+
 """
 
 

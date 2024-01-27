@@ -575,3 +575,14 @@ const index_forms = nav.getElementsByClassName('index-form');
             create_new_work_space(create_space_form);
         }
     })
+
+
+function redirect_to_index_with_error() {
+
+    window.location.replace("");
+    openNav();
+    document.querySelector('#index-error-message').style.display = 'block';
+}
+
+
+

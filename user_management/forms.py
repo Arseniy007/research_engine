@@ -1,7 +1,7 @@
 from django import forms
+from research_engine.constants import CLASS_
 from .helpers import get_user_by_name, get_user_by_username
 from .models import User
-from research_engine.constants import CLASS_
 
 
 class RegisterForm(forms.Form):

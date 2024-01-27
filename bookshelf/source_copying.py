@@ -31,8 +31,15 @@ def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source
     source.save()
 
     # Change file info, if file was uploaded
-    if source.file:
+    source_file = source.get_file()
+    if source_file:
+
+
+
+
         source.file = copy_source_file_info(source, new_space, new_owner.pk)
+
+        
     source.save(update_fields=("file",))
 
     # Copy all quotes related to original source if necessary

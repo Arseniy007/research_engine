@@ -1,11 +1,11 @@
 from typing import Callable
 from django import forms
-from .source_citation import create_source_reference
-from .forms import ArticleForm, BookForm, ChapterForm, WebpageForm
-from .models import Article, Book, Chapter, Webpage
 from user_management.models import User
 from utils.data_cleaning import clean_source_form_fields
 from work_space.models import WorkSpace
+from .source_citation import create_source_reference
+from .forms import ArticleForm, BookForm, ChapterForm, WebpageForm
+from .models import Article, Book, Chapter, Webpage
 
 
 def create_source(user: User, space: WorkSpace, form: forms.Form, author: str, chapter_author=None) -> Callable | None:

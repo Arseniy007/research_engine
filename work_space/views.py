@@ -6,16 +6,16 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
-from .forms import NewLinkForm, NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, RenameSpaceForm
-from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 from paper_work.forms import NewPaperForm
 from research_engine.constants import FRIENDLY_TMP_ROOT
-from .space_creation import copy_space_with_all_sources, create_new_space
-from .space_sharing import generate_invitation, get_space_sharing_code, share_sources
 from utils.decorators import link_ownership_required, post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_invitation, check_share_sources_code, check_space_link, check_work_space
 from user_management.helpers import get_user_papers, get_user_work_spaces
+from .space_creation import copy_space_with_all_sources, create_new_space
+from .space_sharing import generate_invitation, get_space_sharing_code, share_sources
+from .forms import NewLinkForm, NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, RenameSpaceForm
+from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 
 
 @login_required
@@ -67,7 +67,7 @@ def create_work_space(request):
 
     if form.is_valid():
         # Save new work space to the db and create its directory
-        new_space_id = create_new_space(request.user, form.cleaned_data["title"])
+        new_space_id = create_new_space(request.user, form.cleaned_data["title"]).pk
 
         # Redirect user to the new work space
         display_success_message(request)
@@ -195,17 +195,18 @@ def receive_invitation(request):
         # Check invitation code
         invitation = check_invitation(form.cleaned_data["code"])
 
-        # Add user as guest to the new work space
-        new_work_space = invitation.work_space
-        new_work_space.add_guest(request.user)
+        if invitation:
+            # Add user as guest to the new work space
+            new_work_space = invitation.work_space
+            new_work_space.add_guest(request.user)
 
-        # Delete invitation code
-        invitation.delete()
+            # Delete invitation code
+            invitation.delete()
 
-        # Send redirect to the new work space
-        display_success_message(request)
-        return JsonResponse({"status": "ok", "url": reverse("work_space:space_view", args=(new_work_space.pk,))})
-
+            # Send redirect to the new work space
+            display_success_message(request)
+            return JsonResponse({"status": "ok", "url": reverse("work_space:space_view", args=(new_work_space.pk,))})
+        
     # Error case
     return JsonResponse({"status": "error"})
 
@@ -232,29 +233,30 @@ def share_space_sources(request, space_id):
 def receive_shared_sources(request):
     """Receive a copy of a work space with all its sources if it was shared"""
 
-    # TODO
-
     form = ReceiveSourcesForm(request.POST)
 
     if form.is_valid():
         share_space_code = check_share_sources_code(form.cleaned_data["code"])
-        original_work_space = share_space_code.work_space
-        option = form.cleaned_data["option"]
 
-        if option == "copy":
-            # Create a new work space
-            new_space = copy_space_with_all_sources(original_work_space, request.user)
-            # Redirect to the new work space
-            display_success_message(request)
-            return redirect(reverse("work_space:space_view", args=(new_space.pk,)))
+        if share_space_code:
+            original_work_space = share_space_code.work_space
+            option = request.POST.get("option")
 
-        if option == "download":
-            # Add user to space in order to download it and redirect them to download url
-            original_work_space.add_guest(request.user)
-            return redirect(reverse("work_space:download_space_sources", args=(original_work_space.pk,)))
+            if option == "create":
+                # Create a new work space
+                new_space = copy_space_with_all_sources(original_work_space, request.user)
+                # Redirect to the new work space
+                display_success_message(request)
+                return JsonResponse({"status": "ok", "url": reverse("work_space:space_view", args=(new_space.pk,))})
 
-    display_error_message(request)
-    return redirect(reverse("website:lobby"))
+            if option == "download":
+                # Add user to space in order to download it and redirect them to download url
+                original_work_space.add_guest(request.user)
+                download_url = reverse("work_space:download_space_sources", args=(original_work_space.pk,))
+                return JsonResponse({"status": "ok", "url": download_url})
+
+    # Error case
+    return JsonResponse({"status": "error"})
 
 
 @login_required(redirect_field_name=None)

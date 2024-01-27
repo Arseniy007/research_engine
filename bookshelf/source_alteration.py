@@ -1,9 +1,9 @@
 from typing import Callable
 from django import forms
+from utils.data_cleaning import clean_text_data
 from .source_citation import update_source_reference
 from .forms import AlterWebpageForm
 from .models import Article, Book, Chapter, Source, Webpage
-from utils.data_cleaning import clean_text_data
 
 
 def alter_source(source: Source, form: forms.Form) -> Callable | None:

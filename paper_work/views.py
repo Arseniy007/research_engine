@@ -3,13 +3,13 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.source_citation import get_source_reference
-from .forms import CitationStyleForm, ChooseSourcesForm, NewPaperForm, RenamePaperForm
 from file_handling.forms import UploadPaperFileForm
 from file_handling.models import PaperFile
 from user_management.helpers import get_user_papers, get_user_work_spaces
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_paper, check_work_space
+from .forms import CitationStyleForm, ChooseSourcesForm, NewPaperForm, RenamePaperForm
 
 
 @login_required(redirect_field_name=None)

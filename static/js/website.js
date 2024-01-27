@@ -105,7 +105,7 @@ function set_index_form_validation(nav) {
                 }
                 else {
                     // Error case
-                    redirect_to_index_with_error();
+                    document.querySelector('#index-error-message').style.display = 'block';
                 }
             }
         })
@@ -129,8 +129,8 @@ function create_new_work_space(form) {
             window.location.replace(result.url);
         }
         else {
-            // Redirect back in case of error
-            redirect_to_index_with_error();
+            // Show error message
+            document.querySelector('#index-error-message').style.display = 'block';
         }
     });
 }
@@ -152,8 +152,8 @@ function receive_invitation(form) {
             window.location.replace(result.url);
         }
         else {
-            // Redirect back in case of error
-            redirect_to_index_with_error();
+            // Show error message
+            document.querySelector('#index-error-message').style.display = 'block';
         }
     });
 }
@@ -171,18 +171,12 @@ function receive_shared_sources(form) {
     .then(response => response.json())
     .then(result => {
         if (result.status === 'ok') {
-            // TODO
-
+            // Redirect to new workspace / download url
+            window.location.replace(result.url);
         }
         else {
-            // Redirect back in case of error
-            redirect_to_index_with_error();
+            // Show error message
+            document.querySelector('#index-error-message').style.display = 'block';
         }
     });
-}
-
-function redirect_to_index_with_error() {
-    window.location.replace("");
-    openNav();
-    document.querySelector('#index-error-message').style.display = 'block';
 }

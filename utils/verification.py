@@ -95,20 +95,20 @@ def check_space_link(link_id: int, user: User) -> Link | Http404:
     return link
 
 
-def check_invitation(invitation_code: str) -> Invitation | Http404:
+def check_invitation(invitation_code: str) -> Invitation | bool:
     """Checks if invitation exists"""
     try:
         return Invitation.objects.get(code=invitation_code)
     except ObjectDoesNotExist:
-        raise Http404
+        return False
 
 
-def check_share_sources_code(share_space_code: str) -> ShareSourcesCode | Http404:
+def check_share_sources_code(share_space_code: str) -> ShareSourcesCode | bool:
     """Checks if share_space_code exists"""
     try:
         return ShareSourcesCode.objects.get(code=share_space_code)
     except ObjectDoesNotExist:
-        raise Http404
+        return False
 
 
 def check_reset_password_code(reset_code: str, user: User) -> PasswordResetCode | None:

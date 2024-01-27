@@ -1,6 +1,6 @@
 from django import forms
-from .models import Link, WorkSpace
 from research_engine.constants import CLASS_
+from .models import Link, WorkSpace
 
 
 class NewSpaceForm(forms.Form):

@@ -4,13 +4,13 @@ from django.db import IntegrityError
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from research_engine.settings import LOGIN_URL
+from utils.messages import display_error_message, display_info_message, display_success_message
+from utils.verification import check_reset_password_code
 from .forms import *
 from .helpers import get_user_by_reset_code, get_user_papers, get_user_work_spaces
 from .models import User
 from .password_resetting import generate_password_reset_code, get_reset_url, send_password_resetting_email
-from research_engine.settings import LOGIN_URL
-from utils.messages import display_error_message, display_info_message, display_success_message
-from utils.verification import check_reset_password_code
 
 
 def register(request):

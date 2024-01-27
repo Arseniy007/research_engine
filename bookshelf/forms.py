@@ -1,7 +1,7 @@
 from django import forms
-from .models import Article, Book, Chapter, Quote, Source, Webpage
 from research_engine.constants import CLASS_
 from utils.data_cleaning import clean_text_data
+from .models import Article, Book, Chapter, Quote, Source, Webpage
 
 
 class SourceTypes:

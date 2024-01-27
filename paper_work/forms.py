@@ -1,9 +1,9 @@
 from django import forms
 from bookshelf.models import Source
-from .models import Paper
 from research_engine.constants import CLASS_
 from user_management.models import User
 from work_space.models import WorkSpace
+from .models import Paper
 
 
 CITATION_STYLES = (("APA", "APA"), ("MLA", "MLA"),)

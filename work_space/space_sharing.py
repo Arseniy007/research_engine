@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
-from .models import Invitation, ShareSourcesCode, WorkSpace
 from utils.code_generator import generate_code
+from .models import Invitation, ShareSourcesCode, WorkSpace
 
 
 def generate_invitation(space: WorkSpace) -> str:
@@ -23,11 +23,6 @@ def generate_invitation(space: WorkSpace) -> str:
 
 def share_sources(space: WorkSpace) -> None:
     """Mark space as shared and create new sharing code"""
-
-    # Mark that space sources are shared
-    if not space.share_sources:
-        space.share_sources = True
-        space.save(update_fields=("share_sources",))
 
     # Delete sharing code if it was already made
     sharing_code = get_space_sharing_code(space)

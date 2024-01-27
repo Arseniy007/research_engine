@@ -5,10 +5,11 @@ from office_word_count import Counter
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
 from django.urls import reverse
-from .forms import UploadPaperFileForm, UploadSourceFileForm
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message
 from utils.verification import check_paper_file, check_paper, check_source, check_source_file
+from .file_saving import save_new_paper_file, save_new_source_file
+from .forms import UploadPaperFileForm, UploadSourceFileForm
 
 
 @post_request_required
@@ -21,7 +22,7 @@ def upload_paper_file(request, paper_id):
     if form.is_valid():
         # Get and save new file
         paper = check_paper(paper_id, request.user)
-        form.save_new_paper_file(paper, request.user)
+        save_new_paper_file(form.cleaned_data["file"], paper, request.user)
         return JsonResponse({"status": "ok"})
 
     display_error_message(request, "Something wrong with uploaded file. Try again!")
@@ -108,7 +109,7 @@ def upload_source_file(request, source_id):
             old_file.delete()
             shutil.rmtree(source.get_path())
 
-        form.save_new_source_file(source)
+        save_new_source_file(form.cleaned_data["file"], source)
         return JsonResponse({"status": "ok"})
 
     return JsonResponse({"status": "error"})

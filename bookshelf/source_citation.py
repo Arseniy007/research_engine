@@ -1,9 +1,9 @@
 from typing import Callable
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
-from .models import Article, Book, Chapter, Reference, Source, Webpage
 from citation.citation_apa import make_article_endnote_apa, make_book_endnote_apa, make_chapter_endnote_apa, make_webpage_endnote_apa
 from citation.citation_mla import make_article_endnote_mla, make_book_endnote_mla, make_chapter_endnote_mla, make_webpage_endnote_mla
+from .models import Article, Book, Chapter, Reference, Source, Webpage
 
 
 def create_source_reference(source: Source):
