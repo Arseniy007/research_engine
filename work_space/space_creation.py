@@ -1,5 +1,3 @@
-import os
-import shutil
 from bookshelf.source_copying import copy_source
 from user_management.models import User
 from work_space.models import WorkSpace
@@ -25,29 +23,9 @@ def copy_space_with_all_sources(original_space: WorkSpace, new_owner: User) -> W
     new_space_title = f"{original_space.title} by {original_space.owner}"
     new_space = create_new_space(new_owner, new_space_title)
 
-    # Copy all sources into db and keep track of new sources id
-    new_sources_id: dict = {}
+    # Copy all sources into db
     for source in original_sources:
-        new_source = copy_source(source, new_space, new_owner)
-        new_sources_id[source.pk] = new_source.pk
-
-    # Get array with only sources which files were uploaded
-    sources_with_files = [source for source in original_sources if source.get_file()]
-
-    # Copy all files if necessary
-    if any(sources_with_files):
-        # Create new "sources" dir
-        new_sources_root = os.path.join(new_space.get_path(), "sources", f"user_{new_owner.pk}")
-        os.makedirs(new_sources_root, exist_ok=True)
-
-        for source in sources_with_files:
-            # Copy original source file into new "sources-files" dir
-            new_source_id = new_sources_id[source.pk]
-            source_id_root = os.path.join(new_sources_root, f"source_{new_source_id}")
-            os.makedirs(source_id_root, exist_ok=True)
-            destination = os.path.join(source_id_root, source.get_file().file_name())
-            original_file = source.get_file().get_path_to_file()
-            shutil.copyfile(original_file, destination)
+        copy_source(source, new_space, new_owner)
 
     # Return new Workspace obj
     return new_space

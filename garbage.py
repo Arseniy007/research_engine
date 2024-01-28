@@ -4236,6 +4236,77 @@ class UploadSourceFileForm(forms.Form):
         new_file = SourceFile(source=source, file=self.cleaned_data["file"])
         new_file.save()
 
+    # Copy the given source and alter its key fields
+    source.pk, source.id = None, None
+    source.work_space, source.user = new_space, new_owner
+    source._state.adding = True
+    source.save()
+
+    # Change file info, if file was uploaded
+    source_file: SourceFile | None = source.get_file()
+    if source_file:
+        save_new_source_file(source_file.file, source)
+
+    # Copy all quotes related to original source if necessary
+    if source_quotes:
+        for quote in source_quotes:
+            quote.pk, quote.source = None, source
+            quote._state.adding = True
+            quote.save()
+
+    # Create new Reference obj based on new source
+    create_source_reference(source)
+    return source
+
+    
+    # Get array with only sources which files were uploaded
+    sources_with_files = [source for source in original_sources if source.get_file()]
+
+    # Copy all files if necessary
+    if any(sources_with_files):
+
+        pass
+
+
+
+    # Copy all files if necessary
+    if any(sources_with_files):
+        # Create new "sources" dir
+        new_sources_root = os.path.join(new_space.get_path(), "sources", f"user_{new_owner.pk}")
+        os.makedirs(new_sources_root, exist_ok=True)
+
+        for source in sources_with_files:
+            # Copy original source file into new "sources-files" dir
+            new_source_id = new_sources_id[source.pk]
+            source_id_root = os.path.join(new_sources_root, f"source_{new_source_id}")
+            os.makedirs(source_id_root, exist_ok=True)
+            destination = os.path.join(source_id_root, source.get_file().file_name())
+            original_file = source.get_file().get_path_to_file()
+            shutil.copyfile(original_file, destination)
+
+# Do I need it?
+def copy_source_file_info(source: Source, new_space: WorkSpace, new_owner_id: int) -> str:
+
+    space_path = new_space.get_base_dir()
+    source_id, user_id = source.pk, new_owner_id
+    filename = source.file_name()
+    return f"{space_path}/sources/user_{user_id}/source_{source_id}/{filename}"
+
+
+# Do I need it?
+def copy_source_file_test(original_file: SourceFile, new_source=Source):
+
+    new_copy = SourceFile(source=new_source)
+    new_copy.file = ContentFile(original_file.file.read(), name=original_file.file.name)
+    new_copy.save()
+
+
+        # Copy all sources into db and keep track of new sources id
+    new_sources_id: dict = {}
+    for source in original_sources:
+        new_source = copy_source(source, new_space, new_owner)
+        new_sources_id[source.pk] = new_source.pk
+
 
 """
 

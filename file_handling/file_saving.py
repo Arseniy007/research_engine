@@ -4,13 +4,13 @@ from user_management.models import User
 from .models import PaperFile, SourceFile
 
 
-def save_new_paper_file(file, paper: Paper, user: User):
+def save_new_paper_file(paper: Paper, user: User, file):
     """Create and save new PaperFile obj"""
     new_file = PaperFile(user=user, paper=paper, file=file)
     new_file.save()
 
 
-def save_new_source_file(file, source: Source):
+def save_new_source_file(source: Source, file):
     """Create and save new SourceFile obj"""
     new_file = SourceFile(source=source, file=file)
     new_file.save()
