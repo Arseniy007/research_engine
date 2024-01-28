@@ -178,6 +178,9 @@ def invite_to_work_space(request, space_id):
     # TODO
     # Invitation text?
 
+    # Create link with invitation code that you can send than to a new user
+    # At the button of the page there should be a button that opens index page with pre-opened form
+
     # Check if user has right to invite to the work space
     space = check_work_space(space_id, request.user)
     invitation_code = generate_invitation(space, invite=True)
@@ -237,11 +240,12 @@ def receive_shared_sources(request):
 
     if form.is_valid():
         share_space_code = check_share_sources_code(form.cleaned_data["code"])
-
         if share_space_code:
+            # Get original sources workspace
             original_work_space = share_space_code.work_space
-            option = request.POST.get("option")
 
+            # Get one of two possible receiving options
+            option = request.POST.get("option")
             if option == "create":
                 # Create a new work space
                 new_space = copy_space_with_all_sources(original_work_space, request.user)
