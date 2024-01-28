@@ -177,8 +177,6 @@ def invite_to_work_space(request, space_id):
     """Create an invitation to work space for another user"""
     # TODO
     # Error case for JS
-
-    # Create link with invitation code that you can send than to a new user
     # At the button of the page there should be a button that opens index page with pre-opened form
 
     # Check if user has right to invite to the work space

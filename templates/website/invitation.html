@@ -6,7 +6,43 @@
 {% endblock %}
 
 {% block headless %}
-    
-<h3>Code: {{ source_sharing_code }}</h3>
+    <section class="vh-100 bg-image" id="form-section">
+        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-body p-5 form-body">
+                                {% if invitation_code %}
+                                    <h2 class="text-uppercase text-center mb-5" id="form-header">You got invited to {{ work_space }} workspace</h2>
 
+
+
+                                {% elif source_sharing_code %}
+                                    <h2 class="text-uppercase text-center mb-5" id="form-header">Get Research Sources</h2>
+
+
+                                    <button id="receive_sources_button">Receive sources</button>
+
+                                    <br><br>
+
+
+                                    <h3>TODO: Maybe put form here in stead of index???</h3>
+                                    <h3>TODO: What about invitation code?</h3>
+
+
+                                {% else %}
+                                    <div>
+                                        <ul class="messages">
+                                            <li class="error"><strong>This url is invalid</strong></li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

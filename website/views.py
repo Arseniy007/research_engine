@@ -49,21 +49,26 @@ def invitation_view(request, code):
     invitation_code = check_invitation(code)
     source_sharing_code = check_share_sources_code(code)
 
+    # Invitation page can be shown shown both for logged in and not logged in users
+    if request.user.is_authenticated:
+        data = {"work_spaces": get_user_work_spaces(request.user), "papers": get_user_papers(request.user)}
+    else:
+        data = {}
+
     # Figure out which of two codes it might be
-    data: dict = {}
     if invitation_code:
         data["invitation_code"] = invitation_code
 
     if source_sharing_code:
         data["source_sharing_code"] = source_sharing_code.code
-        
+
     return render(request, "website/invitation.html", data)
 
 
 def about_view(request):
     """About page view"""
 
-    # About page if shown both for logged in and not logged in users
+    # About page can be shown both for logged in and not logged in users
     if request.user.is_authenticated:
         data = {"work_spaces": get_user_work_spaces(request.user), "papers": get_user_papers(request.user)}
     else:
