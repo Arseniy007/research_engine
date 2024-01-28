@@ -13,7 +13,7 @@ from utils.messages import display_error_message, display_success_message
 from utils.verification import check_invitation, check_share_sources_code, check_space_link, check_work_space
 from user_management.helpers import get_user_papers, get_user_work_spaces
 from .space_creation import copy_space_with_all_sources, create_new_space
-from .space_sharing import generate_invitation, get_space_sharing_code, share_sources
+from .space_sharing import generate_invitation, get_sources_sharing_code, share_sources
 from .forms import NewLinkForm, NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, RenameSpaceForm
 from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 
@@ -176,15 +176,37 @@ def download_space_sources(request, space_id):
 def invite_to_work_space(request, space_id):
     """Create an invitation to work space for another user"""
     # TODO
-    # Invitation text?
+    # Error case for JS
 
     # Create link with invitation code that you can send than to a new user
     # At the button of the page there should be a button that opens index page with pre-opened form
 
     # Check if user has right to invite to the work space
     space = check_work_space(space_id, request.user)
-    invitation_code = generate_invitation(space, invite=True)
-    return JsonResponse({"invitation code": invitation_code})
+
+    # Generate link with invitation code inside
+    invitation_link = reverse("website:invitation", args=(generate_invitation(space),))
+    return JsonResponse({"status": "ok", "invitation_link": invitation_link})
+
+
+@space_ownership_required
+@login_required(redirect_field_name=None)
+def share_space_sources(request, space_id):
+    """Share a copy of work space with all its sources"""
+    # TODO
+    # Error for JS in case of 404
+
+    # Check if user has right to share sources
+    space = check_work_space(space_id, request.user)
+
+    if space.sources.all():
+        # Get source sharing link
+        share_sources(space)
+        share_sources_link = reverse("website:invitation", args=(get_sources_sharing_code(space).code,))
+        return JsonResponse({"status": "ok", "url": share_sources_link})
+
+    # Error case
+    return JsonResponse({"status": "error"})
 
 
 @post_request_required
@@ -212,23 +234,6 @@ def receive_invitation(request):
         
     # Error case
     return JsonResponse({"status": "error"})
-
-
-@space_ownership_required
-@login_required(redirect_field_name=None)
-def share_space_sources(request, space_id):
-    """Share a copy of work space with all its sources"""
-    # TODO
-    # What should it be instead of json? probably url with some nice text
-
-    space = check_work_space(space_id, request.user)
-    if space.sources.all():
-        share_sources(space)
-        share_space_code = get_space_sharing_code(space).code
-        return JsonResponse({"share_space_code": share_space_code})
-
-    # Error case
-    return JsonResponse({"message": "You can not share empty work space"})
 
 
 @post_request_required

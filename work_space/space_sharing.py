@@ -25,7 +25,7 @@ def share_sources(space: WorkSpace) -> None:
     """Mark space as shared and create new sharing code"""
 
     # Delete sharing code if it was already made
-    sharing_code = get_space_sharing_code(space)
+    sharing_code = get_sources_sharing_code(space)
     if sharing_code:
         sharing_code.delete()
 
@@ -34,9 +34,10 @@ def share_sources(space: WorkSpace) -> None:
     return new_sharing_code.save()
 
 
-def get_space_sharing_code(space: WorkSpace) -> ShareSourcesCode | None:
+def get_sources_sharing_code(space: WorkSpace) -> ShareSourcesCode | None:
     """Check if space is shared and there is ShareSourcesCode obj"""
     try:
         return ShareSourcesCode.objects.get(work_space=space)
     except ObjectDoesNotExist:
         return None
+

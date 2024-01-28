@@ -4,11 +4,13 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm, get_type_of_source_form
 from citation.input_reference import create_input_reference
-from work_space.forms import NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm
 from utils.data_cleaning import clean_author_data
 from utils.decorators import post_request_required
 from utils.messages import display_error_message, display_success_message
+from utils.verification import check_invitation, check_share_sources_code
 from user_management.helpers import get_user_papers, get_user_work_spaces
+from work_space.forms import NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm
+#from work_space.space_sharing import
 
 
 def lobby_view(request):
@@ -38,6 +40,24 @@ def account_settings_view(request):
         "archived_papers": get_user_papers(request.user, archived=True)
     }
     return render(request, "website/account_settings.html", data)
+
+
+def invitation_view(request, code):
+    """Render page with invitation to workspace or downloading sources"""
+
+    # Check type of invitation and if it exists
+    invitation_code = check_invitation(code)
+    source_sharing_code = check_share_sources_code(code)
+
+    # Figure out which of two codes it might be
+    data: dict = {}
+    if invitation_code:
+        data["invitation_code"] = invitation_code
+
+    if source_sharing_code:
+        data["source_sharing_code"] = source_sharing_code.code
+        
+    return render(request, "website/invitation.html", data)
 
 
 def about_view(request):
