@@ -57,10 +57,12 @@ def invitation_view(request, code):
 
     # Figure out which of two codes it might be
     if invitation_code:
-        data["invitation_code"] = invitation_code
+        data["invitation_form"] = ReceiveInvitationForm()
+        data["invitation_code"] = invitation_code.code
 
     if source_sharing_code:
-        data["source_sharing_code"] = source_sharing_code.code
+        data["shared_sources_form"] = ReceiveSourcesForm()
+        data["share_sources_code"] = source_sharing_code.code
 
     return render(request, "website/invitation.html", data)
 

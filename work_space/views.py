@@ -158,7 +158,7 @@ def download_space_sources(request, space_id):
         return JsonResponse({"message": "Empty Work Space"})
 
     # Create zip file of the directory
-    dir_title = "My sources"
+    dir_title = "Sources"
     saving_destination = os.path.join(space.get_friendly_path(), dir_title)
     zip_file = shutil.make_archive(root_dir=user_friendly_dir, base_dir=dir_title, 
                                    base_name=saving_destination, format="zip")
@@ -175,9 +175,6 @@ def download_space_sources(request, space_id):
 @login_required(redirect_field_name=None)
 def invite_to_work_space(request, space_id):
     """Create an invitation to work space for another user"""
-    # TODO
-    # Error case for JS
-    # At the button of the page there should be a button that opens index page with pre-opened form
 
     # Check if user has right to invite to the work space
     space = check_work_space(space_id, request.user)
@@ -191,8 +188,6 @@ def invite_to_work_space(request, space_id):
 @login_required(redirect_field_name=None)
 def share_space_sources(request, space_id):
     """Share a copy of work space with all its sources"""
-    # TODO
-    # Error for JS in case of 404
 
     # Check if user has right to share sources
     space = check_work_space(space_id, request.user)

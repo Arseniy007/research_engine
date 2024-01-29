@@ -115,6 +115,7 @@ async function alter_source_info(form, source_id) {
         method: 'POST',
         body: new FormData(form)
     })
+    .then(response => handleErrors(response, url))
     .then(response => response.json())
     .then(result => {
         if (result.status === 'ok') {
@@ -136,6 +137,7 @@ async function add_link_to_source(form, source_id) {
         method: 'POST',
         body: new FormData(form)
     })
+    .then(response => handleErrors(response, url))
     .then(response => response.json())
     .then(result => {
         if (result.status === 'ok') {
@@ -240,6 +242,7 @@ function delete_source(source_id) {
 
         // Send POST request
         fetch(url)
+        .then(response => handleErrors(response, url))
         .then(response => response.json())
         .then(result => {
             if (result.status === 'ok') {
@@ -265,6 +268,7 @@ function rename_space(form, space_id) {
         method: 'POST',
         body: new FormData(form)
     })
+    .then(response => handleErrors(response, url))
     .then(response => response.json())
     .then(result => {
         if (result.status === 'ok') {
@@ -273,6 +277,44 @@ function rename_space(form, space_id) {
         }
         else {
             redirect(result.url)
+        }
+    });
+}
+
+function invite_to_work_space(space_id) {
+
+    // Invitation API route
+    const url = `/invite_to_space/${space_id}`;
+
+    // Send request
+    fetch(url)
+    .then(response => handleErrors(response, url))
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Return new link to invitation page
+            return result.invitation_link;
+        }
+    });
+}
+
+function share_space_sources(space_id) {
+
+    // Invitation API route
+    const url = `/share_sources/${space_id}`;
+
+    // Send request
+    fetch(url)
+    .then(response => handleErrors(response, url))
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Return new link to invitation page
+            return result.share_sources_link;
+        }
+        else {
+            // Error case (empty workspace)
+            return false;
         }
     });
 }
@@ -330,21 +372,14 @@ function delete_link(link_id) {
     // TODO: animation!
 }
 
-
-
+function handleErrors(response, url) {
+    if (!response.ok) {
+        redirect(url)
+    }
+    return response;
+}
 
 function redirect(url) {
     // Imitate django redirect func
     window.location.replace(url)
-}
-
-function handleErrors(response, url) {
-    if (!response.ok) {
-        if (response.statusText === 'Forbidden') {
-            redirect(url)
-        }
-
-        // TODO: other errors 
-    }
-    return response;
 }
