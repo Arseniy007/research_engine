@@ -180,8 +180,9 @@ def invite_to_work_space(request, space_id):
     space = check_work_space(space_id, request.user)
 
     # Generate link with invitation code inside
-    invitation_link = reverse("website:invitation", args=(generate_invitation(space),))
-    return JsonResponse({"status": "ok", "invitation_link": invitation_link})
+    invitation_code = generate_invitation(space)
+    invitation_link = reverse("website:invitation", args=(invitation_code,))
+    return JsonResponse({"invitation_code": invitation_code, "invitation_link": invitation_link})
 
 
 @space_ownership_required
@@ -195,9 +196,13 @@ def share_space_sources(request, space_id):
     if space.sources.all():
         # Get source sharing link
         share_sources(space)
-        share_sources_link = reverse("website:invitation", args=(get_sources_sharing_code(space).code,))
-        return JsonResponse({"status": "ok", "url": share_sources_link})
-
+        share_sources_code = get_sources_sharing_code(space).code
+        share_sources_link = reverse("website:invitation", args=(share_sources_code,))
+        return JsonResponse({
+            "status": "ok", 
+            "share_sources_code": share_sources_code, 
+            "share_sources_link": share_sources_link
+        })
     # Error case
     return JsonResponse({"status": "error"})
 

@@ -283,6 +283,31 @@ function rename_space(form, space_id) {
 
 function invite_to_work_space(space_id) {
 
+    // Get invitation code and link
+    const answer = get_invitation_code(space_id);
+    const invitation_code = answer.invitation_code;
+    const invitation_link = answer.invitation_link;
+
+    // Render results on page
+    // TODO
+
+}
+
+function share_space_sources(space_id) {
+
+    // Get sharing code and link
+    const answer = get_share_space_source_code(space_id);
+    const sources_code = answer.share_sources_code;
+    const sources_link = answer.share_sources_link;
+
+    // Render results on page
+
+}
+
+
+
+function get_invitation_code(space_id) {
+
     // Invitation API route
     const url = `/invite_to_space/${space_id}`;
 
@@ -291,14 +316,12 @@ function invite_to_work_space(space_id) {
     .then(response => handleErrors(response, url))
     .then(response => response.json())
     .then(result => {
-        if (result.status === 'ok') {
-            // Return new link to invitation page
-            return result.invitation_link;
-        }
+        // Return new link to invitation page
+        return result;
     });
 }
 
-function share_space_sources(space_id) {
+function get_share_space_source_code(space_id) {
 
     // Invitation API route
     const url = `/share_sources/${space_id}`;
@@ -310,7 +333,7 @@ function share_space_sources(space_id) {
     .then(result => {
         if (result.status === 'ok') {
             // Return new link to invitation page
-            return result.share_sources_link;
+            return result;
         }
         else {
             // Error case (empty workspace)
