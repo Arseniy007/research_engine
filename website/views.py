@@ -1,16 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.shortcuts import render
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm, get_type_of_source_form
 from citation.input_reference import create_input_reference
 from utils.data_cleaning import clean_author_data
 from utils.decorators import post_request_required
-from utils.messages import display_error_message, display_success_message
 from utils.verification import check_invitation, check_share_sources_code
 from user_management.helpers import get_user_papers, get_user_work_spaces
 from work_space.forms import NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm
-#from work_space.space_sharing import
 
 
 def lobby_view(request):
