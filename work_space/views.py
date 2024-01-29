@@ -219,8 +219,13 @@ def receive_invitation(request):
         invitation = check_invitation(form.cleaned_data["code"])
 
         if invitation:
-            # Add user as guest to the new work space
             new_work_space = invitation.work_space
+
+            # Owner can't invite themselves
+            if new_work_space.owner == request.user:
+                return JsonResponse({"status", "error"})
+
+            # Add user as guest to the new work space
             new_work_space.add_guest(request.user)
 
             # Delete invitation code
@@ -246,6 +251,10 @@ def receive_shared_sources(request):
         if share_space_code:
             # Get original sources workspace
             original_work_space = share_space_code.work_space
+
+            # Owner can't receive their own sources
+            if original_work_space.owner == request.user:
+                return JsonResponse({"status": "error"})
 
             # Get one of two possible receiving options
             option = request.POST.get("option")
