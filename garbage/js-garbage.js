@@ -585,4 +585,16 @@ function redirect_to_index_with_error() {
 }
 
 
+document.querySelector('#save-changes-button').addEventListener('click', () => settings_form.submit());
 
+
+const settings_form = document.querySelector('#settings-form');
+
+document.querySelector('#save-changes-button').addEventListener('click', () => {
+    if (!settings_form.checkValidity()) {
+        settings_form.classList.add('was-validated');
+    }
+    else {
+        settings_form.submit();
+    }
+});

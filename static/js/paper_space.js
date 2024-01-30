@@ -1,5 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    const settings_form = document.querySelector('#settings-form');
+    settings_form.addEventListener('submit', event => {
+        if (!settings_form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        settings_form.classList.add('was-validated');
+    })
 
 });
 
@@ -61,4 +69,3 @@ function rename_paper(form, paper_id) {
         }
     });
 }
-

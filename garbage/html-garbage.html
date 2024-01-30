@@ -1023,3 +1023,69 @@ onclick="load_and_show_source_space('{{ source.id }}')"
                 {{ shared_sources_form.option }}
             </div>
 
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paper-settings">
+    Settings
+</button>
+<!-- Modal -->
+<div class="modal fade source-modal" id="paper-settings" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paper-settings-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="paper-settings-label">Settings</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+                    <div class="container h-100">
+                        <div class="row d-flex justify-content-center align-items-center h-100">
+                            <div class="col-lg-12 col-lg-9 col-lg-7 col-lg-6">
+                                <div class="card form-card" style="border-radius: 15px;">
+                                    <div class="card-body p-5 form-body">
+                                        <h2 class="text-uppercase text-center mb-4" id="form-header">Edit</h2>
+                                        <div id="edit-paper-error-message" style="display: none;">
+                                            <ul class="messages">
+                                                <li class="error">Error</li>
+                                            </ul>
+                                        </div>
+                                        <h4>Rename paper</h4>
+                                        <form action="{% url 'paper_work:rename_paper' paper.pk %}" class="needs-validation"  method="post" novalidate>
+                                            {% csrf_token %}
+                                            <div class="form-outline mb-4 form-floating">
+                                                {{ rename_paper_form.title }}
+                                                <label class="form-label" for="title-field">Title</label>
+                                                <div class="invalid-feedback">Please provide paper title.</div>
+                                            </div>
+                                        </form>
+                                        <h4>Set citation style</h4>
+                                        <form action="{% url 'paper_work:set_citation_style' paper.pk %}" class="needs-validation" method="post" novalidate>
+                                            {% csrf_token %}
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" value="APA" checked>
+                                                <label class="form-check-label" for="inlineRadio1">APA</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" value="MLA">
+                                                <label class="form-check-label" for="inlineRadio2">MLA</label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            <div class="modal-footer">
+                <div class="d-flex justify-content-center">
+                    <input type="button" value="Archive paper" class="btn btn-danger btn-block btn-lg gradient-custom-4 text-body"></input>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input type="button" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" formnovalidate></input>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><br><br>
+
+

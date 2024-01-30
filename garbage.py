@@ -4308,6 +4308,67 @@ def copy_source_file_test(original_file: SourceFile, new_source=Source):
         new_sources_id[source.pk] = new_source.pk
 
 
+class RenamePaperForm(forms.Form):
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "title-field",
+        "class": CLASS_,
+        "autocomplete": "off",
+        "placeholder": "Paper title"})
+    )
+
+    def set_initial(self, paper: Paper):
+        self.fields["title"].initial = paper.title
+        return self
+
+    def save_new_name(self, paper: Paper) -> Paper:
+        paper.title = self.cleaned_data["title"]
+        paper.save(update_fields=("title",))
+        return paper
+
+
+
+class CitationStyleForm(forms.Form):
+    citation_style = forms.ChoiceField(choices=CITATION_STYLES, widget=forms.Select(attrs={"class": CLASS_}))
+
+    def save_citation_style(self, paper: Paper):
+        "Update citation_style field in Workspace obj"
+        paper.citation_style = self.cleaned_data["citation_style"]
+        return paper.save(update_fields=("citation_style",))
+
+
+@post_request_required
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def rename_paper(request, paper_id):
+
+    form = RenamePaperForm(request.POST)
+
+    if form and form.is_valid():
+        # Update papers name
+        paper = check_paper(paper_id, request.user)
+        renamed_paper = form.save_new_name(paper)
+        return JsonResponse({"status": "ok", "new_title": renamed_paper.title})
+
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("paper_work:paper_space", args=(paper_id,))})
+
+@post_request_required
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def set_citation_style(request, paper_id):
+
+    form = CitationStyleForm(request.POST)
+
+    if form.is_valid():
+        paper = check_paper(paper_id, request.user)
+        form.save_citation_style(paper)
+        return JsonResponse({"status: ok"})
+
+    return JsonResponse({"status": "error"})
+
+
 """
 
 

@@ -9,7 +9,7 @@ from user_management.helpers import get_user_papers, get_user_work_spaces
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_paper, check_work_space
-from .forms import CitationStyleForm, ChooseSourcesForm, NewPaperForm, RenamePaperForm
+from .forms import ChooseSourcesForm, NewPaperForm, PaperSettingsForm
 
 
 @login_required(redirect_field_name=None)
@@ -30,8 +30,7 @@ def paper_space(request, paper_id):
         "links": links,
         "choose_sources_form": choose_sources_form,
         "new_paper_file_form": UploadPaperFileForm(),
-        "rename_paper_form": RenamePaperForm().set_initial(paper),
-        "citation_form": CitationStyleForm(),
+        "settings_form": PaperSettingsForm().set_initial(paper),
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user)
     }
@@ -61,20 +60,29 @@ def create_paper(request, space_id):
 @post_request_required
 @paper_authorship_required
 @login_required(redirect_field_name=None)
-def rename_paper(request, paper_id):
+def edit_paper_info(request, paper_id):
     """Change paper obj title"""
 
-    form = RenamePaperForm(request.POST)
+    form = PaperSettingsForm(request.POST)
 
-    if form and form.is_valid():
-        # Update papers name
+    if form.is_valid():
+        # Update paper info
         paper = check_paper(paper_id, request.user)
-        renamed_paper = form.save_new_name(paper)
-        return JsonResponse({"status": "ok", "new_title": renamed_paper.title})
 
-    # Send redirect url to js
-    display_error_message(request)
-    return JsonResponse({"url": reverse("paper_work:paper_space", args=(paper_id,))})
+
+
+        
+        form.save_changes(paper)
+
+
+
+        display_success_message(request, "Paper info successfully updated!")
+
+    else:
+        # Error case
+        display_error_message(request)
+
+    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
 
 @paper_authorship_required
@@ -127,19 +135,3 @@ def select_sources_for_paper(request, paper_id):
         display_error_message(request)
 
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
-
-
-@post_request_required
-@paper_authorship_required
-@login_required(redirect_field_name=None)
-def set_citation_style(request, paper_id):
-    """Choose citation style for all sources in work space"""
-
-    form = CitationStyleForm(request.POST)
-
-    if form.is_valid():
-        paper = check_paper(paper_id, request.user)
-        form.save_citation_style(paper)
-        return JsonResponse({"status: ok"})
-
-    return JsonResponse({"status": "error"})
