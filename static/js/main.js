@@ -1,13 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     const space_id = document.querySelector('#space_id').innerHTML;
-    const rename_space_form = document.querySelector('#rename_space_form');
     const link_form = document.querySelector('#link_form');
 
-    rename_space_form.addEventListener('submit', event => {
-        event.preventDefault();
-        rename_space(rename_space_form, space_id);
-      });
+    // Show and hide rename paper form
+    const header = document.querySelector('#header');
+    const header_text = document.querySelector('#header-text');
+    const edit_symbol = document.querySelector('#edit-title-symbol');
+
+    header.addEventListener('mouseenter', () => {
+        edit_symbol.addEventListener('click', () => {
+            header_text.innerHTML = document.querySelector('#rename-space-form-div').innerHTML;
+        });
+        edit_symbol.style.display = 'inline-block';
+    });
+    header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');
+
+
+
 
     link_form.addEventListener('submit', event => {
         event.preventDefault();
@@ -256,29 +266,6 @@ function delete_source(source_id) {
 
 function show_form_error_message() {
     document.querySelector('.form-error-message').style.display = 'block';
-}
-
-function rename_space(form, space_id) {
-
-    // Rename-space url
-    const url = `/rename_space/${space_id}`;
-
-    // Send POST request
-    fetch(url, {
-        method: 'POST',
-        body: new FormData(form)
-    })
-    .then(response => handleErrors(response, url))
-    .then(response => response.json())
-    .then(result => {
-        if (result.status === 'ok') {
-            // Change space title tag
-            document.querySelector('#space_title').innerHTML = result.new_title;
-        }
-        else {
-            redirect(result.url)
-        }
-    });
 }
 
 function invite_to_work_space(space_id) {

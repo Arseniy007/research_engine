@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     header.addEventListener('mouseenter', () => {
         edit_symbol.addEventListener('click', () => {
-            header_text.innerHTML = document.querySelector('#rename-form-div').innerHTML;
+            header_text.innerHTML = document.querySelector('#rename-paper-form-div').innerHTML;
         });
         edit_symbol.style.display = 'inline-block';
     });

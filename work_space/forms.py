@@ -9,29 +9,17 @@ class NewSpaceForm(forms.Form):
         "id": "title-field",
         "class": CLASS_,
         "autocomplete": "off",
+        "width": "100%",
         "placeholder": "Workspace title"})
     )
 
 
-class RenameSpaceForm(forms.Form):
-    new_title = forms.CharField(widget=forms.TextInput(attrs={
-        "type": "text",
-        "id": "title-field",
-        "class": CLASS_,
-        "autocomplete": "off",
-        "placeholder": "Paper title"})
-    )
+class RenameSpaceForm(NewSpaceForm):
 
     def set_initial(self, space: WorkSpace):
-        self.fields["new_title"].initial = space.title
+        self.fields["title"].initial = space.title
         return self
     
-
-    def save_new_title(self, space: WorkSpace) -> WorkSpace:
-        space.title = self.cleaned_data["new_title"]
-        space.save(update_fields=("title",))
-        return space
-
 
 class NewLinkForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={
@@ -39,7 +27,7 @@ class NewLinkForm(forms.Form):
         "id": "name-field",
         "class": CLASS_,
         "autocomplete": "off",
-        "placeholder": "Paper title"})
+        "placeholder": "Name"})
     )
 
     url = forms.URLField()

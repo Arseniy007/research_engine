@@ -17,17 +17,13 @@
 {% block body %}
 
     
-    <form action="{% url 'work_space:rename_space' space.pk %}" id="rename_space_form" method="post">
-        {% csrf_token %} 
-        {{ rename_form }}
-        <button type="submit">Rename space</button>
-    </form><br><br>
-
     <form action="{% url 'paper_work:create_paper' space.pk %}" method="post">
         {% csrf_token %} 
         {{ new_paper_form }}
         <button id="change_password_button" type="submit">Add Paper</button>
     </form>
+
+    <br><br>
 
     <h3>Papers</h3>
     {% for paper in space_papers %}
@@ -48,6 +44,7 @@
     <h4>TODO: Background image repetition</h4>
     <h4>TODO: Full width side nav instead of index page</h4>
     <h4>TODO: Archived spaces and papers at account settings view</h4>
+    <h4>TODO: Correct errors ocurred when I changed font</h4>
     
     <br><br>
     {% for source in sources %}
@@ -378,5 +375,18 @@
     <br><br><br>
 
 
-    <div id="space_id" style="display: none;">{{ space.pk }}</div>
+    <div id="space_id" style="display: none;">{{ space.pk }}</div> 
+    <div id="rename-space-form-div" style="display: none;">
+        <form action="{% url 'work_space:rename_space' space.pk %}" class="rename-form" method="post" style="display: inline-block;">
+            {% csrf_token %}
+            <div class="form-outline row">
+                <div class="col-md">
+                    {{ rename_form.title }}
+                </div>
+                <div class="col-md mt-1">
+                    <input type="submit" value="rename" class="btn btn-success btn-block btn-sm gradient-custom-4">
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}

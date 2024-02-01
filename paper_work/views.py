@@ -67,17 +67,13 @@ def rename_paper(request, paper_id):
     form = RenamePaperForm(request.POST)
 
     if form.is_valid():
-        try:
-            paper = check_paper(paper_id, request.user)
-        except Http404:
-            display_error_message(request, "Only paper owner can change its name")
-        else:
-            # Update paper info
-            new_title = form.cleaned_data["title"]
-            if new_title != paper.title:
-                paper.title = new_title
-                paper.save(update_fields=("title",))
-                display_success_message(request, "Paper successfully renamed!")
+        # Update paper title
+        paper = check_paper(paper_id, request.user)
+        new_title = form.cleaned_data["title"]
+        if new_title != paper.title:
+            paper.title = new_title
+            paper.save(update_fields=("title",))
+            display_success_message(request, "Paper successfully renamed!")
     else:
         # Error case
         display_error_message(request)

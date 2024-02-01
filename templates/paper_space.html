@@ -14,74 +14,73 @@
 {% endblock %}
 
 {% block body %}
-    <div id="paper_space">
+   
 
         
-        <h3>Number of words: <div id="number_of_words"></div></h3>
-        <br>
-        <h3>Number of characters without spaces: <div id="characters_no_space"></div></h3>
-        <br>
-        <h3>Number of characters with spaces: <div id="characters_with_space"></div></h3>
-        <br><br>
+    <h3>Number of words: <div id="number_of_words"></div></h3>
+    <br>
+    <h3>Number of characters without spaces: <div id="characters_no_space"></div></h3>
+    <br>
+    <h3>Number of characters with spaces: <div id="characters_with_space"></div></h3>
+    <br><br>
 
 
 
 
-        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post">
-            {% csrf_token %} 
-            {{ new_paper_file_form }}
-            <button id="change_password_button" type="submit">Save New Version</button>
-        </form>
+    <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post">
+        {% csrf_token %} 
+        {{ new_paper_file_form }}
+        <button id="change_password_button" type="submit">Save New Version</button>
+    </form>
 
-        <ul>
-            {% for file in paper_files %}
-                <li>
-                    <a href="{% url 'file_handling:display_paper_file' file.pk %}">{{ file.file }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+    <ul>
+        {% for file in paper_files %}
+            <li>
+                <a href="{% url 'file_handling:display_paper_file' file.pk %}">{{ file.file }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 
-        <br><br>
+    <br><br>
 
 
+
+
+
+
+    <h3>Choose sources</h3>
+
+    <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
+        {% csrf_token %} 
+        {{ choose_sources_form }}
+        <button type="submit">Choose</button>
+    </form>
     
-    
+    <br><br>
+
+    <h3>Endnotes:</h3>
+
+    <ul>
+        {% for endnote in endnotes %}
+            <li>{{ endnote.endnote_apa }}</li>
+        {% endfor %}
+    </ul><br><br>
 
 
-        <h3>Choose sources</h3>
-
-        <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
-            {% csrf_token %} 
-            {{ choose_sources_form }}
-            <button type="submit">Choose</button>
-        </form>
-        
-        <br><br>
-
-        <h3>Endnotes:</h3>
-
-        <ul>
-            {% for endnote in endnotes %}
-                <li>{{ endnote.endnote_apa }}</li>
-            {% endfor %}
-        </ul><br><br>
-
-
-        <div id="paper-id" style="display: none;">{{ paper.pk }}</div>
-        <div id="last-file-id" style="display: none;">{{ last_file_id }}</div>
-
-        <div id="rename-form-div" style="display: none;">
-            <form action="{% url 'paper_work:rename_paper' paper.pk %}" id="rename-form" method="post" style="display: inline-block;">
-                {% csrf_token %}
-                <div class="form-outline row">
-                    <div class="col-md">
-                        {{ rename_form.title }}
-                    </div>
-                    <div class="col-md mt-1">
-                        <input type="submit" value="rename" class="btn btn-success btn-block btn-sm gradient-custom-4">
-                    </div>
+    <div id="paper-id" style="display: none;">{{ paper.pk }}</div>
+    <div id="last-file-id" style="display: none;">{{ last_file_id }}</div>
+    <div id="rename-paper-form-div" style="display: none;">
+        <form action="{% url 'paper_work:rename_paper' paper.pk %}" class="rename-form" method="post" style="display: inline-block;">
+            {% csrf_token %}
+            <div class="form-outline row">
+                <div class="col-md">
+                    {{ rename_form.title }}
                 </div>
-            </form>
-        </div>
+                <div class="col-md mt-1">
+                    <input type="submit" value="rename" class="btn btn-success btn-block btn-sm gradient-custom-4">
+                </div>
+            </div>
+        </form>
     </div>
+   
 {% endblock %}

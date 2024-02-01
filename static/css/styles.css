@@ -216,6 +216,11 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
   text-align: center;
 }
 
+.rename-form
+{
+  width: 1000px;
+}
+
 .source-modal-icon
 {
   margin-left: 5px;

@@ -90,19 +90,20 @@ def create_work_space(request):
 def rename_work_space(request, space_id):
     """Allow workspace owner to rename space"""
 
-    # TODO
-    # Not sure
-
     form = RenameSpaceForm(request.POST)
 
-    if form and form.is_valid():
+    if form.is_valid():
+        # Update workspace title
         space = check_work_space(space_id, request.user)
-        renamed_space = form.save_new_title(space)
-        return JsonResponse({"status": "ok", "new_title": renamed_space.title})
+        new_title = form.cleaned_data["title"]
+        if new_title != space.title:
+            space.title = new_title
+            space.save(update_fields=("title",))
+            display_success_message(request, "Workspace successfully renamed!")
+    else:
+        display_error_message(request)
 
-    # Send redirect url to js
-    display_error_message(request)
-    return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
+    return redirect(reverse("work_space:space_view", args=(space_id,)))
 
 
 @space_ownership_required

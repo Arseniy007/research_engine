@@ -4413,6 +4413,13 @@ class PaperSettingsForm(NewPaperForm):
         return paper.save(update_fields=("title",))
 
 
+
+    def save_new_title(self, space: WorkSpace) -> WorkSpace:
+        space.title = self.cleaned_data["new_title"]
+        space.save(update_fields=("title",))
+        return space
+
+
 """
 
 

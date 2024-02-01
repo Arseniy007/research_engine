@@ -692,3 +692,31 @@ function rename_paper(form, paper_id) {
     });
 }
 
+const rename_space_form = document.querySelector('#rename_space_form');
+rename_space_form.addEventListener('submit', event => {
+    event.preventDefault();
+    rename_space(rename_space_form, space_id);
+  });
+
+  function rename_space(form, space_id) {
+
+    // Rename-space url
+    const url = `/rename_space/${space_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => handleErrors(response, url))
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Change space title tag
+            document.querySelector('#space_title').innerHTML = result.new_title;
+        }
+        else {
+            redirect(result.url)
+        }
+    });
+}
