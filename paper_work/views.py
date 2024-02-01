@@ -32,7 +32,8 @@ def paper_space(request, paper_id):
         "new_paper_file_form": UploadPaperFileForm(),
         "settings_form": PaperSettingsForm().set_initial(paper),
         "work_spaces": get_user_work_spaces(request.user),
-        "papers": get_user_papers(request.user)
+        "papers": get_user_papers(request.user),
+        "last_file_id": paper.get_last_file_id()
     }
     return render(request, "paper_space.html", paper_data)
 

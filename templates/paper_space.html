@@ -17,6 +17,10 @@
     <div id="paper_space">
 
         
+        <h3>Number of words: <div id="number_of_words"></div></h3>
+
+
+
 
         <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post">
             {% csrf_token %} 
@@ -126,6 +130,7 @@
 
 
         <div id="paper_id" style="display: none;">{{ paper.pk }}</div>
+        <div id="last_file_id" style="display: none;">{{ last_file_id }}</div>
 
 
     

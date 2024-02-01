@@ -38,6 +38,12 @@ def work_space_view(request, space_id):
         sources.append(source)
         source_number += 1
 
+    # Get user status
+    if request.user == space.owner:
+        user_status = "owner"
+    else:
+        user_status = "guest"
+
     # Get all needed source-related data
     work_space_data = {
         "space": space, 
@@ -53,7 +59,8 @@ def work_space_view(request, space_id):
         "link_form": NewLinkForm(),
         "rename_form": RenameSpaceForm().set_initial(space),
         "work_spaces": get_user_work_spaces(request.user),
-        "papers": get_user_papers(request.user)
+        "papers": get_user_papers(request.user),
+        "user_status": user_status
     }
     return render(request, "work_space.html", work_space_data)
 
@@ -221,8 +228,8 @@ def receive_invitation(request):
         if invitation:
             new_work_space = invitation.work_space
 
-            # Owner can't invite themselves
-            if new_work_space.owner == request.user:
+            # Owner can't invite themselves and users who are already part of workspace
+            if new_work_space.owner == request.user or request.user in new_work_space.guests.all():
                 return JsonResponse({"status", "error"})
 
             # Add user as guest to the new work space
