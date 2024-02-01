@@ -4369,6 +4369,50 @@ def set_citation_style(request, paper_id):
     return JsonResponse({"status": "error"})
 
 
+class NewPaperForm(forms.Form):
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "title-field",
+        "class": CLASS_,
+        "autocomplete": "off",
+        "placeholder": "Paper title"})
+    )
+
+    citation_style = forms.ChoiceField(choices=CITATION_STYLES, widget=forms.RadioSelect(attrs={"class": CLASS_}))
+
+    def save_paper(self, space: WorkSpace, user: User):
+
+        new_paper = Paper(work_space=space, user=user, title=self.cleaned_data["title"])
+        new_paper.save()
+        return new_paper
+
+
+    
+
+
+
+
+class PaperSettingsForm(NewPaperForm):
+
+    def set_initial(self, paper: Paper):
+
+        self.fields["title"].initial = paper.title
+        self.fields["citation_style"].initial = paper.citation_style
+        return self
+    
+    def save_changes(self, paper: Paper):
+
+        paper.title = self.cleaned_data["title"]
+        paper.citation_style = self.cleaned_data["citation_style"]
+        return paper.save(update_fields=("title", "citation_style",))
+
+
+    def rename_paper(self, paper: Paper):
+        "Change paper title"
+        paper.title = self.cleaned_data["title"]
+        return paper.save(update_fields=("title",))
+
+
 """
 
 

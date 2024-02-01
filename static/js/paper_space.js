@@ -3,27 +3,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Render paper file related info
     get_paper_file_info(document.querySelector('#last-file-id').innerHTML);
 
-
+    // Show and hide rename paper form
     const header = document.querySelector('#header');
+    const header_text = document.querySelector('#header-text');
     const edit_symbol = document.querySelector('#edit-title-symbol');
 
-
     header.addEventListener('mouseenter', () => {
-
-
         edit_symbol.addEventListener('click', () => {
-
-            document.querySelector('#header-text').innerHTML = document.querySelector('#rename-form-div').innerHTML;
-
-        })
-
-
-
-        edit_symbol.style.display = 'inline-block'
+            header_text.innerHTML = document.querySelector('#rename-form-div').innerHTML;
+        });
+        edit_symbol.style.display = 'inline-block';
     });
     header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');
-
-
 });
 
 function get_paper_file_info(file_id) {
@@ -54,27 +45,7 @@ function get_paper_file_info(file_id) {
 
 
 
-function rename_paper(form, paper_id) {
 
-    // Rename-paper url
-    const url = `/rename_paper/${paper_id}`;
-
-    // Send POST request
-    fetch(url, {
-        method: 'POST',
-        body: new FormData(form)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.status === 'ok') {
-            // Change space title tag
-            document.querySelector('#paper_title').innerHTML = result.new_title;
-        }
-        else {
-            redirect(result.url)
-        }
-    });
-}
 
 
 

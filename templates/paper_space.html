@@ -44,74 +44,7 @@
         <br><br>
 
 
-        
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paper-settings">
-            Settings
-        </button>
-        <!-- Modal -->
-        <div class="modal fade source-modal" id="paper-settings" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paper-settings-label" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="paper-settings-label">Settings</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-                            <div class="container h-100">
-                                <div class="row d-flex justify-content-center align-items-center h-100">
-                                    <div class="col-lg-12 col-lg-9 col-lg-7 col-lg-6">
-                                        <div class="card form-card" style="border-radius: 15px;">
-                                            <div class="card-body p-5 form-body">
-                                                <h2 class="text-uppercase text-center mb-4" id="form-header">Edit paper info</h2>
-                                                <div id="edit-paper-error-message" style="display: none;">
-                                                    <ul class="messages">
-                                                        <li class="error">Error</li>
-                                                    </ul>
-                                                </div>
-                                                <form action="{% url 'paper_work:paper_settings' paper.pk %}" class="needs-validation" id="settings-form" method="post" novalidate>
-                                                    {% csrf_token %}
-                                                    <div class="form-outline mb-4 form-floating">
-                                                        {{ settings_form.title }}
-                                                        <label class="form-label" for="title-field">Title</label>
-                                                        <div class="invalid-feedback">Please provide paper title.</div>
-                                                    </div>
-                                                    <h4>Set citation style</h4>
-                                                    <div class="form-outline mb-4 row">
-                                                        <div class="form-check col-md">
-                                                            <input class="form-check-input" value="apa" type="radio" name="citation_style" id="apa-style" checked>
-                                                            <label class="form-check-label" for="apa-style">
-                                                                <strong>APA</strong>
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check col-md">
-                                                            <input class="form-check-input" value="mla" type="radio" name="citation_style" id="mla-style">
-                                                            <label class="form-check-label" for="mla-style">
-                                                                <strong>MLA</strong>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-center">
-                                                        <input type="submit" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>   
-                    </div>
-                    <div class="modal-footer">
-                        <div class="d-flex justify-content-center">
-                            <input type="button" value="Archive paper" class="btn btn-danger btn-block btn-lg gradient-custom-4 text-body"></input>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div><br><br>
+    
     
 
 
@@ -138,12 +71,17 @@
         <div id="last-file-id" style="display: none;">{{ last_file_id }}</div>
 
         <div id="rename-form-div" style="display: none;">
-            <form id="rename-form"><input id="rename-field" class="form-control" value="{{ paper }}" type="text" width="auto"></form>
+            <form action="{% url 'paper_work:rename_paper' paper.pk %}" id="rename-form" method="post" style="display: inline-block;">
+                {% csrf_token %}
+                <div class="form-outline row">
+                    <div class="col-md">
+                        {{ rename_form.title }}
+                    </div>
+                    <div class="col-md mt-1">
+                        <input type="submit" value="rename" class="btn btn-success btn-block btn-sm gradient-custom-4">
+                    </div>
+                </div>
+            </form>
         </div>
-
-
-    
-
-        
     </div>
 {% endblock %}

@@ -18,8 +18,6 @@ class NewPaperForm(forms.Form):
         "placeholder": "Paper title"})
     )
 
-    citation_style = forms.ChoiceField(choices=CITATION_STYLES, widget=forms.RadioSelect(attrs={"class": CLASS_}))
-
     def save_paper(self, space: WorkSpace, user: User):
         """Save new Paper object"""
         new_paper = Paper(work_space=space, user=user, title=self.cleaned_data["title"])
@@ -27,19 +25,12 @@ class NewPaperForm(forms.Form):
         return new_paper
 
 
-class PaperSettingsForm(NewPaperForm):
+class RenamePaperForm(NewPaperForm):
 
     def set_initial(self, paper: Paper):
-        """pre-populate form fields"""
+        """Pre-populate form fields"""
         self.fields["title"].initial = paper.title
-        self.fields["citation_style"].initial = paper.citation_style
         return self
-    
-    def save_changes(self, paper: Paper):
-        """Update paper info"""
-        paper.title = self.cleaned_data["title"]
-        paper.citation_style = self.cleaned_data["citation_style"]
-        return paper.save(update_fields=("title", "citation_style",))
 
 
 class ChooseSourcesForm(forms.Form):

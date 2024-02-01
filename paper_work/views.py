@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.source_citation import get_source_reference
@@ -9,7 +9,7 @@ from user_management.helpers import get_user_papers, get_user_work_spaces
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_paper, check_work_space
-from .forms import ChooseSourcesForm, NewPaperForm, PaperSettingsForm
+from .forms import ChooseSourcesForm, NewPaperForm, RenamePaperForm
 
 
 @login_required(redirect_field_name=None)
@@ -30,7 +30,7 @@ def paper_space(request, paper_id):
         "links": links,
         "choose_sources_form": choose_sources_form,
         "new_paper_file_form": UploadPaperFileForm(),
-        "settings_form": PaperSettingsForm().set_initial(paper),
+        "rename_form": RenamePaperForm().set_initial(paper),
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user),
         "last_file_id": paper.get_last_file_id()
@@ -61,24 +61,23 @@ def create_paper(request, space_id):
 @post_request_required
 @paper_authorship_required
 @login_required(redirect_field_name=None)
-def edit_paper_info(request, paper_id):
+def rename_paper(request, paper_id):
     """Change paper obj title"""
 
-    form = PaperSettingsForm(request.POST)
+    form = RenamePaperForm(request.POST)
 
     if form.is_valid():
-        # Update paper info
-        paper = check_paper(paper_id, request.user)
-
-
-
-        
-        form.save_changes(paper)
-
-
-
-        display_success_message(request, "Paper info successfully updated!")
-
+        try:
+            paper = check_paper(paper_id, request.user)
+        except Http404:
+            display_error_message(request, "Only paper owner can change its name")
+        else:
+            # Update paper info
+            new_title = form.cleaned_data["title"]
+            if new_title != paper.title:
+                paper.title = new_title
+                paper.save(update_fields=("title",))
+                display_success_message(request, "Paper successfully renamed!")
     else:
         # Error case
         display_error_message(request)

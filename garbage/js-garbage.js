@@ -660,7 +660,7 @@ function test(paper_id) {
 }
 
 
-const ssettings_form = document.querySelector('#settings-form');
+const settings_form1 = document.querySelector('#settings-form');
 settings_form.addEventListener('submit', event => {
     if (!settings_form.checkValidity()) {
         event.preventDefault();
@@ -669,4 +669,26 @@ settings_form.addEventListener('submit', event => {
     settings_form.classList.add('was-validated');
 })
 
+
+function rename_paper(form, paper_id) {
+
+    // Rename-paper url
+    const url = `/rename_paper/${paper_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Change space title tag
+            document.querySelector('#paper_title').innerHTML = result.new_title;
+        }
+        else {
+            redirect(result.url)
+        }
+    });
+}
 
