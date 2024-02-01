@@ -263,3 +263,8 @@ body
   color: white;
 }
 
+@font-face 
+{
+  font-family: 'Special Elite', system-ui;
+  src: url(/static/fonts/Special_Elite/SpecialElite-Regular.woff) format('woff')
+}
