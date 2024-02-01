@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block header %}
-   {{ paper }}
+   {{ paper }} <i id="edit-title-symbol" class="fa-solid fa-pen-to-square fa-xs" style="display: none;"></i>
 {% endblock %}
 
 {% block body %}
@@ -18,6 +18,11 @@
 
         
         <h3>Number of words: <div id="number_of_words"></div></h3>
+        <br>
+        <h3>Number of characters without spaces: <div id="characters_no_space"></div></h3>
+        <br>
+        <h3>Number of characters with spaces: <div id="characters_with_space"></div></h3>
+        <br><br>
 
 
 
@@ -129,8 +134,12 @@
         </ul><br><br>
 
 
-        <div id="paper_id" style="display: none;">{{ paper.pk }}</div>
-        <div id="last_file_id" style="display: none;">{{ last_file_id }}</div>
+        <div id="paper-id" style="display: none;">{{ paper.pk }}</div>
+        <div id="last-file-id" style="display: none;">{{ last_file_id }}</div>
+
+        <div id="rename-form-div" style="display: none;">
+            <form id="rename-form"><input id="rename-field" class="form-control" value="{{ paper }}" type="text" width="auto"></form>
+        </div>
 
 
     

@@ -73,7 +73,7 @@ def get_paper_file_info(request, file_id):
     info = Counter(decoded_text).count()
 
     response = {"number_of_words": info.words, 
-                "characters_with_no_space": info.characters_no_space,
+                "characters_no_space": info.characters_no_space,
                 "characters_with_space": info.characters_with_space}
 
     return JsonResponse(response)

@@ -1,19 +1,30 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    const settings_form = document.querySelector('#settings-form');
-    settings_form.addEventListener('submit', event => {
-        if (!settings_form.checkValidity()) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        settings_form.classList.add('was-validated');
-    })
+    // Render paper file related info
+    get_paper_file_info(document.querySelector('#last-file-id').innerHTML);
 
-    get_paper_file_info(document.querySelector('#last_file_id').innerHTML);
+
+    const header = document.querySelector('#header');
+    const edit_symbol = document.querySelector('#edit-title-symbol');
+
+
+    header.addEventListener('mouseenter', () => {
+
+
+        edit_symbol.addEventListener('click', () => {
+
+            document.querySelector('#header-text').innerHTML = document.querySelector('#rename-form-div').innerHTML;
+
+        })
+
+
+
+        edit_symbol.style.display = 'inline-block'
+    });
+    header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');
 
 
 });
-
 
 function get_paper_file_info(file_id) {
 
@@ -25,27 +36,20 @@ function get_paper_file_info(file_id) {
     .then(response => handleErrors(response, url))
     .then(response => response.json())
     .then(result => {
-        
+        // Render last paper file statistics
         document.querySelector('#number_of_words').innerHTML = result.number_of_words;
-
-
+        document.querySelector('#characters_no_space').innerHTML = result.characters_no_space;
+        document.querySelector('#characters_with_space').innerHTML = result.characters_with_space;
     });
-
-
-
-
-
 }
 
 
 
 
-function handleErrors(response, url) {
-    if (!response.ok) {
-        redirect(url)
-    }
-    return response;
-}
+
+
+
+
 
 
 
@@ -70,4 +74,16 @@ function rename_paper(form, paper_id) {
             redirect(result.url)
         }
     });
+}
+
+
+
+
+
+
+function handleErrors(response, url) {
+    if (!response.ok) {
+        redirect(url)
+    }
+    return response;
 }

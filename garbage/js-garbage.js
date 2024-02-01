@@ -638,6 +638,35 @@ function load_and_show_paper_space(paper_id) {
     })
 }
 
+function test(paper_id) {
 
+    const header = document.querySelector('#header-text');
+    let paper_title = header.innerHTML;
+    paper_title = paper_title.replace(/\s/g, '');
+    
+    //header.style.display = 'none';
+
+    let rename_field = document.createElement('input');
+    rename_field.classList.add('form-control');
+    rename_field.type = 'text';
+    rename_field.value = paper_title;
+
+    header.innerHTML = '';
+    header.append(rename_field)
+
+
+
+
+}
+
+
+const ssettings_form = document.querySelector('#settings-form');
+settings_form.addEventListener('submit', event => {
+    if (!settings_form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    settings_form.classList.add('was-validated');
+})
 
 
