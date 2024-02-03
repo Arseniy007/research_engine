@@ -16,6 +16,17 @@
 
 {% block body %}
 
+    <h4>TODO: Buttons at add new source (should all be there by display none) --- Button group bootstrap</h4>
+    <h4>TODO: Quotes and deleting source (add button to edit source div!)</h4>
+    <h4>TODO: Author buttons</h4>
+    <h4>TODO: Author chapter fields</h4>
+    <h4>TODO: Background image repetition</h4>
+    <h4>TODO: Full width side nav instead of index page</h4>
+    <h4>TODO: Archived spaces and papers at account settings view</h4>
+    <h4>TODO: Correct errors ocurred when I changed font</h4>
+
+    <br><br>
+
     
     <form action="{% url 'paper_work:create_paper' space.pk %}" method="post">
         {% csrf_token %} 
@@ -34,26 +45,35 @@
         </button>
     {% endfor %}
 
-    <h3>Sources</h3>
+    <br><br>
 
-    <h4>TODO: Toggle between modals</h4>
-    <h4>TODO: Buttons at add new source (should all be there by display none)</h4>
-    <h4>TODO: Quotes and deleting source (add button to edit source div!)</h4>
-    <h4>TODO: Author buttons</h4>
-    <h4>TODO: Author chapter fields</h4>
-    <h4>TODO: Background image repetition</h4>
-    <h4>TODO: Full width side nav instead of index page</h4>
-    <h4>TODO: Archived spaces and papers at account settings view</h4>
-    <h4>TODO: Correct errors ocurred when I changed font</h4>
+    <h3>Sources</h3>
     
     <br><br>
     {% for source in sources %}
-        <!-- Button trigger modal -->
-        <button onclick="load_and_show_source_space('{{ source.id }}')" type="button" class="btn btn-primary" id="open-modal-button-{{ source.number }}" data-bs-toggle="modal" data-bs-target="#source-space-{{ source.number }}">
-            {{ source.title }}
-        </button>
+       
+
+
+
+        <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header">{{ source.author }}</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ source.title }}</h5>
+                <button onclick="load_and_show_source_space('{{ source.id }}')" type="button" class="btn btn-dark" id="open-modal-button-{{ source.id }}" data-bs-toggle="modal" data-bs-target="#source-space-modal-{{ source.id }}">
+                    <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                </button>
+            </div>
+        </div>
+
+         
+
+
+
+
+
+
         <!-- Modal -->
-        <div class="modal fade source-modal" id="source-space-{{ source.number }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="source-space-label-{{ source.id }}" aria-hidden="true">
+        <div class="modal fade source-modal" id="source-space-modal-{{ source.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="source-space-label-{{ source.id }}" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -63,47 +83,52 @@
                     <div class="modal-body" id="source-space-div-{{ source.id }}"></div>
                     <div id="source-id" style="display: none;">{{ source.id }}</div>
                     <div class="modal-footer source-footer" id="source-footer-div-{{ source.id }}">
-                        <div class="footer-elems-left">
-                            <div class="footer-elem">
-                                <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" id="show-source-settings-button-{{ source.id }}" class="btn btn-warning">Edit<i class="fa-solid fa-gears source-modal-icon"></i></button>
+
+
+                        <div class="btn-toolbar" role="toolbar" id="left-footer-buttons">
+                            <div class="btn-group" role="group">
+                                <button onclick="delete_source('{{ source.id }}')" id="delete-source-button-{{ source.id }}" type="button" class="btn btn-danger round-button" style="display: none;">Delete source&nbsp;&nbsp;<i class="fa-solid fa-trash"></i></button>
+                                <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" id="show-source-settings-button-{{ source.id }}" class="btn btn-warning round-button">Edit&nbsp;&nbsp;<i class="fa-solid fa-gears source-modal-icon"></i></button>
                             </div>
-                            <button onclick="delete_source('{{ source.id }}')" id="delete-source-button-{{ source.id }}" type="button" class="btn btn-danger" style="display: none;">Delete source</button>
-                            {% if source.has_file %}
-                                <div class="footer-elem">
-                                    <a href="{% url 'file_handling:display_source_file' source.file_id %}" id="open-source-file-button-{{ source.id }}">
-                                        <button type="button" class="btn btn-dark">Open File <i class="fa-solid fa-file"></i></button>
-                                    </a>
-                                </div>
-                            {% endif %}
-                            {% if source.link %}
-                                <div class="footer-elem source-link-button">
-                                    <a href="{{ source.link }}" id="source-link-button-{{ source.id }}">
-                                        <button type="button" class="btn btn-dark">Link<i class="fa-solid fa-link source-modal-icon"></i></button>
-                                    </a>
-                                </div>
-                            {% endif %}
                         </div>
-                        <div class="footer-elems-right">
-                            {% if source.number != 1 %}
-                                <div class="footer-elem previous-source-button">
-                                    <button type="button" class="btn btn-secondary arrow-button" data-bs-target="#source-space-{{ source.number | add:'-1' }}"  data-bs-toggle="modal"><i class="fa-solid fa-left-long"></i></button>
-                                </div>
-                            {% else %}
-                                <div class="footer-elem previous-source-button">
-                                    <button type="button" class="btn btn-secondary arrow-button" data-bs-target="#source-space-{{ number_of_sources }}" data-bs-toggle="modal"><i class="fa-solid fa-left-long"></i></button>
-                                </div>
-                            {% endif %}
-                            {% if source.number != number_of_sources %}
-                            <div class="footer-elem">
-                                <button type="button" class="btn btn-secondary arrow-button" data-bs-target="#source-space-{{ source.number | add:'1' }}" data-bs-toggle="modal"><i class="fa-solid fa-right-long"></i></button>
+
+
+                        {% if source.has_file %}
+                            <div class="btn-toolbar me-5" role="toolbar">
+                                <a href="{% url 'file_handling:display_source_file' source.file_id %}" id="open-source-file-button-{{ source.id }}">
+                                    <button type="button" class="btn btn-dark round-button">File&nbsp;&nbsp;<i class="fa-solid fa-file"></i></button>
+                                </a>
                             </div>
-                            {% else %}
-                                <div class="footer-elem">
-                                    <button type="button" class="btn btn-secondary arrow-button" data-bs-target="#source-space-1" data-bs-toggle="modal"><i class="fa-solid fa-right-long"></i></button>
-                                </div>
-                            {% endif %}
-                            <div class="footer-elem">
-                                <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" class="btn btn-secondary" id="close-source-settings-button-{{ source.id }}" style="display: none;">Back</button>
+                        {% endif %}
+
+                        {% if source.link %}
+                            <div class="btn-toolbar me-2" role="toolbar">
+                                <a href="{{ source.link }}" id="source-link-button-{{ source.id }}">
+                                    <button type="button" class="btn btn-dark round-button">Link&nbsp;&nbsp;<i class="fa-solid fa-link source-modal-icon"></i></button>
+                                </a>
+                            </div>
+                        {% endif %}
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="btn-toolbar" role="toolbar">
+                            <div class="btn-group" role="group">
+                                <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" class="btn btn-secondary round-button " id="close-source-settings-button-{{ source.id }}" style="display: none;">Back</button>
+                                <button type="button" class="btn btn-secondary round-button" data-bs-dismiss="modal" id="close-source-modal-button-{{ source.id }}">Close</button>
                             </div>
                         </div>
                     </div>

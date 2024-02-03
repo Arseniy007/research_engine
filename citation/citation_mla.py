@@ -5,7 +5,7 @@ from .dates import format_date
 def make_book_endnote_mla(book: dict) -> str:
     """Create mla endnote for given book"""
     author = format_authors_mla(book["author"])
-    return f"{author} {book['title']}. {book['publishing_house']}, {book['year']}."
+    return f"{author}. {book['title']}. {book['publishing_house']}, {book['year']}."
 
 
 def make_article_endnote_mla(article: dict) -> str:

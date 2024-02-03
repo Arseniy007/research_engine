@@ -182,23 +182,29 @@ async function upload_source_file(form, source_id) {
 
 function show_or_hide_source_settings(source_id) {
 
-    const source_div = document.querySelector('#source-space');
-    const source_settings_div = document.querySelector('#source-settings');
+    const source_div = document.querySelector(`#source-space-${source_id}`);
+    const source_settings_div = document.querySelector(`#source-settings-${source_id}`);
+
+    console.log(source_div.innerHTML)
+    console.log(source_settings_div.innerHTML)
+
 
     // Get all buttons
-    const show_settings_button = document.querySelector(`#show-source-settings-button-${source_id}`);
+    const close_modal_button = document.querySelector(`#close-source-modal-button-${source_id}`);
+    const edit_button = document.querySelector(`#show-source-settings-button-${source_id}`);
     const close_settings_button = document.querySelector(`#close-source-settings-button-${source_id}`);
     const delete_button = document.querySelector(`#delete-source-button-${source_id}`);
     const link_button = document.querySelector(`#source-link-button-${source_id}`);
     const open_file_button = document.querySelector(`#open-source-file-button-${source_id}`);
-    const arrow_buttons = document.getElementsByClassName('arrow-button');
 
+    // Open source settings
     if (source_settings_div.style.display === 'none') {
         source_div.style.display = 'none';
         source_settings_div.style.display = 'block';
 
         // Change all buttons
-        show_settings_button.style.display = 'none';
+        edit_button.style.display = 'none';
+        close_modal_button.style.display = 'none';
         close_settings_button.style.display = 'inline-block';
         delete_button.style.display = 'inline-block';
 
@@ -209,12 +215,9 @@ function show_or_hide_source_settings(source_id) {
         if (link_button) {
             link_button.style.display = 'none';
         }
-
-        Array.from(arrow_buttons).forEach(button => {
-            button.style.display = 'none';
-        })
         
     }
+    // Close source settings
     else {
         source_settings_div.style.display = 'none';
         source_div.style.display = 'block';
@@ -223,7 +226,8 @@ function show_or_hide_source_settings(source_id) {
         close_settings_button.style.display = 'none';
         delete_button.innerHTML = 'Delete source';
         delete_button.style.display = 'none';
-        show_settings_button.style.display = 'inline-block';
+        edit_button.style.display = 'inline-block';
+        close_modal_button.style.display = 'inline-block';
 
         if (open_file_button) {
             open_file_button.style.display = 'inline-block';
@@ -232,10 +236,6 @@ function show_or_hide_source_settings(source_id) {
         if (link_button) {
             link_button.style.display = 'inline-block';
         }
-
-        Array.from(arrow_buttons).forEach(button => {
-            button.style.display = 'inline-block';
-        })
     }
 }
 

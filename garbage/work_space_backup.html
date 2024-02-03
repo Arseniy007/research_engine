@@ -2,10 +2,8 @@
 {% load static %}
 
 {% block script %}
-    <script src="{% static 'js/source_forms.js' %}"></script>
-    <script src="{% static 'js/work_space_parts.js' %}"></script>
-    <script src="{% static 'js/work_space.js' %}"></script>
-    <script src="{% static 'js/paper_space.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/source_creation.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -13,67 +11,101 @@
 {% endblock %}
 
 {% block header %}
-   {{ space }}
+   {{ space }} <i id="edit-title-symbol" class="fa-solid fa-pen-to-square fa-xs" style="display: none;"></i>
 {% endblock %}
 
 {% block body %}
 
     
-    <form action="{% url 'work_space:rename_space' space.pk %}" id="rename_space_form" method="post">
-        {% csrf_token %} 
-        {{ rename_form }}
-        <button type="submit">Rename space</button>
-    </form><br><br>
-
     <form action="{% url 'paper_work:create_paper' space.pk %}" method="post">
         {% csrf_token %} 
         {{ new_paper_form }}
         <button id="change_password_button" type="submit">Add Paper</button>
     </form>
 
+    <br><br>
+
     <h3>Papers</h3>
-    {% for paper in papers %}
-        <!-- Button trigger modal -->
-        <button onclick="load_and_show_paper_space('{{ paper.pk }}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paper-space-{{ paper.pk }}">
-            {{ paper }}
+    {% for paper in space_papers %}
+        <button type="button" class="btn btn-primary">
+            <a style="color: white;" href="{% url 'paper_work:paper_space' paper.pk %}">
+                {{ paper }}
+            </a>
         </button>
-        <!-- Modal -->
-        <div class="modal fade" id="paper-space-{{ paper.pk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paper-space-label-{{ paper.pk }}" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="paper-space-label-{{ paper.pk }}">{{ paper }}</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="paper-space-div-{{ paper.pk }}"></div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Understood</button>
-                    </div>
-                </div>
-            </div>
-        </div><br><br>
     {% endfor %}
 
     <h3>Sources</h3>
 
+    <h4>TODO: Toggle between modals</h4>
+    <h4>TODO: Buttons at add new source (should all be there by display none) --- Button group bootstrap</h4>
+    <h4>TODO: Quotes and deleting source (add button to edit source div!)</h4>
+    <h4>TODO: Author buttons</h4>
+    <h4>TODO: Author chapter fields</h4>
+    <h4>TODO: Background image repetition</h4>
+    <h4>TODO: Full width side nav instead of index page</h4>
+    <h4>TODO: Archived spaces and papers at account settings view</h4>
+    <h4>TODO: Correct errors ocurred when I changed font</h4>
+    
+    <br><br>
     {% for source in sources %}
         <!-- Button trigger modal -->
-        <button onclick="load_and_show_source_space('{{ source.pk }}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#source-space-{{ source.pk }}">
-            {{ source }}
+        <button onclick="load_and_show_source_space('{{ source.id }}')" type="button" class="btn btn-primary" id="open-modal-button-{{ source.number }}" data-bs-toggle="modal" data-bs-target="#source-space-{{ source.number }}">
+            {{ source.title }}
         </button>
         <!-- Modal -->
-        <div class="modal fade" id="source-space-{{ source.pk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="source-space-label-{{ source.pk }}" aria-hidden="true">
+        <div class="modal fade source-modal" id="source-space-{{ source.number }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="source-space-label-{{ source.id }}" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="source-space-label-{{ source.pk }}">{{ source }}</h1>
+                         <h1 class="modal-title fs-5" id="source-space-label-{{ source.id }}"></h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" id="source-space-div-{{ source.pk }}"></div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Understood</button>
+                    <div class="modal-body" id="source-space-div-{{ source.id }}"></div>
+                    <div id="source-id" style="display: none;">{{ source.id }}</div>
+                    <div class="modal-footer source-footer" id="source-footer-div-{{ source.id }}">
+                        <div class="footer-elems-left">
+                            <div class="footer-elem">
+                                <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" id="show-source-settings-button-{{ source.id }}" class="btn btn-warning">Edit<i class="fa-solid fa-gears source-modal-icon"></i></button>
+                            </div>
+                            <button onclick="delete_source('{{ source.id }}')" id="delete-source-button-{{ source.id }}" type="button" class="btn btn-danger" style="display: none;">Delete source</button>
+                            {% if source.has_file %}
+                                <div class="footer-elem">
+                                    <a href="{% url 'file_handling:display_source_file' source.file_id %}" id="open-source-file-button-{{ source.id }}">
+                                        <button type="button" class="btn btn-dark">Open File <i class="fa-solid fa-file"></i></button>
+                                    </a>
+                                </div>
+                            {% endif %}
+                            {% if source.link %}
+                                <div class="footer-elem source-link-button">
+                                    <a href="{{ source.link }}" id="source-link-button-{{ source.id }}">
+                                        <button type="button" class="btn btn-dark">Link<i class="fa-solid fa-link source-modal-icon"></i></button>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="footer-elems-right">
+                            {% if source.number != 1 %}
+                                <div class="footer-elem previous-source-button">
+                                    <button type="button" class="btn btn-secondary arrow-button" data-bs-target="#source-space-{{ source.number | add:'-1' }}"  data-bs-toggle="modal"><i class="fa-solid fa-left-long"></i></button>
+                                </div>
+                            {% else %}
+                                <div class="footer-elem previous-source-button">
+                                    <button type="button" class="btn btn-secondary arrow-button" data-bs-target="#source-space-{{ number_of_sources }}" data-bs-toggle="modal"><i class="fa-solid fa-left-long"></i></button>
+                                </div>
+                            {% endif %}
+                            {% if source.number != number_of_sources %}
+                            <div class="footer-elem">
+                                <button type="button" class="btn btn-secondary arrow-button" data-bs-target="#source-space-{{ source.number | add:'1' }}" data-bs-toggle="modal"><i class="fa-solid fa-right-long"></i></button>
+                            </div>
+                            {% else %}
+                                <div class="footer-elem">
+                                    <button type="button" class="btn btn-secondary arrow-button" data-bs-target="#source-space-1" data-bs-toggle="modal"><i class="fa-solid fa-right-long"></i></button>
+                                </div>
+                            {% endif %}
+                            <div class="footer-elem">
+                                <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" class="btn btn-secondary" id="close-source-settings-button-{{ source.id }}" style="display: none;">Back</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,57 +116,277 @@
     <li>
         <a href="{% url 'work_space:download_space' space.pk %}">Download space</a>
     </li><br><br><br>
+
+
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#download-work-space" aria-expanded="false" aria-controls="download-work-space">
+        Download Workspace
+    </button>
+
+    <div class="collapse" id="download-work-space">
+        <div>
+            <a href="{% url 'work_space:download_space' space.pk %}">
+                <i class="fa-solid fa-file-zipper fa-5x"></i><br><h6>Download sources and papers</h6>
+            </a>
+
+            <a href="{% url 'work_space:download_space_sources' space.pk %}">
+                <i class="fa-regular fa-file-zipper fa-5x"></i><br><h6>Download only sources</h6>
+            </a>
+
+
+        </div>
+    </div>
+    
+    
+    
+    <br><br>
     
 
-    <button class="show_form_button" id="book" type="button">book</button>
-    <button class="show_form_button" id="article" type="button">article</button>
-    <button class="show_form_button" id="chapter" type="button">chapter</button>
-    <button class="show_form_button" id="webpage" type="button">webpage</button>
 
-    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="book_form" class="source_form">
-        <div class="author_div"></div>
-        {% csrf_token %} 
-        {{ book_form.as_p }}
-        <button value="book" name="book" type="submit">Add Book</button>
-    </form>
-    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="article_form" class="source_form">
-        <div class="author_div"></div>
-        {% csrf_token %} 
-        {{ article_form.as_p }}
-        <button value="article" name="article" type="submit">Add Article</button>
-    </form>
-    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="chapter_form" class="source_form">
-        <div id="chapter_author_div"></div>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new-source">
+        Add new source
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="new-source" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="new-source-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="new-source-label">Add new source</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="new-source-div">
+                    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+                        <div class="container h-100">
+                            <div class="row d-flex justify-content-center align-items-center h-100">
+                                <div class="col-lg-12 col-lg-9 col-lg-7 col-lg-6">
+                                    <div class="card form-card" style="border-radius: 15px;">
+                                        <div class="card-body p-5 form-body">
+                                            <h2 class="text-uppercase text-center mb-5" id="form-header">New Source</h2>
+                                            <select class="form-select" id="source-type-selector">
+                                                <option value="" selected>Choose type of source</option>
+                                                <option value="book-form">Book</option>
+                                                <option value="article-form">Article</option>
+                                                <option value="chapter-form">Chapter in a book</option>
+                                                <option value="webpage-form">Webpage</option>
+                                            </select><br>
+                                            <div class="source-form-area" id="book-form">
+                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="source-form needs-validation" novalidate>
+                                                    {% csrf_token %}
+                                                    {{ book_form.source_type }}
+                                                    {{ book_form.number_of_authors }}
+                                                    <div class="author-div"></div><br>
+                                                    <div class="form-outline mb-4 form-floating">         
+                                                        {{ book_form.title }}
+                                                        <label class="form-label" for="title-field">Title</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide books title.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ book_form.publishing_house }}
+                                                        <label class="form-label" for="publishing-house-field">Publishing House</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide books publishing house.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ book_form.year }}
+                                                        <label class="form-label" for="book-year-field">Year</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide publishing year.</div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-center">
+                                                        <input type="submit" value="Add book" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="source-form-area" id="article-form">
+                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="source-form needs-validation" novalidate>
+                                                    {% csrf_token %}
+                                                    {{ article_form.source_type }}
+                                                    {{ article_form.number_of_authors }}
+                                                    <div class="author-div"></div><br>
+                                                    <div class="form-outline mb-4 form-floating">         
+                                                        {{ article_form.article_title }}
+                                                        <label class="form-label" for="article-title-field">Article Title</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide article title.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ article_form.journal_title }}
+                                                        <label class="form-label" for="journal-title-field">Journal Title</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide journal title.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 row">
+                                                        <div class="col-md">
+                                                            <div class="form-floating">
+                                                                {{ article_form.volume }}
+                                                                <label class="form-label" for="volume-field">Volume</label>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">Please provide journal volume.</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md">
+                                                            <div class="form-floating">
+                                                                {{ article_form.issue }}
+                                                                <label class="form-label" for="issue-field">Issue</label>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">Please provide journals issue.</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ article_form.pages }}
+                                                        <label class="form-label" for="article-pages-field">Article pages</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide article pages.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ article_form.link_to_journal }}
+                                                        <label class="form-label" for="link-to-journal-field">Link to Journal</label>
+                                                    </div>
+                                                    <div class="d-flex justify-content-center">
+                                                        <input type="submit" value="Add article" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="source-form-area" id="chapter-form">
+                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="source-form needs-validation" novalidate>
+                                                    {% csrf_token %}
+                                                    {{ chapter_form.source_type }}
+                                                    {{ chapter_form.number_of_authors }}
+                                                    <div class="author-div"></div><br>
+                                                    <div class="form-outline mb-4 form-floating">         
+                                                        {{ chapter_form.chapter_title }}
+                                                        <label class="form-label" for="chapter-title-field">Chapter Title</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide chapter title.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ chapter_form.book_title }}
+                                                        <label class="form-label" for="book-title-field">Book title</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide book title.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ chapter_form.publishing_house }}
+                                                        <label class="form-label" for="chapter-publishing-house-field">Publishing House</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide publishing house.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 row">
+                                                        <div class="col-md">
+                                                            <div class="form-floating">
+                                                                {{ chapter_form.edition }}
+                                                                <label class="form-label" for="edition-field">Edition</label>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">Please provide book edition.</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md">
+                                                            <div class="form-floating">
+                                                                {{ chapter_form.pages }}
+                                                                <label class="form-label" for="chapter-pages-field">Pages</label>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">Please provide chapters pages.</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ chapter_form.year }}
+                                                        <label class="form-label" for="chapter-year-field">Year</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide publishing year.</div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-center">
+                                                        <input type="submit" value="Add Chapter" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="source-form-area" id="webpage-form">
+                                                <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" class="source-form needs-validation" novalidate>
+                                                    {% csrf_token %}
+                                                    {{ webpage_form.source_type }}
+                                                    {{ webpage_form.number_of_authors }}
+                                                    <div class="author-div"></div><br>
+                                                    <div class="form-outline mb-4 form-floating">         
+                                                        {{ webpage_form.page_title }}
+                                                        <label class="form-label" for="page-title-field">Page Title</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide page title.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ webpage_form.website_title }}
+                                                        <label class="form-label" for="website-title-field">Website title</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide website title.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ webpage_form.page_url }}
+                                                        <label class="form-label" for="page-url-field">Page URL</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide page url.</div>
+                                                    </div>
+                                                    <div class="form-outline mb-4 form-floating">
+                                                        {{ webpage_form.date }}
+                                                        <label class="form-label" for="date-field">Date</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide date.</div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-center">
+                                                        <input type="submit" value="Add book" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div><br><br>
+
+    <h3>Links:</h3>
+    <ul>
+        {% for link in links %}
+            <div id="link_{{ link.pk }}">
+                <li>
+                    <a href="{{ link.url }}">{{ link }}</a>
+                    <button onclick="delete_link('{{ link.pk }}')" type="button">Delete Link</button>
+                    <small>{{ link.added }}</small>
+                </li>
+            </div>
+            
+        {% endfor %}
+    </ul><br><br><br>
+
+
+    <h3>New Link:</h3>
+    <form action="{% url 'work_space:add_link' space.pk %}" method="post" id="link_form">
         {% csrf_token %}
-        {{ chapter_form.as_p }}
-        <div class="author_div"></div>
-        <button value="chapter" name="chapter" type="submit">Add Chapter</button>
-    </form>
-    <form action="{% url 'bookshelf:add_source' space.pk %}" method="post" id="webpage_form" class="source_form">
-        <div class="author_div"></div>
-        {% csrf_token %} 
-        {{ webpage_form.as_p }}
-        <button value="webpage" name="webpage" type="submit">Add Webpage</button>
-    </form><br><br><br><br>
-
-
-    <h4>New Link:</h4>
-    <form action="{% url 'work_space_parts:add_link' space.pk %}" id="link_form" method="post">
-        {% csrf_token %} 
         {{ link_form }}
-        <button type="submit">Add Link</button>
-    </form><br><br>
-
-
-    <h3>Alter Links:</h3>
-
+        <button>Add link</button>
+    </form>
     <br><br><br>
 
-    <div id="space_id" style="display: none;">{{ space.pk }}</div>
 
-
-
-    
-
-
+    <div id="space_id" style="display: none;">{{ space.pk }}</div> 
+    <div id="rename-space-form-div" style="display: none;">
+        <form action="{% url 'work_space:rename_space' space.pk %}" class="rename-form" method="post" style="display: inline-block;">
+            {% csrf_token %}
+            <div class="form-outline row">
+                <div class="col-md">
+                    {{ rename_form.title }}
+                </div>
+                <div class="col-md mt-1">
+                    <input type="submit" value="rename" class="btn btn-success btn-block btn-sm gradient-custom-4">
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}

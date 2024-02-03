@@ -245,30 +245,15 @@ a:active {
   padding: 0px;
 }
 
-.footer-elem
+#left-footer-buttons
 {
-  display: inline;
-  margin-right: 5px;
+  position: absolute;
+  left: 10px;
 }
 
-.footer-elems-left
+.round-button
 {
-  padding-left: 0px;
-}
-
-.footer-elems-right
-{
-  padding-right: 0px;
-}
-
-.source-link-button
-{
-  margin-right: 180px;
-}
-
-.previous-source-button
-{
-  margin-left: 180px;
+  border-radius: 15px!important;
 }
 
 .settings-icon

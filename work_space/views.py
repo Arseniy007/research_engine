@@ -24,19 +24,15 @@ def work_space_view(request, space_id):
 
     space = check_work_space(space_id, request.user)
 
-    # Add in each source its number in order to enable toggle between bootstrap modal
     sources: list = []
-    source_number = 1
     for source in space.sources.all():
         if source.has_file:
             file_id = source.get_file().pk
         else:
             file_id = None
         source = model_to_dict(source)
-        source["number"] = source_number
         source["file_id"] = file_id
         sources.append(source)
-        source_number += 1
 
     # Get user status
     if request.user == space.owner:

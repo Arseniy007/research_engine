@@ -268,3 +268,32 @@ body
   font-family: 'Special Elite', system-ui;
   src: url(/static/fonts/Special_Elite/SpecialElite-Regular.woff) format('woff')
 }
+
+
+.footer-elem
+{
+  display: inline;
+  margin-right: 5px;
+}
+
+.footer-elems-left
+{
+  padding-left: 0px;
+}
+
+.footer-elems-right
+{
+  padding-right: 0px;
+}
+
+
+.source-link-button
+{
+  margin-right: 180px;
+}
+
+.previous-source-button
+{
+  margin-left: 180px;
+}
+

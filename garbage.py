@@ -4419,6 +4419,51 @@ class PaperSettingsForm(NewPaperForm):
         space.save(update_fields=("title",))
         return space
 
+        
+@login_required
+def work_space_view(request, space_id):
+
+    space = check_work_space(space_id, request.user)
+
+    # Add in each source its number in order to enable toggle between bootstrap modal
+    sources: list = []
+    source_number = 1
+    for source in space.sources.all():
+        if source.has_file:
+            file_id = source.get_file().pk
+        else:
+            file_id = None
+        source = model_to_dict(source)
+        source["number"] = source_number
+        source["file_id"] = file_id
+        sources.append(source)
+        source_number += 1
+
+    # Get user status
+    if request.user == space.owner:
+        user_status = "owner"
+    else:
+        user_status = "guest"
+
+    # Get all needed source-related data
+    work_space_data = {
+        "space": space, 
+        "space_papers": space.papers.all(),
+        "sources": sources,
+        "number_of_sources": len(sources),
+        "links": space.links.all(),
+        "new_paper_form": NewPaperForm(),
+        "book_form": BookForm(),
+        "article_form": ArticleForm(),
+        "chapter_form": ChapterForm(),
+        "webpage_form": WebpageForm(),
+        "link_form": NewLinkForm(),
+        "rename_form": RenameSpaceForm().set_initial(space),
+        "work_spaces": get_user_work_spaces(request.user),
+        "papers": get_user_papers(request.user),
+        "user_status": user_status
+    }
+    return render(request, "work_space.html", work_space_data)
 
 """
 
