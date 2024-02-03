@@ -8,7 +8,7 @@ from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from paper_work.forms import NewPaperForm
 from research_engine.constants import FRIENDLY_TMP_ROOT
-from utils.decorators import link_ownership_required, post_request_required, space_ownership_required
+from utils.decorators import post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_invitation, check_share_sources_code, check_space_link, check_work_space
 from user_management.helpers import get_user_papers, get_user_work_spaces
@@ -325,7 +325,6 @@ def add_link(request, space_id):
     return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
 
 
-@link_ownership_required
 @login_required(redirect_field_name=None)
 def delete_link(request, link_id):
     """Deletes added link"""

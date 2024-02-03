@@ -41,7 +41,7 @@
   top: 0;
   right: 25px;
   font-size: 36px;
-  margin-top: 6px;
+  margin-top: 10px;
   margin-left: 50px;
   color: #4fc7ee;
 }
@@ -80,7 +80,8 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
 {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 20px;
+  font-family: 'Special Elite', serif;
   color: #4fc7ee;
   display: block;
   border-style: dashed;

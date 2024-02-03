@@ -54,8 +54,8 @@ def create_paper(request, space_id):
         # Redirect user to the new paper-space
         return JsonResponse({"status": "ok", "url": reverse("paper_work:paper_space", args=(new_paper.pk,))})
 
-    display_error_message(request)
-    return JsonResponse({"status": "error", "url": reverse("work_space:space_view", args=(space_id,))})
+    # Error case
+    return JsonResponse({"status": "error"})
 
 
 @post_request_required

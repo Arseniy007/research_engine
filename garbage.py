@@ -4465,6 +4465,15 @@ def work_space_view(request, space_id):
     }
     return render(request, "work_space.html", work_space_data)
 
+
+def link_ownership_required(func: Callable) -> Callable | PermissionDenied:
+    def wrapper(request, link_id):
+        link = check_space_link(link_id, request.user)
+        if link.user != request.user:
+            raise PermissionDenied
+        return func(request, link_id)
+    return wrapper
+
 """
 
 

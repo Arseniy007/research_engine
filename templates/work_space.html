@@ -16,23 +16,14 @@
 
 {% block body %}
 
-    <h4>TODO: Buttons at add new source (should all be there by display none) --- Button group bootstrap</h4>
     <h4>TODO: Quotes and deleting source (add button to edit source div!)</h4>
     <h4>TODO: Author buttons</h4>
     <h4>TODO: Author chapter fields</h4>
     <h4>TODO: Background image repetition</h4>
     <h4>TODO: Full width side nav instead of index page</h4>
     <h4>TODO: Archived spaces and papers at account settings view</h4>
-    <h4>TODO: Correct errors ocurred when I changed font</h4>
+    <h4>TODO: Source deleting animation</h4>
 
-    <br><br>
-
-    
-    <form action="{% url 'paper_work:create_paper' space.pk %}" method="post">
-        {% csrf_token %} 
-        {{ new_paper_form }}
-        <button id="change_password_button" type="submit">Add Paper</button>
-    </form>
 
     <br><br>
 
@@ -47,13 +38,19 @@
 
     <br><br>
 
+    <button class="btn btn-dark" onclick="show_new_paper_form('{{ space.pk }}')" >Add new Paper</button>
+
+    <br><br>
+
+
+
     <h3>Sources</h3>
     
     <br><br>
     {% for source in sources %}
        
         <!-- Source Card -->
-        <div onclick="load_and_show_source_space('{{ source.id }}')" class="card text-bg-dark mb-3 pointy-cursor" style="max-width: 18rem;"  data-bs-toggle="modal" data-bs-target="#source-space-modal-{{ source.id }}">
+        <div onclick="load_and_show_source_space('{{ source.id }}')" id="source-card-{{ source.id }}" class="card text-bg-dark mb-3 pointy-cursor" style="max-width: 18rem;"  data-bs-toggle="modal" data-bs-target="#source-space-modal-{{ source.id }}">
             <div class="card-header">{{ source.author }}</div>
             <div class="card-body">
                 <h5 class="card-title source-button">{{ source.title }}</h5>
@@ -156,12 +153,6 @@
 
 
     <br><br>
-
-
-
-    <li>
-        <a href="{% url 'work_space:download_space' space.pk %}">Download space</a>
-    </li><br><br><br>
 
 
     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#download-work-space" aria-expanded="false" aria-controls="download-work-space">
@@ -420,7 +411,29 @@
     <br><br><br>
 
 
-    <div id="space_id" style="display: none;">{{ space.pk }}</div> 
+    <div id="space_id" style="display: none;">{{ space.pk }}</div>
+    <div id="new-paper-form" style="display: none;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a data-bs-toggle="collapse" class="mt-5" id="open-new-paper-form" href="#new-paper-form-area" role="button" aria-expanded="false" aria-controls="new-paper-form-area">
+            <h2 class="text-uppercase text-center mb-3 white-header">Create New Paper&nbsp;&nbsp;<i class="fa-solid fa-circle-plus"></i></h2>
+        </a>
+        <div class="collapse" id="new-paper-form-area">
+            <form action="{% url 'paper_work:create_paper' space.pk %}" class="needs-validation mt-3" id="paper-form" method="post" novalidate>
+                {% csrf_token %}
+                <div class="form-outline mb-4 form-floating">         
+                    {{ new_paper_form.title }}
+                    <label class="form-label" for="title-field">Paper Title</label>
+                    <div class="invalid-feedback">Please provide paper title.</div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input type="submit" value="Create" class="btn btn-success btn-block btn-lg gradient-custom-4"></input>
+                </div> 
+            </form>
+        </div>
+    </div>
     <div id="rename-space-form-div" style="display: none;">
         <form action="{% url 'work_space:rename_space' space.pk %}" class="rename-form" method="post" style="display: inline-block;">
             {% csrf_token %}

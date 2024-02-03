@@ -12,7 +12,6 @@ class Paper(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="papers")
     title = models.CharField(max_length=50, unique=True)
     sources = models.ManyToManyField(Source, related_name="papers")
-    #citation_style = models.CharField(max_length=10, default="APA")
     archived = models.BooleanField(default=False)
 
 
@@ -38,7 +37,12 @@ class Paper(models.Model):
 
     def get_last_file_id(self) -> int:
         """Returns last uploaded paper file"""
-        return PaperFile.objects.filter(paper=self).order_by("-pk")[0].pk
+        try:
+            return PaperFile.objects.filter(paper=self).order_by("-pk")[0].pk
+        except IndexError:
+            return None
+        
+        # TODO?
     
 
     def clear_file_history(self):

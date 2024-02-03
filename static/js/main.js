@@ -249,18 +249,22 @@ function delete_source(source_id) {
 
     delete_button.addEventListener('click', () => {
 
+        document.querySelector(`#close-source-settings-button-${source_id}`).click();
+        document.querySelector(`#close-source-modal-button-${source_id}`).click();
+        document.querySelector(`#source-card-${source_id}`).remove();
+
+        // ToDO Animation
+
         // Rename-space url
         const url = `/delete_source/${source_id}`;
 
-        // Send POST request
+        // Send request
         fetch(url)
         .then(response => handleErrors(response, url))
         .then(response => response.json())
         .then(result => {
             if (result.status === 'ok') {
 
-                // TODO
-                // redirect somewhere?
             }
         });
     })
@@ -268,6 +272,66 @@ function delete_source(source_id) {
 
 function show_form_error_message() {
     document.querySelector('.form-error-message').style.display = 'block';
+}
+
+async function show_new_paper_form(space_id) {
+
+    // Open sidenav 
+    const nav = document.querySelector(".sidenav");
+    nav.style.width = "100%";
+    nav.style.textAlign = 'center';
+    nav.style.background = gray;
+    nav.querySelector('#sidenav-closed-view').style.display = 'none';
+
+    // Load content
+    nav.querySelector('#index-container').innerHTML = document.querySelector('#new-paper-form').innerHTML;
+
+    // Set form validation
+    set_index_form_validation(nav);
+
+    // Show everything
+    nav.querySelector('#sidenav-full-view').style.display = 'block';
+
+    // Set form validation
+    const paper_form = nav.querySelector('#paper-form');
+    paper_form.addEventListener('submit', event => {
+        if (!paper_form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+            paper_form.classList.add('was-validated');
+        }
+        else {
+            event.preventDefault();
+            create_new_paper(paper_form, space_id);
+        }
+    })
+
+    // Pause for 1 sec and then show form
+    await delay(800);
+    nav.querySelector('#open-new-paper-form').click();
+}
+
+function create_new_paper(form, space_id) {
+
+    // Create-paper route
+    const url = `/create_paper/${space_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Redirect to new workspace
+            window.location.replace(result.url);
+        }
+        else {
+            // Show error message
+            document.querySelector('#index-error-message').style.display = 'block';
+        }
+    });
 }
 
 function invite_to_work_space(space_id) {
@@ -292,8 +356,6 @@ function share_space_sources(space_id) {
     // Render results on page
 
 }
-
-
 
 function get_invitation_code(space_id) {
 
@@ -394,4 +456,10 @@ function handleErrors(response, url) {
 function redirect(url) {
     // Imitate django redirect func
     window.location.replace(url)
+}
+
+function delay(milliseconds){
+    return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
 }

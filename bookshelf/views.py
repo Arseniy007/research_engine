@@ -99,7 +99,7 @@ def delete_source(request, source_id):
 
     # Delete source from the db
     source.delete()
-    return JsonResponse({"message": "ok"})
+    return JsonResponse({"status": "ok"})
 
 
 @post_request_required

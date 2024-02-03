@@ -51,13 +51,3 @@ def quote_ownership_required(func: Callable) -> Callable | PermissionDenied:
             raise PermissionDenied
         return func(request, quote_id)
     return wrapper
-
-
-def link_ownership_required(func: Callable) -> Callable | PermissionDenied:
-    """Checks if current user added this link"""
-    def wrapper(request, link_id):
-        link = check_space_link(link_id, request.user)
-        if link.user != request.user:
-            raise PermissionDenied
-        return func(request, link_id)
-    return wrapper

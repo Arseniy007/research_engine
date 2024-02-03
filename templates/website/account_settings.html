@@ -25,21 +25,22 @@
                                     </div>
                                 {% endif %}
                                 <div id="settings-menu">
-                                    <div>
+                                    <div class="mb-5">
                                         <a class="settings-icon settings-row-1 settings-link" href="{% url 'user_management:edit_account' %}">
-                                            <div class="settings-icon settings-row-1">
+                                            <div class="settings-icon">
                                                 <i class="fa-solid fa-user-pen fa-7x"></i><br><br><h5>Edit main info</h5>
                                             </div>
                                         </a>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <a class="settings-icon settings-row-1 settings-link" href="{% url 'user_management:change_password' %}">
-                                            <div class="settings-icon settings-row-1">
+                                            <div class="settings-icon">
                                                 <i class="fa-solid fa-lock fa-7x"></i><br><br><h5>Change password</h5>
                                             </div>
                                         </a>
                                     </div>
-                                    <div>
+                                    <div class="mb-5">
                                         <a class="settings-icon settings-row-2 settings-link" id="archived-work-spaces" data-bs-toggle="modal" data-bs-target="#archived-work-spaces-modal" href="#archived-work-spaces-modal">
-                                            <div class="settings-icon settings-row-2">
+                                            <div class="settings-icon">
                                                 <i class="fa-solid fa-folder-open fa-7x"></i><br><br><h5>Archived Workspaces</h5>
                                             </div>
                                         </a>
@@ -79,8 +80,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <a class="settings-icon settings-row-2 settings-link" data-bs-toggle="modal" data-bs-target="#archived-papers-modal" href="#archived-papers-modal">
-                                            <div class="settings-icon settings-row-2">
+                                            <div class="settings-icon">
                                                 <i class="fa-solid fa-copy fa-7x"></i><br><br><h5>Archived Papers</h5>
                                             </div>
                                         </a>
@@ -123,12 +125,15 @@
                                     </div>
                                     <div>
                                         <a class="settings-icon settings-row-3 settings-link" href="{% url 'website:about' %}">
-                                            <div class="settings-icon settings-row-3">
+                                            <div class="settings-icon">
                                                 <i class="fa-solid fa-circle-info fa-7x"></i><br><br><h5>About</h5>
                                             </div>
                                         </a>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <a class="settings-icon settings-row-3 settings-link" id="logout-link" href="{% url 'user_management:logout' %}">
-                                            <div class="settings-icon settings-row-3">
+                                            <div class="settings-icon">
                                                 <i class="fa-solid fa-right-from-bracket fa-7x"></i><br><br><h5>Logout</h5>
                                             </div>
                                         </a>

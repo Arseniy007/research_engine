@@ -1242,3 +1242,14 @@ onclick="load_and_show_source_space('{{ source.id }}')"
             </div>
         </div>
     </div>
+
+    <li>
+        <a href="{% url 'work_space:download_space' space.pk %}">Download space</a>
+    </li><br><br><br>
+
+    <form action="{% url 'paper_work:create_paper' space.pk %}" method="post">
+        {% csrf_token %} 
+        {{ new_paper_form }}
+        <button id="change_password_button" type="submit">Add Paper</button>
+    </form>
+    
