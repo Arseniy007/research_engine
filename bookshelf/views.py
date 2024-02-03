@@ -9,6 +9,7 @@ from utils.data_cleaning import clean_author_data
 from utils.decorators import quote_ownership_required, post_request_required, source_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_quote, check_source, check_work_space
+from user_management.helpers import get_user_papers, get_user_work_spaces
 from .forms import *
 from .source_alteration import alter_source
 from .source_citation import get_source_reference
@@ -37,6 +38,8 @@ def source_space(request, source_id):
             "upload_file_form": UploadSourceFileForm(),
             "link_form": AddLinkForm(),
             "new_quote_form": NewQuoteForm(),
+            "work_spaces": get_user_work_spaces(request.user), 
+            "papers": get_user_papers(request.user)
     }
     return render(request, "source_space.html", source_data)
 

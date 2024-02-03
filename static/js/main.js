@@ -196,6 +196,7 @@ function show_or_hide_source_settings(source_id) {
     const delete_button = document.querySelector(`#delete-source-button-${source_id}`);
     const link_button = document.querySelector(`#source-link-button-${source_id}`);
     const open_file_button = document.querySelector(`#open-source-file-button-${source_id}`);
+    const expand_button = document.querySelector(`#expand-button-${source_id}`);
 
     // Open source settings
     if (source_settings_div.style.display === 'none') {
@@ -205,6 +206,7 @@ function show_or_hide_source_settings(source_id) {
         // Change all buttons
         edit_button.style.display = 'none';
         close_modal_button.style.display = 'none';
+        expand_button.style.display = 'none';
         close_settings_button.style.display = 'inline-block';
         delete_button.style.display = 'inline-block';
 
@@ -228,6 +230,7 @@ function show_or_hide_source_settings(source_id) {
         delete_button.style.display = 'none';
         edit_button.style.display = 'inline-block';
         close_modal_button.style.display = 'inline-block';
+        expand_button.style.display = 'inline-block';
 
         if (open_file_button) {
             open_file_button.style.display = 'inline-block';

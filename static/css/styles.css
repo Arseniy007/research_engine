@@ -251,6 +251,24 @@ a:active {
   left: 10px;
 }
 
+.expand-button
+{
+  position: absolute;
+  left: 120px;
+}
+
+.source-file-button
+{
+  position: absolute;
+  left: 220px;
+}
+
+.source-link-button
+{
+  position: absolute;
+  left: 315px;
+}
+
 .round-button
 {
   border-radius: 15px!important;
