@@ -46,13 +46,23 @@
   color: #4fc7ee;
 }
 
-.main 
+.main
 /* For forms background-color: #111; */
 {
   margin-left: 240px; /* Same as the width of the sidebar */
   padding: 0px 10px;
   background-color: rgba(248,248,234,255);
   font-family: 'Special Elite', serif;
+}
+
+.modal-body, .modal-header
+{
+  background-color: rgba(248,248,234,255);
+}
+
+.source-icon, .source-button
+{
+  display: inline;
 }
 
 input[type]:not([type="button"], [type="submit"]), textarea, select
@@ -78,7 +88,7 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
   border-radius: 20px;
 }
 
-.pointy_cursor
+.pointy-cursor
 {
   cursor: pointer;
 }

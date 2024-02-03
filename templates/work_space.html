@@ -52,27 +52,53 @@
     <br><br>
     {% for source in sources %}
        
-
-
-
-        <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
+        <!-- Source Card -->
+        <div onclick="load_and_show_source_space('{{ source.id }}')" class="card text-bg-dark mb-3 pointy-cursor" style="max-width: 18rem;"  data-bs-toggle="modal" data-bs-target="#source-space-modal-{{ source.id }}">
             <div class="card-header">{{ source.author }}</div>
             <div class="card-body">
-                <h5 class="card-title">{{ source.title }}</h5>
-                <button onclick="load_and_show_source_space('{{ source.id }}')" type="button" class="btn btn-dark" id="open-modal-button-{{ source.id }}" data-bs-toggle="modal" data-bs-target="#source-space-modal-{{ source.id }}">
-                    <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
-                </button>
+                <h5 class="card-title source-button">{{ source.title }}</h5>
+            </div>
+            <div class="card-footer">
+                <small class="text-body-secondary source-incons-div">
+                    <div class="source-icons">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% if source.has_file %}
+                            <div class="source-icon">
+                                <i class="fa-solid fa-file"></i>
+                            </div>
+                        {% else %}
+                            &nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                        &nbsp;
+                        {% if source.link %}
+                            <div class="source-icon">
+                                <i class="fa-solid fa-link"></i>
+                            </div>
+                        {% else %}
+                            &nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                        &nbsp;
+                        {% if source.has_quotes %}
+                        <div class="source-icon">
+                            <i class="fa-solid fa-quote-left"></i>
+                            <i class="fa-solid fa-quote-right"></i>
+                        </div>
+                        {% else %}
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                        &nbsp;
+                        <div class="source-icon">
+                            <i class="fa-solid fa-asterisk"></i>
+                        </div>
+                    </div>
+                </small>
             </div>
         </div>
-
-         
-
-
-
-
-
-
-        <!-- Modal -->
+        <!-- Source Modal -->
         <div class="modal fade source-modal" id="source-space-modal-{{ source.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="source-space-label-{{ source.id }}" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
@@ -95,7 +121,7 @@
                             </a>
                         </div>
                         {% if source.has_file %}
-                            <div class="btn-toolbar source-file-button" role="toolbar" id="">
+                            <div class="btn-toolbar source-file-button" role="toolbar">
                                 <a href="{% url 'file_handling:display_source_file' source.file_id %}" id="open-source-file-button-{{ source.id }}">
                                     <button type="button" class="btn btn-dark round-button">File&nbsp;&nbsp;<i class="fa-solid fa-file"></i></button>
                                 </a>
@@ -129,6 +155,10 @@
     {% endfor %}
 
 
+    <br><br>
+
+
+
     <li>
         <a href="{% url 'work_space:download_space' space.pk %}">Download space</a>
     </li><br><br><br>
@@ -151,8 +181,7 @@
 
         </div>
     </div>
-    
-    
+
     
     <br><br>
     
@@ -168,7 +197,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="new-source-label">Add new source</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" id="btn-new-source-close-button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="new-source-div">
                     <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -360,7 +389,7 @@
                         </div>
                     </div>
                 </div>    
-                <div class="modal-footer">
+                <div class="modal-footer" id="new-source-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>

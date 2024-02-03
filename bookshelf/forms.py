@@ -272,13 +272,20 @@ class AlterWebpageForm(WebpageForm):
 
 
 class AddLinkForm(forms.Form):
-    link = forms.URLField(widget=forms.URLInput(attrs={
+    link = forms.URLField(required=False, widget=forms.URLInput(attrs={
         "type": "url",
         "id": "link-field",
         "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Link"})
     )
+
+    def set_initials(self, source: Source):
+        """Prepopulate link field if it was already uploaded"""
+        if source.link:
+            self.fields["link"].initial = source.link
+        return self
+
 
     def save_link(self, source: Source):
         """Checks and saves link for given source"""

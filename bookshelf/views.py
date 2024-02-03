@@ -24,19 +24,19 @@ def source_space(request, source_id):
     reference = get_source_reference(source)
 
     if source.has_file:
-        source_file = source.get_file()
+        source_file_id = source.get_file().pk
     else:
-        source_file = None
+        source_file_id = None
 
     # Get all needed source-related data
     source_data = {
             "source": source,
-            "source_file": source_file,
+            "source_file_id": source_file_id,
             "quotes": source.quotes.all(),
             "reference": reference,
             "alter_source_form": get_and_set_alter_form(source),
             "upload_file_form": UploadSourceFileForm(),
-            "link_form": AddLinkForm(),
+            "link_form": AddLinkForm().set_initials(source),
             "new_quote_form": NewQuoteForm(),
             "work_spaces": get_user_work_spaces(request.user), 
             "papers": get_user_papers(request.user)

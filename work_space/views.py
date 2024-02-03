@@ -30,9 +30,15 @@ def work_space_view(request, space_id):
             file_id = source.get_file().pk
         else:
             file_id = None
+        if source.quotes.all():
+            quotes = True
+        else:
+            quotes = False
         source = model_to_dict(source)
         source["file_id"] = file_id
+        source["has_quotes"] = quotes
         sources.append(source)
+        print(file_id)
 
     # Get user status
     if request.user == space.owner:
@@ -56,7 +62,7 @@ def work_space_view(request, space_id):
         "rename_form": RenameSpaceForm().set_initial(space),
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user),
-        "user_status": user_status
+        "user_status": user_status,
     }
     return render(request, "work_space.html", work_space_data)
 

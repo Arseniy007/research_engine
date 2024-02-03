@@ -37,7 +37,7 @@
         <div class="sidenav">
             <div id="re">
                 {% if user.is_authenticated %}
-                    <div id="re-main-button" class="pointy_cursor" onclick="openNav()">
+                    <div id="re-main-button" class="pointy-cursor" onclick="openNav()">
                         <i class="fa-solid fa-graduation-cap"></i>
                         research engine
                     </div>
@@ -61,7 +61,7 @@
                             </div>
                         {% endif %}
                         {% if papers %}
-                            <a onclick="dropdown_papers()" class="dropbtn pointy_cursor">Papers&nbsp;&nbsp;<i class="fa-solid fa-copy"></i></a>
+                            <a onclick="dropdown_papers()" class="dropbtn pointy-cursor">Papers&nbsp;&nbsp;<i class="fa-solid fa-copy"></i></a>
                             <div class="dropdown-content" id="papers-dropdown">
                                 {% for paper in papers %}
                                     <a href="{% url 'paper_work:paper_space' paper.pk %}"><small>{{ paper }}</small></a>

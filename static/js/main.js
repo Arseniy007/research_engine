@@ -113,6 +113,7 @@ async function submit_source_forms(source_id) {
     }
     // Update source space in case of success
     load_and_show_source_space(source_id);
+    document.querySelector(`#close-source-settings-button-${source_id}`).click();
 }
 
 async function alter_source_info(form, source_id) {
@@ -184,10 +185,6 @@ function show_or_hide_source_settings(source_id) {
 
     const source_div = document.querySelector(`#source-space-${source_id}`);
     const source_settings_div = document.querySelector(`#source-settings-${source_id}`);
-
-    console.log(source_div.innerHTML)
-    console.log(source_settings_div.innerHTML)
-
 
     // Get all buttons
     const btn_close_button = document.querySelector(`#btn-close-${source_id}`);

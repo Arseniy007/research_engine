@@ -230,8 +230,20 @@ function load_and_show_new_source_space(url) {
         const source_space_header = source_space_page.querySelector('#source-space-header');
         document.querySelector('#new-source-label').innerHTML = source_space_header.innerHTML;
 
-        // Past fetched html
-        new_source_div.innerHTML = source_space_page.querySelector('#source-space').innerHTML;
+        // Past source footer
+        const old_footer =  document.querySelector('#new-source-footer');
+        const source_space_footer = source_space_page.querySelector('#hidden-source-footer');
+        old_footer.classList.add('source-footer');
+        old_footer.innerHTML = source_space_footer.innerHTML;
+
+        // Sat new ids
+        const source_id = source_space_page.querySelector('#source-id').innerHTML;
+        document.querySelector('#new-source-label').id = `source-space-label-${source_id}`;
+        document.querySelector('#btn-new-source-close-button').id = `btn-close-${source_id}`
+        document.querySelector('#new-source-div').id = `source-space-div-${source_id}`;
+
+        // Past fetched body
+        new_source_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
 
         // Set validation for source-edit-forms
         const edit_forms = document.getElementsByClassName('edit-form');
