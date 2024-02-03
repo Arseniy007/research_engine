@@ -190,6 +190,7 @@ function show_or_hide_source_settings(source_id) {
 
 
     // Get all buttons
+    const btn_close_button = document.querySelector(`#btn-close-${source_id}`);
     const close_modal_button = document.querySelector(`#close-source-modal-button-${source_id}`);
     const edit_button = document.querySelector(`#show-source-settings-button-${source_id}`);
     const close_settings_button = document.querySelector(`#close-source-settings-button-${source_id}`);
@@ -206,6 +207,7 @@ function show_or_hide_source_settings(source_id) {
         // Change all buttons
         edit_button.style.display = 'none';
         close_modal_button.style.display = 'none';
+        btn_close_button.style.display = 'none';
         expand_button.style.display = 'none';
         close_settings_button.style.display = 'inline-block';
         delete_button.style.display = 'inline-block';
@@ -216,8 +218,7 @@ function show_or_hide_source_settings(source_id) {
 
         if (link_button) {
             link_button.style.display = 'none';
-        }
-        
+        }        
     }
     // Close source settings
     else {
@@ -231,6 +232,7 @@ function show_or_hide_source_settings(source_id) {
         edit_button.style.display = 'inline-block';
         close_modal_button.style.display = 'inline-block';
         expand_button.style.display = 'inline-block';
+        btn_close_button.style.display = 'block';
 
         if (open_file_button) {
             open_file_button.style.display = 'inline-block';

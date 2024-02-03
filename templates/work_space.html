@@ -78,7 +78,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                          <h1 class="modal-title fs-5" id="source-space-label-{{ source.id }}"></h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" id="btn-close-{{ source.id }}" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="source-space-div-{{ source.id }}"></div>
                     <div id="source-id" style="display: none;">{{ source.id }}</div>
@@ -95,18 +95,26 @@
                             </a>
                         </div>
                         {% if source.has_file %}
-                            <div class="btn-toolbar me-5 source-file-button" role="toolbar" id="">
+                            <div class="btn-toolbar source-file-button" role="toolbar" id="">
                                 <a href="{% url 'file_handling:display_source_file' source.file_id %}" id="open-source-file-button-{{ source.id }}">
                                     <button type="button" class="btn btn-dark round-button">File&nbsp;&nbsp;<i class="fa-solid fa-file"></i></button>
                                 </a>
                             </div>
                         {% endif %}
                         {% if source.link %}
-                            <div class="btn-toolbar me-2 source-link-button" role="toolbar">
+                            {% if source.has_file %}
+                            <div class="btn-toolbar source-link-button" role="toolbar">
                                 <a href="{{ source.link }}" id="source-link-button-{{ source.id }}">
                                     <button type="button" class="btn btn-dark round-button">Link&nbsp;&nbsp;<i class="fa-solid fa-link source-modal-icon"></i></button>
                                 </a>
                             </div>
+                            {% else %}
+                                <div class="btn-toolbar source-file-button" role="toolbar">
+                                    <a href="{{ source.link }}" id="source-link-button-{{ source.id }}">
+                                        <button type="button" class="btn btn-dark round-button">Link&nbsp;&nbsp;<i class="fa-solid fa-link source-modal-icon"></i></button>
+                                    </a>
+                                </div>
+                            {% endif %}
                         {% endif %}
                         <div class="btn-toolbar" role="toolbar">
                             <div class="btn-group" role="group">
