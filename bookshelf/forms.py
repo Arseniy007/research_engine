@@ -57,7 +57,7 @@ class ArticleForm(CommonFields):
         "placeholder": "Journal Title"})
     )
 
-    article_title = forms.CharField(widget=forms.TextInput(attrs={
+    title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "article-title-field",
         "class": CLASS_,
@@ -87,6 +87,14 @@ class ArticleForm(CommonFields):
         "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Pages range"})
+    )
+
+    year = forms.IntegerField(widget=forms.NumberInput(attrs={
+        "type": "number",
+        "id": "article-year-field",
+        "class": CLASS_,
+        "autocomplete": "off",
+        "placeholder": "Publishing year"})
     )
 
     link_to_journal = forms.URLField(required=False, widget=forms.URLInput(attrs={
@@ -222,7 +230,7 @@ class AlterArticleForm(ArticleForm):
 
     def set_initials(self, article: Article):
         for field in self.fields:
-            if field != "source_type":
+            if field not in ("source_type", "number_of_authors",):
                 self.fields[field].initial = article.__getattribute__(field)
         return self
 

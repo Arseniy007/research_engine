@@ -12,7 +12,7 @@ def make_article_endnote_apa(article: dict) -> str:
     """Create apa endnote for given article"""
     author = format_authors_apa(article["author"])
     result: str = (
-        f'{author} ({article["year"]}). "{article["article_title"]}" {article["journal_title"]}, '
+        f'{author} ({article["year"]}). "{article["title"]}" {article["journal_title"]}, '
         f'{article["volume"]}({article["issue"]}), {article["pages"]}.'
     )
     return result

@@ -51,6 +51,15 @@
         <div onclick="load_and_show_source_space('{{ source.id }}')" id="source-card-{{ source.id }}" class="card text-bg-dark mb-3 pointy-cursor" style="max-width: 18rem;"  data-bs-toggle="modal" data-bs-target="#source-space-modal-{{ source.id }}">
             <div class="card-header">{{ source.author }}</div>
             <div class="card-body">
+                {% if source.type == 'book' %}
+                    <span><i class="fa-solid fa-book"></i></span>
+                {% elif source.type == 'article' %}
+                    <span><i class="fa-solid fa-newspaper"></i></span>
+                {% elif source.type == 'chapter' %}
+                    <span><i class="fa-solid fa-book-bookmark"></i></span>
+                {% elif source.type == 'webpage' %}
+                    <span><i class="fa-solid fa-globe"></i></span>
+                {% endif %}
                 <h5 class="card-title source-button">{{ source.title }}</h5>
             </div>
             <div class="card-footer source-card-footer">
@@ -257,11 +266,28 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-outline mb-4 form-floating">
-                                                        {{ article_form.pages }}
-                                                        <label class="form-label" for="article-pages-field">Article pages</label>
-                                                        <div class="valid-feedback">Looks good!</div>
-                                                        <div class="invalid-feedback">Please provide article pages.</div>
+                                                    <div class="form-outline mb-4 row">
+                                                        <div class="col-md">
+                                                            <div class="form-floating">
+                                                                {{ article_form.pages }}
+                                                                <label class="form-label" for="article-pages-field">Article pages</label>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">Please provide article pages.</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md">
+                                                            <div class="form-floating">
+                                                                {{ article_form.year }}
+                                                                <label class="form-label" for="article-year-field">Article Year</label>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">Please provide article year.</div>
+                                                            </div>
+                                                        </div>
+
+
+
+
+
                                                     </div>
                                                     <div class="form-outline mb-4 form-floating">
                                                         {{ article_form.link_to_journal }}
