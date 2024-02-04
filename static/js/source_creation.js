@@ -290,13 +290,19 @@ function get_quick_reference(form_id) {
             // Show result fields
             const apa_field = document.querySelector('#reference-result-field-apa');
             const mla_field = document.querySelector('#reference-result-field-mla');
+
+            apa_field.setAttribute("style", "height:" + (apa_field.scrollHeight) + "px;overflow-y:hidden;");
+            apa_field.addEventListener('input', auto_grow(apa_field), false)
+
+            apa_field.dispatchEvent(new Event('input', { bubbles: true }));
+
             apa_field.innerHTML = result.reference.apa_endnote;
-            mla_field.innerHTML = result.reference.mla_endnote;
-            apa_field.style.height = (result.reference.apa_endnote.scrollHeight) + 'px';
-            mla_field.style.height = (result.reference.mla_endnote.scrollHeight) + 'px';
+            mla_field.value = result.reference.mla_endnote;
+            //apa_field.style.height = (result.reference.apa_endnote.scrollHeight) + 'px;overflow-y:hidden';
+            //mla_field.style.height = (result.reference.mla_endnote.scrollHeight) + 'px;overflow-y:hidden;';
 
-
-
+  
+            // TODO
 
             // Hide submitted form
             hide_all_forms();
@@ -311,7 +317,14 @@ function get_quick_reference(form_id) {
     });
 }
 
-function auto_grow(textarea) {
+async function auto_grow(textarea) {
     console.log('hi')
-    return textarea.style.height = (textarea.scrollHeight) + 'px';
+    textarea.style.height = 'auto';
+    textarea.style.height = (textarea.scrollHeight) + 'px';
+}
+
+function delay(milliseconds){
+    return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
 }

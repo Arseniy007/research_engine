@@ -103,8 +103,6 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
   cursor: pointer;
 }
 
-
-
 .dropdown-content 
 {
   display: none;
