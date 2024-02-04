@@ -237,7 +237,7 @@
                                                     {{ article_form.number_of_authors }}
                                                     <div class="author-div"></div><br>
                                                     <div class="form-outline mb-4 form-floating">         
-                                                        {{ article_form.article_title }}
+                                                        {{ article_form.title }}
                                                         <label class="form-label" for="article-title-field">Article Title</label>
                                                         <div class="valid-feedback">Looks good!</div>
                                                         <div class="invalid-feedback">Please provide article title.</div>
@@ -298,13 +298,15 @@
                                                     {% csrf_token %}
                                                     {{ chapter_form.source_type }}
                                                     {{ chapter_form.number_of_authors }}
-                                                    <div class="author-div"></div><br>
+                                                    {{ chapter_form.number_of_chapter_authors }}
+                                                    <div id="chapter-author-div"></div><br>
                                                     <div class="form-outline mb-4 form-floating">         
-                                                        {{ chapter_form.chapter_title }}
+                                                        {{ chapter_form.title }}
                                                         <label class="form-label" for="chapter-title-field">Chapter Title</label>
                                                         <div class="valid-feedback">Looks good!</div>
                                                         <div class="invalid-feedback">Please provide chapter title.</div>
                                                     </div>
+                                                    <div class="author-div"></div><br>
                                                     <div class="form-outline mb-4 form-floating">
                                                         {{ chapter_form.book_title }}
                                                         <label class="form-label" for="book-title-field">Book title</label>
@@ -334,12 +336,14 @@
                                                                 <div class="invalid-feedback">Please provide chapters pages.</div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-outline mb-4 form-floating">
-                                                        {{ chapter_form.year }}
-                                                        <label class="form-label" for="chapter-year-field">Year</label>
-                                                        <div class="valid-feedback">Looks good!</div>
-                                                        <div class="invalid-feedback">Please provide publishing year.</div>
+                                                        <div class="col-md">
+                                                            <div class="form-floating">
+                                                                {{ chapter_form.year }}
+                                                                <label class="form-label" for="chapter-year-field">Year</label>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">Please provide publishing year.</div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="d-flex justify-content-center">
                                                         <input type="submit" value="Add Chapter" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>

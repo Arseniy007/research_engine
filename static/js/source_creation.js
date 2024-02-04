@@ -86,7 +86,10 @@ async function show_and_load_form(form_id) {
     if (form_id === 'chapter-form') {
         // Load first chapter-author field
         const chapter_author_div = form.querySelector('#chapter-author-div');
-        chapter_author_div.innerHTML = await render_author_field(number_of_chapter_authors, chapter=true);
+        const chapter_author_form_body = await render_author_field(number_of_chapter_authors, chapter=true);
+        chapter_author_div.innerHTML = chapter_author_form_body.innerHTML;
+        chapter_author_div.id = chapter_author_form_body.id
+        chapter_author_div.className = 'chapter-author';
 
         // Pre-lode next chapter-author field
         load_new_author_field(chapter_author_div, number_of_chapter_authors, is_chapter=true);
@@ -176,7 +179,7 @@ async function render_author_field(author_number, chapter=false) {
 
 function count_and_set_authors_number(form) {
 
-    if (form.id === "chapter-form") {
+    if (form.parentNode.id === "chapter-form") {
         // Count how many "chapter-author" divs are there
         form.querySelector('.final_number_of_chapter_authors').value = form.getElementsByClassName('chapter-author').length;
     }

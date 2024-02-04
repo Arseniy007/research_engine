@@ -67,7 +67,7 @@ def format_authors_mla(author_field: str) -> str:
         return f"{first_author} and {second_author}"
 
     # If there are more then 2 authors:
-    return f"{first_author}, et. al."
+    return f"{first_author}, et. al"
 
 
 def format_one_author_mla(author: str) -> str:

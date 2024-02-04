@@ -122,7 +122,7 @@ class ChapterForm(CommonFields):
         "placeholder": "Book Title"})
     )
 
-    chapter_title = forms.CharField(widget=forms.TextInput(attrs={
+    title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "chapter-title-field",
         "class": CLASS_,
@@ -244,19 +244,20 @@ class AlterChapterForm(ChapterForm):
         "placeholder": "Book author"})
     )
 
-    chapter_author = forms.CharField(widget=forms.TextInput(attrs={
+    book_author = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
-        "id": "author-field",
+        "id": "book-author-field",
         "class": CLASS_,
         "autocomplete": "off",
         "placeholder": "Chapter author"})
     )
 
     number_of_authors = forms.IntegerField(widget=forms.HiddenInput, required=False)
+    number_of_chapter_authors = forms.IntegerField(widget=forms.HiddenInput, required=False)
 
     def set_initials(self, chapter: Chapter):
         for field in self.fields:
-            if field not in ("source_type", "number_of_authors",):
+            if field not in ("source_type", "number_of_authors", "number_of_chapter_authors",):
                 self.fields[field].initial = chapter.__getattribute__(field)
         return self
 

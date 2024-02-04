@@ -17,7 +17,7 @@ class Source(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sources")
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=70, blank=True)
-    year = models.CharField(max_length=5, blank=True)
+    year = models.CharField(max_length=4, blank=True)
     link = models.URLField(max_length=40, blank=True)
     has_file = models.BooleanField(default=False)
 

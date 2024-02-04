@@ -8,9 +8,17 @@
                 <div class="card form-card" style="border-radius: 15px;">
                     <div class="card-body p-5 form-body {{ chapter }}author" id="{{ chapter }}author-field-{{ author_number }}">
                         {% if author_number == 0 %}
-                            <h5>Author</h5>
+                            {% if chapter %}
+                                <h5>Chapter author</h5>
+                            {% else %}
+                                <h5>Author</h5>
+                            {% endif %}
                         {% else %}
-                            <h5>Author {{ author_number| add:"+1" }} <span class="badge bg-danger" id="{{ chapter }}delete-author-button-{{ author_number }}" style="font-size: .6em;"><i class="fa-solid fa-trash"></i></span></h5>
+                            {% if chapter %}
+                                <h5>Chapter author {{ author_number| add:"+1" }} <span class="badge bg-danger pointy-cursor" id="{{ chapter }}delete-author-button-{{ author_number }}" style="font-size: .6em;"><i class="fa-solid fa-trash"></i></span></h5>
+                            {% else %}
+                                <h5>Author {{ author_number| add:"+1" }} <span class="badge bg-danger pointy-cursor" id="{{ chapter }}delete-author-button-{{ author_number }}" style="font-size: .6em;"><i class="fa-solid fa-trash"></i></span></h5>
+                            {% endif %}
                         {% endif %}
                         <div class="form-outline mb-4 form-floating">
                             <input class="form-control" id="{{ chapter }}author-last_name-{{ author_number }}" name="{{ chapter }}last_name_{{ author_number }}" type="text" placeholder="Last Name" autocomplete="off" required>
