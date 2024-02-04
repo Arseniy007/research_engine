@@ -31,9 +31,9 @@ def make_chapter_endnote_mla(chapter: dict) -> str:
 
 def make_webpage_endnote_mla(webpage: dict) -> str:
     """Create mla endnote for given webpage"""
-    date = format_date(webpage.date, "mla")
-    if webpage.author == "No author":
-        return f'"{webpage["title"]}" {webpage["website_title"]}, {date}, {webpage["page_url"]}.'
+    date = format_date(str(webpage["date"]), "mla")
+    if webpage["author"] == "No author":
+        return f'"{webpage["title"]}" {webpage["website_title"]}, {date}, {webpage["link"]}.'
 
-    author = format_authors_mla(webpage.author)
-    return f'{author}. "{webpage["title"]}" {webpage["website_title"]}, {date}, {webpage["page_url"]}.'
+    author = format_authors_mla(webpage["author"])
+    return f'{author}. "{webpage["title"]}" {webpage["website_title"]}, {date}, {webpage["link"]}.'

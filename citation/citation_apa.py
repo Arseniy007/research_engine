@@ -32,9 +32,9 @@ def make_chapter_endnote_apa(chapter: dict) -> str:
 
 def make_webpage_endnote_apa(webpage: dict) -> str:
     """Create apa endnote for given webpage"""
-    date = format_date(webpage["date"], "apa")
+    date = format_date(str(webpage["date"]), "apa")
     if webpage["author"] == "No author":
-        return f"{webpage['title']}. ({date}). {webpage['website_title']}. {webpage['page_url']}"
+        return f"{webpage['title']}. ({date}). {webpage['website_title']}. {webpage['link']}"
 
     author = format_authors_apa(webpage["author"])
-    return f"{author} ({date}). {webpage['title']}. {webpage['website_title']}. {webpage['page_url']}"
+    return f"{author} ({date}). {webpage['title']}. {webpage['website_title']}. {webpage['link']}"

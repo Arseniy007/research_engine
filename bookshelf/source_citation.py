@@ -44,7 +44,7 @@ def make_source_endnote_apa(source: Source) -> Callable | bool:
             chapter: dict = vars(source.chapter)
             return make_chapter_endnote_apa(chapter)
         case Webpage():
-            webpage: dict = source.webpage
+            webpage: dict = vars(source.webpage)
             return make_webpage_endnote_apa(webpage)
         case _:
             return None
@@ -66,7 +66,7 @@ def make_source_endnote_mla(source: Source) -> Callable | bool:
             chapter: dict = vars(source.chapter)
             return make_chapter_endnote_mla(chapter)
         case Webpage():
-            webpage: dict = source.webpage
+            webpage: dict = vars(source.webpage)
             return make_webpage_endnote_mla(webpage)
         case _:
             return None

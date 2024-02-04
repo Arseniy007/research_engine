@@ -18,7 +18,7 @@ class Source(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=70, blank=True)
     year = models.CharField(max_length=5, blank=True)
-    link = models.CharField(max_length=40, blank=True)
+    link = models.URLField(max_length=40, blank=True)
     has_file = models.BooleanField(default=False)
 
 
@@ -79,7 +79,6 @@ class Chapter(Source):
 
 class Webpage(Source):
     website_title = models.CharField(max_length=50)
-    page_url = models.CharField(max_length=100)
     date = models.CharField(max_length=20)
 
 

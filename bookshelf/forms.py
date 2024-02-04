@@ -166,7 +166,7 @@ class ChapterForm(CommonFields):
 class WebpageForm(CommonFields):
     source_type = SourceTypes.webpage
 
-    page_title = forms.CharField(widget=forms.TextInput(attrs={
+    title = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "page-title-field",
         "class": CLASS_,
@@ -182,7 +182,7 @@ class WebpageForm(CommonFields):
         "placeholder": "Website Title"})
     )
 
-    page_url = forms.URLField(widget=forms.URLInput(attrs={
+    link = forms.URLField(widget=forms.URLInput(attrs={
         "type": "url",
         "id": "page-url-field",
         "class": CLASS_,
@@ -262,7 +262,7 @@ class AlterChapterForm(ChapterForm):
 
 
 class AlterWebpageForm(WebpageForm):
-    webpage_author = forms.CharField(widget=forms.TextInput(attrs={
+    author = forms.CharField(widget=forms.TextInput(attrs={
         "type": "text",
         "id": "author-field",
         "class": CLASS_,

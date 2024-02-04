@@ -175,10 +175,10 @@
 
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new-source">
+    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#new-source">
         Add new source
     </button>
-    <!-- Modal -->
+    <!-- Add new source modal -->
     <div class="modal fade" id="new-source" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="new-source-label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
@@ -353,7 +353,7 @@
                                                     {{ webpage_form.number_of_authors }}
                                                     <div class="author-div"></div><br>
                                                     <div class="form-outline mb-4 form-floating">         
-                                                        {{ webpage_form.page_title }}
+                                                        {{ webpage_form.title }}
                                                         <label class="form-label" for="page-title-field">Page Title</label>
                                                         <div class="valid-feedback">Looks good!</div>
                                                         <div class="invalid-feedback">Please provide page title.</div>
@@ -365,7 +365,7 @@
                                                         <div class="invalid-feedback">Please provide website title.</div>
                                                     </div>
                                                     <div class="form-outline mb-4 form-floating">
-                                                        {{ webpage_form.page_url }}
+                                                        {{ webpage_form.link }}
                                                         <label class="form-label" for="page-url-field">Page URL</label>
                                                         <div class="valid-feedback">Looks good!</div>
                                                         <div class="invalid-feedback">Please provide page url.</div>
@@ -377,7 +377,7 @@
                                                         <div class="invalid-feedback">Please provide date.</div>
                                                     </div>
                                                     <div class="d-flex justify-content-center">
-                                                        <input type="submit" value="Add book" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                                                        <input type="submit" value="Add webpage" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
                                                     </div>
                                                 </form>
                                             </div>

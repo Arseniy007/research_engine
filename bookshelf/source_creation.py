@@ -74,11 +74,11 @@ def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
         author = "No author"
 
     # Checks date and if a given page url is indeed a link and gets you to a real webpage
-    page_url, date = cleaned_data["page_url"], cleaned_data["date"]
+    link, date = cleaned_data["link"], cleaned_data["date"]
 
     # Create and save new Webpage obj
     new_webpage = Webpage(work_space=space, user=user, author=author, 
-                          page_url=page_url, date=date, title=cleaned_data["page_title"],
+                          link=link, date=date, title=cleaned_data["title"],
                           website_title=cleaned_data["website_title"])
     new_webpage.save()
     # Create new Reference obj with Foreign key to this Webpage obj

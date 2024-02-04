@@ -190,7 +190,6 @@
                                         </form>
 
                                     {% elif source_type == 'webpage' %}
-
                                         <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
                                             {% csrf_token %}
                                             {{ alter_source_form.source_type }}
@@ -198,26 +197,45 @@
                                             <div class="form-outline mb-4 form-floating">         
                                                 {{ alter_source_form.author }}
                                                 <label class="form-label" for="author-field">Author</label>
-                                                <div class="invalid-feedback">Please provide books title.</div>
+                                                <div class="invalid-feedback">Please provide webpage author.</div>
                                             </div>
                                             <div class="form-outline mb-4 form-floating">         
                                                 {{ alter_source_form.title }}
                                                 <label class="form-label" for="title-field">Title</label>
-                                                <div class="invalid-feedback">Please provide books title.</div>
+                                                <div class="invalid-feedback">Please provide webpage title.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">
+                                                {{ alter_source_form.website_title }}
+                                                <label class="form-label" for="website-title-field">Website title</label>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please provide website title.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">
+                                                {{ alter_source_form.link }}
+                                                <label class="form-label" for="page-url-field">Page URL</label>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please provide page url.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">
+                                                {{ alter_source_form.date }}
+                                                <label class="form-label" for="date-field">Date</label>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please provide date.</div>
                                             </div>
 
                                         </form>
-
                                     {% endif %}
-                                    <h4>Link to source</h4>
-                                    <form action="{% url 'bookshelf:add_link' source.pk %}" id="add-link-form-{{ source.pk }}" method="post" class="needs-validation edit-form" novalidate>
-                                        {% csrf_token %}
-                                        <div class="form-outline mb-4 form-floating">         
-                                            {{ link_form.link }}
-                                            <label class="form-label" for="link-field">Link</label>
-                                            <div class="invalid-feedback">Please provide a valid url.</div>
-                                        </div>   
-                                    </form>
+                                    {% if source_type != 'webpage' %}
+                                        <h4>Link to source</h4>
+                                        <form action="{% url 'bookshelf:add_link' source.pk %}" id="add-link-form-{{ source.pk }}" method="post" class="needs-validation edit-form" novalidate>
+                                            {% csrf_token %}
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ link_form.link }}
+                                                <label class="form-label" for="link-field">Link</label>
+                                                <div class="invalid-feedback">Please provide a valid url.</div>
+                                            </div>   
+                                        </form>
+                                    {% endif %}
                                     {% if source.has_file %}
                                         <h4>Upload new source file</h4>
                                     {% else %}
