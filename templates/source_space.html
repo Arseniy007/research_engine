@@ -62,37 +62,153 @@
                             <div class="card form-card" style="border-radius: 15px;">
                                 <div class="card-body p-5 form-body">
                                     <h2 class="text-uppercase text-center mb-4 mt-0" id="form-header">Edit</h2>
-                                    <div id="edit-source-error-message" style="display: none;">
+                                    <div id="edit-source-error-message" class="form-error-message" style="display: none;">
                                         <ul class="messages">
                                             <li class="error">Error</li>
                                         </ul>
                                     </div>
                                     <h4>Source Info</h4>
-                                    <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
-                                        {% csrf_token %}
-                                        {{ alter_source_form.source_type }}
-                                        {{ alter_source_form.number_of_authors }}
-                                        <div class="form-outline mb-4 form-floating">         
-                                            {{ alter_source_form.author }}
-                                            <label class="form-label" for="author-field">Author</label>
-                                            <div class="invalid-feedback">Please provide books title.</div>
-                                        </div>
-                                        <div class="form-outline mb-4 form-floating">         
-                                            {{ alter_source_form.title }}
-                                            <label class="form-label" for="title-field">Title</label>
-                                            <div class="invalid-feedback">Please provide books title.</div>
-                                        </div>
-                                        <div class="form-outline mb-4 form-floating">
-                                            {{ alter_source_form.publishing_house }}
-                                            <label class="form-label" for="publishing-house-field">Publishing House</label>
-                                            <div class="invalid-feedback">Please provide books publishing house.</div>
-                                        </div>
-                                        <div class="form-outline mb-4 form-floating">
-                                            {{ alter_source_form.year }}
-                                            <label class="form-label" for="book-year-field">Year</label>
-                                            <div class="invalid-feedback">Please provide publishing year.</div>
-                                        </div>
-                                    </form>
+                                    {% if source_type == 'book' %}
+                                        <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
+                                            {% csrf_token %}
+                                            {{ alter_source_form.source_type }}
+                                            {{ alter_source_form.number_of_authors }}
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ alter_source_form.author }}
+                                                <label class="form-label" for="author-field">Author</label>
+                                                <div class="invalid-feedback">Please provide books title.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ alter_source_form.title }}
+                                                <label class="form-label" for="title-field">Title</label>
+                                                <div class="invalid-feedback">Please provide books title.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 row">
+                                                <div class="col-md">
+                                                    <div class="form-floating">
+                                                        {{ alter_source_form.publishing_house }}
+                                                        <label class="form-label" for="publishing-house-field">Publishing House</label>
+                                                        <div class="invalid-feedback">Please provide books publishing house.</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md">
+                                                    <div class="form-floating">
+                                                        {{ alter_source_form.year }}
+                                                        <label class="form-label" for="book-year-field">Year</label>
+                                                        <div class="invalid-feedback">Please provide publishing year.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {% elif source_type == 'article' %}
+                                        <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
+                                            {% csrf_token %}
+                                            {{ alter_source_form.source_type }}
+                                            {{ alter_source_form.number_of_authors }}
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ alter_source_form.author }}
+                                                <label class="form-label" for="author-field">Author</label>
+                                                <div class="invalid-feedback">Please provide article author.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ alter_source_form.title }}
+                                                <label class="form-label" for="title-field">Title</label>
+                                                <div class="invalid-feedback">Please provide article title.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ alter_source_form.journal_title }}
+                                                <label class="form-label" for="journal-title-field">Journal Title</label>
+                                                <div class="invalid-feedback">Please provide journal title.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 row">
+                                                <div class="col-md">
+                                                    <div class="form-floating">
+                                                        {{ alter_source_form.volume }}
+                                                        <label class="form-label" for="volume-field">Volume</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide journal volume.</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md">
+                                                    <div class="form-floating">
+                                                        {{ alter_source_form.issue }}
+                                                        <label class="form-label" for="issue-field">Issue</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide journals issue.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-outline mb-4 row">
+                                                <div class="col-md">
+                                                    <div class="form-floating">
+                                                        {{ alter_source_form.pages }}
+                                                        <label class="form-label" for="article-pages-field">Article pages</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide article pages.</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md">
+                                                    <div class="form-floating">
+                                                        {{ alter_source_form.year }}
+                                                        <label class="form-label" for="article-year-field">Article Year</label>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please provide article year.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">
+                                                {{ article_form.link_to_journal }}
+                                                <label class="form-label" for="link-to-journal-field">Link to Journal</label>
+                                            </div>
+                                        </form>
+                                    {% elif source_type == 'chapter' %}
+
+                                        <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
+                                            {% csrf_token %}
+                                            {{ alter_source_form.source_type }}
+                                            {{ alter_source_form.number_of_authors }}
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ alter_source_form.author }}
+                                                <label class="form-label" for="author-field">Author</label>
+                                                <div class="invalid-feedback">Please provide books title.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ alter_source_form.title }}
+                                                <label class="form-label" for="title-field">Title</label>
+                                                <div class="invalid-feedback">Please provide books title.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">
+                                                {{ alter_source_form.publishing_house }}
+                                                <label class="form-label" for="publishing-house-field">Publishing House</label>
+                                                <div class="invalid-feedback">Please provide books publishing house.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">
+                                                {{ alter_source_form.year }}
+                                                <label class="form-label" for="book-year-field">Year</label>
+                                                <div class="invalid-feedback">Please provide publishing year.</div>
+                                            </div>
+                                        </form>
+
+                                    {% elif source_type == 'webpage' %}
+
+                                        <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" id="alter-source-form-{{ source.pk }}" class="needs-validation edit-form" novalidate>
+                                            {% csrf_token %}
+                                            {{ alter_source_form.source_type }}
+                                            {{ alter_source_form.number_of_authors }}
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ alter_source_form.author }}
+                                                <label class="form-label" for="author-field">Author</label>
+                                                <div class="invalid-feedback">Please provide books title.</div>
+                                            </div>
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ alter_source_form.title }}
+                                                <label class="form-label" for="title-field">Title</label>
+                                                <div class="invalid-feedback">Please provide books title.</div>
+                                            </div>
+
+                                        </form>
+
+                                    {% endif %}
                                     <h4>Link to source</h4>
                                     <form action="{% url 'bookshelf:add_link' source.pk %}" id="add-link-form-{{ source.pk }}" method="post" class="needs-validation edit-form" novalidate>
                                         {% csrf_token %}

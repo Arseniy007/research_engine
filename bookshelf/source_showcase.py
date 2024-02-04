@@ -11,16 +11,7 @@ def get_work_space_sources(space: WorkSpace) -> list:
         source: Source
         source_dict: dict = model_to_dict(source)
 
-        source_type = source.cast()
-        match source_type:
-            case Book():
-                source_dict["type"] = "book"
-            case Article():
-                source_dict["type"] = "article"
-            case Chapter():
-                source_dict["type"] = "chapter"
-            case Webpage():
-                source_dict["type"] = "webpage"\
+        source_dict["type"] = get_source_type(source)
 
         if source.has_file:
             source_dict["file_id"] = source.get_file().pk
@@ -33,3 +24,18 @@ def get_work_space_sources(space: WorkSpace) -> list:
         sources.append(source_dict)
 
     return sources
+
+
+def get_source_type(source: Source) -> str:
+    """Return str with source type"""
+
+    source_type = source.cast()
+    match source_type:
+        case Book():
+            return "book"
+        case Article():
+            return"article"
+        case Chapter():
+            return "chapter"
+        case Webpage():
+            return "webpage"
