@@ -11,9 +11,11 @@ def create_input_reference(form: Form, author: str, chapter_author: str=None) ->
     cleaned_data: dict = clean_source_form_fields(form)
 
     # Add author fields
-    cleaned_data["author"] = author
     if chapter_author:
-        cleaned_data["chapter_author"] = chapter_author
+        cleaned_data["book_author"] = author
+        cleaned_data["author"] = chapter_author
+    else:
+        cleaned_data["author"] = author
 
     match form:
         case BookForm():

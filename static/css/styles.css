@@ -74,7 +74,6 @@
 	justify-content: flex-end;
 }
 
-
 input[type]:not([type="button"], [type="submit"]), textarea, select
 {
   background-color: #72b41b2b;
@@ -103,6 +102,8 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
 {
   cursor: pointer;
 }
+
+
 
 .dropdown-content 
 {

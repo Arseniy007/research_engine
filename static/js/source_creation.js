@@ -288,8 +288,15 @@ function get_quick_reference(form_id) {
             form.querySelector('.get-reference-button').style.display = 'none';
 
             // Show result fields
-            document.querySelector('#reference-result-field-apa').innerHTML = result.reference.apa_endnote;
-            document.querySelector('#reference-result-field-mla').innerHTML = result.reference.mla_endnote;
+            const apa_field = document.querySelector('#reference-result-field-apa');
+            const mla_field = document.querySelector('#reference-result-field-mla');
+            apa_field.innerHTML = result.reference.apa_endnote;
+            mla_field.innerHTML = result.reference.mla_endnote;
+            apa_field.style.height = (result.reference.apa_endnote.scrollHeight) + 'px';
+            mla_field.style.height = (result.reference.mla_endnote.scrollHeight) + 'px';
+
+
+
 
             // Hide submitted form
             hide_all_forms();
@@ -302,4 +309,9 @@ function get_quick_reference(form_id) {
             error_message.style.display = 'block';
         }
     });
+}
+
+function auto_grow(textarea) {
+    console.log('hi')
+    return textarea.style.height = (textarea.scrollHeight) + 'px';
 }

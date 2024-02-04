@@ -720,3 +720,13 @@ rename_space_form.addEventListener('submit', event => {
         }
     });
 }
+
+
+document.querySelector('#reference-result-field-apa').innerHTML = result.reference.apa_endnote;
+document.querySelector('#reference-result-field-mla').innerHTML = result.reference.apa_endnote;
+
+const apa_field = document.querySelector('#reference-result-field-apa');
+const mla_field = document.querySelector('#reference-result-field-mla');
+apa_field.innerHTML = result.reference.apa_endnote;
+mla_field.innerHTML = result.reference.apa_endnote;
+
