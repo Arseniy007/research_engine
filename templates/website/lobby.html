@@ -62,7 +62,7 @@
                                         {{ article_form.number_of_authors }}
                                         <div class="author-div"></div><br>
                                         <div class="form-outline mb-4 form-floating">         
-                                            {{ article_form.article_title }}
+                                            {{ article_form.title }}
                                             <label class="form-label" for="article-title-field">Article Title</label>
                                             <div class="valid-feedback">Looks good!</div>
                                             <div class="invalid-feedback">Please provide article title.</div>
@@ -91,11 +91,23 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-outline mb-4 form-floating">
-                                            {{ article_form.pages }}
-                                            <label class="form-label" for="article-pages-field">Article pages</label>
-                                            <div class="valid-feedback">Looks good!</div>
-                                            <div class="invalid-feedback">Please provide article pages.</div>
+                                        <div class="form-outline mb-4 row">
+                                            <div class="col-md">
+                                                <div class="form-floating">
+                                                    {{ article_form.pages }}
+                                                    <label class="form-label" for="article-pages-field">Article pages</label>
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="invalid-feedback">Please provide article pages.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-floating">
+                                                    {{ article_form.year }}
+                                                    <label class="form-label" for="article-year-field">Article Year</label>
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="invalid-feedback">Please provide article year.</div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="form-outline mb-4 form-floating">
                                             {{ article_form.link_to_journal }}
