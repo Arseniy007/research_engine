@@ -1252,4 +1252,51 @@ onclick="load_and_show_source_space('{{ source.id }}')"
         {{ new_paper_form }}
         <button id="change_password_button" type="submit">Add Paper</button>
     </form>
-    
+
+
+        <!-- Source Card -->
+        <div onclick="load_and_show_source_space('{{ source.id }}')" id="source-card-{{ source.id }}" class="card text-bg-dark mb-3 pointy-cursor" style="max-width: 18rem;"  data-bs-toggle="modal" data-bs-target="#source-space-modal-{{ source.id }}">
+            <div class="card-header">{{ source.author }}</div>
+            <div class="card-body">
+                <h5 class="card-title source-button">{{ source.title }}</h5>
+            </div>
+            <div class="card-footer">
+                <small class="text-body-secondary source-incons-div">
+                    <div class="source-icons">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% if source.has_file %}
+                            <div class="source-icon">
+                                <i class="fa-solid fa-file"></i>
+                            </div>
+                        {% else %}
+                            &nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                        &nbsp;
+                        {% if source.link %}
+                            <div class="source-icon">
+                                <i class="fa-solid fa-link"></i>
+                            </div>
+                        {% else %}
+                            &nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                        &nbsp;
+                        {% if source.has_quotes %}
+                        <div class="source-icon">
+                            <i class="fa-solid fa-quote-left"></i>
+                            <i class="fa-solid fa-quote-right"></i>
+                        </div>
+                        {% else %}
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                        &nbsp;
+                        <div class="source-icon">
+                            <i class="fa-solid fa-asterisk"></i>
+                        </div>
+                    </div>
+                </small>
+            </div>
+        </div>

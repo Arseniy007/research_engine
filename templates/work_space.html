@@ -20,8 +20,6 @@
     <h4>TODO: Author buttons</h4>
     <h4>TODO: Author chapter fields</h4>
     <h4>TODO: Background image repetition</h4>
-    <h4>TODO: Full width side nav instead of index page</h4>
-    <h4>TODO: Archived spaces and papers at account settings view</h4>
     <h4>TODO: Source deleting animation</h4>
 
 
@@ -55,39 +53,28 @@
             <div class="card-body">
                 <h5 class="card-title source-button">{{ source.title }}</h5>
             </div>
-            <div class="card-footer">
+            <div class="card-footer source-card-footer">
                 <small class="text-body-secondary source-incons-div">
                     <div class="source-icons">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {% if source.has_file %}
                             <div class="source-icon">
                                 <i class="fa-solid fa-file"></i>
                             </div>
-                        {% else %}
-                            &nbsp;&nbsp;&nbsp;
+                            &nbsp;
                         {% endif %}
-                        &nbsp;
                         {% if source.link %}
                             <div class="source-icon">
                                 <i class="fa-solid fa-link"></i>
                             </div>
-                        {% else %}
-                            &nbsp;&nbsp;&nbsp;
+                            &nbsp;
                         {% endif %}
-                        &nbsp;
                         {% if source.has_quotes %}
                         <div class="source-icon">
                             <i class="fa-solid fa-quote-left"></i>
                             <i class="fa-solid fa-quote-right"></i>
                         </div>
-                        {% else %}
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        {% endif %}
                         &nbsp;
+                        {% endif %}
                         <div class="source-icon">
                             <i class="fa-solid fa-asterisk"></i>
                         </div>

@@ -55,7 +55,7 @@
   font-family: 'Special Elite', serif;
 }
 
-.modal-body, .modal-header
+.modal-body, .modal-header, .modal-footer
 {
   background-color: rgba(248,248,234,255);
 }
@@ -64,6 +64,16 @@
 {
   display: inline;
 }
+
+.source-card-footer
+{
+  margin-top: auto;
+	padding: 1rem 1.25rem;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
 
 input[type]:not([type="button"], [type="submit"]), textarea, select
 {

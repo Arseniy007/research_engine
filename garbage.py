@@ -4474,6 +4474,25 @@ def link_ownership_required(func: Callable) -> Callable | PermissionDenied:
         return func(request, link_id)
     return wrapper
 
+
+    sources: list = []
+    for source in space.sources.all():
+        if source.has_file:
+            file_id = source.get_file().pk
+        else:
+            file_id = None
+        if source.quotes.all():
+            quotes = True
+        else:
+            quotes = False
+        source = model_to_dict(source)
+        source["file_id"] = file_id
+        source["has_quotes"] = quotes
+
+
+
+        sources.append(source)
+
 """
 
 

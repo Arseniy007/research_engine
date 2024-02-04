@@ -6,6 +6,7 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
+from bookshelf.source_showcase import get_work_space_sources
 from paper_work.forms import NewPaperForm
 from research_engine.constants import FRIENDLY_TMP_ROOT
 from utils.decorators import post_request_required, space_ownership_required
@@ -23,22 +24,8 @@ def work_space_view(request, space_id):
     """Work space main view"""
 
     space = check_work_space(space_id, request.user)
-
-    sources: list = []
-    for source in space.sources.all():
-        if source.has_file:
-            file_id = source.get_file().pk
-        else:
-            file_id = None
-        if source.quotes.all():
-            quotes = True
-        else:
-            quotes = False
-        source = model_to_dict(source)
-        source["file_id"] = file_id
-        source["has_quotes"] = quotes
-        sources.append(source)
-        print(file_id)
+    
+    sources = get_work_space_sources(space)
 
     # Get user status
     if request.user == space.owner:
@@ -49,7 +36,7 @@ def work_space_view(request, space_id):
     # Get all needed source-related data
     work_space_data = {
         "space": space, 
-        "space_papers": space.papers.all(),
+        "space_papers": space.papers.filter(archived=False),
         "sources": sources,
         "number_of_sources": len(sources),
         "links": space.links.all(),
