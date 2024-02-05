@@ -319,3 +319,14 @@ function adjust_textarea_height(textarea) {
     textarea.rows = calculatedRows;
     textarea.style.resize = 'none';
 }
+
+function copy_reference(style) {
+
+    const textarea = document.querySelector(`#reference-result-field-${style}`);
+    if (!textarea) {
+        return;
+    }
+    textarea.select();
+    document.execCommand("copy");
+}
+

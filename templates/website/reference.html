@@ -211,11 +211,14 @@
                                     </form>         
                                 </div>
                                 <div id="reference-result" style="display: none;">
-                                    <label for="reference-result-field-apa" class="col-form-label"><h5>APA:</h5></label>
-                                    <textarea class="form-control reference-textarea" id="reference-result-field-apa"></textarea>
                                     <br>
-                                    <label for="reference-result-field-mla" class="col-form-label"><h5>MLA:</h5></label>
+                                    <label for="reference-result-field-apa" class="col-form-label"><h5><strong>APA:</strong></h5></label>
+                                    <textarea class="form-control reference-textarea" id="reference-result-field-apa"></textarea>
+                                    <button onclick="copy_reference('apa')" type="button" class="btn btn-dark mt-3">Copy</button>
+                                    <br><br><br>
+                                    <label for="reference-result-field-mla" class="col-form-label"><h5><strong>MLA:</strong></h5></label>
                                     <textarea class="form-control reference-textarea" id="reference-result-field-mla"></textarea>
+                                    <button onclick="copy_reference('mla')" type="button" class="btn btn-dark mt-3">Copy</button>
                                 </div>
                             </div>
                         </div>
