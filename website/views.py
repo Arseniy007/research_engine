@@ -10,20 +10,22 @@ from user_management.helpers import get_user_papers, get_user_work_spaces
 from work_space.forms import NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm
 
 
-def lobby_view(request):
+def reference_view(request):
     """View for get-quick-reference-page"""
+
+    data = {
+        "book_form": BookForm(),
+        "article_form": ArticleForm(),
+        "chapter_form": ChapterForm(),
+        "webpage_form": WebpageForm()
+    }
 
     # About page if shown both for logged in and not logged in users
     if request.user.is_authenticated:
-        data = {"work_spaces": get_user_work_spaces(request.user), "papers": get_user_papers(request.user)}
-    else:
-        data = {}
-    data["book_form"] = BookForm()
-    data["article_form"] = ArticleForm()
-    data["chapter_form"] = ChapterForm()
-    data["webpage_form"] = WebpageForm()
-
-    return render(request, "website/lobby.html", data)
+        data["work_spaces"] = get_user_work_spaces(request.user)
+        data["papers"] = get_user_papers(request.user)
+ 
+    return render(request, "website/reference.html", data)
 
 
 @login_required(redirect_field_name=None)
