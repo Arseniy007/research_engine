@@ -730,3 +730,55 @@ const mla_field = document.querySelector('#reference-result-field-mla');
 apa_field.innerHTML = result.reference.apa_endnote;
 mla_field.innerHTML = result.reference.apa_endnote;
 
+
+async function auto_grow(textarea) {
+    console.log('hi')
+    textarea.style.height = 'auto';
+    textarea.style.height = (textarea.scrollHeight) + 'px';
+}
+
+function delay(milliseconds){
+    return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
+}
+
+
+function adjust_textarea_height(textarea) {
+
+    const min_rows = 2;
+
+    const calculated_rows = Math.max(min_rows, Math.ceil(textarea.scrollHeight / 20));
+
+    textarea.rows = calculated_rows;
+
+}
+
+
+
+//apa_field.innerHTML = result.reference.apa_endnote;
+            //mla_field.value = result.reference.mla_endnote;
+
+            //adjust_textarea_height(apa_field)
+            //adjust_textarea_height(mla_field)
+
+            //apa_field.dispatchEvent(new Event('input'));
+
+            //apa_field.setAttribute("style", "height:" + (apa_field.scrollHeight) + "px;overflow-y:hidden;");
+            //apa_field.addEventListener('input', auto_grow(apa_field), false)
+
+            //apa_field.dispatchEvent(new Event('input', { bubbles: true }));
+
+
+            //apa_field.style.height = (result.reference.apa_endnote.scrollHeight) + 'px;overflow-y:hidden';
+            //mla_field.style.height = (result.reference.mla_endnote.scrollHeight) + 'px;overflow-y:hidden;';
+  
+            // TODO
+
+function updateTextareaValue(textarea, value) {
+
+    textarea.value = value;
+
+    // Manually trigger the resizing logic
+    adjust_textarea_height(textarea);
+}

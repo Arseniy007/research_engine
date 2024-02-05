@@ -284,31 +284,22 @@ function get_quick_reference(form_id) {
             if (error_message.style.display == 'block') {
                 error_message.style.display = 'none';
             }
-            // Hide get reference button
+            // Hide get reference button and submitted form
             form.querySelector('.get-reference-button').style.display = 'none';
+            hide_all_forms();
 
-            // Show result fields
+            // Show fields
+            document.querySelector('#reference-result').style.display = 'block';
+
+            // Get result fields
             const apa_field = document.querySelector('#reference-result-field-apa');
             const mla_field = document.querySelector('#reference-result-field-mla');
 
-            apa_field.setAttribute("style", "height:" + (apa_field.scrollHeight) + "px;overflow-y:hidden;");
-            apa_field.addEventListener('input', auto_grow(apa_field), false)
-
-            apa_field.dispatchEvent(new Event('input', { bubbles: true }));
-
-            apa_field.innerHTML = result.reference.apa_endnote;
+            // Paste result references and auto grow textareas
+            apa_field.value = result.reference.apa_endnote;
             mla_field.value = result.reference.mla_endnote;
-            //apa_field.style.height = (result.reference.apa_endnote.scrollHeight) + 'px;overflow-y:hidden';
-            //mla_field.style.height = (result.reference.mla_endnote.scrollHeight) + 'px;overflow-y:hidden;';
-
-  
-            // TODO
-
-            // Hide submitted form
-            hide_all_forms();
-
-            // Show result
-            document.querySelector('#reference-result').style.display = 'block';
+            adjust_textarea_height(apa_field);
+            adjust_textarea_height(mla_field);
         }
         else {
             // Error case
@@ -317,14 +308,14 @@ function get_quick_reference(form_id) {
     });
 }
 
-async function auto_grow(textarea) {
-    console.log('hi')
-    textarea.style.height = 'auto';
-    textarea.style.height = (textarea.scrollHeight) + 'px';
-}
+function adjust_textarea_height(textarea) {
+    // Set min height of textarea
+    const min_rows = 2;
 
-function delay(milliseconds){
-    return new Promise(resolve => {
-        setTimeout(resolve, milliseconds);
-    });
+    // Calculate the number of rows needed based on the textarea's scrollHeight
+    const calculatedRows = Math.max(min_rows, Math.ceil(textarea.scrollHeight / 20));
+
+    // Update the rows attribute of the textarea
+    textarea.rows = calculatedRows;
+    textarea.style.resize = 'none';
 }

@@ -15,9 +15,9 @@
                             {% endif %}
                         {% else %}
                             {% if chapter %}
-                                <h5>Chapter author {{ author_number| add:"+1" }} <span class="badge bg-danger pointy-cursor" id="{{ chapter }}delete-author-button-{{ author_number }}" style="font-size: .6em;"><i class="fa-solid fa-trash"></i></span></h5>
+                                <h5 class="author-header">Chapter author {{ author_number| add:"+1" }} <span class="badge bg-danger delete-author-button pointy-cursor h5 align-middle" id="{{ chapter }}delete-author-button-{{ author_number }}" style="font-size: .6em;"><i class="fa-solid fa-trash"></i></span></h5>
                             {% else %}
-                                <h5>Author {{ author_number| add:"+1" }} <span class="badge bg-danger pointy-cursor" id="{{ chapter }}delete-author-button-{{ author_number }}" style="font-size: .6em;"><i class="fa-solid fa-trash"></i></span></h5>
+                                <h5 class="author-header">Author {{ author_number| add:"+1" }} <span class="badge bg-danger delete-author-button pointy-cursor h5 align-middle" id="{{ chapter }}delete-author-button-{{ author_number }}" style="font-size: .6em;"><i class="fa-solid fa-trash"></i></span></h5>
                             {% endif %}
                         {% endif %}
                         <div class="form-outline mb-4 form-floating">
