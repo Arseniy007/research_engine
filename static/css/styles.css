@@ -338,6 +338,17 @@ a:active {
   color: #f1f1f1;
 }
 
+#footer-menu
+{
+  position: absolute;
+  bottom: 0;
+}
+
+.footer-link
+{
+  color: black;
+}
+
 #archived-work-spaces
 {
   margin-right: 33px;

@@ -1,6 +1,15 @@
 const gray = '#222222';
 const black = '#111';
 
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Enable popovers
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+});
+
+
+
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
     if (!event.target.matches('.dropbtn')) {

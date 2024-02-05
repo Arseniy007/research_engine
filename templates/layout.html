@@ -75,6 +75,11 @@
                     <a href="{% url 'user_management:register' %}">Register&nbsp;&nbsp;<i class="fa-solid fa-address-card"></i></a>
                     <a href="{% url 'website:about' %}">About&nbsp;&nbsp;<i class="fa-solid fa-circle-info"></i></a>
                 {% endif %}
+                <nav id="footer-menu" class="nav pb-1 ps-1">
+                    <a id="email-link" class="footer-link" data-bs-toggle="popover" data-bs-title="Contact me :)" data-bs-content="arseniy.shapiro@gmail.com" data-html="true"><i class="fa-solid fa-envelope fa-lg"></i></a>
+                    <a href="https://www.linkedin.com/in/arseniy-shapiro-162932289/" class="footer-link"><i class="fa-brands fa-linkedin fa-lg"></i></a>
+                    <a href="https://github.com/Arseniy007" class="footer-link"><i class="fa-brands fa-square-github fa-lg"></i></a>
+                </nav>
             </div>
             <div id="sidenav-full-view" style="display: none;">
                 <a href="javascript:void(0)" class="closebtn" id="close-nav-button" onclick="closeNav()">&times;</a>
@@ -117,3 +122,4 @@
         </main>
     </body>
 </html>
+
