@@ -69,7 +69,7 @@ def login_view(request):
                 login(request, user)
 
                 # Get proper redirect url (index by default)
-                redirect_url = reverse("website:lobby")
+                redirect_url = reverse("website:quick_reference")
                 if request.POST["redirect_url"]:
                     redirect_url = request.POST["redirect_url"]
                 return redirect(redirect_url)
