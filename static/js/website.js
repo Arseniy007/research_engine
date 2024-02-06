@@ -171,7 +171,7 @@ function receive_invitation(form) {
             else {
                 error_message = document.querySelector('#index-error-message');
             }
-            error_message.querySelector('.error').innerHTML = `<a href="${result.url}">${result.message}</a>`;
+            error_message.querySelector('.error').innerHTML = `<a href="${result.url}" style="color: black">${result.message}</a>`;
             error_message.style.display = 'block';
         }
     });
@@ -204,7 +204,7 @@ function receive_shared_sources(form) {
             else {
                 error_message = document.querySelector('#index-error-message');
             }
-            error_message.querySelector('.error').innerHTML = `<a href="${result.url}">${result.message}</a>`;
+            error_message.querySelector('.error').innerHTML = `<a href="${result.url}" style="color: black">${result.message}</a>`;
             error_message.style.display = 'block';
         }
     });

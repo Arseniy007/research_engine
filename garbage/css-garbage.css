@@ -297,3 +297,13 @@ body
   margin-left: 180px;
 }
 
+.modal-body
+{
+  background-color: rgba(248,248,234,255);
+}
+
+.form-body
+{
+  background-color: rgba(189, 138, 61, 0.363);
+}
+
