@@ -10,7 +10,8 @@ class RegisterForm(forms.Form):
         "id": "username-field",
         "class": CLASS_,
         "autocomplete": "off",
-        "placeholder": "Username"})                 
+        "placeholder": "Username",
+        'autofocus': True})                 
     )
 
     last_name = forms.CharField(widget=forms.TextInput(attrs={
@@ -55,7 +56,8 @@ class LoginForm(forms.Form):
         "id": "username-field",
         "class": CLASS_,
         "autocomplete": "off",
-        "placeholder": "Username"})
+        "placeholder": "Username",
+        'autofocus': True})
     )
 
     password = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -71,7 +73,8 @@ class ChangePasswordForm(forms.Form):
         "type": "password",
         "id": "old_password-field",
         "class": CLASS_,
-        "placeholder": "Old Password"})
+        "placeholder": "Old Password",
+        'autofocus': True})
     )
 
     new_password = forms.CharField(label=False, widget=forms.PasswordInput(attrs={
@@ -96,7 +99,8 @@ class ForgetPasswordForm(forms.Form):
         "id": "username-field",
         "class": CLASS_,
         "autocomplete": "off",
-        "placeholder": "Username"})
+        "placeholder": "Username",
+        'autofocus': True})
     )
 
     email = forms.CharField(widget=forms.EmailInput(attrs={
@@ -113,7 +117,8 @@ class ForgetPasswordForm2(forms.Form):
         "type": "text",
         "id": "first-name-field",
         "class": CLASS_,
-        "placeholder": "First name"})
+        "placeholder": "First name",
+        'autofocus': True})
     )
 
     last_name = forms.CharField(widget=forms.TextInput(attrs={
@@ -136,7 +141,8 @@ class ResetPasswordForm(forms.Form):
         "type": "password",
         "id": "password-field",
         "class": CLASS_,
-        "placeholder": "New Password"})
+        "placeholder": "New Password",
+        'autofocus': True})
     )
 
     confirmation = forms.CharField(widget=forms.PasswordInput(attrs={
