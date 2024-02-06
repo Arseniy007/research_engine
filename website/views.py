@@ -137,6 +137,9 @@ def render_author_form_fields(request, author_number, chapter):
     data = {
         "chapter": chapter,
         "author_number": author_number,
-        "work_spaces": get_user_work_spaces(request.user),
     }
+    if request.user.is_authenticated:
+        data["work_spaces"] = get_user_work_spaces(request.user)
+        data["papers"] = get_user_papers(request.user)
+
     return render(request, "website/author_fields.html", data)
