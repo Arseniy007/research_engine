@@ -13,52 +13,61 @@
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
                         <div class="card" style="border-radius: 15px;">
                             <div class="card-body p-5 form-body">
+                                <div id="invitation-error-message" style="display: none;">
+                                    <ul class="messages">
+                                        <li class="error"><strong>This url is invalid</strong></li>
+                                    </ul>
+                                </div>
                                 {% if invitation_code %}
-                                    <h2 class="text-uppercase text-center mb-5" id="form-header">You got invited to {{ work_space }} workspace</h2>
-                                    <div id="invitation-code" style="display: none;">{{ invitation_code }}</div>
-                                    <form action="{% url 'work_space:receive_invitation' %}" class="needs-validation index-form" id="receive-invitation-form" method="post" novalidate>
-                                        {% csrf_token %} 
-                                        <div class="form-outline mb-4 form-floating">         
-                                            {{ invitation_form.code }}
-                                            <label class="form-label" for="code-field">Invitation Code</label>
-                                            <div class="invalid-feedback">Please provide invitation code.</div>
-                                        </div>
-                                        <div class="d-flex justify-content-center">
-                                            <input type="submit" value="Accept" class="btn btn-success btn-block btn-lg gradient-custom-4"></input>
-                                        </div>
-                                    </form>
+                                    <div id="invitation-div">
+                                        <h2 class="text-uppercase text-center mb-5" id="form-header">You got invited to {{ work_space }} workspace</h2>
+                                        <div id="invitation-code" style="display: none;">{{ invitation_code }}</div>
+                                        <form action="{% url 'work_space:receive_invitation' %}" class="needs-validation index-form" id="receive-invitation-form" method="post" novalidate>
+                                            {% csrf_token %} 
+                                            <div class="form-outline mb-4 form-floating">         
+                                                {{ invitation_form.code }}
+                                                <label class="form-label" for="code-field">Invitation Code</label>
+                                                <div class="invalid-feedback">Please provide invitation code.</div>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <input type="submit" value="Accept" class="btn btn-success btn-block btn-lg gradient-custom-4"></input>
+                                            </div>
+                                        </form>
+                                    </div>
                                 {% elif share_sources_code %}
-                                    <h2 class="text-uppercase text-center mb-5" id="form-header">Get Research Sources</h2>
-                                    <div id="share-sources-code" style="display: none;">{{ share_sources_code }}</div>
-                                    <form action="{% url 'work_space:receive_shared_sources' %}" class="needs-validation index-form" id="shared-sources-form" method="post" novalidate>
-                                        {% csrf_token %} 
-                                        <div class="form-outline mb-4">
-                                            <div class="col-md">
-                                                <div class="form-floating">
-                                                    {{ shared_sources_form.code }}
-                                                    <label class="form-label" for="sources-code-field">Code</label>
-                                                    <div class="invalid-feedback">Please provide code.</div>
-                                                </div>
-                                            </div><br>
-                                            <div class="col-md">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" value="download" type="radio" name="option" id="download-option" checked>
-                                                    <label class="form-check-label" for="download-option">
-                                                        <strong>Download zip-archive</strong>
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" value="create" type="radio" name="option" id="work-space-option">
-                                                    <label class="form-check-label" for="work-space-option">
-                                                        <strong>Create new workspace</strong>
-                                                    </label>
+                                    <div id="sources-div">
+                                        <h2 class="text-uppercase text-center mb-5" id="form-header">Get Research Sources</h2>
+                                        <div id="share-sources-code" style="display: none;">{{ share_sources_code }}</div>
+                                        <form action="{% url 'work_space:receive_shared_sources' %}" class="needs-validation index-form" id="shared-sources-form" method="post" novalidate>
+                                            {% csrf_token %} 
+                                            <div class="form-outline mb-4">
+                                                <div class="col-md">
+                                                    <div class="form-floating">
+                                                        {{ shared_sources_form.code }}
+                                                        <label class="form-label" for="sources-code-field">Code</label>
+                                                        <div class="invalid-feedback">Please provide code.</div>
+                                                    </div>
+                                                </div><br>
+                                                <div class="col-md">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" value="download" type="radio" name="option" id="download-option" checked>
+                                                        <label class="form-check-label" for="download-option">
+                                                            <strong>Download zip-archive</strong>
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" value="create" type="radio" name="option" id="work-space-option">
+                                                        <label class="form-check-label" for="work-space-option">
+                                                            <strong>Create new workspace</strong>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="d-flex justify-content-center">
-                                            <input type="submit" value="Get" class="btn btn-success btn-block btn-lg gradient-custom-4"></input>
-                                        </div>
-                                    </form>
+                                            <div class="d-flex justify-content-center">
+                                                <input type="submit" value="Get" class="btn btn-success btn-block btn-lg gradient-custom-4"></input>
+                                            </div>
+                                        </form>
+                                    </div>
                                 {% else %}
                                     <div>
                                         <ul class="messages">

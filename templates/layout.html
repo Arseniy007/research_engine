@@ -36,7 +36,7 @@
         <!-- Side navigation -->
         <div class="sidenav">
             <div id="re">
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and not invitation %}
                     <div id="re-main-button" class="pointy-cursor" onclick="openNav()">
                         <i class="fa-solid fa-graduation-cap"></i>
                         research engine

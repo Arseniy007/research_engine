@@ -151,7 +151,7 @@ function load_new_author_field (author_div, author_number, is_chapter=false) {
 async function render_author_field(author_number, chapter=false) {
 
     // Render-author-fields view url
-    let url = '';
+    let url;
     if (chapter) {
         url = `/render_author_field/${author_number}/1`;
     }

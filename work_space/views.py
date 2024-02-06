@@ -218,9 +218,11 @@ def receive_invitation(request):
         if invitation:
             new_work_space = invitation.work_space
 
+            work_space_url = reverse("work_space:space_view", args=(new_work_space.pk,))
+
             # Owner can't invite themselves and users who are already part of workspace
             if new_work_space.owner == request.user or request.user in new_work_space.guests.all():
-                return JsonResponse({"status", "error"})
+                return JsonResponse({"status": "error", "message": f"{new_work_space} is your workspace", "url": work_space_url})
 
             # Add user as guest to the new work space
             new_work_space.add_guest(request.user)
@@ -230,10 +232,10 @@ def receive_invitation(request):
 
             # Send redirect to the new work space
             display_success_message(request)
-            return JsonResponse({"status": "ok", "url": reverse("work_space:space_view", args=(new_work_space.pk,))})
+            return JsonResponse({"status": "ok", "url": work_space_url})
         
     # Error case
-    return JsonResponse({"status": "error"})
+    return JsonResponse({"status": "error", "message": "Something went wrong"})
 
 
 @post_request_required
@@ -250,9 +252,12 @@ def receive_shared_sources(request):
             original_work_space = share_space_code.work_space
 
             # Owner can't receive their own sources
-            if original_work_space.owner == request.user:
-                return JsonResponse({"status": "error"})
-
+            if original_work_space.owner == request.user or request.user in original_work_space.guests.all():
+                return JsonResponse({
+                    "status": "error", 
+                    "message": f"{original_work_space} is your workspace", 
+                    "url": reverse("work_space:space_view", args=(original_work_space.pk,))
+                })
             # Get one of two possible receiving options
             option = request.POST.get("option")
             if option == "create":
@@ -269,7 +274,7 @@ def receive_shared_sources(request):
                 return JsonResponse({"status": "ok", "url": download_url})
 
     # Error case
-    return JsonResponse({"status": "error"})
+    return JsonResponse({"status": "error", "message": "Something went wrong"})
 
 
 @login_required(redirect_field_name=None)

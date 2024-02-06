@@ -4493,6 +4493,31 @@ def link_ownership_required(func: Callable) -> Callable | PermissionDenied:
 
         sources.append(source)
 
+        def invitation_view(request, code):
+
+
+    # Check type of invitation and if it exists
+    invitation_code = check_invitation(code)
+    source_sharing_code = check_share_sources_code(code)
+
+    # Invitation page can be shown shown both for logged in and not logged in users
+    
+    if request.user.is_authenticated:
+        data = {"work_spaces": get_user_work_spaces(request.user), "papers": get_user_papers(request.user)}
+    else:
+        data = {}
+
+    # Figure out which of two codes it might be
+    if invitation_code:
+        data["invitation_form"] = ReceiveInvitationForm()
+        data["invitation_code"] = invitation_code.code
+
+    if source_sharing_code:
+        data["shared_sources_form"] = ReceiveSourcesForm()
+        data["share_sources_code"] = source_sharing_code.code
+
+    return render(request, "website/invitation.html", data)
+
 """
 
 

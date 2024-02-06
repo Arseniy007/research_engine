@@ -10,5 +10,5 @@ document.addEventListener('DOMContentLoaded', function() {
     const share_sources_code = document.querySelector('#share-sources-code');
     if (share_sources_code) {
         document.querySelector('#sources-code-field').value = share_sources_code.innerHTML;
-    }
+    }    
 });

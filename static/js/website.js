@@ -162,7 +162,17 @@ function receive_invitation(form) {
         }
         else {
             // Show error message
-            document.querySelector('#index-error-message').style.display = 'block';
+            const invitation_error_message = document.querySelector('#invitation-error-message');
+            let error_message;
+            if (invitation_error_message) {
+                error_message = invitation_error_message;
+                document.querySelector('#invitation-div').style.display = 'none';
+            }
+            else {
+                error_message = document.querySelector('#index-error-message');
+            }
+            error_message.querySelector('.error').innerHTML = `<a href="${result.url}">${result.message}</a>`;
+            error_message.style.display = 'block';
         }
     });
 }
@@ -185,7 +195,17 @@ function receive_shared_sources(form) {
         }
         else {
             // Show error message
-            document.querySelector('#index-error-message').style.display = 'block';
+            const invitation_error_message = document.querySelector('#invitation-error-message');
+            let error_message;
+            if (invitation_error_message) {
+                error_message = invitation_error_message;
+                document.querySelector('#sources-div').style.display = 'none';
+            }
+            else {
+                error_message = document.querySelector('#index-error-message');
+            }
+            error_message.querySelector('.error').innerHTML = `<a href="${result.url}">${result.message}</a>`;
+            error_message.style.display = 'block';
         }
     });
 }

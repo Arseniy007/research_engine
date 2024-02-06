@@ -782,3 +782,39 @@ function updateTextareaValue(textarea, value) {
     // Manually trigger the resizing logic
     adjust_textarea_height(textarea);
 }
+
+
+function receive_invitation(form, invitation_page=false) {
+
+    // API route
+    const url = '/receive_invitation';
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Redirect to new workspace
+            window.location.replace(result.url);
+        }
+        else {
+            // Show error message
+            let error_message;
+            if (invitation_page) {
+                error_message = document.querySelector('#invitation-error-message');
+            }
+            else {
+                document.querySelector('#index-error-message');
+            }
+            error_message.querySelector('.error').innerHTML = result.message;
+            error_message.style.display = 'block';
+        }
+    });
+}
+
+
+
+
