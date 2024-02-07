@@ -1319,3 +1319,15 @@ onclick="load_and_show_source_space('{{ source.id }}')"
             &nbsp;
             <a href="https://github.com/Arseniy007" class="footer-link me-3"><i class="fa-brands fa-square-github fa-2x"></i></a>
         </nav>
+
+        <h3>Quotes</h3>
+        <ul>
+            {% for quote in quotes %}
+            <div id="quote_{{ quote.pk }}">
+                <li>
+                    {{ quote }} | Quote apa: {{ quote.apa }} | Quote mla: {{ quote.mla }}
+                    <button class="delete_quote_buttons" id="{{ quote.pk }}">Delete Quote</button>
+                </li>
+            </div>
+            {% endfor %}
+        </ul>

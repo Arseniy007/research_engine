@@ -463,3 +463,27 @@ function delay(milliseconds){
         setTimeout(resolve, milliseconds);
     });
 }
+
+function search_source() {
+
+    // Get all sources
+    const sources = document.getElementsByClassName("source-card");
+    const titles = document.getElementsByClassName("source-title");
+    const authors = document.getElementsByClassName("source-author");
+    const number_of_sources = sources.length;
+
+    // Get input
+    let input = document.getElementById("search_box");
+    input = input.value.toLowerCase();
+
+    // Loop through all sources, and hide those who don't match the search query
+    for (let i = 0; i < number_of_sources; i++) {
+        if (!titles[i].innerHTML.toLowerCase().includes(input) && !authors[i].innerHTML.toLowerCase().includes(input)) {
+
+            sources[i].style.display = 'none';
+        }
+        else {
+            sources[i].style.display = '';
+        }
+    }
+};

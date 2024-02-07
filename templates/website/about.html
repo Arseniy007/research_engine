@@ -9,4 +9,117 @@
 
     <h1>About!</h1>
 
+    <div class="card text-bg-primary mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Primary card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+        <div class="card-footer source-card-footer">
+          <small class="text-body-secondary source-incons-div">
+              <div class="source-icons">
+                  {% if source.has_file %}
+                      <div class="source-icon">
+                          <i class="fa-solid fa-file"></i>
+                      </div>
+                      &nbsp;
+                  {% endif %}
+                  {% if source.link %}
+                      <div class="source-icon">
+                          <i class="fa-solid fa-link"></i>
+                      </div>
+                      &nbsp;
+                  {% endif %}
+                  {% if source.has_quotes %}
+                  <div class="source-icon">
+                      <i class="fa-solid fa-quote-left"></i>
+                      <i class="fa-solid fa-quote-right"></i>
+                  </div>
+                  &nbsp;
+                  {% endif %}
+                  <div class="source-icon">
+                      <i class="fa-solid fa-asterisk"></i>
+                  </div>
+              </div>
+          </small>
+      </div>
+      </div>
+      <div class="card text-bg-secondary mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Secondary card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+      <div class="card text-bg-success mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Success card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+        <div class="card-footer source-card-footer">
+          <small class="text-body-secondary source-incons-div">
+              <div class="source-icons">
+                  {% if source.has_file %}
+                      <div class="source-icon">
+                          <i class="fa-solid fa-file"></i>
+                      </div>
+                      &nbsp;
+                  {% endif %}
+                  {% if source.link %}
+                      <div class="source-icon">
+                          <i class="fa-solid fa-link"></i>
+                      </div>
+                      &nbsp;
+                  {% endif %}
+                  {% if source.has_quotes %}
+                  <div class="source-icon">
+                      <i class="fa-solid fa-quote-left"></i>
+                      <i class="fa-solid fa-quote-right"></i>
+                  </div>
+                  &nbsp;
+                  {% endif %}
+                  <div class="source-icon">
+                      <i class="fa-solid fa-asterisk"></i>
+                  </div>
+              </div>
+          </small>
+      </div>
+      </div>
+      <div class="card text-bg-danger mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Danger card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+      <div class="card text-bg-warning mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Warning card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+      <div class="card text-bg-info mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Info card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+      <div class="card text-bg-light mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Light card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+      <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Dark card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+
 {% endblock %}

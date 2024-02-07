@@ -15,9 +15,6 @@
 {% endblock %}
 
 {% block body %}
-    <div id="links-area">
-        
-    </div>
 
     <h4>TODO: Quotes and deleting source (add button to edit source div!)</h4>
     <h4>TODO: Source deleting animation</h4>
@@ -44,32 +41,26 @@
     <br><br><br>
     
     <h3>Sources</h3>
-
-    <div class="sources-search">
-        <i class="fa fa-search"></i>
-        <input onkeyup="search_source()" id="search_box" class="form-control form-input" type="text" placeholder="Search for sources...">
-    </div>
-    <br><br>
-
     <div id="sources-container">
+        
+    
         {% for source in sources %}
+        
             <!-- Source Card -->
             <div onclick="load_and_show_source_space('{{ source.id }}')" id="source-card-{{ source.id }}" class="card text-bg-secondary mb-3 pointy-cursor source-card" data-bs-toggle="modal" data-bs-target="#source-space-modal-{{ source.id }}" style="max-width: 16rem;">
-                <div class="card-header source-author">
+                <div class="card-header">{{ source.author }}</div>
+                <div class="card-body">
                     {% if source.type == 'book' %}
                         <span><i class="fa-solid fa-book fa-xl"></i></span>
                     {% elif source.type == 'article' %}
-                        <span><i class="fa-solid fa-newspaper fa-xl"></i></span>
+                        <span><i class="fa-solid fa-newspaper fa-2xl"></i></span>
                     {% elif source.type == 'chapter' %}
-                        <span><i class="fa-solid fa-book-bookmark fa-xl"></i></span>
+                        <span><i class="fa-solid fa-book-bookmark fa-lg"></i></span>
                     {% elif source.type == 'webpage' %}
-                        <span><i class="fa-solid fa-globe fa-xl"></i></span>
+                        <span><i class="fa-solid fa-globe fa-lg"></i></span>
                     {% endif %}
-                    &nbsp;&nbsp;
-                    {{ source.author }}
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title source-button source-title">"{{ source.title }}"</h5>
+                    &nbsp;
+                    <h5 class="card-title source-button">{{ source.title }}</h5>
                 </div>
                 <div class="card-footer source-card-footer">
                     <small class="text-body-secondary source-incons-div">

@@ -46,6 +46,11 @@
   color: #4fc7ee;
 }
 
+body
+{
+  background-color: #d1ca98;
+}
+
 .main
 /* For forms background-color: #111; */
 {
@@ -53,6 +58,21 @@
   padding: 0px 10px;
   background-color: #d1ca98;
   font-family: 'Special Elite', serif;
+  margin-bottom: 0;
+  border: 1px solid transparent;
+}
+
+.sources-search
+{
+  position: relative;
+}
+
+.fa-search
+{
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  color: #000000;
 }
 
 .modal-body
@@ -68,6 +88,7 @@
 .source-icon, .source-button
 {
   display: inline;
+  color: white;
 }
 
 .source-card-footer
@@ -183,6 +204,12 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
   border-block-end-width: 100%;
 }
 
+#links-area
+{
+  border-block-end-style: solid;
+  border-block-end-width: 100%;
+}
+
 #header-text, #form-header
 {
   color: #118ab2;
@@ -256,6 +283,7 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
 {
   background-image: url(../images/library-background.jpeg);
   background-repeat: repeat-y;
+  overflow: auto; 
   margin-left: 0cm;
   margin: 0;
 }
@@ -263,7 +291,6 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
 .form-body
 {
   background-color: #D9CFC1;
-  border-radius: 15px;
   margin: 0;
 }
 
