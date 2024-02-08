@@ -399,15 +399,8 @@ a:active {
   margin-left: 37px;
 }
 
-#download-space-div
-{
-  float: right;
-  margin-top: 15px;
-}
-
 #download-space-dropdown
 {
-  float: right;
   background-color: #4fc7ee;
   color: #0b121b;
   border: #0b121b;
@@ -452,3 +445,9 @@ a:active {
   color: #868d99;
 }
 
+.action-button
+{
+  width: 70%;
+  height: 50px;
+  border-radius: 15px;
+}

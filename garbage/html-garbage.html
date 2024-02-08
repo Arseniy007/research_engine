@@ -1358,3 +1358,17 @@ onclick="load_and_show_source_space('{{ source.id }}')"
 
     </div>
 </div>
+
+
+<div class="btn-group dropstart" id="download-space-div">
+    <button class="btn btn-secondary" id="download-space-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-download"></i>&nbsp;Download Workspace&nbsp;<i class="fa-solid fa-download"></i>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{% url 'work_space:download_space' space.pk %}">Download all</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'work_space:download_space_sources' space.pk %}">Download only sources</a></li>
+    </ul>
+</div>
+<br><br><br>
+

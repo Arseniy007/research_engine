@@ -353,3 +353,9 @@ body
   background-color: #111;
   color: white;
 }
+
+#download-space-div
+{
+  float: right;
+  margin-top: 15px;
+}

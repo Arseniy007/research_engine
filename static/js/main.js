@@ -40,24 +40,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function hide_all_areas() {
     // Hide all parts of workspace
-    document.querySelector('#sources-area').style.display = 'none';
-    document.querySelector('#papers-area').style.display = 'none';
-    document.querySelector('#links-area').style.display = 'none';
+    const areas = document.getElementsByClassName('workspace-area');
+    Array.from(areas).forEach(array => {array.style.display = 'none'})
 }
 
-function show_sources_area() {
-    hide_all_areas();
-    document.querySelector('#sources-area').style.display = '';
-}
+function show_area(area_id) {
 
-function show_papers_area() {
+    // Hide all areas first then show one
     hide_all_areas();
-    document.querySelector('#papers-area').style.display = '';
-}
+    const area = document.getElementById(area_id);
 
-function show_links_area() {
-    hide_all_areas();
-    document.querySelector('#links-area').style.display = '';
+    if (!area) {
+        return;
+    }
+    area.style.display = '';
 }
 
 function load_and_show_source_space(source_id) {

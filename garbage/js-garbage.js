@@ -836,3 +836,25 @@ function dark_mode_toggle() {
 }
 
 
+function hide_all_areas() {
+    // Hide all parts of workspace
+    document.querySelector('#sources-area').style.display = 'none';
+    document.querySelector('#papers-area').style.display = 'none';
+    document.querySelector('#links-area').style.display = 'none';
+}
+
+function show_sources_area() {
+    hide_all_areas();
+    document.querySelector('#sources-area').style.display = '';
+}
+
+function show_papers_area() {
+    hide_all_areas();
+    document.querySelector('#papers-area').style.display = '';
+}
+
+function show_links_area() {
+    hide_all_areas();
+    document.querySelector('#links-area').style.display = '';
+}
+

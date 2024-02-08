@@ -16,33 +16,25 @@
 
 {% block nav-links %}
     <nav class="nav-tabs" id="nav-tabs">
-        <a onclick="show_sources_area();return false" href="#" type="button" class="active">
+        <a onclick="show_area('sources-area');return false" href="#" type="button" class="active">
             Sources&nbsp;<span>{{ number_of_sources }}</span>
         </a>
-        <a onclick="show_papers_area();return false" href="#" type="button">
+        <a onclick="show_area('papers-area');return false" href="#" type="button">
             Papers&nbsp;<span>{{ number_of_papers }}</span>
         </a>
-        <a onclick="show_links_area();return false" href="#" type="button">
+        <a onclick="show_area('links-area');return false" href="#" type="button">
             Links&nbsp;<span>{{ number_of_links }}</span>
         </a>
-        <div class="btn-group dropstart" id="download-space-div">
-            <button class="btn btn-secondary" id="download-space-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-download"></i>&nbsp;Download Workspace&nbsp;<i class="fa-solid fa-download"></i>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'work_space:download_space' space.pk %}">Download all</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'work_space:download_space_sources' space.pk %}">Download only sources</a></li>
-            </ul>
-        </div>
-        
+        <a onclick="show_area('actions-area');return false" href="#" type="button">
+            Actions
+        </a>
     </nav>
 {% endblock %}
 
 {% block body %}
 
 
-    <div id="sources-area">
+    <div class="workspace-area" id="sources-area">
         <h3>Sources</h3>
 
         <div class="sources-search">
@@ -383,7 +375,7 @@
         </div>
     </div>
 
-    <div id="papers-area" style="display: none;">
+    <div class="workspace-area" id="papers-area" style="display: none;">
 
         <h3>Papers</h3>
         {% for paper in space_papers %}
@@ -400,9 +392,7 @@
 
     </div>
 
-    <br><br><br>
-
-    <div id="links-area" style="display: none;">
+    <div class="workspace-area" id="links-area" style="display: none;">
         <h3>Links:</h3>
         <ul>
             {% for link in links %}
@@ -423,6 +413,38 @@
             {{ link_form }}
             <button>Add link</button>
         </form>
+    </div>
+
+    <div class="workspace-area" id="actions-area" style="display: none;">
+    
+        <h2>Actions</h2>
+
+   
+        <button class="btn btn-secondary action-button" id="download-space-dropdown" type="button">
+            <i class="fa-solid fa-download"></i>&nbsp;Download Workspace&nbsp;<i class="fa-solid fa-download"></i>
+        </button>
+
+      
+        <br><br><br>
+
+        <button class="btn btn-secondary action-button" type="button">Invite to Workspace <i class="fa-solid fa-share-nodes"></i></button>
+        
+    
+        <br><br><br>
+
+        <button class="btn btn-secondary action-button" type="button">Share workspace sources <i class="fa-solid fa-share"></i></button>
+
+        <br><br><br>
+
+        <button class="btn btn-danger action-button">Archive Workspace <i class="fa-solid fa-trash"></i></button>
+
+
+
+        <br><br><br>   <br><br><br>
+        <a class="dropdown-item" href="{% url 'work_space:download_space' space.pk %}">Download all</a>
+        <a class="dropdown-item" href="{% url 'work_space:download_space_sources' space.pk %}">Download only sources</a>
+
+
     </div>
 
 
