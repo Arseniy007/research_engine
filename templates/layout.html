@@ -49,11 +49,11 @@
                 {% endif %}
             </div>
             <div id="sidenav-closed-view">
-                <a href="{% url 'website:quick_reference' %}">Quick Reference&nbsp;&nbsp;<i class="fa-solid fa-asterisk"></i></a>
+                <a class="mt-4" href="{% url 'website:quick_reference' %}"><i class="fa-solid fa-asterisk"></i>&nbsp;&nbsp;Get Reference</a>
                 {% if user.is_authenticated %}
                     <div>
                         {% if work_spaces %}
-                            <a onclick="dropdown_spaces()" class="dropbtn">Workspaces&nbsp;&nbsp;<i class="fa-solid fa-folder-open"></i></a>
+                            <a onclick="dropdown_spaces()" class="dropbtn"><i class="fa-solid fa-folder-open"></i>&nbsp;&nbsp;Workspaces</a>
                             <div class="dropdown-content" id="spaces-dropdown">
                                 {% for space in work_spaces %}
                                     <a href="{% url 'work_space:space_view' space.pk %}"><small>{{ space }}</small></a>
@@ -61,7 +61,7 @@
                             </div>
                         {% endif %}
                         {% if papers %}
-                            <a onclick="dropdown_papers()" class="dropbtn pointy-cursor">Papers&nbsp;&nbsp;<i class="fa-solid fa-copy"></i></a>
+                            <a onclick="dropdown_papers()" class="dropbtn pointy-cursor"><i class="fa-solid fa-copy"></i>&nbsp;&nbsp;Papers</a>
                             <div class="dropdown-content" id="papers-dropdown">
                                 {% for paper in papers %}
                                     <a href="{% url 'paper_work:paper_space' paper.pk %}"><small>{{ paper }}</small></a>
@@ -69,11 +69,11 @@
                             </div>
                         {% endif %}
                     </div>
-                    <a href="{% url 'website:account_settings' %}">Settings&nbsp;&nbsp;<i class="fa-solid fa-gears"></i></a>
+                    <a href="{% url 'website:account_settings' %}"><i class="fa-solid fa-gears"></i>&nbsp;&nbsp;Settings</a>
                 {% else %}
-                    <a href="{% url 'user_management:logout' %}">Login&nbsp;&nbsp;<i class="fa-solid fa-right-to-bracket"></i></a>
-                    <a href="{% url 'user_management:register' %}">Register&nbsp;&nbsp;<i class="fa-solid fa-address-card"></i></a>
-                    <a href="{% url 'website:about' %}">About&nbsp;&nbsp;<i class="fa-solid fa-circle-info"></i></a>
+                    <a href="{% url 'user_management:logout' %}"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;Login</a>
+                    <a href="{% url 'user_management:register' %}"><i class="fa-solid fa-address-card"></i>&nbsp;&nbsp;Register</a>
+                    <a href="{% url 'website:about' %}"><i class="fa-solid fa-circle-info"></i>&nbsp;&nbsp;About</a>
                 {% endif %}
                 <nav id="footer-menu" class="nav pb-1 ps-1">
                     <a href="https://github.com/Arseniy007" class="footer-link"><i class="fa-brands fa-square-github fa-lg"></i></a>
@@ -95,28 +95,24 @@
         <main class="main">
             {% block headless %}
                 <!-- Header -->
-                <div id="header">
-                    <h3 id="header-text">{% block header %}R.E.{% endblock %}</h3>
-                    <div id="switch">
-                        <i class="fa-solid fa-sun sun-moon"></i>
-                        <div class="form-check form-switch">
-                            <input onclick="dark_mode_toggle()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                <header id="header">
+                    <h2 id="header-text">{% block header %}R.E.{% endblock %}</h2>
+                    {% block nav-links %}{% endblock %}
+                </header>
+                <div id="content">
+                    <!-- Messages -->
+                    {% if messages %}
+                        <div>
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
                         </div>
-                        <i class="fa-sharp fa-solid fa-moon sun-moon"></i>
-                    </div>
-                </div>
-                <!-- Messages -->
-                {% if messages %}
+                    {% endif %}
                     <div>
-                        <ul class="messages">
-                            {% for message in messages %}
-                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
+                        {% block body %}{% endblock %}
                     </div>
-                {% endif %}
-                <div>
-                    {% block body %}{% endblock %}
                 </div>
             {% endblock %}
         </main>

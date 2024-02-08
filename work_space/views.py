@@ -23,11 +23,14 @@ from .friendly_dir import create_friendly_sources_directory, create_friendly_spa
 def work_space_view(request, space_id):
     """Work space main view"""
 
+    # Get main data
     space = check_work_space(space_id, request.user)
-    
     sources = get_work_space_sources(space)
+    space_papers = space.papers.filter(archived=False)
+    links = space.links.all()
 
     # Get user status
+    # TODO Do I need it?
     if request.user == space.owner:
         user_status = "owner"
     else:
@@ -35,11 +38,13 @@ def work_space_view(request, space_id):
 
     # Get all needed source-related data
     work_space_data = {
-        "space": space, 
-        "space_papers": space.papers.filter(archived=False),
+        "space": space,
         "sources": sources,
+        "space_papers": space_papers,
+        "links": links,
         "number_of_sources": len(sources),
-        "links": space.links.all(),
+        "number_of_papers": len(space_papers),
+        "number_of_links": len(links),
         "new_paper_form": NewPaperForm(),
         "book_form": BookForm(),
         "article_form": ArticleForm(),

@@ -1,5 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    // Enable nav links
+    const navTabs = document.querySelectorAll("#nav-tabs > a");
+    navTabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+            navTabs.forEach((tab) => {
+                tab.classList.remove("active");
+            });
+            tab.classList.add("active");
+        });
+    });
+
+
     const space_id = document.querySelector('#space_id').innerHTML;
     const link_form = document.querySelector('#link_form');
 
@@ -25,6 +37,28 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     
 });
+
+function hide_all_areas() {
+    // Hide all parts of workspace
+    document.querySelector('#sources-area').style.display = 'none';
+    document.querySelector('#papers-area').style.display = 'none';
+    document.querySelector('#links-area').style.display = 'none';
+}
+
+function show_sources_area() {
+    hide_all_areas();
+    document.querySelector('#sources-area').style.display = '';
+}
+
+function show_papers_area() {
+    hide_all_areas();
+    document.querySelector('#papers-area').style.display = '';
+}
+
+function show_links_area() {
+    hide_all_areas();
+    document.querySelector('#links-area').style.display = '';
+}
 
 function load_and_show_source_space(source_id) {
 

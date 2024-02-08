@@ -307,3 +307,49 @@ body
   background-color: rgba(189, 138, 61, 0.363);
 }
 
+.sticky 
+{
+  position: fixed;
+  top: 0;
+  width: 100%
+}
+
+.sticky + #content 
+{
+  padding-top: 102px;
+}
+
+
+#header
+{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding: 25px 8px 15px 8px;
+  border-block-end-style: solid;
+  border-block-end-width: 100%;
+}
+
+#links-area
+{
+  border-block-end-style: solid;
+  border-block-end-width: 100%;
+}
+
+#switch
+{
+  display: flex;
+  font-size: 20px;
+}
+
+.sun-moon
+{
+  margin-right: 8px;
+  padding-top: 3px;
+}
+
+.dark-mode
+{
+  background-color: #111;
+  color: white;
+}

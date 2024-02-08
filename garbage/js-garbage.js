@@ -816,5 +816,23 @@ function receive_invitation(form, invitation_page=false) {
 }
 
 
+window.onscroll = function() {myFunction()};
+
+const header = document.querySelector('#header');
+let sticky = header.offsetTop;
+
+// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function myFunction() {
+    if (window.pageYOffset > sticky) {
+        header.classList.add("sticky");
+    } 
+    else {
+        header.classList.remove("sticky");
+    }
+}
+
+function dark_mode_toggle() {
+    document.body.classList.toggle("dark-mode");
+}
 
 

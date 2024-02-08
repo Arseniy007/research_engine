@@ -12,7 +12,9 @@
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: -0.5rem;
+  background: #0b121b;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 15px;
@@ -22,6 +24,7 @@
 .sidenav a 
 {
   padding: 6px 8px 6px 16px;
+  margin-bottom: 5px;
   text-decoration: none;
   font-size: 25px;
   color: #818181;
@@ -48,18 +51,40 @@
 
 body
 {
-  background-color: #d1ca98;
+  padding-top: 0;
+  background-image: linear-gradient(#0b121b, #0b121b);
+  min-height: 100%;
 }
 
 .main
 /* For forms background-color: #111; */
 {
-  margin-left: 240px; /* Same as the width of the sidebar */
+  margin-left: 240px;
   padding: 0px 10px;
-  background-color: #d1ca98;
+  position: relative;
+  border-top-left-radius: 2rem;
+  background: #ebecee;
   font-family: 'Special Elite', serif;
   margin-bottom: 0;
   border: 1px solid transparent;
+  min-height: 100%;
+}
+
+header
+{
+  padding: 3rem 3rem 0 3rem;
+}
+
+#header-text, #form-header
+{
+  color: #118ab2;
+}
+
+#content
+{
+  background-color: #e5e5e9;
+  padding: 3rem;
+  height: 100%;
 }
 
 .sources-search
@@ -102,7 +127,7 @@ body
 
 input[type]:not([type="button"], [type="submit"]), textarea, select
 {
-  background-color: #d1ca98;
+  background-color: #118ab2;
 }
 
 .btn-success
@@ -192,45 +217,6 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
 .work-space-list
 {
   width: 30%;
-}
-
-#header
-{
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  padding: 25px 8px 15px 8px;
-  border-block-end-style: solid;
-  border-block-end-width: 100%;
-}
-
-#links-area
-{
-  border-block-end-style: solid;
-  border-block-end-width: 100%;
-}
-
-#header-text, #form-header
-{
-  color: #118ab2;
-}
-
-#switch
-{
-  display: flex;
-  font-size: 20px;
-}
-
-.sun-moon
-{
-  margin-right: 8px;
-  padding-top: 3px;
-}
-
-.dark-mode
-{
-  background-color: #111;
-  color: white;
 }
 
 .messages 
@@ -412,3 +398,43 @@ a:active {
 {
   margin-left: 37px;
 }
+
+.nav-tabs a, .nav-link {
+  margin-right: 2rem;
+  display: inline-block;
+  padding: 1rem 0 1rem 0;
+  font-size: 1.15rem;
+  color: #8c939e;
+  position: relative;
+}
+.nav-tabs a.active {
+  color: #101620;
+  font-weight: 600;
+}
+.nav-tabs a.active span {
+  background: #d9dfea;
+  color: #5887d1;
+}
+.nav-tabs a.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: #457ace;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.nav-tabs a span {
+  border-radius: 10px;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.4rem;
+  font-weight: 600;
+  vertical-align: middle;
+  position: relative;
+  top: -2px;
+  background: #dfe0e2;
+  color: #868d99;
+}
+

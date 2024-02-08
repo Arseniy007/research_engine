@@ -1,13 +1,11 @@
 const gray = '#222222';
-const black = '#111';
+const normal = '#0b121b';
 
 document.addEventListener('DOMContentLoaded', function() {
-
     // Enable popovers
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 });
-
 
 
 // Close the dropdown menu if the user clicks outside of it
@@ -29,10 +27,6 @@ function dropdown_spaces() {
 
 function dropdown_papers() {
     document.getElementById("papers-dropdown").classList.toggle("show");
-}
-
-function dark_mode_toggle() {
-    document.body.classList.toggle("dark-mode");
 }
 
 async function openNav() {
@@ -59,7 +53,7 @@ function closeNav() {
     const nav = document.querySelector(".sidenav");
     nav.style.width = "240px";
     nav.style.textAlign = 'left';
-    nav.style.background = black;
+    nav.style.background = normal;
     nav.querySelector('#sidenav-full-view').style.display = 'none';
     nav.querySelector('#sidenav-closed-view').style.display = 'block';
 }
