@@ -58,7 +58,7 @@ def create_friendly_sources_directory(work_space: WorkSpace) -> str | bool:
     # Create new empty directory
     work_space.create_friendly_dir()
     original_path = work_space.get_friendly_path()
-    root_path = os.path.join(original_path, "My sources")
+    root_path = os.path.join(original_path, "Sources")
 
     # Create new "books" dir
     create_friendly_sources_dir(sources, root_path)
@@ -70,7 +70,7 @@ def create_friendly_sources_directory(work_space: WorkSpace) -> str | bool:
 def create_friendly_sources_dir(sources, root_path: str) -> None:
     """Create new "books" dir with all space-related sources inside"""
 
-    books_root = os.path.join(root_path, "books")
+    books_root = os.path.join(root_path, "sources")
     os.makedirs(books_root, exist_ok=True)
 
     # Get, quote and sort alphabetically all sources
@@ -78,8 +78,8 @@ def create_friendly_sources_dir(sources, root_path: str) -> None:
     sources_mla = sorted([get_source_reference(source).endnote_mla for source in sources])
 
     # Get paths to new .txt files
-    apa_file_path = os.path.join(books_root, "books_apa.txt")
-    mla_file_path = os.path.join(books_root, "books_mla.txt")
+    apa_file_path = os.path.join(books_root, "sources_apa.txt")
+    mla_file_path = os.path.join(books_root, "sources_mla.txt")
 
     # Create two new .txt files
     with open(apa_file_path, "w") as apa_file, open(mla_file_path, "w") as mla_file:
