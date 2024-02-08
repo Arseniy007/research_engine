@@ -25,20 +25,20 @@
         <a onclick="show_links_area();return false" href="#" type="button">
             Links&nbsp;<span>{{ number_of_links }}</span>
         </a>
-        <a data-bs-toggle="dropdown" aria-expanded="false" href="#">Download Workspace</a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Download all</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Download only sources</a></li>
-        </ul>
+        <div class="btn-group dropstart" id="download-space-div">
+            <button class="btn btn-secondary" id="download-space-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-download"></i>&nbsp;Download Workspace&nbsp;<i class="fa-solid fa-download"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'work_space:download_space' space.pk %}">Download all</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'work_space:download_space_sources' space.pk %}">Download only sources</a></li>
+            </ul>
+        </div>
         
     </nav>
 {% endblock %}
-<ul class="dropdown-menu">
-    <li><h6 class="dropdown-header">Dropdown header</h6></li>
-    <li><a class="dropdown-item" href="#">Action</a></li>
-    <li><a class="dropdown-item" href="#">Another action</a></li>
-  </ul>
+
 {% block body %}
 
 
@@ -426,30 +426,6 @@
     </div>
 
 
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#download-work-space" aria-expanded="false" aria-controls="download-work-space">
-        Download Workspace
-    </button>
-
-    <div class="collapse" id="download-work-space">
-        <div>
-            <a href="{% url 'work_space:download_space' space.pk %}">
-                <i class="fa-solid fa-file-zipper fa-5x"></i><br><h6>Download sources and papers</h6>
-            </a>
-
-            <a href="{% url 'work_space:download_space_sources' space.pk %}">
-                <i class="fa-regular fa-file-zipper fa-5x"></i><br><h6>Download only sources</h6>
-            </a>
-
-
-        </div>
-    </div>
-
-    
-    <br><br>
-    
-
-
-    
 
     <br><br><br>
 
@@ -492,7 +468,7 @@
                     {{ rename_form.title }}
                 </div>
                 <div class="col-md mt-1">
-                    <input type="submit" value="rename" class="btn btn-secondary btn-block btn-sm gradient-custom-4">
+                    <input type="submit" value="rename" class="btn btn-secondary gradient-custom-4">
                 </div>
             </div>
         </form>

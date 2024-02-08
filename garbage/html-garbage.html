@@ -1340,3 +1340,21 @@ onclick="load_and_show_source_space('{{ source.id }}')"
     <i class="fa-sharp fa-solid fa-moon sun-moon"></i>
 </div>
 
+
+<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#download-work-space" aria-expanded="false" aria-controls="download-work-space">
+    Download Workspace
+</button>
+
+<div class="collapse" id="download-work-space">
+    <div>
+        <a href="{% url 'work_space:download_space' space.pk %}">
+            <i class="fa-solid fa-file-zipper fa-5x"></i><br><h6>Download sources and papers</h6>
+        </a>
+
+        <a href="{% url 'work_space:download_space_sources' space.pk %}">
+            <i class="fa-regular fa-file-zipper fa-5x"></i><br><h6>Download only sources</h6>
+        </a>
+
+
+    </div>
+</div>

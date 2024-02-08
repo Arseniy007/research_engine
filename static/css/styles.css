@@ -276,7 +276,7 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
 
 .form-body
 {
-  background-color: #D9CFC1;
+  background-color: #e5e5e9;
   margin: 0;
 }
 
@@ -397,6 +397,20 @@ a:active {
 #logout-link
 {
   margin-left: 37px;
+}
+
+#download-space-div
+{
+  float: right;
+  margin-top: 15px;
+}
+
+#download-space-dropdown
+{
+  float: right;
+  background-color: #4fc7ee;
+  color: #0b121b;
+  border: #0b121b;
 }
 
 .nav-tabs a, .nav-link {

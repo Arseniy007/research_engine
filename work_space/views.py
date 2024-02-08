@@ -160,6 +160,7 @@ def download_space_sources(request, space_id):
         return JsonResponse({"message": "Empty Work Space"})
 
     # Create zip file of the directory
+    # TODO bug here
     dir_title = "Sources"
     saving_destination = os.path.join(space.get_friendly_path(), dir_title)
     zip_file = shutil.make_archive(root_dir=user_friendly_dir, base_dir=dir_title, 
