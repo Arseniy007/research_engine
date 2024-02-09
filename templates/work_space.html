@@ -374,7 +374,6 @@
             </div>
         </div>
     </div>
-
     <div class="workspace-area" id="papers-area" style="display: none;">
 
         <h3>Papers</h3>
@@ -403,18 +402,64 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <br><h5 class="card-title">{{ owner }}</h5>
-                        <p class="card-text">{{ owner.username }}</p>
-                        <p class="card-text"><small class="text-body-secondary">{{ owner.email }}</small></p>
+                        <br><h4 class="card-title" style="color: #118ab2;">{{ owner }}</h4>
+                        <p class="card-text">{{ owner.username }}<br><small class="text-body-secondary">{{ owner.email }}</small></p>
                     </div>
                 </div>
             </div>
         </div>
-        <br><br>
-        <h2>Members</h2>
-
-
-
+        {% if members %}
+            <br><br>
+            <h2>Members</h2><br>
+            <div id="member-cards-container">
+                {% for member in members %}
+                    <!-- Member Card -->
+                    <div class="card mb-3 member-card" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="/static/images/workspace_action_imgs/member.png" class="img-fluid rounded-start" alt="Zip Archive">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <br><h4 class="card-title">{{ member }}</h4>
+                                    <p class="card-text">{{ member.username }}<br>
+                                        <small class="text-body-secondary">{{ member.email }}</small>
+                                        {% if user_status == 'owner' %}
+                                            <br>
+                                            <a href="#remove-member-modal" class="red-action-link" data-bs-toggle="modal" data-bs-target="#remove-member-modal">
+                                                Kick this member out
+                                            </a>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if user_status == 'owner' %}
+                        <!-- Remove Member Modal -->
+                        <div class="modal fade" id="remove-member-modal" tabindex="-1" aria-labelledby="remove-member-modal-label" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="remove-member-modal-label"></h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>Kick {{ member }} out!</h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-danger">
+                                            <a href="{% url 'work_space:kick_member_out' space.pk member.pk %}" class="white-action-link">Kick them out!</a>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
     <div class="workspace-area" id="actions-area" style="display: none;">
         <div class="action-row">
@@ -471,7 +516,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">Leave Workspace</h5>
+                                <br><h5 class="card-title">Leave Workspace</h5>
                                 <p class="card-text">
                                     <br>Click here at your own risk:<br>
                                     <a href="#leave-space-modal" class="red-action-link" data-bs-toggle="modal" data-bs-target="#leave-space-modal">
@@ -612,10 +657,9 @@
     <br><br><br>
     <h1>TODO:</h1>
     <br><br>
-    <h5>Multiple owners?</h5>
-    <h4>Rename guests into members across all parts of project</h4>
-    <h4>Member cards</h4>
-    <h4>All action modals (invitation code in textarea with copy buttons)</h4>
+    <h4>Check member-cards-container flex with multiple members</h4>
+    <h4>All action and member modals (invitation code in textarea with copy buttons)</h4>
+    <h4>Prevent scrolling at actions area</h4>
     <h4>Source deleting animation</h4>
     <h4>Source deleting animation</h4>
     <h4>Sources card and flexbox</h4>

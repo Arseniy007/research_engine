@@ -286,10 +286,10 @@ def kick_member_out_of_space(request, space_id, member_id):
     if member in space.members.all():
         # Remove member from workspace
         space.remove_member(member)
-        display_success_message(request)
+        display_success_message(request, f"{member} is no longer a part of {space}")
     # Error case
     else:
-        display_error_message(request) 
+        display_error_message(request)
     return redirect(reverse("work_space:space_view", args=(space_id,)))
 
 
