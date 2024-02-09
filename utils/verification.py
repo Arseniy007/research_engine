@@ -8,13 +8,13 @@ from work_space.models import Invitation, ShareSourcesCode, WorkSpace
 
 
 def check_work_space(space_id: int, user: User) -> WorkSpace | Http404 | PermissionDenied:
-    """Checks if work_space exists and the user is either its owner or guest"""
+    """Checks if work_space exists and the user is either its owner or member"""
     try:
         space = WorkSpace.objects.get(pk=space_id)
     except ObjectDoesNotExist:
         raise Http404
     else:
-        if space.owner != user and user not in space.guests.all():
+        if space.owner != user and user not in space.members.all():
             raise PermissionDenied
     return space
 

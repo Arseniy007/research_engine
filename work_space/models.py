@@ -7,7 +7,7 @@ from user_management.models import User
 
 class WorkSpace(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="work_spaces")
-    guests = models.ManyToManyField(User, related_name="guest_work_spaces")
+    members = models.ManyToManyField(User, related_name="guest_work_spaces")
     title = models.CharField(max_length=50)
     archived = models.BooleanField(default=False)
 
@@ -54,14 +54,14 @@ class WorkSpace(models.Model):
         return self.save(update_fields=("archived",))
 
 
-    def add_guest(self, guest: User):
-        """Add new guest to a space"""
-        return self.guests.add(guest)
+    def add_member(self, member: User):
+        """Add new member to a space"""
+        return self.members.add(member)
     
     
-    def remove_guest(self, guest: User):
+    def remove_member(self, member: User):
         """Remove given user from a space"""
-        return self.guests.remove(guest)
+        return self.members.remove(member)
 
 
 class Invitation(models.Model):

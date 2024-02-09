@@ -16,9 +16,9 @@ def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:
         return False
 
     # Get all work space users
-    owner, guests = work_space.owner, work_space.guests.all()
-    if guests:
-        users = list(guests)
+    owner, members = work_space.owner, work_space.members.all()
+    if members:
+        users = list(members)
         users.append(owner)
     else:
         users = [owner]

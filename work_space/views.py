@@ -25,7 +25,7 @@ def work_space_view(request, space_id):
 
     # Get main data
     space = check_work_space(space_id, request.user)
-    guests = space.guests.all()
+    members = space.members.all()
     sources = get_work_space_sources(space)
     user_status = get_user_status(request.user, space)
     space_papers = space.papers.filter(archived=False)
@@ -37,8 +37,8 @@ def work_space_view(request, space_id):
         "space_papers": space_papers,
         "user_status": user_status,
         "owner": space.owner,
-        "guests": guests,
-        "number_of_members": len(guests) + 1, # 1 = Owner
+        "members": members,
+        "number_of_members": len(members) + 1, # 1 = Owner
         "space_has_sources": bool(sources),
         "number_of_sources": len(sources),
         "number_of_papers": len(space_papers),
@@ -164,7 +164,7 @@ def download_space_sources(request, space_id):
         return FileResponse(open(zip_file, "rb"))
     finally:
         # Remove user from original space and delete whole dir (with zip file inside)
-        space.remove_guest(request.user)
+        space.remove_member(request.user)
         shutil.rmtree(FRIENDLY_TMP_ROOT)
 
 
@@ -207,7 +207,7 @@ def share_space_sources(request, space_id):
 @post_request_required
 @login_required(redirect_field_name=None)
 def receive_invitation(request):
-    """Adds user as guest to the new work space if they were invited"""
+    """Adds user as member to the new work space if they were invited"""
 
     form = ReceiveInvitationForm(request.POST)
 
@@ -221,11 +221,11 @@ def receive_invitation(request):
             work_space_url = reverse("work_space:space_view", args=(new_work_space.pk,))
 
             # Owner can't invite themselves and users who are already part of workspace
-            if new_work_space.owner == request.user or request.user in new_work_space.guests.all():
+            if new_work_space.owner == request.user or request.user in new_work_space.members.all():
                 return JsonResponse({"status": "error", "message": f"{new_work_space} is your workspace", "url": work_space_url})
 
-            # Add user as guest to the new work space
-            new_work_space.add_guest(request.user)
+            # Add user as member to the new work space
+            new_work_space.add_member(request.user)
 
             # Delete invitation code
             invitation.delete()
@@ -252,7 +252,7 @@ def receive_shared_sources(request):
             original_work_space = share_space_code.work_space
 
             # Owner can't receive their own sources
-            if original_work_space.owner == request.user or request.user in original_work_space.guests.all():
+            if original_work_space.owner == request.user or request.user in original_work_space.members.all():
                 return JsonResponse({
                     "status": "error", 
                     "message": f"{original_work_space} is your workspace", 
@@ -269,7 +269,7 @@ def receive_shared_sources(request):
 
             if option == "download":
                 # Add user to space in order to download it and redirect them to download url
-                original_work_space.add_guest(request.user)
+                original_work_space.add_member(request.user)
                 download_url = reverse("work_space:download_space_sources", args=(original_work_space.pk,))
                 return JsonResponse({"status": "ok", "url": download_url})
 
@@ -279,13 +279,13 @@ def receive_shared_sources(request):
 
 @space_ownership_required
 @login_required(redirect_field_name=None)
-def kick_guest_out_of_space(request, space_id, guest_id):
+def kick_member_out_of_space(request, space_id, member_id):
     """;)"""
 
-    space, guest = check_work_space(space_id, request.user), check_user(guest_id)
-    if guest in space.guests.all():
-        # Remove guest from workspace
-        space.remove_guest(guest)
+    space, member = check_work_space(space_id, request.user), check_user(member_id)
+    if member in space.members.all():
+        # Remove member from workspace
+        space.remove_member(member)
         display_success_message(request)
     # Error case
     else:
@@ -295,18 +295,18 @@ def kick_guest_out_of_space(request, space_id, guest_id):
 
 @login_required(redirect_field_name=None)
 def leave_work_space(request, space_id):
-    """Remove guest from a work space"""
+    """Remove member from a work space"""
 
-    # Check if user was indeed a guest in a given work space
+    # Check if user was indeed a member in a given work space
     space = check_work_space(space_id, request.user)
 
     # Error case
-    if request.user not in space.guests.all():
+    if request.user not in space.members.all():
         display_error_message(request)
         return redirect(reverse("work_space:space_view", args=(space_id,)))
 
     # Remove user
-    space.remove_guest(request.user)
+    space.remove_member(request.user)
 
     # Redirect user to lobby page
     display_success_message(request)
