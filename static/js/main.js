@@ -11,12 +11,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    window.onscroll = function() {stick_header()};
+
+    const header = document.getElementById("header");
+    const sticky = header.offsetTop;
+
+    function stick_header() {
+        if (window.pageYOffset || window.scrollY > sticky) {
+            header.classList.add("sticky");
+        } 
+        else {
+            header.classList.remove("sticky");
+        }
+    }
+
 
     const space_id = document.querySelector('#space_id').innerHTML;
     const link_form = document.querySelector('#link_form');
 
     // Show and hide rename paper form
-    const header = document.querySelector('#header');
+    //const header = document.querySelector('#header');
     const header_text = document.querySelector('#header-text');
     const edit_symbol = document.querySelector('#edit-title-symbol');
 

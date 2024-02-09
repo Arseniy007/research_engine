@@ -53,7 +53,7 @@
                 {% if user.is_authenticated %}
                     <div>
                         {% if work_spaces %}
-                            <a onclick="dropdown_spaces()" class="dropbtn"><i class="fa-solid fa-folder-open"></i>&nbsp;&nbsp;Workspaces</a>
+                            <a onclick="dropdown_spaces()" class="dropbtn pointy-cursor"><i class="fa-solid fa-folder-open"></i>&nbsp;&nbsp;Workspaces</a>
                             <div class="dropdown-content" id="spaces-dropdown">
                                 {% for space in work_spaces %}
                                     <a href="{% url 'work_space:space_view' space.pk %}"><small>{{ space }}</small></a>
