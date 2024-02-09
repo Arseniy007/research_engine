@@ -361,17 +361,6 @@ function create_new_paper(form, space_id) {
     });
 }
 
-async function share_space_sources1(space_id) {
-
-    // Get sharing code and link
-    const answer = await get_share_space_source_code(space_id);
-
-    // Render results inside opened modal
-    document.querySelector('#sources-code').innerHTML = answer.share_sources_code;
-    document.querySelector('#sources-link').innerHTML = answer.share_sources_link;
-
-}
-
 function invite_to_work_space(space_id) {
 
     // Invitation API route
@@ -398,15 +387,9 @@ function share_space_sources(space_id) {
     .then(response => handleErrors(response, url))
     .then(response => response.json())
     .then(result => {
-        if (result.status === 'ok') {
-            // Render results inside opened modal
-            document.querySelector('#sources-code').innerHTML = result.sources_code;
-            document.querySelector('#sources-link').innerHTML = result.sources_link;
-        }
-        else {
-            // Error case (empty workspace)
-            return false;
-        }
+        // Render results inside opened modal
+        document.querySelector('#sources-code').innerHTML = result.sources_code;
+        document.querySelector('#sources-link').innerHTML = result.sources_link;
     });
 }
 

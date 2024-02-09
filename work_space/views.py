@@ -11,7 +11,7 @@ from paper_work.forms import NewPaperForm
 from research_engine.constants import FRIENDLY_TMP_ROOT
 from utils.decorators import post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
-from utils.verification import check_invitation, check_share_sources_code, check_space_link, check_work_space
+from utils.verification import check_invitation, check_share_sources_code, check_space_link, check_user, check_work_space
 from user_management.helpers import get_user_papers, get_user_work_spaces
 from .space_creation import copy_space_with_all_sources, create_new_space
 from .space_sharing import generate_invitation, get_sources_sharing_code, share_sources
@@ -283,6 +283,22 @@ def receive_shared_sources(request):
     return JsonResponse({"status": "error", "message": "Something went wrong"})
 
 
+@space_ownership_required
+@login_required(redirect_field_name=None)
+def kick_guest_out_of_space(request, space_id, guest_id):
+    """;)"""
+
+    space, guest = check_work_space(space_id, request.user), check_user(guest_id)
+    if guest in space.guests.all():
+        # Remove guest from workspace
+        space.remove_guest(guest)
+        display_success_message(request)
+    # Error case
+    else:
+        display_error_message(request) 
+    return redirect(reverse("work_space:space_view", args=(space_id,)))
+
+
 @login_required(redirect_field_name=None)
 def leave_work_space(request, space_id):
     """Remove guest from a work space"""
@@ -301,6 +317,12 @@ def leave_work_space(request, space_id):
     # Redirect user to lobby page
     display_success_message(request)
     return redirect(reverse("website:lobby"))
+
+
+
+
+
+
 
 
 @post_request_required

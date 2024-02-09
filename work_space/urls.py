@@ -14,6 +14,7 @@ urlpatterns = [
     path("receive_invitation", views.receive_invitation, name="receive_invitation"),
     path("share_sources/<int:space_id>", views.share_space_sources, name="share_sources"),
     path("receive_shared_sources", views.receive_shared_sources, name="receive_shared_sources"),
+    path("kick_guest_out/<int:space_id>/<int:guest_id>", views.kick_guest_out_of_space, name="kick_guest_out"),
     path("leave_space/<int:space_id>", views.leave_work_space, name="leave_space"),
     path("add_link_to_space/<int:space_id>", views.add_link, name="add_link"),
     path("delete_link/<int:link_id>", views.delete_link, name="delete_link"),

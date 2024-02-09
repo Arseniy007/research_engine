@@ -879,3 +879,14 @@ async function share_space_sources(space_id) {
 
 }
 
+async function share_space_sources1(space_id) {
+
+    // Get sharing code and link
+    const answer = await get_share_space_source_code(space_id);
+
+    // Render results inside opened modal
+    document.querySelector('#sources-code').innerHTML = answer.share_sources_code;
+    document.querySelector('#sources-link').innerHTML = answer.share_sources_link;
+
+}
+

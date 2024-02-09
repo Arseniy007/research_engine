@@ -41,7 +41,16 @@ def check_source(source_id: int, user: User) -> Source | Http404:
     return source
 
 
+def check_user(user_id: int) -> User | Http404:
+    """Check if user with given id exists"""
+    try:
+        return User.objects.get(pk=user_id)
+    except ObjectDoesNotExist:
+        raise Http404
+
+
 def check_source_file(file_id: int, user: User) -> SourceFile | Http404:
+    """Check if source file exists and user has access to it"""
     try:
         file = SourceFile.objects.get(pk=file_id)
     except ObjectDoesNotExist:
@@ -52,7 +61,7 @@ def check_source_file(file_id: int, user: User) -> SourceFile | Http404:
 
 
 def check_paper(paper_id: int, user: User) -> Paper | Http404:
-    """Checks if user is the author of the given page and page exists"""
+    """Checks if paper exists and user has access to it"""
     try:
         paper = Paper.objects.get(pk=paper_id)
     except ObjectDoesNotExist:
