@@ -42,6 +42,8 @@ def work_space_view(request, space_id):
         "sources": sources,
         "space_papers": space_papers,
         "links": links,
+        "user_status": user_status,
+        "space_has_sources": bool(sources),
         "number_of_sources": len(sources),
         "number_of_papers": len(space_papers),
         "number_of_links": len(links),
@@ -54,7 +56,6 @@ def work_space_view(request, space_id):
         "rename_form": RenameSpaceForm().set_initial(space),
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user),
-        "user_status": user_status,
     }
     return render(request, "work_space.html", work_space_data)
 
@@ -183,7 +184,7 @@ def invite_to_work_space(request, space_id):
 
     # Generate link with invitation code inside
     invitation_code = generate_invitation(space)
-    invitation_link = reverse("website:invitation", args=(invitation_code,))
+    invitation_link = request.build_absolute_uri(reverse("website:invitation", args=(invitation_code,)))
     return JsonResponse({"invitation_code": invitation_code, "invitation_link": invitation_link})
 
 
@@ -199,11 +200,11 @@ def share_space_sources(request, space_id):
         # Get source sharing link
         share_sources(space)
         share_sources_code = get_sources_sharing_code(space).code
-        share_sources_link = reverse("website:invitation", args=(share_sources_code,))
+        share_sources_link = request.build_absolute_uri(reverse("website:invitation", args=(share_sources_code,)))
         return JsonResponse({
             "status": "ok", 
-            "share_sources_code": share_sources_code, 
-            "share_sources_link": share_sources_link
+            "sources_code": share_sources_code, 
+            "sources_link": share_sources_link
         })
     # Error case
     return JsonResponse({"status": "error"})

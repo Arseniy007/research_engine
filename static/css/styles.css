@@ -445,11 +445,20 @@ a:active {
   color: #868d99;
 }
 
-.action-button
+.action-row
 {
-  width: 70%;
-  height: 50px;
-  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-action-card
+{
+  float: left;
+}
+
+.right-action-card
+{
+  float: right;
 }
 
 .action-card

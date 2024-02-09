@@ -858,3 +858,24 @@ function show_links_area() {
     document.querySelector('#links-area').style.display = '';
 }
 
+async function invite_to_work_space(space_id) {
+
+    // Get invitation code and link
+    const answer = await get_invitation_code(space_id);
+
+    // Render results inside opened modal
+    document.querySelector('#invitation-link').innerHTML = answer.invitation_code;
+    document.querySelector('#invitation-code').innerHTML = answer.invitation_code;
+}
+
+async function share_space_sources(space_id) {
+
+    // Get sharing code and link
+    const answer = await get_share_space_source_code(space_id);
+
+    // Render results inside opened modal
+    document.querySelector('#sources-code').innerHTML = answer.share_sources_code;
+    document.querySelector('#sources-link').innerHTML = answer.share_sources_link;
+
+}
+

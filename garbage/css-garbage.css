@@ -371,3 +371,9 @@ body
   padding-top: 102px;
 }
 
+.action-button
+{
+  width: 70%;
+  height: 50px;
+  border-radius: 15px;
+}

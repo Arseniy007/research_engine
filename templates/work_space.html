@@ -413,90 +413,97 @@
             {{ link_form }}
             <button>Add link</button>
         </form>
-    </div>
 
+
+    </div>
     <div class="workspace-area" id="actions-area" style="display: none;">
-        <!-- Workspace Downloading Card -->
-        <div class="card mb-3 action-card" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="/static/images/workspace_action_imgs/zip-archive.png" class="img-fluid rounded-start" alt="Zip Archive">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Download Workspace</h5>
-                        <p class="card-text">
-                            Click here to download whole workspace:&nbsp;&nbsp;
-                            <a href="{% url 'work_space:download_space' space.pk %}" class="action-link">
-                                <small>{{ space }}.zip</small>
-                            </a>
-                            <br><br>
-                            Click here to download only sources inside workspace:&nbsp;&nbsp;
-                            <a href="{% url 'work_space:download_space_sources' space.pk %}" class="action-link">
-                                <small>Sources.zip</small>
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br><br>
-        <!-- Invite to Workspace Card -->
-        <div class="card mb-3 action-card" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="/static/images/workspace_action_imgs/invite-to-space.png" class="img-fluid rounded-start" alt="Invitation">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Invite to Workspace</h5>
-                        <p class="card-text">
-                            <br>Click here to create invitation code or link:&nbsp;&nbsp;
-                            <a href="#invite-to-space-modal" class="action-link" data-bs-toggle="modal" data-bs-target="#invite-to-space-modal">
-                                http://very-secret-link.com
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br><br>
-        <!-- Share Sources Card -->
-        <div class="card mb-3 action-card" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="/static/images/workspace_action_imgs/share_sources.png" class="img-fluid rounded-start" alt="Sources Sharing">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Share Sources</h5>
-                        <p class="card-text">
-                            <br>Click here to create special code or link:&nbsp;&nbsp;
-                            <a href="#share-sources-modal" class="action-link" data-bs-toggle="modal" data-bs-target="#share-sources-modal">
-                                http://here-are-my-sources.com
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br><br>
-        {% if user_status == 'owner' %}
-            <!-- Workspace Archivation Card -->
-            <div class="card mb-3 action-card" style="max-width: 540px;">
+        <div class="action-row">
+            <!-- Workspace Downloading Card -->
+            <div class="card mb-3 action-card left-action-card" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="/static/images/workspace_action_imgs/archive-workspace.png" class="img-fluid rounded-start" alt="Archivation">
+                        <img src="/static/images/workspace_action_imgs/zip-archive.png" class="img-fluid rounded-start" alt="Zip Archive">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Archive Workspace</h5>
+                            <h5 class="card-title">Download Workspace</h5>
                             <p class="card-text">
-                                <br>Click here at your own risk:<br>
-                                <a href="#space-archive-modal" style="color: red;" data-bs-toggle="modal" data-bs-target="#space-archive-modal">
-                                    Archive {{ space }}
+                                Click here to download whole workspace:&nbsp;&nbsp;
+                                <a href="{% url 'work_space:download_space' space.pk %}" class="action-link">
+                                    <small>{{ space }}.zip</small>
+                                </a>
+                                <br><br>
+                                Click here to download only sources inside workspace:&nbsp;&nbsp;
+                                <a href="{% url 'work_space:download_space_sources' space.pk %}" class="action-link">
+                                    <small>Sources.zip</small>
                                 </a>
                             </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if user_status == 'owner' %}
+                <!-- Invite to Workspace Card -->
+                <div class="card mb-3 action-card right-action-card" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="/static/images/workspace_action_imgs/invite-to-space.png" class="img-fluid rounded-start" alt="Invitation">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Invite to Workspace</h5>
+                                <p class="card-text">
+                                    <br>Click here to create invitation code or link:&nbsp;&nbsp;
+                                    <a onclick="invite_to_work_space('{{ space.pk }}')" href="#invite-to-space-modal" class="action-link" data-bs-toggle="modal" data-bs-target="#invite-to-space-modal">
+                                        http://very-secret-link.com
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <br><br>
+        {% if user_status == 'owner' %}
+            <div class="action-row">
+                {% if space_has_sources %}
+                    <!-- Share Sources Card -->
+                    <div class="card mb-3 action-card left-action-card" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="/static/images/workspace_action_imgs/share_sources.png" class="img-fluid rounded-start" alt="Sources Sharing">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Share Sources</h5>
+                                    <p class="card-text">
+                                        <br>Click here to create special code or link:&nbsp;&nbsp;
+                                        <a onclick="share_space_sources('{{ space.pk }}')" href="#share-sources-modal" class="action-link" data-bs-toggle="modal" data-bs-target="#share-sources-modal">
+                                            http://here-are-my-sources.com
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- Workspace Archivation Card -->
+                <div class="card mb-3 action-card right-action-card" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="/static/images/workspace_action_imgs/archive-workspace.png" class="img-fluid rounded-start" alt="Archivation">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Archive Workspace</h5>
+                                <p class="card-text">
+                                    <br>Click here at your own risk:<br>
+                                    <a href="#space-archive-modal" style="color: red;" data-bs-toggle="modal" data-bs-target="#space-archive-modal">
+                                        Archive {{ space }}
+                                    </a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -512,6 +519,8 @@
                     </div>
                     <div class="modal-body">
                         <h4>Invite</h4>
+                        <h6 id="invitation-link"></h6>
+                        <h6 id="invitation-code"></h6>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -559,8 +568,7 @@
     </div>
 
 
-    <br><br><br>   <br><br><br>
-
+    <br><br><br><br><br><br>
     <br><br><br>
 
 
@@ -570,7 +578,7 @@
     <h4>TODO: Grid at account settings</h4>
     <h4>TODO: Colors</h4>
 
-
+    <!-- Hidden parts of page -->
     <div id="space_id" style="display: none;">{{ space.pk }}</div>
     <div id="new-paper-form" style="display: none;">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

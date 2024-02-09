@@ -11,9 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    const space_id = document.querySelector('#space_id').innerHTML;
-    const link_form = document.querySelector('#link_form');
-
     // Show and hide rename paper form
     const header = document.querySelector('#header');
     const header_text = document.querySelector('#header-text');
@@ -28,7 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
     header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');
 
 
-
+    const space_id = document.querySelector('#space_id').innerHTML;
+    const link_form = document.querySelector('#link_form');
 
     link_form.addEventListener('submit', event => {
         event.preventDefault();
@@ -363,30 +361,18 @@ function create_new_paper(form, space_id) {
     });
 }
 
-function invite_to_work_space(space_id) {
-
-    // Get invitation code and link
-    const answer = get_invitation_code(space_id);
-    const invitation_code = answer.invitation_code;
-    const invitation_link = answer.invitation_link;
-
-    // Render results on page
-    // TODO
-
-}
-
-function share_space_sources(space_id) {
+async function share_space_sources1(space_id) {
 
     // Get sharing code and link
-    const answer = get_share_space_source_code(space_id);
-    const sources_code = answer.share_sources_code;
-    const sources_link = answer.share_sources_link;
+    const answer = await get_share_space_source_code(space_id);
 
-    // Render results on page
+    // Render results inside opened modal
+    document.querySelector('#sources-code').innerHTML = answer.share_sources_code;
+    document.querySelector('#sources-link').innerHTML = answer.share_sources_link;
 
 }
 
-function get_invitation_code(space_id) {
+function invite_to_work_space(space_id) {
 
     // Invitation API route
     const url = `/invite_to_space/${space_id}`;
@@ -396,12 +382,13 @@ function get_invitation_code(space_id) {
     .then(response => handleErrors(response, url))
     .then(response => response.json())
     .then(result => {
-        // Return new link to invitation page
-        return result;
+        // Render results inside opened modal
+        document.querySelector('#invitation-code').innerHTML = result.invitation_code;
+        document.querySelector('#invitation-link').innerHTML = result.invitation_link;
     });
 }
 
-function get_share_space_source_code(space_id) {
+function share_space_sources(space_id) {
 
     // Invitation API route
     const url = `/share_sources/${space_id}`;
@@ -412,8 +399,9 @@ function get_share_space_source_code(space_id) {
     .then(response => response.json())
     .then(result => {
         if (result.status === 'ok') {
-            // Return new link to invitation page
-            return result;
+            // Render results inside opened modal
+            document.querySelector('#sources-code').innerHTML = result.sources_code;
+            document.querySelector('#sources-link').innerHTML = result.sources_link;
         }
         else {
             // Error case (empty workspace)
