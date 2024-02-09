@@ -4594,6 +4594,10 @@ def check_space_link(link_id: int, user: User) -> Link | Http404:
         for link in links:
             link_file.write(f"{link}:\n{link.url}\n\n")
 
+def get_number_of_members(space: WorkSpace) -> int:
+
+    return len(space.guests.all()) + 1
+
 
 
 """

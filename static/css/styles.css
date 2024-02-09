@@ -461,7 +461,7 @@ a:active {
   float: right;
 }
 
-.action-card
+.action-card, .member-card
 {
   background-color: #e5e5e9!important;
   border-color: #e5e5e9!important; 
@@ -470,4 +470,14 @@ a:active {
 .action-link
 {
   color: #118ab2;
+}
+
+.red-action-link
+{
+  color: red;
+}
+
+.white-action-link
+{
+  color: white;
 }

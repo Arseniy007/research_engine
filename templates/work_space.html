@@ -394,9 +394,30 @@
         
     </div>
     <div class="workspace-area" id="members-area" style="display: none;">
+        <h2>Owner</h2><br>
+        <!-- Owner Card -->
+        <div class="card mb-3 member-card" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/static/images/workspace_action_imgs/owner.png" class="img-fluid rounded-start" alt="Zip Archive">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <br><h5 class="card-title">{{ owner }}</h5>
+                        <p class="card-text">{{ owner.username }}</p>
+                        <p class="card-text"><small class="text-body-secondary">{{ owner.email }}</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-        <h1>Members!</h1>
+
+
+
+        <br><br>
+        <h2>Members</h2>
+
 
 
     </div>
@@ -446,6 +467,26 @@
                         </div>
                     </div>
                 </div>
+            {% else %}
+                <!-- Leave Workspace Card -->
+                <div class="card mb-3 action-card right-action-card" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="/static/images/workspace_action_imgs/leave_space.png" class="img-fluid rounded-start" alt="Leaving">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Leave Workspace</h5>
+                                <p class="card-text">
+                                    <br>Click here at your own risk:<br>
+                                    <a href="#leave-space-modal" class="red-action-link" data-bs-toggle="modal" data-bs-target="#leave-space-modal">
+                                        Leave {{ space }}
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% endif %}
         </div>
         <br><br>
@@ -483,7 +524,7 @@
                                 <h5 class="card-title">Archive Workspace</h5>
                                 <p class="card-text">
                                     <br>Click here at your own risk:<br>
-                                    <a href="#space-archive-modal" style="color: red;" data-bs-toggle="modal" data-bs-target="#space-archive-modal">
+                                    <a href="#space-archive-modal" class="red-action-link" data-bs-toggle="modal" data-bs-target="#space-archive-modal">
                                         Archive {{ space }}
                                     </a>
                                 </p>
@@ -543,7 +584,27 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-danger">
-                            <a href="{% url 'work_space:archive_space' space.pk %}" style="color: white;">Archive Workspace</a>
+                            <a href="{% url 'work_space:archive_space' space.pk %}" class="white-action-link">Archive Workspace</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Leaving Workspace Modal -->
+        <div class="modal fade" id="leave-space-modal" tabindex="-1" aria-labelledby="leave-space-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="leave-space-modal-label">You are about to leave {{ space}}!</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Are you sure you want to leave this Workspace?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger">
+                            <a href="{% url 'work_space:leave_space' space.pk %}" class="white-action-link">Leave Workspace</a>
                         </button>
                     </div>
                 </div>
@@ -560,6 +621,7 @@
     <h4>TODO: Source deleting animation</h4>
     <h4>TODO: Sources card and flexbox</h4>
     <h4>TODO: Grid at account settings</h4>
+    <h4>Actions modals</h4>
     <h4>TODO: Colors</h4>
 
     <!-- Hidden parts of page -->

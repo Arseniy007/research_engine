@@ -12,6 +12,7 @@ from utils.decorators import post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_invitation, check_share_sources_code, check_user, check_work_space
 from user_management.helpers import get_user_papers, get_user_work_spaces
+from .main_view_helpers import get_user_status
 from .space_creation import copy_space_with_all_sources, create_new_space
 from .space_sharing import generate_invitation, get_sources_sharing_code, share_sources
 from .forms import NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, RenameSpaceForm
@@ -24,15 +25,10 @@ def work_space_view(request, space_id):
 
     # Get main data
     space = check_work_space(space_id, request.user)
+    guests = space.guests.all()
     sources = get_work_space_sources(space)
+    user_status = get_user_status(request.user, space)
     space_papers = space.papers.filter(archived=False)
-
-    # Get user status
-    # TODO Do I need it?
-    if request.user == space.owner:
-        user_status = "owner"
-    else:
-        user_status = "guest"
 
     # Get all needed source-related data
     work_space_data = {
@@ -40,6 +36,9 @@ def work_space_view(request, space_id):
         "sources": sources,
         "space_papers": space_papers,
         "user_status": user_status,
+        "owner": space.owner,
+        "guests": guests,
+        "number_of_members": len(guests) + 1, # 1 = Owner
         "space_has_sources": bool(sources),
         "number_of_sources": len(sources),
         "number_of_papers": len(space_papers),
