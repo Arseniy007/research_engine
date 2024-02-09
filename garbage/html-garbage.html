@@ -1372,3 +1372,61 @@ onclick="load_and_show_source_space('{{ source.id }}')"
 </div>
 <br><br><br>
 
+<button class="btn btn-secondary action-button" id="download-space-dropdown" type="button" data-bs-toggle="collapse" data-bs-target="#download-collapse" aria-expanded="false" aria-controls="download-collapse">
+    <i class="fa-solid fa-download"></i>&nbsp;Download Workspace&nbsp;<i class="fa-solid fa-download"></i>
+</button>
+<div class="collapse" id="download-collapse">
+    
+    <br><br>
+
+    <button class="btn btn-secondary">
+        <a href="{% url 'work_space:download_space' space.pk %}" style="color: white;">Download all</a>
+    </button>
+    <br><br>
+    <button class="btn btn-secondary">
+        <a href="{% url 'work_space:download_space_sources' space.pk %}" style="color: white;">Download only sources</a>
+    </button>
+    
+
+</div>
+
+
+        <!-- Workspace Downloading Modal -->
+        <button class="btn btn-info action-button" type="button" data-bs-toggle="modal" data-bs-target="#space-download-modal">
+            <i class="fa-solid fa-download"></i>&nbsp;Download Workspace&nbsp;<i class="fa-solid fa-download"></i>
+        </button>
+        <div class="modal fade" id="space-download-modal" tabindex="-1" aria-labelledby="space-download-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="space-download-modal-label">Download zip-archive of {{ space }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>You can download either sources inside "{{ space }}" or whole workspace with all papers and sources!</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info">
+                            <a href="{% url 'work_space:download_space' space.pk %}" style="color: black;">Download all</a>
+                        </button>
+                        <button class="btn btn-info">
+                            <a href="{% url 'work_space:download_space_sources' space.pk %}" style="color: black;">Download only sources</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<button class="btn btn-secondary action-button" type="button" data-bs-toggle="modal" data-bs-target="#invite-to-space-modal">
+    Invite to Workspace <i class="fa-solid fa-share-nodes"></i>
+</button>
+
+<button class="btn btn-secondary action-button" type="button" data-bs-toggle="modal" data-bs-target="#share-sources-modal">
+    Share workspace sources <i class="fa-solid fa-share"></i>
+</button>
+
+<button class="btn btn-danger action-button" type="button" data-bs-toggle="modal" data-bs-target="#space-archive-modal">
+    Archive Workspace <i class="fa-solid fa-trash"></i>
+</button>
+
+

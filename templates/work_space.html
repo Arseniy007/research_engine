@@ -416,64 +416,150 @@
     </div>
 
     <div class="workspace-area" id="actions-area" style="display: none;">
-    
-        <h2>Actions</h2>
-
-   
-        <button class="btn btn-secondary action-button" id="download-space-dropdown" type="button">
-            <i class="fa-solid fa-download"></i>&nbsp;Download Workspace&nbsp;<i class="fa-solid fa-download"></i>
-        </button>
-
-      
-        <br><br><br>
-
-        <button class="btn btn-secondary action-button" type="button">Invite to Workspace <i class="fa-solid fa-share-nodes"></i></button>
-        
-    
-        <br><br><br>
-
-        <button class="btn btn-secondary action-button" type="button">Share workspace sources <i class="fa-solid fa-share"></i></button>
-
-        <br><br><br>
+        <!-- Workspace Downloading Card -->
+        <div class="card mb-3 action-card" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/static/images/workspace_action_imgs/zip-archive.png" class="img-fluid rounded-start" alt="Zip Archive">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Download Workspace</h5>
+                        <p class="card-text">
+                            Click here to download whole workspace:&nbsp;&nbsp;
+                            <a href="{% url 'work_space:download_space' space.pk %}" class="action-link">
+                                <small>{{ space }}.zip</small>
+                            </a>
+                            <br><br>
+                            Click here to download only sources inside workspace:&nbsp;&nbsp;
+                            <a href="{% url 'work_space:download_space_sources' space.pk %}" class="action-link">
+                                <small>Sources.zip</small>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <!-- Invite to Workspace Card -->
+        <div class="card mb-3 action-card" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/static/images/workspace_action_imgs/invite-to-space.png" class="img-fluid rounded-start" alt="Invitation">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Invite to Workspace</h5>
+                        <p class="card-text">
+                            <br>Click here to create invitation code or link:&nbsp;&nbsp;
+                            <a href="#invite-to-space-modal" class="action-link" data-bs-toggle="modal" data-bs-target="#invite-to-space-modal">
+                                http://very-secret-link.com
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <!-- Share Sources Card -->
+        <div class="card mb-3 action-card" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/static/images/workspace_action_imgs/share_sources.png" class="img-fluid rounded-start" alt="Sources Sharing">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Share Sources</h5>
+                        <p class="card-text">
+                            <br>Click here to create special code or link:&nbsp;&nbsp;
+                            <a href="#share-sources-modal" class="action-link" data-bs-toggle="modal" data-bs-target="#share-sources-modal">
+                                http://here-are-my-sources.com
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
         {% if user_status == 'owner' %}
-            <!-- Workspace Archivation Modal Modal -->
-            <button class="btn btn-danger action-button" type="button" data-bs-toggle="modal" data-bs-target="#space-archive-modal">
-                Archive Workspace <i class="fa-solid fa-trash"></i>
-            </button>
-            <div class="modal fade" id="space-archive-modal" tabindex="-1" aria-labelledby="space-archive-modal-label" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="space-archive-modal-label">{{ space}} will be archived!</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h4>Are you sure you want to archive this Workspace?</h4>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger">
-                                <a href="{% url 'work_space:archive_space' space.pk %}" style="color: white;">Archive Workspace</a>
-                            </button>
+            <!-- Workspace Archivation Card -->
+            <div class="card mb-3 action-card" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="/static/images/workspace_action_imgs/archive-workspace.png" class="img-fluid rounded-start" alt="Archivation">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Archive Workspace</h5>
+                            <p class="card-text">
+                                <br>Click here at your own risk:<br>
+                                <a href="#space-archive-modal" style="color: red;" data-bs-toggle="modal" data-bs-target="#space-archive-modal">
+                                    Archive {{ space }}
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         {% endif %}
-
-
-
-
-
-
-        <br><br><br>   <br><br><br>
-        <a class="dropdown-item" href="{% url 'work_space:download_space' space.pk %}">Download all</a>
-        <a class="dropdown-item" href="{% url 'work_space:download_space_sources' space.pk %}">Download only sources</a>
-
-
+        <!-- Invite to Workspace Modal -->
+        <div class="modal fade" id="invite-to-space-modal" tabindex="-1" aria-labelledby="invite-to-space-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="invite-to-space-modal-label">Invitation link</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Invite</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Share Sources Modal -->
+        <div class="modal fade" id="share-sources-modal" tabindex="-1" aria-labelledby="share-sources-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="share-sources-modal-label">Sharing link is</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Share</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Workspace Archivation Modal -->
+        <div class="modal fade" id="space-archive-modal" tabindex="-1" aria-labelledby="space-archive-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="space-archive-modal-label">{{ space}} will be archived!</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Are you sure you want to archive this Workspace?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger">
+                            <a href="{% url 'work_space:archive_space' space.pk %}" style="color: white;">Archive Workspace</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
+    <br><br><br>   <br><br><br>
 
     <br><br><br>
 

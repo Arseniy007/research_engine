@@ -399,7 +399,7 @@ a:active {
   margin-left: 37px;
 }
 
-#download-space-dropdown
+.download-space-button
 {
   background-color: #4fc7ee;
   color: #0b121b;
@@ -452,13 +452,13 @@ a:active {
   border-radius: 15px;
 }
 
-.sticky
+.action-card
 {
-  position: fixed;
-  top: 0;
-  width: 100%
+  background-color: #e5e5e9!important;
+  border-color: #e5e5e9!important; 
 }
 
-.sticky + #content {
-  padding-top: 102px;
+.action-link
+{
+  color: #118ab2;
 }

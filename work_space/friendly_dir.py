@@ -9,7 +9,7 @@ def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:
 
     # Get all sources, papers and links in given work space
     sources = work_space.sources.all()
-    papers =  work_space.papers.all()
+    papers =  work_space.papers.filter(archived=False)
     links = work_space.links.all()
 
     if not sources and not papers:
