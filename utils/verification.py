@@ -4,7 +4,7 @@ from bookshelf.models import Article, Book, Chapter, Quote, Source, Webpage
 from file_handling.models import PaperFile, SourceFile
 from paper_work.models import Paper
 from user_management.models import PasswordResetCode, User
-from work_space.models import Link, Invitation, ShareSourcesCode, WorkSpace
+from work_space.models import Invitation, ShareSourcesCode, WorkSpace
 
 
 def check_work_space(space_id: int, user: User) -> WorkSpace | Http404 | PermissionDenied:
@@ -92,17 +92,6 @@ def check_quote(quote_id: int, user: User) -> Quote | Http404:
         check_work_space(quote.source.work_space.pk, user)
     return quote
     
-
-def check_space_link(link_id: int, user: User) -> Link | Http404:
-    """Checks if link exists"""
-    try:
-        link = Link.objects.get(pk=link_id)
-    except ObjectDoesNotExist:
-        raise Http404
-    else:
-        check_work_space(link.work_space.pk, user)
-    return link
-
 
 def check_invitation(invitation_code: str) -> Invitation | bool:
     """Checks if invitation exists"""

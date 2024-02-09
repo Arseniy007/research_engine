@@ -22,17 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         edit_symbol.style.display = 'inline-block';
     });
-    header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');
-
-
-    const space_id = document.querySelector('#space_id').innerHTML;
-    const link_form = document.querySelector('#link_form');
-
-    link_form.addEventListener('submit', event => {
-        event.preventDefault();
-        add_link(link_form, space_id);
-      });
-    
+    header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');    
 });
 
 function hide_all_areas() {

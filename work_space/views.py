@@ -1,7 +1,6 @@
 import os
 import shutil
 from django.contrib.auth.decorators import login_required
-from django.forms.models import model_to_dict
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -11,11 +10,11 @@ from paper_work.forms import NewPaperForm
 from research_engine.constants import FRIENDLY_TMP_ROOT
 from utils.decorators import post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
-from utils.verification import check_invitation, check_share_sources_code, check_space_link, check_user, check_work_space
+from utils.verification import check_invitation, check_share_sources_code, check_user, check_work_space
 from user_management.helpers import get_user_papers, get_user_work_spaces
 from .space_creation import copy_space_with_all_sources, create_new_space
 from .space_sharing import generate_invitation, get_sources_sharing_code, share_sources
-from .forms import NewLinkForm, NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, RenameSpaceForm
+from .forms import NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, RenameSpaceForm
 from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 
 
@@ -27,7 +26,6 @@ def work_space_view(request, space_id):
     space = check_work_space(space_id, request.user)
     sources = get_work_space_sources(space)
     space_papers = space.papers.filter(archived=False)
-    links = space.links.all()
 
     # Get user status
     # TODO Do I need it?
@@ -41,18 +39,15 @@ def work_space_view(request, space_id):
         "space": space,
         "sources": sources,
         "space_papers": space_papers,
-        "links": links,
         "user_status": user_status,
         "space_has_sources": bool(sources),
         "number_of_sources": len(sources),
         "number_of_papers": len(space_papers),
-        "number_of_links": len(links),
         "new_paper_form": NewPaperForm(),
         "book_form": BookForm(),
         "article_form": ArticleForm(),
         "chapter_form": ChapterForm(),
         "webpage_form": WebpageForm(),
-        "link_form": NewLinkForm(),
         "rename_form": RenameSpaceForm().set_initial(space),
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user),
@@ -317,39 +312,3 @@ def leave_work_space(request, space_id):
     # Redirect user to lobby page
     display_success_message(request)
     return redirect(reverse("website:lobby"))
-
-
-
-
-
-
-
-
-@post_request_required
-@login_required(redirect_field_name=None)
-def add_link(request, space_id):
-    """Add link to given workspace"""
-
-    # TODO ???
-
-    form = NewLinkForm(request.POST)
-
-    if form and form.is_valid():
-        # Create new Note obj
-        space = check_work_space(space_id, request.user)
-        new_link = form.save_link(space)
-        return JsonResponse({"status": "ok", "link_name": new_link.name, "url": model_to_dict(new_link)})
-
-    # Send redirect url to js
-    display_error_message(request)
-    return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
-
-
-@login_required(redirect_field_name=None)
-def delete_link(request, link_id):
-    """Deletes added link"""
-
-    # Check link and delete if from the db
-    link = check_space_link(link_id, request.user)
-    link.delete()
-    return JsonResponse({"status": "ok"})

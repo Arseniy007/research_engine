@@ -22,8 +22,8 @@
         <a onclick="show_area('papers-area');return false" href="#" type="button">
             Papers&nbsp;<span>{{ number_of_papers }}</span>
         </a>
-        <a onclick="show_area('links-area');return false" href="#" type="button">
-            Links&nbsp;<span>{{ number_of_links }}</span>
+        <a onclick="show_area('members-area');return false" href="#" type="button">
+            Members&nbsp;<span>{{ number_of_members }}</span>
         </a>
         <a onclick="show_area('actions-area');return false" href="#" type="button">
             Actions
@@ -390,29 +390,13 @@
     
         <button class="btn btn-dark" onclick="show_new_paper_form('{{ space.pk }}')">Add new Paper</button>
 
+
+        
     </div>
+    <div class="workspace-area" id="members-area" style="display: none;">
 
-    <div class="workspace-area" id="links-area" style="display: none;">
-        <h3>Links:</h3>
-        <ul>
-            {% for link in links %}
-                <div id="link_{{ link.pk }}">
-                    <li>
-                        <a href="{{ link.url }}">{{ link }}</a>
-                        <button onclick="delete_link('{{ link.pk }}')" type="button">Delete Link</button>
-                        <small>{{ link.added }}</small>
-                    </li>
-                </div>
-                
-            {% endfor %}
-        </ul><br><br>
 
-        <h3>New Link:</h3>
-        <form action="{% url 'work_space:add_link' space.pk %}" method="post" id="link_form">
-            {% csrf_token %}
-            {{ link_form }}
-            <button>Add link</button>
-        </form>
+        <h1>Members!</h1>
 
 
     </div>

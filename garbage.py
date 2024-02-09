@@ -4518,6 +4518,84 @@ def link_ownership_required(func: Callable) -> Callable | PermissionDenied:
 
     return render(request, "website/invitation.html", data)
 
+
+path("add_link_to_space/<int:space_id>", views.add_link, name="add_link"),
+path("delete_link/<int:link_id>", views.delete_link, name="delete_link"),
+
+@post_request_required
+@login_required(redirect_field_name=None)
+def add_link(request, space_id):
+
+
+    # TODO ???
+
+    form = NewLinkForm(request.POST)
+
+    if form and form.is_valid():
+        # Create new Note obj
+        space = check_work_space(space_id, request.user)
+        new_link = form.save_link(space)
+        return JsonResponse({"status": "ok", "link_name": new_link.name, "url": model_to_dict(new_link)})
+
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("work_space:space_view", args=(space_id,))})
+
+
+@login_required(redirect_field_name=None)
+def delete_link(request, link_id):
+
+
+    # Check link and delete if from the db
+    link = check_space_link(link_id, request.user)
+    link.delete()
+    return JsonResponse({"status": "ok"})
+
+class Link(models.Model):
+    work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="links")
+    name = models.CharField(max_length=50)
+    url = models.URLField()
+
+    def __str__(self):
+        return self.name
+
+class NewLinkForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "name-field",
+        "class": CLASS_,
+        "autocomplete": "off",
+        "placeholder": "Name"})
+    )
+
+    url = forms.URLField()
+
+    def save_link(self, space: WorkSpace) -> Link:
+        new_link = Link(work_space=space, name=self.cleaned_data["name"], url=self.cleaned_data["url"])
+        new_link.save()
+        return new_link
+        
+def check_space_link(link_id: int, user: User) -> Link | Http404:
+    try:
+        link = Link.objects.get(pk=link_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(link.work_space.pk, user)
+    return link
+
+    def create_friendly_links_file(links, root_path: str) -> None:
+
+    # Get path to new links.txt file
+    links_file_path = os.path.join(root_path, "links.txt")
+
+    # Create file and write in all links
+    with open(links_file_path, "w") as link_file:
+        for link in links:
+            link_file.write(f"{link}:\n{link.url}\n\n")
+
+
+
 """
 
 

@@ -1430,3 +1430,27 @@ onclick="load_and_show_source_space('{{ source.id }}')"
 </button>
 
 
+<div class="workspace-area" id="links-area" style="display: none;">
+    <h3>Links:</h3>
+    <ul>
+        {% for link in links %}
+            <div id="link_{{ link.pk }}">
+                <li>
+                    <a href="{{ link.url }}">{{ link }}</a>
+                    <button onclick="delete_link('{{ link.pk }}')" type="button">Delete Link</button>
+                    <small>{{ link.added }}</small>
+                </li>
+            </div>
+            
+        {% endfor %}
+    </ul><br><br>
+
+    <h3>New Link:</h3>
+    <form action="{% url 'work_space:add_link' space.pk %}" method="post" id="link_form">
+        {% csrf_token %}
+        {{ link_form }}
+        <button>Add link</button>
+    </form>
+
+
+</div>

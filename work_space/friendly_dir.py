@@ -7,10 +7,9 @@ from work_space.models import WorkSpace
 def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:
     """Creates user-friendly directory for future zip-archiving and downloading"""
 
-    # Get all sources, papers and links in given work space
+    # Get all sources and papers in given work space
     sources = work_space.sources.all()
-    papers =  work_space.papers.filter(archived=False)
-    links = work_space.links.all()
+    papers = work_space.papers.filter(archived=False)
 
     if not sources and not papers:
         # In case work space is empty
@@ -24,8 +23,6 @@ def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:
     else:
         users = [owner]
 
-    # TODO Not all users upload files
-
     # Create new empty directory
     work_space.create_friendly_dir()
     original_path = work_space.get_friendly_path()
@@ -38,10 +35,6 @@ def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:
     if papers:
         # Create new "papers" dir
        create_friendly_papers_dir(papers, users, root_path)
-
-    if links:
-        # Create new "links" txt-file
-        create_friendly_links_file(links, root_path)
 
     # Return path to the whole dir
     return original_path
@@ -158,15 +151,3 @@ def create_friendly_papers_dir(papers, authors: list, root_path: str) -> None:
                 destination = os.path.join(path_to_paper_file, file.file_name())
                 original_file = file.get_path_to_file()
                 shutil.copyfile(original_file, destination)         
-
-
-def create_friendly_links_file(links, root_path: str) -> None:
-    """Create new "links" txt file with all space-related links inside"""
-
-    # Get path to new links.txt file
-    links_file_path = os.path.join(root_path, "links.txt")
-
-    # Create file and write in all links
-    with open(links_file_path, "w") as link_file:
-        for link in links:
-            link_file.write(f"{link}:\n{link.url}\n\n")
