@@ -231,7 +231,7 @@ def receive_invitation(request):
             # Send redirect to the new work space
             display_success_message(request)
             return JsonResponse({"status": "ok", "url": work_space_url})
-        
+
     # Error case
     return JsonResponse({"status": "error", "message": "Something went wrong"})
 

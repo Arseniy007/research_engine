@@ -377,3 +377,14 @@ body
   height: 50px;
   border-radius: 15px;
 }
+
+.dropdown-content 
+{
+  display: none;
+  padding-left: 20px;
+}
+
+.work-space-list
+{
+  width: 30%;
+}
