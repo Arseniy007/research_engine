@@ -14,7 +14,6 @@ from .forms import *
 from .source_alteration import alter_source
 from .source_citation import get_source_reference
 from .source_creation import create_source
-from .source_showcase import get_source_type
 
 
 @login_required(redirect_field_name=None)
@@ -32,7 +31,7 @@ def source_space(request, source_id):
     # Get all needed source-related data
     source_data = {
             "source": source,
-            "source_type": get_source_type(source),
+            "source_type": source.get_type(),
             "reference": reference,
             "source_file_id": source_file_id,
             "quotes": source.quotes.all(),

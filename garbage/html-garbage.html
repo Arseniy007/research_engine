@@ -1454,3 +1454,30 @@ onclick="load_and_show_source_space('{{ source.id }}')"
 
 
 </div>
+
+
+<button type="button" class="btn btn-primary">
+    <a style="color: white;" href="{% url 'paper_work:paper_space' paper.pk %}">
+        {{ paper }}
+    </a>
+</button>
+
+<button class="btn btn-dark" onclick="show_new_paper_form('{{ space.pk }}')">Add new Paper</button> 
+
+
+<a href="{% url 'paper_work:paper_space' paper.pk %}">
+    <div class="card mb-3 paper-card" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="/static/images/flat_icons/paper.png" class="img-fluid rounded-start" alt="Paper">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <br><br><h4 class="card-title">{{ paper.title }}</h4>
+                    <p class="card-text">By {{ paper.user }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+

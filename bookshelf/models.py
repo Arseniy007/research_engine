@@ -42,7 +42,7 @@ class Source(models.Model):
     def cast(self):
         """Get object class (Book / Article / Webpage / etc.)"""
         return self.real_type.get_object_for_this_type(pk=self.pk)
-
+    
 
     def get_path(self):
         """Returns a path to the source directory"""
@@ -55,6 +55,20 @@ class Source(models.Model):
             return SourceFile.objects.get(source=self)
         except ObjectDoesNotExist:
             return None
+    
+
+    def get_type(self) -> str:
+        """Get str with source child model"""
+        source_type = self.cast()
+        match source_type:
+            case Book():
+                return "book"
+            case Article():
+                return"article"
+            case Chapter():
+                return "chapter"
+            case Webpage():
+                return "webpage"
 
 
 class Book(Source):

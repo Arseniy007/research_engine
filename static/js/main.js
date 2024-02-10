@@ -46,6 +46,18 @@ function show_area(area_id) {
         // Disable scrolling
         document.getElementsByTagName('body')[0].classList.add('stop-scrolling');
     }
+    else if (area_id === 'members-area') {
+        if (!area.querySelector('#member-cards-container')) {
+            // Disable scrolling if there is no members at workspace
+            document.getElementsByTagName('body')[0].classList.add('stop-scrolling');
+        }
+    }
+    else if (area_id === 'papers-area') {
+        if (area.getElementsByClassName('paper-card').length === 1) {
+            // Disable scrolling if there is no members at workspace
+            document.getElementsByTagName('body')[0].classList.add('stop-scrolling');
+        }
+    }
     area.style.display = '';
 }
 

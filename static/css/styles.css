@@ -91,6 +91,12 @@ main
   border-radius: 20px;
 }
 
+.dropdown-content 
+{
+  display: none;
+  padding-left: 20px;
+}
+
 header
 {
   padding: 3rem 3rem 0 3rem;
@@ -438,7 +444,7 @@ a:active
   border: #0b121b;
 }
 
-#member-cards-container
+#member-cards-container, #paper-cards-container
 {
   display: flex;
   flex-direction: row;
@@ -463,7 +469,7 @@ a:active
   float: right;
 }
 
-.action-card, .member-card
+.action-card, .member-card, .paper-card
 {
   background-color: #e5e5e9!important;
   border-color: #e5e5e9!important; 

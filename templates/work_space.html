@@ -375,22 +375,45 @@
         </div>
     </div>
     <div class="workspace-area" id="papers-area" style="display: none;">
-
-        <h3>Papers</h3>
-        {% for paper in space_papers %}
-            <button type="button" class="btn btn-primary">
-                <a style="color: white;" href="{% url 'paper_work:paper_space' paper.pk %}">
-                    {{ paper }}
-                </a>
-            </button>
-        {% endfor %}
-    
-        <br><br>
-    
-        <button class="btn btn-dark" onclick="show_new_paper_form('{{ space.pk }}')">Add new Paper</button>
-
-
-        
+        <h2>Papers</h2><br>
+        <div id="paper-cards-container">
+            {% if space_papers %}
+                {% for paper in space_papers %}
+                    <div class="card mb-3 paper-card" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="/static/images/flat_icons/paper.png" class="img-fluid rounded-start" alt="Paper">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <br><br>
+                                    <h4 class="card-title">
+                                        <a href="{% url 'paper_work:paper_space' paper.pk %}" class="action-link">{{ paper.title }}</a>
+                                    </h4>
+                                    <p class="card-text">By {{ paper.user }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="card mb-3 paper-card" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="/static/images/flat_icons/new_paper.png" class="img-fluid rounded-start" alt="New Paper">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <br>
+                            <h4 class="card-title">
+                                <a onclick="show_new_paper_form('{{ space.pk }}');return false" class="action-link" href="#">New Paper</a>
+                            </h4>
+                            <p class="card-text">Click above to create...<br></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       
     </div>
     <div class="workspace-area" id="members-area" style="display: none;">
         <h2>Owner</h2><br>
@@ -398,7 +421,7 @@
         <div class="card mb-3 member-card" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="/static/images/workspace_action_imgs/owner.png" class="img-fluid rounded-start" alt="Zip Archive">
+                    <img src="/static/images/flat_icons/owner.png" class="img-fluid rounded-start" alt="Zip Archive">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
@@ -417,7 +440,7 @@
                     <div class="card mb-3 member-card" style="max-width: 540px;">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="/static/images/workspace_action_imgs/member.png" class="img-fluid rounded-start" alt="Zip Archive">
+                                <img src="/static/images/flat_icons/member.png" class="img-fluid rounded-start" alt="Zip Archive">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -467,7 +490,7 @@
             <div class="card mb-3 action-card left-action-card" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="/static/images/workspace_action_imgs/zip-archive.png" class="img-fluid rounded-start" alt="Zip Archive">
+                        <img src="/static/images/flat_icons/zip-archive.png" class="img-fluid rounded-start" alt="Zip Archive">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -492,7 +515,7 @@
                 <div class="card mb-3 action-card right-action-card" style="max-width: 540px;">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="/static/images/workspace_action_imgs/invite-to-space.png" class="img-fluid rounded-start" alt="Invitation">
+                            <img src="/static/images/flat_icons/invite-to-space.png" class="img-fluid rounded-start" alt="Invitation">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
@@ -512,7 +535,7 @@
                 <div class="card mb-3 action-card right-action-card" style="max-width: 540px;">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="/static/images/workspace_action_imgs/leave_space.png" class="img-fluid rounded-start" alt="Leaving">
+                            <img src="/static/images/flat_icons/leave_space.png" class="img-fluid rounded-start" alt="Leaving">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
@@ -537,7 +560,7 @@
                     <div class="card mb-3 action-card left-action-card" style="max-width: 540px;">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="/static/images/workspace_action_imgs/share_sources.png" class="img-fluid rounded-start" alt="Sources Sharing">
+                                <img src="/static/images/flat_icons/share_sources.png" class="img-fluid rounded-start" alt="Sources Sharing">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
@@ -557,7 +580,7 @@
                 <div class="card mb-3 action-card right-action-card" style="max-width: 540px;">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="/static/images/workspace_action_imgs/archive-workspace.png" class="img-fluid rounded-start" alt="Archivation">
+                            <img src="/static/images/flat_icons/archive-workspace.png" class="img-fluid rounded-start" alt="Archivation">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">

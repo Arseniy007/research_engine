@@ -1,6 +1,7 @@
 from django.forms.models import model_to_dict
-from work_space.models import WorkSpace
-from .models import Article, Book, Chapter, Source, Webpage
+from bookshelf.models import Source
+from paper_work.models import Paper
+from .models import WorkSpace
 
 
 def get_work_space_sources(space: WorkSpace) -> list:
@@ -11,7 +12,7 @@ def get_work_space_sources(space: WorkSpace) -> list:
         source: Source
         source_dict: dict = model_to_dict(source)
 
-        source_dict["type"] = get_source_type(source)
+        source_dict["type"] = source.get_type()
 
         if source.has_file:
             source_dict["file_id"] = source.get_file().pk
@@ -24,18 +25,3 @@ def get_work_space_sources(space: WorkSpace) -> list:
         sources.append(source_dict)
 
     return sources
-
-
-def get_source_type(source: Source) -> str:
-    """Return str with source type"""
-
-    source_type = source.cast()
-    match source_type:
-        case Book():
-            return "book"
-        case Article():
-            return"article"
-        case Chapter():
-            return "chapter"
-        case Webpage():
-            return "webpage"
