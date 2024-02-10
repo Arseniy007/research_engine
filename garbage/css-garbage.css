@@ -408,3 +408,39 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
 {
   background-color: #626C66;
 }
+
+
+.settings-icon
+{
+  display: inline-block;
+}
+
+.settings-row-1
+{
+  margin-block: 15px;
+  margin-inline: 24px;
+}
+
+.settings-row-2
+{
+  margin-block: 15px;
+  margin-inline: 17px;
+}
+
+.settings-row-3
+{
+  margin-block: 15px;
+  margin-inline: 33px;
+  margin-bottom: 0px;
+}
+
+.settings-link
+{
+  color: rgb(40,36,44);
+}
+
+.settings-link:hover
+{
+  color: #f1f1f1;
+}
+

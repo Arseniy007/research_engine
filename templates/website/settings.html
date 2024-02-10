@@ -1,0 +1,229 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block script %}
+    <script src="{% static 'js/user_management.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+    Settings
+{% endblock %}
+
+{% block header %}
+   Settings
+{% endblock %}
+
+{% block body %}
+    <script>document.getElementsByTagName('body')[0].classList.add('stop-scrolling');</script>
+
+    <div class="cards-row mt-3">
+        <!-- Edit Main Info Card -->
+        <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/static/images/flat_icons/edit_main_info.png" class="img-fluid rounded-start" alt="Edit Main Info">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Edit Main Info</h5>
+                        <p class="card-text">
+                            TODO
+                            <a class="settings-icon settings-row-1 settings-link" href="{% url 'user_management:edit_account' %}">
+                                link
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Change password Card -->
+        <div class="card mb-3 transparent-card right-card" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/static/images/flat_icons/change_password.png" class="img-fluid rounded-start" alt="Change Password">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Change Password</h5>
+                        <p class="card-text">
+                            TODO
+                            <a class="settings-icon settings-row-1 settings-link" href="{% url 'user_management:change_password' %}">
+                                link
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cards-row mt-5">
+        <!-- Archived Workspaces Card -->
+        <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/static/images/flat_icons/archived_workspaces.png" class="img-fluid rounded-start" alt="Archived Workspaces">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Archived Workspaces</h5>
+                        <p class="card-text">
+                            TODO
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Archived Papers Card -->
+        <div class="card mb-3 transparent-card right-card" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/static/images/flat_icons/archived_papers.png" class="img-fluid rounded-start" alt="Archived Papers">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Archived Papers</h5>
+                        <p class="card-text">
+                            TODO
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cards-row mt-5">
+        <!-- About Card -->
+        <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/static/images/flat_icons/about.png" class="img-fluid rounded-start" alt="About">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">About</h5>
+                        <p class="card-text">
+                            TODO
+                            <a class="settings-icon settings-row-3 settings-link" href="{% url 'website:about' %}">
+                                link
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Logout Card -->
+        <div class="card mb-3 transparent-card right-card" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/static/images/flat_icons/logout.png" class="img-fluid rounded-start" alt="Logout">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Logout</h5>
+                        <p class="card-text">
+                            TODO
+                            <a class="settings-icon settings-row-3 settings-link" id="logout-link" href="{% url 'user_management:logout' %}">
+                                link
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+    <br><br><br>
+    <br><br><br>
+    <br><br><br>
+
+
+    <a class="settings-icon settings-row-2 settings-link" id="archived-work-spaces" data-bs-toggle="modal" data-bs-target="#archived-work-spaces-modal" href="#archived-work-spaces-modal">
+        <div class="settings-icon">
+            <i class="fa-solid fa-folder-open fa-7x"></i><br><br><h5>Archived Workspaces</h5>
+        </div>
+    </a>
+    <div class="modal fade" id="archived-work-spaces-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="archived-work-spaces-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="archived-work-spaces-modal-label">Archived Workspaces</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="accordion" id="archived-work-spaces-accordion">
+                        {% for space in archived_spaces %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#archived-space-{{ space.pk }}" aria-expanded="true" aria-controls="archived-space-{{ space.pk }}">
+                                        {{ space }}
+                                    </button>
+                                </h2>
+                                <div id="archived-space-{{ space.pk }}" class="accordion-collapse collapse" data-bs-parent="#archived-work-spaces-accordion">
+                                    <div class="accordion-body">
+                                        <button type="button" class="btn btn-dark">
+                                            <a href="{% url 'work_space:archive_space' space.pk %}" style="color: white;">
+                                                Unarchive {{ space }}
+                                            </a>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <strong>You don't have any archived workspaces!</strong>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a class="settings-icon settings-row-2 settings-link" data-bs-toggle="modal" data-bs-target="#archived-papers-modal" href="#archived-papers-modal">
+        <div class="settings-icon">
+            <i class="fa-solid fa-copy fa-7x"></i><br><br><h5>Archived Papers</h5>
+        </div>
+    </a>
+    <div class="modal fade" id="archived-papers-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="archived-papers-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="archived-papers-modal-label">Archived Papers</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="accordion" id="archived-papers-accordion">
+                        {% for paper in archived_papers %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#archived-paper-{{ paper.pk }}" aria-expanded="true" aria-controls="archived-paper-{{ paper.pk }}">
+                                        {{ paper }}
+                                    </button>
+                                </h2>
+                                <div id="archived-paper-{{ paper.pk }}" class="accordion-collapse collapse" data-bs-parent="#archived-papers-accordion">
+                                    <div class="accordion-body">
+                                        <button type="button" class="btn btn-dark">
+                                            <a href="{% url 'paper_work:archive_paper' paper.pk %}" style="color: white;">
+                                                Unarchive {{ paper }}
+                                            </a>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <strong>You don't have any archived papers!</strong>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
