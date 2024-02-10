@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block header %}
-   {{ space }} <i id="edit-title-symbol" class="fa-solid fa-pen-to-square fa-xs" style="display: none;"></i>
+   {{ space }}&nbsp;<i id="edit-title-symbol" class="fa-solid fa-pen-to-square fa-xs" style="display: none;"></i>
 {% endblock %}
 
 {% block nav-links %}
@@ -633,26 +633,6 @@
                 </div>
             </div>
         </div>
-        <!-- Workspace Archivation Modal -->
-        <div class="modal fade" id="space-archive-modal" tabindex="-1" aria-labelledby="space-archive-modal-label" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="space-archive-modal-label">{{ space}} will be archived!</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h4>Are you sure you want to archive this Workspace?</h4>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-danger">
-                            <a href="{% url 'work_space:archive_space' space.pk %}" class="white-action-link">Archive Workspace</a>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Leaving Workspace Modal -->
         <div class="modal fade" id="leave-space-modal" tabindex="-1" aria-labelledby="leave-space-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -673,9 +653,27 @@
                 </div>
             </div>
         </div>
+        <!-- Workspace Archivation Modal -->
+        <div class="modal fade" id="space-archive-modal" tabindex="-1" aria-labelledby="space-archive-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="space-archive-modal-label">{{ space}} will be archived!</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Are you sure you want to archive this Workspace?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger">
+                            <a href="{% url 'work_space:archive_space' space.pk %}" class="white-action-link">Archive Workspace</a>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-
     <br><br><br><br><br><br>
     <br><br><br>
     <h1>TODO:</h1>
@@ -719,8 +717,8 @@
                 <div class="col-md">
                     {{ rename_form.title }}
                 </div>
-                <div class="col-md mt-1">
-                    <input type="submit" value="rename" class="btn btn-secondary gradient-custom-4">
+                <div class="col-md">
+                    <input type="submit" value="Rename" class="btn btn-info gradient-custom-4">
                 </div>
             </div>
         </form>

@@ -10,7 +10,14 @@
 {% endblock %}
 
 {% block header %}
-   {{ paper }} <i id="edit-title-symbol" class="fa-solid fa-pen-to-square fa-xs" style="display: none;"></i>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'work_space:space_view' paper.work_space.pk %}" class="grey">{{ paper.work_space }}</a></li>
+            <li class="breadcrumb-item active light-blue" aria-current="page">
+                <h2 class="one-liner light-blue">{{ paper }}&nbsp;<i id="edit-title-symbol" class="fa-solid fa-pen-to-square fa-xs" style="display: none;"></i></h2>
+            </li>
+        </ol>
+    </nav>
 {% endblock %}
 
 {% block body %}
@@ -76,8 +83,8 @@
                 <div class="col-md">
                     {{ rename_form.title }}
                 </div>
-                <div class="col-md mt-1">
-                    <input type="submit" value="rename" class="btn btn-success btn-block btn-sm gradient-custom-4">
+                <div class="col-md">
+                    <input type="submit" value="Rename" class="btn btn-info gradient-custom-4">
                 </div>
             </div>
         </form>

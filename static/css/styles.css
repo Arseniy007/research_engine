@@ -102,9 +102,19 @@ header
   padding: 3rem 3rem 0 3rem;
 }
 
-#header-text, #form-header
+#header-text, #form-header, .light-blue
 {
   color: #118ab2;
+}
+
+.grey
+{
+  color: grey;
+}
+
+.one-liner
+{
+  display: inline;
 }
 
 .nav-tabs a, .nav-link 
@@ -164,16 +174,6 @@ header
   color: #000000;
 }
 
-.modal-body
-{
-  background-color: #D9CFC1;
-}
-
-.modal-header, .modal-footer
-{
-  background-color: #626C66;
-}
-
 .source-icon, .source-button
 {
   display: inline;
@@ -187,16 +187,6 @@ header
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-}
-
-input[type]:not([type="button"], [type="submit"]), textarea, select
-{
-  background-color: #118ab2;
-}
-
-.btn-success
-{
-  background-color: #d1ca98ac !important;
 }
 
 #sources-container

@@ -388,3 +388,23 @@ body
 {
   width: 30%;
 }
+
+input[type]:not([type="button"], [type="submit"]), textarea, select
+{
+  background-color: #118ab2;
+}
+
+.btn-success
+{
+  background-color: #d1ca98ac !important;
+}
+
+.modal-body
+{
+  background-color: #D9CFC1;
+}
+
+.modal-header, .modal-footer
+{
+  background-color: #626C66;
+}

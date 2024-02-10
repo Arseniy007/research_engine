@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Show and hide rename paper form
+    // Show and hide rename space form
     const header = document.querySelector('#header');
     const header_text = document.querySelector('#header-text');
     const edit_symbol = document.querySelector('#edit-title-symbol');
