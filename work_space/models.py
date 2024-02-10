@@ -40,6 +40,15 @@ class WorkSpace(models.Model):
     def get_base_dir(self):
         """Returns base directory without MEDIA_ROOT"""
         return f"work_space_{self.pk}"
+    
+
+    def get_user_status(self, user: User) -> str | None:
+        """;)"""
+        if user == self.owner:
+            return "owner"
+        elif user in self.members.all():
+            return "member"
+        return None
 
 
     def archive(self):

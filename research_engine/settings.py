@@ -138,6 +138,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/login'
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 # Email configuration
 os.environ['SSL_CERT_FILE'] = certifi.where()
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

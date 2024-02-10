@@ -1,6 +1,6 @@
 from django import forms
 from research_engine.constants import ACCEPTED_UPLOAD_FORMATS, CLASS_
-from .models import SourceFile
+
 
 class UploadPaperFileForm(forms.Form):
     file = forms.FileField(widget=forms.FileInput(attrs={"accept": ACCEPTED_UPLOAD_FORMATS}))

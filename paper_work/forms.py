@@ -26,10 +26,9 @@ class NewPaperForm(forms.Form):
 
 
 class RenamePaperForm(NewPaperForm):
-
-    def set_initial(self, paper: Paper):
+    def set_initial(self, paper_title: str):
         """Pre-populate form fields"""
-        self.fields["title"].initial = paper.title
+        self.fields["title"].initial = paper_title
         return self
 
 

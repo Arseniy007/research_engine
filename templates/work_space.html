@@ -426,7 +426,7 @@
                                         <small class="text-body-secondary">{{ member.email }}</small>
                                         {% if user_status == 'owner' %}
                                             <br>
-                                            <a href="#remove-member-modal" class="red-action-link" data-bs-toggle="modal" data-bs-target="#remove-member-modal">
+                                            <a href="#remove-member-modal-{{ member.pk }}" class="red-action-link" data-bs-toggle="modal" data-bs-target="#remove-member-modal-{{ member.pk }}">
                                                 Kick this member out
                                             </a>
                                         {% endif %}
@@ -437,11 +437,11 @@
                     </div>
                     {% if user_status == 'owner' %}
                         <!-- Remove Member Modal -->
-                        <div class="modal fade" id="remove-member-modal" tabindex="-1" aria-labelledby="remove-member-modal-label" aria-hidden="true">
+                        <div class="modal fade" id="remove-member-modal-{{ member.pk }}" tabindex="-1" aria-labelledby="remove-member-modal-label-{{ member.pk }}" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="remove-member-modal-label"></h1>
+                                        <h1 class="modal-title fs-5" id="remove-member-modal-label-{{ member.pk }}"></h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -657,10 +657,7 @@
     <br><br><br>
     <h1>TODO:</h1>
     <br><br>
-    <h4>Check member-cards-container flex with multiple members</h4>
     <h4>All action and member modals (invitation code in textarea with copy buttons)</h4>
-    <h4>Prevent scrolling at actions area</h4>
-    <h4>Source deleting animation</h4>
     <h4>Source deleting animation</h4>
     <h4>Sources card and flexbox</h4>
     <h4>Paper view</h4>

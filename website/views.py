@@ -55,12 +55,15 @@ def invitation_view(request, code):
             "invitation_code": invitation_code.code, 
             "invitation": True
         }
-    if source_sharing_code:
+    elif source_sharing_code:
         data = {
             "shared_sources_form": ReceiveSourcesForm(), 
             "share_sources_code": source_sharing_code.code, 
             "invitation": True
         }
+    else:
+        data = {}
+
     # Invitation page can be shown shown both for logged in and not logged in users
     if request.user.is_authenticated:
         data["work_spaces"] = get_user_work_spaces(request.user)

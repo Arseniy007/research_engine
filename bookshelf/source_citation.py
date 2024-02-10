@@ -31,7 +31,7 @@ def get_source_reference(source: Source) -> Reference | Http404:
 def make_source_endnote_apa(source: Source) -> Callable | bool:
     """Get source type and call corresponding func"""
 
-    source_type: type(object) = source.cast()
+    source_type: object = source.cast()
     match source_type:
         # Go to child model and turn it into dict in order to call needed func
         case Book():
@@ -53,7 +53,7 @@ def make_source_endnote_apa(source: Source) -> Callable | bool:
 def make_source_endnote_mla(source: Source) -> Callable | bool:
     """Get source type and call corresponding func"""
 
-    source_type: type(object) = source.cast()
+    source_type: object = source.cast()
     match source_type:
         # Go to child model and turn it into dict in order to call needed func
         case Book():

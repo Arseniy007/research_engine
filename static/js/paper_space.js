@@ -44,14 +44,6 @@ function get_paper_file_info(file_id) {
 
 
 
-
-
-
-
-
-
-
-
 function handleErrors(response, url) {
     if (!response.ok) {
         redirect(url)

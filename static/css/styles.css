@@ -445,6 +445,15 @@ a:active {
   color: #868d99;
 }
 
+#member-cards-container
+{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 30px;
+}
+
 .action-row
 {
   display: flex;

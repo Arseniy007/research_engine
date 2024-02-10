@@ -890,3 +890,56 @@ async function share_space_sources1(space_id) {
 
 }
 
+
+function add_link(form, space_id) {
+
+    // Add-link view url
+    const url = `/add_link_to_space/${space_id}`;
+
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            
+            console.log(result.link_name);
+            // TODO!
+            // What to do?
+        }
+        else {
+            redirect(result.url)
+        }
+    });
+}
+
+function alter_link(link_id) {
+
+    // Alter-link view url
+    const url = `/alter_link/${link_id}`;
+
+    // TODO
+
+}
+
+function delete_link(link_id) {
+
+    // Delete-link view url
+    const url = `/delete_link/${link_id}`;
+
+    // Send request to delete_link view
+    fetch(url)
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            
+            document.querySelector(`#link_${link_id}`).remove();
+        }
+        else {
+            console.log("error")
+        }
+    });
+    // TODO: animation!
+}

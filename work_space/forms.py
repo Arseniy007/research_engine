@@ -1,6 +1,5 @@
 from django import forms
 from research_engine.constants import CLASS_
-from .models import WorkSpace
 
 
 class NewSpaceForm(forms.Form):
@@ -15,9 +14,8 @@ class NewSpaceForm(forms.Form):
 
 
 class RenameSpaceForm(NewSpaceForm):
-
-    def set_initial(self, space: WorkSpace):
-        self.fields["title"].initial = space.title
+    def set_initial(self, space_title: str):
+        self.fields["title"].initial = space_title
         return self
     
 
@@ -37,5 +35,5 @@ class ReceiveSourcesForm(forms.Form):
         "id": "sources-code-field",
         "class": CLASS_,
         "autocomplete": "off",
-        "placeholder": "Paper title"})
+        "placeholder": "Sources code"})
     )

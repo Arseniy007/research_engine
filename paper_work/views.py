@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from bookshelf.source_citation import get_source_reference
@@ -30,7 +30,7 @@ def paper_space(request, paper_id):
         "links": links,
         "choose_sources_form": choose_sources_form,
         "new_paper_file_form": UploadPaperFileForm(),
-        "rename_form": RenamePaperForm().set_initial(paper),
+        "rename_form": RenamePaperForm().set_initial(paper.title),
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user),
         "last_file_id": paper.get_last_file_id()

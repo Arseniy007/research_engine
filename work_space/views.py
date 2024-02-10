@@ -12,7 +12,6 @@ from utils.decorators import post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_invitation, check_share_sources_code, check_user, check_work_space
 from user_management.helpers import get_user_papers, get_user_work_spaces
-from .main_view_helpers import get_user_status
 from .space_creation import copy_space_with_all_sources, create_new_space
 from .space_sharing import generate_invitation, get_sources_sharing_code, share_sources
 from .forms import NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, RenameSpaceForm
@@ -27,7 +26,6 @@ def work_space_view(request, space_id):
     space = check_work_space(space_id, request.user)
     members = space.members.all()
     sources = get_work_space_sources(space)
-    user_status = get_user_status(request.user, space)
     space_papers = space.papers.filter(archived=False)
 
     # Get all needed source-related data
@@ -35,9 +33,9 @@ def work_space_view(request, space_id):
         "space": space,
         "sources": sources,
         "space_papers": space_papers,
-        "user_status": user_status,
         "owner": space.owner,
         "members": members,
+        "user_status": space.get_user_status(request.user),
         "number_of_members": len(members) + 1, # 1 = Owner
         "space_has_sources": bool(sources),
         "number_of_sources": len(sources),
@@ -47,7 +45,7 @@ def work_space_view(request, space_id):
         "article_form": ArticleForm(),
         "chapter_form": ChapterForm(),
         "webpage_form": WebpageForm(),
-        "rename_form": RenameSpaceForm().set_initial(space),
+        "rename_form": RenameSpaceForm().set_initial(space.title),
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user),
     }
