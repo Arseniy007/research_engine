@@ -481,3 +481,9 @@ a:active {
 {
   color: white;
 }
+
+.stop-scrolling 
+{
+  height: 100%;
+  overflow: hidden;
+}

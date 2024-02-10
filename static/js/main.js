@@ -29,6 +29,9 @@ function hide_all_areas() {
     // Hide all parts of workspace
     const areas = document.getElementsByClassName('workspace-area');
     Array.from(areas).forEach(array => {array.style.display = 'none'})
+
+    // Enable scrolling
+    document.getElementsByTagName('body')[0].classList.remove('stop-scrolling');
 }
 
 function show_area(area_id) {
@@ -36,9 +39,12 @@ function show_area(area_id) {
     // Hide all areas first then show one
     hide_all_areas();
     const area = document.getElementById(area_id);
-
     if (!area) {
         return;
+    }
+    if (area_id === 'actions-area') {
+        // Disable scrolling
+        document.getElementsByTagName('body')[0].classList.add('stop-scrolling');
     }
     area.style.display = '';
 }
