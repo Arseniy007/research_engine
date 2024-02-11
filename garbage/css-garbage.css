@@ -444,3 +444,29 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
   color: #f1f1f1;
 }
 
+.download-space-button
+{
+  background-color: #4fc7ee;
+  color: #0b121b;
+  border: #0b121b;
+}
+
+#archived-work-spaces
+{
+  margin-right: 33px;
+}
+
+#logout-link
+{
+  margin-left: 37px;
+}
+
+.message li.warning 
+{
+  background-color: #ffec99;
+}
+
+.white-header
+{
+  color: white;
+}

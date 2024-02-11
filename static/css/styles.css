@@ -102,14 +102,10 @@ header
   padding: 3rem 3rem 0 3rem;
 }
 
-#header-text, #form-header, .light-blue
+.stop-scrolling 
 {
-  color: #118ab2;
-}
-
-.grey
-{
-  color: grey;
+  height: 100%;
+  overflow: hidden;
 }
 
 .one-liner
@@ -223,11 +219,6 @@ header
   display: block;
 }
 
-.white-header
-{
-  color: white;
-}
-
 #index-container 
 {
   width: 40%;
@@ -249,7 +240,6 @@ header
   margin: 1em 0 2em;
   padding: 0;
 }
-
 .messages li 
 {
   padding: 1em;
@@ -257,22 +247,14 @@ header
   line-height: 2.0em;
   border-radius: 15px;
 }
-
-.messages li.info, .messages li.debug 
+.messages li.info
 {
   background-color: #d0ebff;
 }
-
 .messages li.success 
 {
   background-color: #b2f2bb;
 }
-
-.message li.warning 
-{
-  background-color: #ffec99;
-}
-
 .messages li.error 
 {
   background-color: #ffe3e3;
@@ -383,23 +365,6 @@ a:active
   color: black;
 }
 
-#archived-work-spaces
-{
-  margin-right: 33px;
-}
-
-#logout-link
-{
-  margin-left: 37px;
-}
-
-.download-space-button
-{
-  background-color: #4fc7ee;
-  color: #0b121b;
-  border: #0b121b;
-}
-
 #member-cards-container, #paper-cards-container
 {
   display: flex;
@@ -427,20 +392,19 @@ a:active
   float: right;
 }
 
-
-
-.red-action-link
+.light-blue, #header-text, #form-header
 {
-  color: red;
+  color: #118ab2;
 }
-
-.white-action-link
+.color-grey
+{
+  color: grey;
+}
+.color-white
 {
   color: white;
 }
-
-.stop-scrolling 
+.color-red
 {
-  height: 100%;
-  overflow: hidden;
+  color: red;
 }

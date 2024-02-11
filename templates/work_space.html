@@ -379,7 +379,7 @@
         <div id="paper-cards-container">
             {% if space_papers %}
                 {% for paper in space_papers %}
-                    <div class="card mb-3 paper-card" style="max-width: 540px;">
+                    <div class="card mb-3 transparent-card paper-card" style="max-width: 540px;">
                         <div class="row g-0">
                             <div class="col-md-4">
                                 <img src="/static/images/flat_icons/paper.png" class="img-fluid rounded-start" alt="Paper">
@@ -397,7 +397,7 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            <div class="card mb-3 paper-card" style="max-width: 540px;">
+            <div class="card mb-3 transparent-card paper-card" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="/static/images/flat_icons/new_paper.png" class="img-fluid rounded-start" alt="New Paper">
@@ -413,12 +413,12 @@
                     </div>
                 </div>
             </div>
-        </div>       
+        </div>
     </div>
     <div class="workspace-area" id="members-area" style="display: none;">
         <h2>Owner</h2><br>
         <!-- Owner Card -->
-        <div class="card mb-3 member-card" style="max-width: 540px;">
+        <div class="card mb-3 transparent-card member-card" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
                     <img src="/static/images/flat_icons/owner.png" class="img-fluid rounded-start" alt="Zip Archive">
@@ -437,7 +437,7 @@
             <div id="member-cards-container">
                 {% for member in members %}
                     <!-- Member Card -->
-                    <div class="card mb-3 member-card" style="max-width: 540px;">
+                    <div class="card mb-3 transparent-card member-card" style="max-width: 540px;">
                         <div class="row g-0">
                             <div class="col-md-4">
                                 <img src="/static/images/flat_icons/member.png" class="img-fluid rounded-start" alt="Zip Archive">
@@ -449,7 +449,7 @@
                                         <small class="text-body-secondary">{{ member.email }}</small>
                                         {% if user_status == 'owner' %}
                                             <br>
-                                            <a href="#remove-member-modal-{{ member.pk }}" class="red-action-link" data-bs-toggle="modal" data-bs-target="#remove-member-modal-{{ member.pk }}">
+                                            <a href="#remove-member-modal-{{ member.pk }}" class="color-red" data-bs-toggle="modal" data-bs-target="#remove-member-modal-{{ member.pk }}">
                                                 Kick this member out
                                             </a>
                                         {% endif %}
@@ -473,7 +473,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         <button type="button" class="btn btn-danger">
-                                            <a href="{% url 'work_space:kick_member_out' space.pk member.pk %}" class="white-action-link">Kick them out!</a>
+                                            <a href="{% url 'work_space:kick_member_out' space.pk member.pk %}" class="color-white">Kick them out!</a>
                                         </button>
                                     </div>
                                 </div>
@@ -542,7 +542,7 @@
                                 <br><h5 class="card-title">Leave Workspace</h5>
                                 <p class="card-text">
                                     <br>Click here at your own risk:<br>
-                                    <a href="#leave-space-modal" class="red-action-link" data-bs-toggle="modal" data-bs-target="#leave-space-modal">
+                                    <a href="#leave-space-modal" class="color-red" data-bs-toggle="modal" data-bs-target="#leave-space-modal">
                                         Leave {{ space }}
                                     </a>
                                 </p>
@@ -587,7 +587,7 @@
                                 <h5 class="card-title">Archive Workspace</h5>
                                 <p class="card-text">
                                     <br>Click here at your own risk:<br>
-                                    <a href="#space-archive-modal" class="red-action-link" data-bs-toggle="modal" data-bs-target="#space-archive-modal">
+                                    <a href="#space-archive-modal" class="color-red" data-bs-toggle="modal" data-bs-target="#space-archive-modal">
                                         Archive {{ space }}
                                     </a>
                                 </p>
@@ -647,7 +647,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-danger">
-                            <a href="{% url 'work_space:leave_space' space.pk %}" class="white-action-link">Leave Workspace</a>
+                            <a href="{% url 'work_space:leave_space' space.pk %}" class="color-white">Leave Workspace</a>
                         </button>
                     </div>
                 </div>
@@ -666,7 +666,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger">
-                            <a href="{% url 'work_space:archive_space' space.pk %}" class="white-action-link">Archive Workspace</a>
+                            <a href="{% url 'work_space:archive_space' space.pk %}" class="color-white">Archive Workspace</a>
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
@@ -694,7 +694,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a data-bs-toggle="collapse" class="mt-5" id="open-new-paper-form" href="#new-paper-form-area" role="button" aria-expanded="false" aria-controls="new-paper-form-area">
-            <h2 class="text-uppercase text-center mb-3 white-header">Create New Paper&nbsp;&nbsp;<i class="fa-solid fa-circle-plus"></i></h2>
+            <h2 class="text-uppercase text-center mb-3 color-white">Create New Paper&nbsp;&nbsp;<i class="fa-solid fa-circle-plus"></i></h2>
         </a>
         <div class="collapse" id="new-paper-form-area">
             <form action="{% url 'paper_work:create_paper' space.pk %}" class="needs-validation mt-3" id="paper-form" method="post" novalidate>
