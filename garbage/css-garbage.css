@@ -470,3 +470,8 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
 {
   color: white;
 }
+.stop-scrolling 
+{
+  height: 100%;
+  overflow: hidden;
+}
