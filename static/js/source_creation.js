@@ -321,7 +321,6 @@ function adjust_textarea_height(textarea) {
 }
 
 function copy_reference(style) {
-
     const textarea = document.querySelector(`#reference-result-field-${style}`);
     if (!textarea) {
         return;
@@ -329,4 +328,5 @@ function copy_reference(style) {
     textarea.select();
     document.execCommand("copy");
 }
+
 

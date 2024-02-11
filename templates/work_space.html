@@ -464,11 +464,11 @@
                             <div class="modal-dialog modal-dialog-centered modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="remove-member-modal-label-{{ member.pk }}"></h1>
+                                        <h1 class="modal-title fs-5" id="remove-member-modal-label-{{ member.pk }}">Kick {{ member }} out!</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h4>Kick {{ member }} out!</h4>
+                                        <h4>Are you sure you want to do it?</h4>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -602,13 +602,16 @@
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="invite-to-space-modal-label">Invitation link</h1>
+                        <h1 class="modal-title fs-5 light-blue" id="invite-to-space-modal-label">Send it to your friend!</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Invite</h4>
-                        <h6 id="invitation-link"></h6>
-                        <h6 id="invitation-code"></h6>
+                        <h4>Invitation code</h4>
+                        <textarea class="form-control reference-textarea mt-3" id="invitation-code-textarea"></textarea>
+                        <button onclick="copy_invitation('invitation', 'code')" type="button" class="btn btn-dark mt-3 mb-4 ms-1">Copy</button>
+                        <h4>Or invitation link</h4>
+                        <textarea class="form-control reference-textarea mt-3" id="invitation-link-textarea"></textarea>
+                        <button onclick="copy_invitation('invitation', 'link')" type="button" class="btn btn-dark mt-3 ms-1">Copy</button>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -621,11 +624,16 @@
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="share-sources-modal-label">Sharing link is</h1>
+                        <h1 class="modal-title fs-5 light-blue" id="share-sources-modal-label">Send it to your friend!</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Share</h4>
+                        <h4>Shared sources code</h4>
+                        <textarea class="form-control reference-textarea mt-3" id="sources-code-textarea"></textarea>
+                        <button onclick="copy_invitation('sources', 'code')" type="button" class="btn btn-dark mt-3 mb-4 ms-1">Copy</button>
+                        <h4>Or shared sources link</h4>
+                        <textarea class="form-control reference-textarea mt-3" id="sources-link-textarea"></textarea>
+                        <button onclick="copy_invitation('sources', 'link')" type="button" class="btn btn-dark mt-3 ms-1">Copy</button>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -678,13 +686,10 @@
     <br><br><br>
     <h1>TODO:</h1>
     <br><br>
-    <h4>All action and member modals (invitation code in textarea with copy buttons)</h4>
     <h4>Source deleting animation</h4>
     <h4>Sources card and flexbox</h4>
     <h4>Paper view</h4>
     <h4>Quotes and sources choosing</h4>
-    <h4>Colors of modals</h4>
-    <h4>Colors of inputs</h4>
 
     <!-- Hidden parts of page -->
     <div id="space_id" style="display: none;">{{ space.pk }}</div>

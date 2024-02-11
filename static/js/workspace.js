@@ -47,13 +47,13 @@ function show_area(area_id) {
         document.getElementsByTagName('body')[0].classList.add('stop-scrolling');
     }
     else if (area_id === 'members-area') {
-        if (!area.querySelector('#member-cards-container')) {
+        if (area.getElementsByClassName('member-card').length <= 3) {
             // Disable scrolling if there is no members at workspace
             document.getElementsByTagName('body')[0].classList.add('stop-scrolling');
         }
     }
     else if (area_id === 'papers-area') {
-        if (area.getElementsByClassName('paper-card').length === 1) {
+        if (area.getElementsByClassName('paper-card').length <= 4) {
             // Disable scrolling if there is no members at workspace
             document.getElementsByTagName('body')[0].classList.add('stop-scrolling');
         }
@@ -380,8 +380,8 @@ function invite_to_work_space(space_id) {
     .then(response => response.json())
     .then(result => {
         // Render results inside opened modal
-        document.querySelector('#invitation-code').innerHTML = result.invitation_code;
-        document.querySelector('#invitation-link').innerHTML = result.invitation_link;
+        document.querySelector('#invitation-code-textarea').innerHTML = result.invitation_code;
+        document.querySelector('#invitation-link-textarea').innerHTML = result.invitation_link;
     });
 }
 
@@ -396,9 +396,18 @@ function share_space_sources(space_id) {
     .then(response => response.json())
     .then(result => {
         // Render results inside opened modal
-        document.querySelector('#sources-code').innerHTML = result.sources_code;
-        document.querySelector('#sources-link').innerHTML = result.sources_link;
+        document.querySelector('#sources-code-textarea').innerHTML = result.sources_code;
+        document.querySelector('#sources-link-textarea').innerHTML = result.sources_link;
     });
+}
+
+function copy_invitation(kind, type) {
+    const textarea = document.querySelector(`#${kind}-${type}-textarea`);
+    if (!textarea) {
+        return;
+    }
+    textarea.select();
+    document.execCommand("copy");
 }
 
 function handleErrors(response, url) {
