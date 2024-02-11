@@ -14,7 +14,7 @@
    {{ space }}&nbsp;<i id="edit-title-symbol" class="fa-solid fa-pen-to-square fa-xs" style="display: none;"></i>
 {% endblock %}
 
-{% block nav-links %}
+{% block nav_links %}
     <nav class="nav-tabs" id="nav-tabs">
         <a onclick="show_area('sources-area');return false" href="#" type="button" class="active">
             Sources&nbsp;<span>{{ number_of_sources }}</span>
@@ -32,8 +32,6 @@
 {% endblock %}
 
 {% block body %}
-
-
     <div class="workspace-area" id="sources-area">
         <h3>Sources</h3>
 
@@ -690,6 +688,7 @@
     <h4>Sources card and flexbox</h4>
     <h4>Paper view</h4>
     <h4>Quotes and sources choosing</h4>
+
 
     <!-- Hidden parts of page -->
     <div id="space_id" style="display: none;">{{ space.pk }}</div>
