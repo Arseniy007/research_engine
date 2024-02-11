@@ -440,16 +440,16 @@ a:active
 }
 #senches-photo
 {
-  height: 350px;
+  height: 300px;
   width: 300px;
-  margin-top: 30px;
+  margin-top: 50px;
   float: 40;
 }
 #cs50w-logo
 {
-  height: 350px;
+  height: 300px;
   width: 350px;
-  margin-top: 30px;
+  margin-top: 50px;
   float: 40;
 }
 #django-logo
