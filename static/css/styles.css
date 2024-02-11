@@ -90,6 +90,21 @@ main
   margin-right: 3px;
   border-radius: 20px;
 }
+#re-about-button
+{
+  padding: 6px 8px 6px;
+  margin-top: 20px;
+  text-decoration: none;
+  font-size: 50px;
+  font-family: 'Special Elite', serif;
+  background: #0b121b;
+  color: #4fc7ee;
+  display: block;
+  border-style: dashed;
+  margin-right: 3px;
+  border-radius: 20px;
+  text-align: center;
+}
 
 .dropdown-content 
 {
@@ -418,58 +433,65 @@ a:active
   text-align: center;
 }
 
-
 .images-row
 {
   display: flex;
-  justify-content: space-between;
+  column-gap: 30px;
 }
-
-
 #senches-photo
 {
-  height: 300px;
-  width: 250px;
-  float: left;
+  height: 350px;
+  width: 300px;
+  margin-top: 30px;
+  float: 40;
 }
-
 #cs50w-logo
 {
-  height: 300px;
-  width: 500px;
-  float: right;
+  height: 350px;
+  width: 350px;
+  margin-top: 30px;
+  float: 40;
 }
-
+#django-logo
+{
+  height: 225px;
+  width: 300px;
+  margin-top: 90px;
+  float: 40;
+}
+#js-logo
+{
+  height: 250px;
+  width: 350px;
+  margin-top: 80px;
+  float: 40;
+}
+.open-bracket
+{
+  height: 400px;
+  width: 100px;
+  float: 5;
+}
+.close-bracket
+{
+  height: 400px;
+  width: 100px;
+  float: 5;
+}
 .plus-sign
 {
   height: 150px;
   width: 150px;
-  margin-top: 80px;
+  margin-top: 110px;
+  float: 10;
 }
-
-.multiplication-div
+#multiplication-sign
 {
-  display: flex;
-  justify-content: center;
+  width: 230px;
+  margin-left: 420px;
 }
-
-#multiplication-sign-first
+#equal-sign
 {
-  height: 120px;
-  width: 120px;
-  margin-right: 250px;
-}
-
-#django-logo
-{
-  height: 300px;
-  width: 350px;
-  float: left;
-}
-
-#js-logo
-{
-  height: 300px;
-  width: 300px;
-  float: right;
+  width: 200px;
+  margin-left: 435px;
 }

@@ -6,71 +6,36 @@
 {% endblock %}
 
 {% block header %}
-   About
+   Research Engine Equation
 {% endblock %}
 
 {% block body %}
-
     <div class="images-row">
-        <img id="senches-photo" src="/static/images/about/my_photo.jpg" alt="Senches">
+        <img class="open-bracket" src="/static/images/about/open_bracket.png" alt="Open Bracket">
+        <a href="https://github.com/Arseniy007">
+            <img id="senches-photo" src="/static/images/about/my_photo.jpg" alt="Senches">
+        </a>
         <img class="plus-sign" src="/static/images/about/addition.png" alt="Plus">
-        <img id="cs50w-logo" src="/static/images/about/CS50W.png" alt="CS50W">
+        <a href="https://cs50.harvard.edu/web/2020">
+            <img id="cs50w-logo" src="/static/images/about/CS50W.png" alt="CS50W">
+        </a>
+        <img class="close-bracket" src="/static/images/about/close_bracket.png" alt="Close Bracket">
     </div>
-    <br>
-    <div class="multiplication-div">
-        <img id="multiplication-sign-first" src="/static/images/about/multiplication.png" alt="Multiplication">
-    </div>
-    <br>
+    <img id="multiplication-sign" src="/static/images/about/multiplication.png" alt="Multiplication">
     <div class="images-row">
-        <img id="django-logo" src="/static/images/about/django_logo.png" alt="Django">
+        <img class="open-bracket" src="/static/images/about/open_bracket.png" alt="Open Bracket">
+        <a href="https://docs.djangoproject.com/en/5.0">
+            <img id="django-logo" src="/static/images/about/django_logo.png" alt="Django">
+        </a>
         <img class="plus-sign" src="/static/images/about/addition.png" alt="Plus">
-        <img id="js-logo" src="/static/images/about/js_logo.png" alt="JavaScript">
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+            <img id="js-logo" src="/static/images/about/js_logo.png" alt="JavaScript">
+        </a>
+        <img class="close-bracket" src="/static/images/about/close_bracket.png" alt="Close Bracket">
     </div>
-
-
-    
-
-
-
-
-    <br><br><br>
-    <br><br><br>
-    <br><br><br>
-    <br><br><br>
-    <br><br><br>
-    <br><br><br>
-    <br><br><br>
-
-    <img class="plus-sign" src="/static/images/about/addition.png" alt="Plus">
-    <img id="js-logo" src="/static/images/about/js_logo.png" alt="JavaScript">
-
-
-
-    <img class="plus-sign" src="/static/images/about/addition.png" alt="Plus">
-
-    <img class="multiplication-sign" src="/static/images/about/multiplication.png" alt="Multiplication">
-
-
-    <br><br><br>
-
-    
-
-    <br><br><br>
-
-    
-
-    <br><br><br>
-
-    <img class="plus-sign" src="/static/images/about/addition.png" alt="Plus">
-
-    <br><br><br>
-
-    <img class="multiplication-sign" src="/static/images/about/multiplication.png" alt="Multiplication">
-
-    <br><br><br>
-
     <img id="equal-sign" src="/static/images/about/equal.png" alt="Equal">
-
+    <div id="re-about-button" class="pointy-cursor" onclick="openNav()">
+        <i class="fa-solid fa-graduation-cap"></i>
+        research engine
+    </div>
 {% endblock %}
-
-
