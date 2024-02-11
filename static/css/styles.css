@@ -396,6 +396,10 @@ a:active
 {
   color: #118ab2;
 }
+.color-black
+{
+  color: black;
+}
 .color-grey
 {
   color: grey;
@@ -407,4 +411,65 @@ a:active
 .color-red
 {
   color: red;
+}
+
+.unarchive-button
+{
+  text-align: center;
+}
+
+
+.images-row
+{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+#senches-photo
+{
+  height: 300px;
+  width: 250px;
+  float: left;
+}
+
+#cs50w-logo
+{
+  height: 300px;
+  width: 500px;
+  float: right;
+}
+
+.plus-sign
+{
+  height: 150px;
+  width: 150px;
+  margin-top: 80px;
+}
+
+.multiplication-div
+{
+  display: flex;
+  justify-content: center;
+}
+
+#multiplication-sign-first
+{
+  height: 120px;
+  width: 120px;
+  margin-right: 250px;
+}
+
+#django-logo
+{
+  height: 300px;
+  width: 350px;
+  float: left;
+}
+
+#js-logo
+{
+  height: 300px;
+  width: 300px;
+  float: right;
 }

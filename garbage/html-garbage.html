@@ -1482,3 +1482,172 @@ onclick="load_and_show_source_space('{{ source.id }}')"
 </a>
 
 {{ paper }} <i id="edit-title-symbol" class="fa-solid fa-pen-to-square fa-xs" style="display: none;"></i>
+
+
+<div class="card text-bg-primary mb-3" style="max-width: 18rem;">
+    <div class="card-header">Header</div>
+    <div class="card-body">
+      <h5 class="card-title">Primary card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+    <div class="card-footer source-card-footer">
+      <small class="text-body-secondary source-incons-div">
+          <div class="source-icons">
+              {% if source.has_file %}
+                  <div class="source-icon">
+                      <i class="fa-solid fa-file"></i>
+                  </div>
+                  &nbsp;
+              {% endif %}
+              {% if source.link %}
+                  <div class="source-icon">
+                      <i class="fa-solid fa-link"></i>
+                  </div>
+                  &nbsp;
+              {% endif %}
+              {% if source.has_quotes %}
+              <div class="source-icon">
+                  <i class="fa-solid fa-quote-left"></i>
+                  <i class="fa-solid fa-quote-right"></i>
+              </div>
+              &nbsp;
+              {% endif %}
+              <div class="source-icon">
+                  <i class="fa-solid fa-asterisk"></i>
+              </div>
+          </div>
+      </small>
+  </div>
+  </div>
+  <div class="card text-bg-secondary mb-3" style="max-width: 18rem;">
+    <div class="card-header">Header</div>
+    <div class="card-body">
+      <h5 class="card-title">Secondary card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+  <div class="card text-bg-success mb-3" style="max-width: 18rem;">
+    <div class="card-header">Header</div>
+    <div class="card-body">
+      <h5 class="card-title">Success card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+    <div class="card-footer source-card-footer">
+      <small class="text-body-secondary source-incons-div">
+          <div class="source-icons">
+              {% if source.has_file %}
+                  <div class="source-icon">
+                      <i class="fa-solid fa-file"></i>
+                  </div>
+                  &nbsp;
+              {% endif %}
+              {% if source.link %}
+                  <div class="source-icon">
+                      <i class="fa-solid fa-link"></i>
+                  </div>
+                  &nbsp;
+              {% endif %}
+              {% if source.has_quotes %}
+              <div class="source-icon">
+                  <i class="fa-solid fa-quote-left"></i>
+                  <i class="fa-solid fa-quote-right"></i>
+              </div>
+              &nbsp;
+              {% endif %}
+              <div class="source-icon">
+                  <i class="fa-solid fa-asterisk"></i>
+              </div>
+          </div>
+      </small>
+  </div>
+  </div>
+  <div class="card text-bg-danger mb-3" style="max-width: 18rem;">
+    <div class="card-header">Header</div>
+    <div class="card-body">
+      <h5 class="card-title">Danger card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+  <div class="card text-bg-warning mb-3" style="max-width: 18rem;">
+    <div class="card-header">Header</div>
+    <div class="card-body">
+      <h5 class="card-title">Warning card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+  <div class="card text-bg-info mb-3" style="max-width: 18rem;">
+    <div class="card-header">Header</div>
+    <div class="card-body">
+      <h5 class="card-title">Info card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+  <div class="card text-bg-light mb-3" style="max-width: 18rem;">
+    <div class="card-header">Header</div>
+    <div class="card-body">
+      <h5 class="card-title">Light card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+  <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
+    <div class="card-header">Header</div>
+    <div class="card-body">
+      <h5 class="card-title">Dark card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="change-password-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="change-password-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="change-password-modall-label">Change Password</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'user_management:change_password' %}" class="account-settings-form needs-validation" id="change-password-form" method="post" novalidate>
+                    {% csrf_token %}
+                    <div class="form-outline mb-4 form-floating">
+                        {{ change_password_form.old_password }}
+                        <label class="form-label" for="old-password-field">Old Password</label>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please provide a password.</div>
+                    </div>
+                    <div class="form-outline mb-4 form-floating">
+                        {{ change_password_form.new_password }}
+                        <label class="form-label" for="new-password-field">New Password</label>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please provide a new password.</div>
+                    </div>
+                    <div class="form-outline mb-4 form-floating">
+                        {{ change_password_form.confirmation }}
+                        <label class="form-label" for="confirmation-field">Repeat New Password</label>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please repeat your new password.</div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <input type="submit" value="Save Changes" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<a class="settings-icon settings-row-2 settings-link" id="archived-work-spaces" data-bs-toggle="modal" data-bs-target="#archived-workspaces-modal" href="#archived-workspaces-modal">
+    <div class="settings-icon">
+        <i class="fa-solid fa-folder-open fa-7x"></i><br><br><h5>Archived Workspaces</h5>
+    </div>
+</a>
+
+<a class="settings-icon settings-row-2 settings-link" data-bs-toggle="modal" data-bs-target="#archived-papers-modal" href="#archived-papers-modal">
+    <div class="settings-icon">
+        <i class="fa-solid fa-copy fa-7x"></i><br><br><h5>Archived Papers</h5>
+    </div>
+</a>
+  
