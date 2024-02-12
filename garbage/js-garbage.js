@@ -978,3 +978,18 @@ header.addEventListener('mouseenter', () => {
 header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');
 
 
+const source_id = document.querySelector('#source-id').innerHTML;
+
+// Show and hide source settings form
+const header2 = document.querySelector('#header');
+const eeedit_symbol = document.querySelector('#edit-title-symbol');
+header.addEventListener('mouseenter', () => {
+    edit_symbol.addEventListener('click', () => {
+        document.getElementById(`source-space-${source_id}`).style.display = 'none';
+        document.getElementById(`source-settings-${source_id}`).style.display = '';
+    });
+    edit_symbol.style.display = 'inline-block';
+});
+header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none'); 
+
+

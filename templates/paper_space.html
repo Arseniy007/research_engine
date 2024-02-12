@@ -38,6 +38,14 @@
 {% endblock %}
 
 {% block body %}
+
+    <div class="paper-area" id="todo-area">
+
+
+
+    </div>
+
+
    
     <h3>Number of words: <div id="number_of_words"></div></h3>
     <br>
@@ -46,7 +54,7 @@
     <h3>Number of characters with spaces: <div id="characters_with_space"></div></h3>
     <br><br>
 
-    
+
     <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post">
         {% csrf_token %} 
         {{ new_paper_file_form }}

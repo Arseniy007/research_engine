@@ -1,35 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     enable_nav_links();
+    enable_source_rename_form();
+
+
+
+
 
 
 
     
 
     const source_id = document.querySelector('#source-id').innerHTML;
-
-    // Show and hide source settings form
-    const header = document.querySelector('#header');
-    const edit_symbol = document.querySelector('#edit-title-symbol');
-    header.addEventListener('mouseenter', () => {
-        edit_symbol.addEventListener('click', () => {
-            document.getElementById(`source-space-${source_id}`).style.display = 'none';
-            document.getElementById(`source-settings-${source_id}`).style.display = '';
-        });
-        edit_symbol.style.display = 'inline-block';
-    });
-    header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none'); 
-
-
-
-
-
-
-
-
-
-
-
     const new_quote_form = document.querySelector('#new_quote_form');
     const alter_quote_form = document.querySelector('#alter_quote_form');
     const delete_quote_buttons = document.getElementsByClassName('delete_quote_buttons');
@@ -48,6 +30,20 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', () => delete_quote(button.id));
     })
 });
+
+
+function enable_source_rename_form() {
+    // Show and hide source settings form
+    const header = document.querySelector('#header');
+    const edit_symbol = document.querySelector('#edit-title-symbol');
+    header.addEventListener('mouseenter', () => {
+        edit_symbol.addEventListener('click', () => {
+            document.getElementById('settings-area-button').click();
+        });
+        edit_symbol.style.display = 'inline-block';
+    });
+    header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none'); 
+}
 
 function add_quote(form, source_id) {
 

@@ -22,13 +22,13 @@
 
 {% block nav_links %}
     <nav class="nav-tabs" id="nav-tabs">
-        <a onclick="show_paper_area('');return false" href="#" type="button" class="active">
+        <a onclick="show_paper_area('reference-area');return false" href="#" type="button" class="active">
             Reference
         </a>
-        <a onclick="show_paper_area('');return false" href="#" type="button">
+        <a onclick="show_paper_area('quotes-area');return false" href="#" type="button">
             Quotes&nbsp;<span>{{ number_of_quotes }}</span>
         </a>
-        <a onclick="show_paper_area('');return false" href="#" type="button">
+        <a onclick="show_paper_area('settings-area');return false" href="#" type="button" id="settings-area-button">
             Settings
         </a>
     </nav>
@@ -36,7 +36,30 @@
 
 {% block body %}
     <div id="source-space-div">
+
+        <div class="source-area" id="reference-area">
+
+        </div>
+
+        <div class="source-area" id="quotes-area" style="display: none;">
+
+        </div>
+
+        <div class="source-area" id="settings-area" style="display: none;">
+
+            <h2>Settings</h2>
+
+        </div>
+
+
+
         <div class="source-space" id="source-space-{{ source.pk }}">
+
+
+
+
+
+
             <!-- Messages -->
             {% if messages %}
                 <div>
