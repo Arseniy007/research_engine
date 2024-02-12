@@ -1,5 +1,5 @@
 from typing import Callable
-from django import forms
+from django.forms import Form
 from user_management.models import User
 from utils.data_cleaning import clean_source_form_fields
 from work_space.models import WorkSpace
@@ -8,7 +8,7 @@ from .forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from .models import Article, Book, Chapter, Webpage
 
 
-def create_source(user: User, space: WorkSpace, form: forms.Form, author: str, chapter_author=None) -> Callable | None:
+def create_source(user: User, space: WorkSpace, form: Form, author: str, chapter_author=None) -> Callable | None:
     """Get future source type and call right func"""
 
     # Iterate through all fields and clean its data
@@ -43,9 +43,9 @@ def create_article_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
     """Validate Article form, create Article obj and return its id"""
 
     # Create and save new Article obj
-    new_article = Article(work_space=space, user=user, author=author, title=cleaned_data["article_title"], 
-                          year=cleaned_data["year"], journal_title=cleaned_data["journal_title"], 
-                          volume=cleaned_data["volume"], issue=cleaned_data["issue"], 
+    new_article = Article(work_space=space, user=user, author=author, title=cleaned_data["article_title"],
+                          year=cleaned_data["year"], journal_title=cleaned_data["journal_title"],
+                          volume=cleaned_data["volume"], issue=cleaned_data["issue"],
                           pages=cleaned_data["pages"], link_to_journal=cleaned_data["link_to_journal"])
     new_article.save()
     # Create new Reference obj with Foreign key to this Article obj
@@ -57,7 +57,7 @@ def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_au
     """Validate Chapter form, create Chapter obj and return its id"""
 
     # Create and save new Chapter obj
-    new_chapter = Chapter(work_space=space, user=user, author=chapter_author, book_author=book_author, 
+    new_chapter = Chapter(work_space=space, user=user, author=chapter_author, book_author=book_author,
                           title=cleaned_data["chapter_title"], book_title=cleaned_data["book_title"],
                           publishing_house = cleaned_data["publishing_house"], year=cleaned_data["year"],
                           edition = cleaned_data["edition"], pages=cleaned_data["pages"])
@@ -69,7 +69,6 @@ def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_au
 
 def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author: str | None) -> int:
     """Validate Webpage form, create Webpage obj and return its id"""
-
     if not author:
         author = "No author"
 

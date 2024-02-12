@@ -23,17 +23,17 @@ class Paper(models.Model):
     def get_path(self):
         """Returns a path to the paper directory"""
         return os.path.join(self.work_space.get_path(), "papers", f"user_{self.user.pk}", f"paper_{self.pk}")
-    
+
 
     def create_directory(self):
         """Create an empty directory for the paper-files"""
         return os.mkdir(self.get_path())
-    
-    
+
+
     def get_number_of_files(self) -> int:
         """Returns a number of files (PaperFile objects) related to this papers"""
         return len(PaperFile.objects.filter(paper=self))
-    
+
 
     def get_last_file_id(self) -> int:
         """Returns last uploaded paper file"""
@@ -41,9 +41,6 @@ class Paper(models.Model):
             return PaperFile.objects.filter(paper=self).order_by("-pk")[0].pk
         except IndexError:
             return None
-        
-        # TODO?
-    
 
     def clear_file_history(self):
         """Delete all files related to paper"""
@@ -55,12 +52,12 @@ class Paper(models.Model):
         # Remove files from the db
         return PaperFile.objects.filter(paper=self).delete()
 
-    
+
     def archive(self):
         """Mark paper as archived or vice versa"""
         self.archived = True
         return self.save(update_fields=("archived",))
-    
+
 
     def unarchive(self):
         """Return paper in its work_space"""

@@ -17,7 +17,7 @@ class RenameSpaceForm(NewSpaceForm):
     def set_initial(self, space_title: str):
         self.fields["title"].initial = space_title
         return self
-    
+
 
 class ReceiveInvitationForm(forms.Form):
     code = forms.CharField(widget=forms.TextInput(attrs={

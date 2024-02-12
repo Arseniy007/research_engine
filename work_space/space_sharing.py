@@ -40,4 +40,3 @@ def get_sources_sharing_code(space: WorkSpace) -> ShareSourcesCode | None:
         return ShareSourcesCode.objects.get(work_space=space)
     except ObjectDoesNotExist:
         return None
-

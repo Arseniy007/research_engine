@@ -65,5 +65,4 @@ class SourceFile(models.Model):
         """Returns a path to the source file"""
         if self.file:
             return os.path.join(MEDIA_ROOT, str(self.file))
-        else:
-            return None
+        return None

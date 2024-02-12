@@ -164,7 +164,7 @@ class AccountSettingsForm(RegisterForm):
         self.fields["email"].initial = user.email
         return self
 
-    
+
     def update_user_info(self, user: User):
         """Save all changes"""
         user.username = self.cleaned_data["username"]

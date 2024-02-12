@@ -26,7 +26,7 @@ def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source
             source = source.webpage
         case _:
             return None
-    
+
     # Save all quotes related to the source
     source_quotes = source.quotes.all()
 

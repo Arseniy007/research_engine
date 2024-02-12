@@ -1,7 +1,7 @@
 from typing import Callable
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseBadRequest
-from .verification import *
+from .verification import check_paper, check_quote, check_source, check_work_space
 
 
 def post_request_required(func: Callable) -> Callable | HttpResponseBadRequest:
@@ -38,7 +38,7 @@ def paper_authorship_required(func: Callable) -> Callable | PermissionDenied:
     def wrapper(request, paper_id):
         paper = check_paper(paper_id, request.user)
         if paper.user != request.user:
-            raise PermissionDenied 
+            raise PermissionDenied
         return func(request, paper_id)
     return wrapper
 

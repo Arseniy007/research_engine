@@ -40,7 +40,7 @@ class WorkSpace(models.Model):
     def get_base_dir(self):
         """Returns base directory without MEDIA_ROOT"""
         return f"work_space_{self.pk}"
-    
+
 
     def get_user_status(self, user: User) -> str | None:
         """;)"""
@@ -66,8 +66,8 @@ class WorkSpace(models.Model):
     def add_member(self, member: User):
         """Add new member to a space"""
         return self.members.add(member)
-    
-    
+
+
     def remove_member(self, member: User):
         """Remove given user from a space"""
         return self.members.remove(member)

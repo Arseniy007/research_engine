@@ -20,7 +20,6 @@ def format_date(date: str, format_: FORMATS):
 
     if format_ == "apa":
         return f"{year}, {month} {day}"
-    elif format_ == "mla":
+    if format_ == "mla":
         return f"{day} {month} {year}"
-    else:
-        return None
+    return None

@@ -91,7 +91,7 @@ def check_quote(quote_id: int, user: User) -> Quote | Http404:
     else:
         check_work_space(quote.source.work_space.pk, user)
     return quote
-    
+
 
 def check_invitation(invitation_code: str) -> Invitation | bool:
     """Checks if invitation exists"""

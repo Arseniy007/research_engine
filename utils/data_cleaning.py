@@ -27,7 +27,7 @@ def clean_author_data(data, chapter_author=False) -> str | bool:
             number_of_authors = int(data.get("number_of_authors"))
     except ValueError:
         return False
-    
+
     authors: list = []
     for i in range(number_of_authors):
         if chapter_author:
@@ -56,7 +56,7 @@ def clean_author_data(data, chapter_author=False) -> str | bool:
             else:
                 # Case without second names
                 author = f"{last_name} {first_name}"
-            
+
         authors.append(author)
     # Make str from authors list, separating authors by comma
     return ", ".join(authors)

@@ -24,7 +24,7 @@ def reference_view(request):
     if request.user.is_authenticated:
         data["work_spaces"] = get_user_work_spaces(request.user)
         data["papers"] = get_user_papers(request.user)
- 
+
     return render(request, "website/reference.html", data)
 
 
@@ -68,7 +68,7 @@ def invitation_view(request, code):
     if request.user.is_authenticated:
         data["work_spaces"] = get_user_work_spaces(request.user)
         data["papers"] = get_user_papers(request.user)
-        
+
     return render(request, "website/invitation.html", data)
 
 
@@ -77,7 +77,10 @@ def about_view(request):
 
     # About page can be shown both for logged in and not logged in users
     if request.user.is_authenticated:
-        data = {"work_spaces": get_user_work_spaces(request.user), "papers": get_user_papers(request.user)}
+        data = {
+            "work_spaces": get_user_work_spaces(request.user), 
+            "papers": get_user_papers(request.user)
+        }
     else:
         data = {}
     return render(request, "website/about.html", data)
@@ -134,12 +137,12 @@ def get_quick_reference(request):
 def render_author_form_fields(request, author_number, chapter):
     """API route for getting author input fields for add-source-form"""
 
-    # Chapter parameter is boolean (0/1). In case of True: pass "chapter-" as prefix to html tag ids, classes and names
+    # Chapter parameter is boolean (0/1). In case of True: pass "chapter-" as prefix to html tags
     if chapter:
         chapter = "chapter-"
     else:
         chapter = ""
-        
+
     data = {
         "chapter": chapter,
         "author_number": author_number,

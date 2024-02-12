@@ -32,7 +32,7 @@ def upload_paper_file(request, paper_id):
 @paper_authorship_required
 @login_required(redirect_field_name=None)
 def delete_paper_file(request, file_id):
-
+    """:)"""
     # Get and check file
     file = check_paper_file(file_id, request.user)
 
@@ -46,7 +46,7 @@ def delete_paper_file(request, file_id):
 
 @login_required(redirect_field_name=None)
 def display_paper_file(request, file_id):
-
+    """:)"""
     # Get, check, open and send file
     file = check_paper_file(file_id, request.user)
     return FileResponse(open(file.get_path_to_file(), "rb"))
@@ -72,7 +72,7 @@ def get_paper_file_info(request, file_id):
     # Count words, characters, etc.
     info = Counter(decoded_text).count()
 
-    response = {"number_of_words": info.words, 
+    response = {"number_of_words": info.words,
                 "characters_no_space": info.characters_no_space,
                 "characters_with_space": info.characters_with_space}
 
@@ -117,7 +117,7 @@ def upload_source_file(request, source_id):
 
 @login_required(redirect_field_name=None)
 def display_source_file(request, source_file_id):
-
+    """:)"""
     # Get and check source
     file = check_source_file(source_file_id, request.user)
 

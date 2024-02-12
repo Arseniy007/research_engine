@@ -15,7 +15,7 @@ from .forms import ChooseSourcesForm, NewPaperForm, RenamePaperForm
 @login_required(redirect_field_name=None)
 def paper_space(request, paper_id):
     """Main paper view"""
-    
+
     # Get all needed paper-related data
     paper = check_paper(paper_id, request.user)
     sources = paper.sources.all()

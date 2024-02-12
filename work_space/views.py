@@ -220,8 +220,11 @@ def receive_invitation(request):
 
             # Owner can't invite themselves and users who are already part of workspace
             if new_work_space.owner == request.user or request.user in new_work_space.members.all():
-                return JsonResponse({"status": "error", "message": f"{new_work_space} is your workspace", "url": work_space_url})
-
+                return JsonResponse({
+                    "status": "error", 
+                    "message": f"{new_work_space} is your workspace", 
+                    "url": work_space_url
+                })
             # Add user as member to the new work space
             new_work_space.add_member(request.user)
 

@@ -34,14 +34,14 @@ def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:
 
     if papers:
         # Create new "papers" dir
-       create_friendly_papers_dir(papers, users, root_path)
+        create_friendly_papers_dir(papers, users, root_path)
 
     # Return path to the whole dir
     return original_path
 
 
 def create_friendly_sources_directory(work_space: WorkSpace) -> str | bool:
-    """Creates user-friendly directory with all space-related sources for future zip-archiving and downloading"""
+    """Creates user-friendly directory with all space-related sources for future zip-archiving"""
 
     # Get all sources in given work space
     sources = work_space.sources.all()
@@ -150,4 +150,4 @@ def create_friendly_papers_dir(papers, authors: list, root_path: str) -> None:
                 # Copy original paper file into new "paper-file" dir
                 destination = os.path.join(path_to_paper_file, file.file_name())
                 original_file = file.get_path_to_file()
-                shutil.copyfile(original_file, destination)         
+                shutil.copyfile(original_file, destination)

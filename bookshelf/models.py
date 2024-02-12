@@ -55,7 +55,7 @@ class Source(models.Model):
             return SourceFile.objects.get(source=self)
         except ObjectDoesNotExist:
             return None
-    
+
 
     def get_type(self) -> str:
         """Get str with source child model"""

@@ -1,6 +1,5 @@
 from django.forms.models import model_to_dict
 from bookshelf.models import Source
-from paper_work.models import Paper
 from .models import WorkSpace
 
 

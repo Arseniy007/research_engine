@@ -39,4 +39,3 @@ class ChooseSourcesForm(forms.Form):
         """Pre-populate field with all sources in a work space"""
         self.fields["sources"].queryset = sources
         return self
-    

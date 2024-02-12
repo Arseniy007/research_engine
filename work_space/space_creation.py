@@ -18,7 +18,7 @@ def copy_space_with_all_sources(original_space: WorkSpace, new_owner: User) -> W
     original_sources = original_space.sources.all()
     if not original_sources:
         return False
-    
+
     # Create new Workspace obj
     new_space_title = f"{original_space.title} by {original_space.owner}"
     new_space = create_new_space(new_owner, new_space_title)

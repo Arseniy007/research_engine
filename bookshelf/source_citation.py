@@ -8,7 +8,9 @@ from .models import Article, Book, Chapter, Reference, Source, Webpage
 
 def create_source_reference(source: Source):
     """Creates and saves new Endnote obj for given source"""
-    reference = Reference(source=source, endnote_apa=make_source_endnote_apa(source), endnote_mla=make_source_endnote_mla(source))
+    reference = Reference(source=source,
+                          endnote_apa=make_source_endnote_apa(source),
+                          endnote_mla=make_source_endnote_mla(source))
     return reference.save()
 
 

@@ -6,7 +6,10 @@ from django.urls import reverse
 from research_engine.settings import LOGIN_URL
 from utils.messages import display_error_message, display_info_message, display_success_message
 from utils.verification import check_reset_password_code
-from .forms import *
+from .forms import (
+    AccountSettingsForm, ChangePasswordForm, ForgetPasswordForm, LoginForm, 
+    ForgetPasswordForm2, RegisterForm, ResetPasswordForm, check_forget_password_form_info
+)
 from .helpers import get_user_by_reset_code, get_user_papers, get_user_work_spaces
 from .models import User
 from .password_resetting import generate_password_reset_code, get_reset_url, send_password_resetting_email
@@ -44,7 +47,7 @@ def register(request):
         # Error case
         display_error_message(request)
         return redirect(reverse("user_management:register"))
-    
+
     data = {
         "page_type": "register",
         "form_title": "Register",
@@ -81,7 +84,7 @@ def login_view(request):
         # Error case
         display_error_message(request, "Invalid username and/or password.")
         return redirect(LOGIN_URL)
-    
+
     data = {
         "page_type": "login",
         "form_title": "Login",
@@ -220,7 +223,7 @@ def reset_password(request, reset_code):
         # Error case (form is not valid)
         display_error_message(request, "Passwords don't match")
         return redirect(reverse("user_management:reset_password", args=(reset_code,)))
-    
+
     data = {
         "page_type": "reset_password",
         "form_title": "Reset Password",

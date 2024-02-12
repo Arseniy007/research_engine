@@ -10,7 +10,10 @@ from utils.decorators import quote_ownership_required, post_request_required, so
 from utils.messages import display_error_message, display_success_message
 from utils.verification import check_quote, check_source, check_work_space
 from user_management.helpers import get_user_papers, get_user_work_spaces
-from .forms import *
+from .forms import (
+        AddLinkForm, AlterQuoteForm, ChapterForm, NewQuoteForm, WebpageForm,
+        get_and_set_alter_form, get_type_of_source_form
+    )
 from .source_alteration import alter_source
 from .source_citation import get_source_reference
 from .source_creation import create_source
