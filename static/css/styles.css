@@ -178,7 +178,7 @@ header
 {
   background-color: #0b121b;
 }
-.modal-header, .modal-body, .modal-footer
+.modal-header, .modal-body, .modal-footer, .same-color
 {
   background-color: #e5e5e9!important;
   border-color: #0b121b!important;
@@ -501,6 +501,7 @@ a:active
 {
   width: 200px;
   margin-left: 435px;
+  margin-bottom: 20px;
 }
 
 .copy-button

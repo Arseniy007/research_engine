@@ -58,7 +58,7 @@
                 <div class="col-md-8">
                     <div class="card-body">
                         <h3 class="card-title mt-5 ms-2">
-                            <a class="light-blue" data-bs-toggle="modal" data-bs-target="#archived-workspaces-modal" href="#archived-workspaces-modal">Archived Workspaces</a>
+                            <a onclick="enable_scrolling();" class="light-blue" data-bs-toggle="modal" data-bs-target="#archived-workspaces-modal" href="#archived-workspaces-modal">Archived Workspaces</a>
                         </h3>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                 <div class="col-md-8">
                     <div class="card-body">
                         <h3 class="card-title mt-5 ms-2">
-                            <a class="light-blue" data-bs-toggle="modal" data-bs-target="#archived-papers-modal" href="#archived-papers-modal">Archived Papers</a>
+                            <a onclick="enable_scrolling();" class="light-blue" data-bs-toggle="modal" data-bs-target="#archived-papers-modal" href="#archived-papers-modal">Archived Papers</a>
                         </h3>
                     </div>
                 </div>
@@ -118,7 +118,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="archived-workspaces-modal-label">Archived Workspaces</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button onclick="disable_scrolling();" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="accordion" id="archived-work-spaces-accordion">
@@ -129,7 +129,7 @@
                                         "{{ space }}"
                                     </button>
                                 </h2>
-                                <div id="archived-space-{{ space.pk }}" class="accordion-collapse collapse" data-bs-parent="#archived-work-spaces-accordion">
+                                <div id="archived-space-{{ space.pk }}" class="accordion-collapse collapse same-color" data-bs-parent="#archived-work-spaces-accordion">
                                     <div class="accordion-body unarchive-button">
                                         <button type="button" class="btn btn-info btn-lg">
                                             <a class="color-black" href="{% url 'work_space:archive_space' space.pk %}">
@@ -145,7 +145,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button onclick="disable_scrolling();" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -156,7 +156,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="archived-papers-modal-label">Archived Papers</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button onclick="disable_scrolling();" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="accordion" id="archived-papers-accordion">
@@ -167,7 +167,7 @@
                                         "{{ paper }}"
                                     </button>
                                 </h2>
-                                <div id="archived-paper-{{ paper.pk }}" class="accordion-collapse collapse" data-bs-parent="#archived-papers-accordion">
+                                <div id="archived-paper-{{ paper.pk }}" class="accordion-collapse collapse same-color" data-bs-parent="#archived-papers-accordion">
                                     <div class="accordion-body unarchive-button">
                                         <button type="button" class="btn btn-info btn-lg">
                                             <a class="color-black" href="{% url 'paper_work:archive_paper' paper.pk %}">
@@ -183,7 +183,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button onclick="disable_scrolling();" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

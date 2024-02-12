@@ -601,7 +601,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5 light-blue" id="invite-to-space-modal-label">Send it to your friend!</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button onclick="disable_scrolling();" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h4>Invitation code</h4>
@@ -612,7 +612,7 @@
                         <button onclick="copy_invitation('invitation', 'link')" type="button" class="btn btn-dark mt-3 ms-1">Copy</button>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button onclick="disable_scrolling();" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -623,7 +623,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5 light-blue" id="share-sources-modal-label">Send it to your friend!</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button onclick="disable_scrolling();" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h4>Shared sources code</h4>
@@ -634,7 +634,7 @@
                         <button onclick="copy_invitation('sources', 'link')" type="button" class="btn btn-dark mt-3 ms-1">Copy</button>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button onclick="disable_scrolling();" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -680,14 +680,15 @@
             </div>
         </div>
     </div>
-    <br><br><br><br><br><br>
     <br><br><br>
     <h1>TODO:</h1>
-    <br><br>
+    <br>
+    <h4>Fix bug with sidenav full-width!</h4>
     <h4>Source deleting animation</h4>
     <h4>Sources card and flexbox</h4>
-    <h4>Paper view</h4>
-    <h4>Quotes and sources choosing</h4>
+    <h4>Paper view (Quotes and sources choosing)</h4>
+    <h4>Source view</h4>
+
 
     <!-- Hidden parts of page -->
     <div id="space_id" style="display: none;">{{ space.pk }}</div>

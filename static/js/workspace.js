@@ -381,6 +381,7 @@ function invite_to_work_space(space_id) {
         // Render results inside opened modal
         document.querySelector('#invitation-code-textarea').innerHTML = result.invitation_code;
         document.querySelector('#invitation-link-textarea').innerHTML = result.invitation_link;
+        enable_scrolling();
     });
 }
 
@@ -397,6 +398,7 @@ function share_space_sources(space_id) {
         // Render results inside opened modal
         document.querySelector('#sources-code-textarea').innerHTML = result.sources_code;
         document.querySelector('#sources-link-textarea').innerHTML = result.sources_link;
+        enable_scrolling();
     });
 }
 
