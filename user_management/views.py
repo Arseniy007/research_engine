@@ -44,8 +44,13 @@ def register(request):
         # Error case
         display_error_message(request)
         return redirect(reverse("user_management:register"))
-
-    return render(request, "user_management/register.html", {"register_form": form})
+    
+    data = {
+        "page_type": "register",
+        "form_title": "Register",
+        "register_form": form
+    }
+    return render(request, "user_management.html", data)
 
 
 def login_view(request):
@@ -76,8 +81,13 @@ def login_view(request):
         # Error case
         display_error_message(request, "Invalid username and/or password.")
         return redirect(LOGIN_URL)
-
-    return render(request, "user_management/login.html", {"login_form": form})
+    
+    data = {
+        "page_type": "login",
+        "form_title": "Login",
+        "login_form": form
+    }
+    return render(request, "user_management.html", data)
 
 
 @login_required
@@ -101,11 +111,13 @@ def edit_account_info(request):
         return redirect(reverse("user_management:edit_account"))
 
     data = {
+        "page_type": "edit_main_info",
+        "form_title": "Edit Main Info",
         "settings_form": AccountSettingsForm().set_initials(request.user),
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user)
     }
-    return render(request, "user_management/edit_account_info.html", data)
+    return render(request, "user_management.html", data)
 
 
 @login_required
@@ -134,11 +146,13 @@ def change_password(request):
         return redirect(reverse("user_management:change_password"))
 
     data = {
+        "page_type": "change_password",
+        "form_title": "Change Password",
         "change_password_form": form,
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user)
     }
-    return render(request, "user_management/change_password.html", data)
+    return render(request, "user_management.html", data)
 
 
 def forget_password(request):
@@ -163,11 +177,13 @@ def forget_password(request):
         display_error_message(request)
         return redirect(reverse("user_management:forget_password"))
 
-    forms = {
+    data = {
+        "page_type": "forget_password",
+        "form_title": "Forget Password",
         "first_form": ForgetPasswordForm(), 
         "second_form": ForgetPasswordForm2()
     }
-    return render(request, "user_management/forget_password.html", forms)
+    return render(request, "user_management.html", data)
 
 
 def reset_password(request, reset_code):
@@ -204,8 +220,14 @@ def reset_password(request, reset_code):
         # Error case (form is not valid)
         display_error_message(request, "Passwords don't match")
         return redirect(reverse("user_management:reset_password", args=(reset_code,)))
-
-    return render(request, "user_management/reset_password.html", {"reset_form": form, "reset_code": reset_code})
+    
+    data = {
+        "page_type": "reset_password",
+        "form_title": "Reset Password",
+        "reset_form": form, 
+        "reset_code": reset_code
+    }
+    return render(request, "user_management.html", data)
 
 
 def logout_view(request):
