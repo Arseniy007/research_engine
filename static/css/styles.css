@@ -161,6 +161,19 @@ header
   color: #868d99;
 }
 
+.one-liner
+{
+  display: inline;
+}
+.show 
+{
+  display: block;
+}
+.stop-scrolling 
+{
+  position: fixed;
+}
+
 .modal
 {
   background-color: #0b121b;
@@ -169,15 +182,6 @@ header
 {
   background-color: #e5e5e9!important;
   border-color: #0b121b!important;
-}
-
-.one-liner
-{
-  display: inline;
-}
-.show 
-{
-  display: block;
 }
 
 .sources-search
@@ -399,6 +403,7 @@ a:active
 {
   display: flex;
   justify-content: space-between;
+  column-gap: 35px;
 }
 .left-card
 {

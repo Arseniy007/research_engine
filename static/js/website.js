@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 });
 
-
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
     if (!event.target.matches('.dropbtn')) {
@@ -19,6 +18,14 @@ window.onclick = function(event) {
             }
         }
     }
+}
+
+function disable_scrolling() {
+    document.getElementById('content').classList.add('stop-scrolling');
+}
+
+function enable_scrolling() {
+    document.getElementById('content').classList.remove('stop-scrolling');
 }
 
 function dropdown_spaces() {

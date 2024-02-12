@@ -30,8 +30,7 @@ function hide_all_areas() {
     const areas = document.getElementsByClassName('workspace-area');
     Array.from(areas).forEach(array => {array.style.display = 'none'})
 
-    // Enable scrolling
-    document.getElementsByTagName('body')[0].classList.remove('stop-scrolling');
+    enable_scrolling();
 }
 
 function show_area(area_id) {
@@ -44,18 +43,18 @@ function show_area(area_id) {
     }
     if (area_id === 'actions-area') {
         // Disable scrolling
-        document.getElementsByTagName('body')[0].classList.add('stop-scrolling');
+        disable_scrolling();
     }
     else if (area_id === 'members-area') {
         if (area.getElementsByClassName('member-card').length <= 3) {
             // Disable scrolling if there is no members at workspace
-            document.getElementsByTagName('body')[0].classList.add('stop-scrolling');
+            disable_scrolling();
         }
     }
     else if (area_id === 'papers-area') {
         if (area.getElementsByClassName('paper-card').length <= 4) {
             // Disable scrolling if there is no members at workspace
-            document.getElementsByTagName('body')[0].classList.add('stop-scrolling');
+            disable_scrolling();
         }
     }
     area.style.display = '';
