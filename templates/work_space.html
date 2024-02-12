@@ -33,57 +33,76 @@
 
 {% block body %}
     <div class="workspace-area" id="sources-area">
-        <h3>Sources</h3>
-
+        <h3>Sources</h3><br>
         {% if sources %}
             <div class="sources-search">
                 <i class="fa fa-search"></i>
-                <input onkeyup="search_source()" id="search_box" class="form-control form-input" type="text" placeholder="Search your sources here...">
+                <input onkeyup="search_source()" id="search-box" class="form-control form-input" type="text" placeholder="Search your sources here...">
             </div>
             <br><br>
         {% endif %}
-
         <div id="sources-container">
+            <!-- New Source Card -->
+            <div class="card text-bg-secondary mb-3 pointy-cursor new-source-card" data-bs-toggle="modal" data-bs-target="#new-source">
+                <div class="card-header">{{ space }}</div>
+                <div class="card-body">
+                    <h5 class="card-title source-button">Add new source here</h5>
+                </div>
+                <div class="card-footer source-card-footer">
+                    <small class="text-body-secondary source-incons-div">
+                        <div class="source-icons">
+                            <div class="source-icon">
+                                <span><i class="fa-solid fa-book fa-xl"></i></span>
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="source-icon">
+                                <span><i class="fa-solid fa-book-bookmark fa-xl"></i></span>
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="source-icon">
+                                <span><i class="fa-solid fa-newspaper fa-xl"></i></span>
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="source-icon">
+                                <span><i class="fa-solid fa-globe fa-xl"></i></span>
+                            </div>
+                        </div>
+                    </small>
+                </div>
+            </div>
             {% for source in sources %}
                 <!-- Source Card -->
-                <div onclick="load_and_show_source_space('{{ source.id }}')" id="source-card-{{ source.id }}" class="card text-bg-secondary mb-3 pointy-cursor source-card" data-bs-toggle="modal" data-bs-target="#source-space-modal-{{ source.id }}" style="max-width: 16rem;">
-                    <div class="card-header source-author">
-                        {% if source.type == 'book' %}
-                            <span><i class="fa-solid fa-book fa-xl"></i></span>
-                        {% elif source.type == 'article' %}
-                            <span><i class="fa-solid fa-newspaper fa-xl"></i></span>
-                        {% elif source.type == 'chapter' %}
-                            <span><i class="fa-solid fa-book-bookmark fa-xl"></i></span>
-                        {% elif source.type == 'webpage' %}
-                            <span><i class="fa-solid fa-globe fa-xl"></i></span>
-                        {% endif %}
-                        &nbsp;&nbsp;
-                        {{ source.author }}
-                    </div>
-                    <div class="card-body">
+                <div onclick="load_and_show_source_space('{{ source.id }}')" id="source-card-{{ source.id }}" class="card text-bg-secondary mb-3 pointy-cursor source-card" data-bs-toggle="modal" data-bs-target="#source-space-modal-{{ source.id }}">
+                    <div class="card-header source-author">{{ source.author }}</div>
+                    <div class="card-body source-card-body">
                         <h5 class="card-title source-button source-title">"{{ source.title }}"</h5>
                     </div>
                     <div class="card-footer source-card-footer">
                         <small class="text-body-secondary source-incons-div">
                             <div class="source-icons">
+                                <div class="source-type-icon">
+                                    {% if source.type == 'book' %}
+                                    <span><i class="fa-solid fa-book fa-xl"></i></span>
+                                    {% elif source.type == 'article' %}
+                                        <span><i class="fa-solid fa-newspaper fa-xl"></i></span>
+                                    {% elif source.type == 'chapter' %}
+                                        <span><i class="fa-solid fa-book-bookmark fa-xl"></i></span>
+                                    {% elif source.type == 'webpage' %}
+                                        <span><i class="fa-solid fa-globe fa-xl"></i></span>
+                                    {% endif %}
+                                </div>
                                 {% if source.has_file %}
                                     <div class="source-icon">
                                         <i class="fa-solid fa-file"></i>
-                                    </div>
-                                    &nbsp;
+                                    </div>&nbsp;
                                 {% endif %}
                                 {% if source.link %}
                                     <div class="source-icon">
                                         <i class="fa-solid fa-link"></i>
-                                    </div>
-                                    &nbsp;
+                                    </div>&nbsp;
                                 {% endif %}
                                 {% if source.has_quotes %}
-                                <div class="source-icon">
-                                    <i class="fa-solid fa-quote-left"></i>
-                                    <i class="fa-solid fa-quote-right"></i>
-                                </div>
-                                &nbsp;
+                                    <div class="source-icon">
+                                        <i class="fa-solid fa-quote-left"></i>
+                                        <i class="fa-solid fa-quote-right"></i>
+                                    </div>&nbsp;
                                 {% endif %}
                                 <div class="source-icon">
                                     <strong><i class="fa-solid fa-asterisk"></i></strong>
@@ -148,11 +167,6 @@
                 </div>
             {% endfor %}
         </div>
-        <br>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#new-source">
-            Add new source
-        </button>
         <!-- Add new source modal -->
         <div class="modal fade" id="new-source" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="new-source-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
@@ -685,7 +699,6 @@
     <br><br><br>
     <h1>TODO:</h1>
     <br>
-    <h4>Sources card and flexbox</h4>
     <h4>Paper view (Quotes and sources choosing)</h4>
     <h4>Source view</h4>
 

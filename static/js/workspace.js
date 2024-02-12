@@ -69,7 +69,7 @@ function search_source() {
     const number_of_sources = sources.length;
 
     // Get input
-    let input = document.getElementById("search_box");
+    let input = document.getElementById("search-box");
     input = input.value.toLowerCase();
 
     // Loop through all sources, and hide those who don't match the search query

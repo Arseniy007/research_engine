@@ -108,7 +108,7 @@ main
 .dropdown-content 
 {
   display: none;
-  padding-left: 20px;
+  padding-left: 10px;
 }
 
 header
@@ -208,7 +208,7 @@ header
 
 .modal
 {
-  background-image: url(../images/test.png);
+  background-image: url(../images/re_repeat.png);
   background-repeat: repeat;
 }
 .modal-header, .modal-body, .modal-footer, .same-color
@@ -217,6 +217,14 @@ header
   border-color: #0b121b!important;
 }
 
+#sources-container
+{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 40px;
+  row-gap: 40px;
+}
 .sources-search
 {
   position: relative;
@@ -224,17 +232,20 @@ header
 .fa-search
 {
   position: absolute;
-  top: 10px;
+  top: 17px;
   right: 20px;
   color: #000000;
 }
-
-.source-icon, .source-button
+#search-box
 {
-  display: inline;
-  color: white;
+  height: 50px;
 }
 
+.source-card, .new-source-card
+{
+  width: 300px;
+  max-width: 16rem;
+}
 .source-card-footer
 {
   margin-top: auto;
@@ -242,20 +253,24 @@ header
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
+  gap: 20px;
+  height: 40px;
 }
-
-#sources-container
+.source-author, .source-card-body
 {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  column-gap: 20px;
-  row-gap: 50px;
+  background-color: #118ab2c9 !important;
 }
-
-.source-card
+.source-type-icon
 {
-  width: 300px;
+  position: absolute;
+  left: 10px;
+  margin-top: 2px;
+  color: white;
+}
+.source-icon, .source-button
+{
+  display: inline;
+  color: white;
 }
 
 .reference-textarea

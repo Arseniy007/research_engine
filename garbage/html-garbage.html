@@ -1651,3 +1651,51 @@ onclick="load_and_show_source_space('{{ source.id }}')"
     </div>
 </a>
   
+
+<div class="card-header source-author">
+    {% if source.type == 'book' %}
+        <span><i class="fa-solid fa-book fa-xl"></i></span>
+    {% elif source.type == 'article' %}
+        <span><i class="fa-solid fa-newspaper fa-xl"></i></span>
+    {% elif source.type == 'chapter' %}
+        <span><i class="fa-solid fa-book-bookmark fa-xl"></i></span>
+    {% elif source.type == 'webpage' %}
+        <span><i class="fa-solid fa-globe fa-xl"></i></span>
+    {% endif %}
+    &nbsp;&nbsp;
+    {{ source.author }}
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-dark" data-bs-toggle="modal">
+    Add new source
+</button>
+
+<!-- Source Card -->
+<div class="card text-bg-secondary mb-3 pointy-cursor source-card" data-bs-toggle="modal" style="max-width: 16rem;">
+    <div class="card-header source-author">{{ source.author }}</div>
+    <div class="card-body source-card-body">
+        <h5 class="card-title source-button source-title">Add new Source here</h5>
+    </div>
+    <div class="card-footer source-card-footer">
+        <small class="text-body-secondary source-incons-div">
+            <div class="source-icons">
+                <div class="source-type-icon">
+                    <div class="source-icon">
+                        <span><i class="fa-solid fa-book fa-xl"></i></span>
+                    </div>
+                    <div class="source-icon">
+                        <span><i class="fa-solid fa-newspaper fa-xl"></i></span>
+                    </div>
+                    <div class="source-icon">
+                        <span><i class="fa-solid fa-book-bookmark fa-xl"></i></span>
+                    </div>
+                    <div class="source-icon">
+                        <span><i class="fa-solid fa-globe fa-xl"></i></span>
+                    </div>
+                </div>
+            </div>
+        </small>
+    </div>
+</div>
+
