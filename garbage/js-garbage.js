@@ -964,3 +964,17 @@ else if (area_id === 'papers-area') {
     }
 }
 
+
+// Show and hide rename paper form
+const header1 = document.querySelector('#header');
+const header_text = document.querySelector('#header-text');
+const edit_symbol = document.querySelector('#edit-title-symbol');
+header.addEventListener('mouseenter', () => {
+    edit_symbol.addEventListener('click', () => {
+        header_text.innerHTML = document.querySelector('#rename-paper-form-div').innerHTML;
+    });
+    edit_symbol.style.display = 'inline-block';
+});
+header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');
+
+

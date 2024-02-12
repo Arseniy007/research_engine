@@ -16,16 +16,16 @@
 
 {% block nav_links %}
     <nav class="nav-tabs" id="nav-tabs">
-        <a onclick="show_area('sources-area');return false" href="#" type="button" class="active">
+        <a onclick="show_workspace_area('sources-area');return false" href="#" type="button" class="active">
             Sources&nbsp;<span>{{ number_of_sources }}</span>
         </a>
-        <a onclick="show_area('papers-area');return false" href="#" type="button">
+        <a onclick="show_workspace_area('papers-area');return false" href="#" type="button">
             Papers&nbsp;<span>{{ number_of_papers }}</span>
         </a>
-        <a onclick="show_area('members-area');return false" href="#" type="button">
+        <a onclick="show_workspace_area('members-area');return false" href="#" type="button">
             Members&nbsp;<span>{{ number_of_members }}</span>
         </a>
-        <a onclick="show_area('actions-area');return false" href="#" type="button">
+        <a onclick="show_workspace_area('actions-area');return false" href="#" type="button">
             Actions
         </a>
     </nav>
@@ -696,13 +696,6 @@
             </div>
         </div>
     </div>
-    <br><br><br>
-    <h1>TODO:</h1>
-    <br>
-    <h4>Paper view (Quotes and sources choosing)</h4>
-    <h4>Source view</h4>
-
-
     <!-- Hidden parts of page -->
     <div id="space_id" style="display: none;">{{ space.pk }}</div>
     <div id="new-paper-form" style="display: none;">
@@ -727,7 +720,7 @@
             </form>
         </div>
     </div>
-    <div id="rename-space-form-div" style="display: none;">
+    <div id="rename-workspace-form-div" style="display: none;">
         <form action="{% url 'work_space:rename_space' space.pk %}" class="rename-form" method="post" style="display: inline-block;">
             {% csrf_token %}
             <div class="form-outline row">

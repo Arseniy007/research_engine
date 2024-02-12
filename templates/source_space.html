@@ -20,6 +20,20 @@
     </nav>
 {% endblock %}
 
+{% block nav_links %}
+    <nav class="nav-tabs" id="nav-tabs">
+        <a onclick="show_paper_area('');return false" href="#" type="button" class="active">
+            Reference
+        </a>
+        <a onclick="show_paper_area('');return false" href="#" type="button">
+            Quotes&nbsp;<span>{{ number_of_quotes }}</span>
+        </a>
+        <a onclick="show_paper_area('');return false" href="#" type="button">
+            Settings
+        </a>
+    </nav>
+{% endblock %}
+
 {% block body %}
     <div id="source-space-div">
         <div class="source-space" id="source-space-{{ source.pk }}">

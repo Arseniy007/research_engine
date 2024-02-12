@@ -22,6 +22,7 @@ def source_space(request, source_id):
 
     source = check_source(source_id, request.user)
     reference = get_source_reference(source)
+    quotes = source.quotes.all()
 
     if source.has_file:
         source_file_id = source.get_file().pk
@@ -34,7 +35,8 @@ def source_space(request, source_id):
             "source_type": source.get_type(),
             "reference": reference,
             "source_file_id": source_file_id,
-            "quotes": source.quotes.all(),
+            "quotes": quotes,
+            "number_of_quotes": len(quotes),
             "alter_source_form": get_and_set_alter_form(source),
             "upload_file_form": UploadSourceFileForm(),
             "link_form": AddLinkForm().set_initials(source),

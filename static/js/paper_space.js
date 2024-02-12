@@ -1,20 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Render paper file related info
+    enable_nav_links();
+    enable_rename_form('paper');
     get_paper_file_info(document.querySelector('#last-file-id').innerHTML);
 
-    // Show and hide rename paper form
-    const header = document.querySelector('#header');
-    const header_text = document.querySelector('#header-text');
-    const edit_symbol = document.querySelector('#edit-title-symbol');
-
-    header.addEventListener('mouseenter', () => {
-        edit_symbol.addEventListener('click', () => {
-            header_text.innerHTML = document.querySelector('#rename-paper-form-div').innerHTML;
-        });
-        edit_symbol.style.display = 'inline-block';
-    });
-    header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');
 });
 
 function get_paper_file_info(file_id) {

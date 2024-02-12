@@ -1,11 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    enable_nav_links();
+
+
+
+    
+
     const source_id = document.querySelector('#source-id').innerHTML;
 
     // Show and hide source settings form
     const header = document.querySelector('#header');
     const edit_symbol = document.querySelector('#edit-title-symbol');
-
     header.addEventListener('mouseenter', () => {
         edit_symbol.addEventListener('click', () => {
             document.getElementById(`source-space-${source_id}`).style.display = 'none';
@@ -19,15 +24,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
+
+
+
     const new_quote_form = document.querySelector('#new_quote_form');
     const alter_quote_form = document.querySelector('#alter_quote_form');
     const delete_quote_buttons = document.getElementsByClassName('delete_quote_buttons');
     
-
-
-
-
-
     new_quote_form.addEventListener('submit', event => {
         event.preventDefault();
         add_quote(new_quote_form, source_id);

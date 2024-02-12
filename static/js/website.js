@@ -233,3 +233,38 @@ function receive_shared_sources(form) {
         }
     });
 }
+
+function hide_all_areas(page) {
+    // Hide all parts of workspace / paper pages
+    const areas = document.getElementsByClassName(`${page}-area`);
+    Array.from(areas).forEach(array => {array.style.display = 'none'})
+
+    enable_scrolling();
+}
+
+function enable_nav_links() {
+    // For workspace and paper pages
+    const navTabs = document.querySelectorAll("#nav-tabs > a");
+    navTabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+            navTabs.forEach((tab) => {
+                tab.classList.remove("active");
+            });
+            tab.classList.add("active");
+        });
+    });
+}
+
+function enable_rename_form(page) {
+    // Show and hide rename space / paper forms
+    const header = document.querySelector('#header');
+    const header_text = document.querySelector('#header-text');
+    const edit_symbol = document.querySelector('#edit-title-symbol');
+    header.addEventListener('mouseenter', () => {
+        edit_symbol.addEventListener('click', () => {
+            header_text.innerHTML = document.querySelector(`#rename-${page}-form-div`).innerHTML;
+        });
+        edit_symbol.style.display = 'inline-block';
+    });
+    header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');   
+}

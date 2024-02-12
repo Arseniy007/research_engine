@@ -1,42 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Enable nav links
-    const navTabs = document.querySelectorAll("#nav-tabs > a");
-    navTabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            navTabs.forEach((tab) => {
-                tab.classList.remove("active");
-            });
-            tab.classList.add("active");
-        });
-    });
-
-    // Show and hide rename space form
-    const header = document.querySelector('#header');
-    const header_text = document.querySelector('#header-text');
-    const edit_symbol = document.querySelector('#edit-title-symbol');
-
-    header.addEventListener('mouseenter', () => {
-        edit_symbol.addEventListener('click', () => {
-            header_text.innerHTML = document.querySelector('#rename-space-form-div').innerHTML;
-        });
-        edit_symbol.style.display = 'inline-block';
-    });
-    header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');    
+    enable_nav_links();
+    enable_rename_form('workspace');
 });
 
-function hide_all_areas() {
-    // Hide all parts of workspace
-    const areas = document.getElementsByClassName('workspace-area');
-    Array.from(areas).forEach(array => {array.style.display = 'none'})
-
-    enable_scrolling();
-}
-
-function show_area(area_id) {
+function show_workspace_area(area_id) {
 
     // Hide all areas first then show one
-    hide_all_areas();
+    hide_all_areas('workspace');
     const area = document.getElementById(area_id);
     if (!area) {
         return;

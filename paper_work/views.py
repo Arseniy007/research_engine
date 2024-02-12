@@ -18,6 +18,7 @@ def paper_space(request, paper_id):
     
     # Get all needed paper-related data
     paper = check_paper(paper_id, request.user)
+    sources = paper.sources.all()
     endnotes = [get_source_reference(source) for source in paper.sources.all()]
     paper_files = PaperFile.objects.filter(paper=paper).order_by("saving_time")
     links = [reverse("file_handling:display_paper_file", args=(file.pk,)) for file in paper_files]
@@ -25,9 +26,11 @@ def paper_space(request, paper_id):
 
     paper_data = {
         "paper": paper,
+        "sources": sources,
         "endnotes": endnotes,
         "paper_files": paper_files,
         "links": links,
+        "number_of_sources": len(sources),
         "choose_sources_form": choose_sources_form,
         "new_paper_file_form": UploadPaperFileForm(),
         "rename_form": RenamePaperForm().set_initial(paper.title),

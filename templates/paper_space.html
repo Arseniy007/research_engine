@@ -20,10 +20,25 @@
     </nav>
 {% endblock %}
 
+{% block nav_links %}
+    <nav class="nav-tabs" id="nav-tabs">
+        <a onclick="show_paper_area('');return false" href="#" type="button" class="active">
+            TODO&nbsp;<span>{{ number_of_sources }}</span>
+        </a>
+        <a onclick="show_paper_area('');return false" href="#" type="button">
+            TODO&nbsp;<span>{{ number_of_papers }}</span>
+        </a>
+        <a onclick="show_paper_area('');return false" href="#" type="button">
+            TODO&nbsp;<span>{{ number_of_members }}</span>
+        </a>
+        <a onclick="show_paper_area('');return false" href="#" type="button">
+            TODO
+        </a>
+    </nav>
+{% endblock %}
+
 {% block body %}
    
-
-        
     <h3>Number of words: <div id="number_of_words"></div></h3>
     <br>
     <h3>Number of characters without spaces: <div id="characters_no_space"></div></h3>
@@ -31,9 +46,7 @@
     <h3>Number of characters with spaces: <div id="characters_with_space"></div></h3>
     <br><br>
 
-
-
-
+    
     <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post">
         {% csrf_token %} 
         {{ new_paper_file_form }}
