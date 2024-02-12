@@ -55,12 +55,14 @@ function redirect(url) {
 }
 
 async function openNav() {
-    // Open sidenav 
+    // Open sidenav (make it full width)
     const nav = document.querySelector(".sidenav");
     nav.style.width = "100%";
     nav.style.textAlign = 'center';
     nav.style.background = GRAY;
+    nav.classList.add('z-index-max');
     nav.querySelector('#sidenav-closed-view').style.display = 'none';
+    nav.querySelector('#re-main-button').style.marginRight = '15px';
 
     // Load content
     const index_content = await load_index_data();
@@ -73,14 +75,17 @@ async function openNav() {
     nav.querySelector('#sidenav-full-view').style.display = 'block';
 }
 
-function closeNav() {
-    // SMake sidenav full-width
+async function closeNav() {
+    // Return sidenav to its side
     const nav = document.querySelector(".sidenav");
-    nav.style.width = "240px";
+    nav.style.width = "270px";
     nav.style.textAlign = 'left';
     nav.style.background = NORMAL;
+    nav.querySelector('#re-main-button').style.marginRight = '30px';
     nav.querySelector('#sidenav-full-view').style.display = 'none';
     nav.querySelector('#sidenav-closed-view').style.display = 'block';
+    await delay(500);
+    nav.classList.remove('z-index-max');
 }
 
 async function load_index_data() {

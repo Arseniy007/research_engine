@@ -333,7 +333,6 @@ function show_form_error_message() {
 }
 
 async function show_new_paper_form(space_id) {
-
     // Open sidenav 
     const nav = document.querySelector(".sidenav");
     nav.style.width = "100%";
@@ -364,7 +363,7 @@ async function show_new_paper_form(space_id) {
         }
     })
 
-    // Pause for 1 sec and then show form
+    // Pause for less than 1 sec and then show form
     await delay(800);
     nav.querySelector('#open-new-paper-form').click();
 }

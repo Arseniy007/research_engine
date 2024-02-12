@@ -173,6 +173,10 @@ header
 {
   position: fixed;
 }
+.z-index-max
+{
+  z-index: 1;
+}
 
 .modal
 {
