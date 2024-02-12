@@ -123,6 +123,24 @@ function load_and_show_source_space(source_id) {
     })
 }
 
+function delete_source(source_id) {
+    // Get delete button and ask user for conformation
+    const delete_button = document.querySelector(`#delete-source-button-${source_id}`);
+    delete_button.innerHTML = "Are you sure?";
+
+    delete_button.addEventListener('click', () => {
+        // Remove source card from page
+        document.querySelector(`#close-source-settings-button-${source_id}`).click();
+        document.querySelector(`#close-source-modal-button-${source_id}`).click();
+        document.querySelector(`#source-card-${source_id}`).remove();
+
+        // Send request
+        const url = `/delete_source/${source_id}`;
+        fetch(url)
+        .then(response => handleErrors(response, url))
+    })
+}
+
 async function submit_source_forms(source_id) {
 
     // Get all changed forms
@@ -239,8 +257,12 @@ async function upload_source_file(form, source_id) {
     });
 }
 
-function show_or_hide_source_settings(source_id) {
+function show_form_error_message() {
+    document.querySelector('.form-error-message').style.display = 'block';
+}
 
+function show_or_hide_source_settings(source_id) {
+    // Get main divs
     const source_div = document.querySelector(`#source-space-${source_id}`);
     const source_settings_div = document.querySelector(`#source-settings-${source_id}`);
 
@@ -297,39 +319,6 @@ function show_or_hide_source_settings(source_id) {
             link_button.style.display = 'inline-block';
         }
     }
-}
-
-function delete_source(source_id) {
-
-    // Get delete button and ask user for conformation
-    const delete_button = document.querySelector(`#delete-source-button-${source_id}`);
-    delete_button.innerHTML = "Are you sure?";
-
-    delete_button.addEventListener('click', () => {
-
-        document.querySelector(`#close-source-settings-button-${source_id}`).click();
-        document.querySelector(`#close-source-modal-button-${source_id}`).click();
-        document.querySelector(`#source-card-${source_id}`).remove();
-
-        // ToDO Animation
-
-        // Rename-space url
-        const url = `/delete_source/${source_id}`;
-
-        // Send request
-        fetch(url)
-        .then(response => handleErrors(response, url))
-        .then(response => response.json())
-        .then(result => {
-            if (result.status === 'ok') {
-
-            }
-        });
-    })
-}
-
-function show_form_error_message() {
-    document.querySelector('.form-error-message').style.display = 'block';
 }
 
 async function show_new_paper_form(space_id) {

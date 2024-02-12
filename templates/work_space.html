@@ -35,11 +35,13 @@
     <div class="workspace-area" id="sources-area">
         <h3>Sources</h3>
 
-        <div class="sources-search">
-            <i class="fa fa-search"></i>
-            <input onkeyup="search_source()" id="search_box" class="form-control form-input" type="text" placeholder="Search for sources...">
-        </div>
-        <br><br>
+        {% if sources %}
+            <div class="sources-search">
+                <i class="fa fa-search"></i>
+                <input onkeyup="search_source()" id="search_box" class="form-control form-input" type="text" placeholder="Search your sources here...">
+            </div>
+            <br><br>
+        {% endif %}
 
         <div id="sources-container">
             {% for source in sources %}
@@ -95,7 +97,7 @@
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="source-space-label-{{ source.id }}"></h1>
+                                <h1 class="modal-title fs-5 light-blue" id="source-space-label-{{ source.id }}"></h1>
                                 <button type="button" class="btn-close" id="btn-close-{{ source.id }}" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body" id="source-space-div-{{ source.id }}"></div>
@@ -683,7 +685,6 @@
     <br><br><br>
     <h1>TODO:</h1>
     <br>
-    <h4>Source deleting animation</h4>
     <h4>Sources card and flexbox</h4>
     <h4>Paper view (Quotes and sources choosing)</h4>
     <h4>Source view</h4>

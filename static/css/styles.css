@@ -178,9 +178,38 @@ header
   z-index: 1;
 }
 
+#member-cards-container, #paper-cards-container
+{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 30px;
+}
+.transparent-card
+{
+  background-color: #e5e5e9!important;
+  border-color: #e5e5e9!important; 
+}
+.cards-row
+{
+  display: flex;
+  justify-content: space-between;
+  column-gap: 35px;
+}
+.left-card
+{
+  float: left;
+}
+.right-card
+{
+  float: right;
+}
+
 .modal
 {
-  background-color: #0b121b;
+  background-image: url(../images/test.png);
+  background-repeat: repeat;
 }
 .modal-header, .modal-body, .modal-footer, .same-color
 {
@@ -251,7 +280,6 @@ header
   margin: auto;
   margin-top: 50px;
 }
-
 .index-form
 {
   text-align: center;
@@ -310,6 +338,7 @@ header
   background-color: #e5e5e9;
   margin: 0;
   border-radius: 15px;
+  border-color: #e5e5e9!important;
 }
 
 .form-card 
@@ -346,103 +375,52 @@ a:active
   text-decoration: none;
 }
 
-.source-footer 
+.source-footer
 {
   padding: 0px;
+  height: 65px;
 }
-
 #left-footer-buttons
 {
   position: absolute;
   left: 10px;
 }
-
 .expand-button
 {
   position: absolute;
   left: 120px;
 }
-
 .source-file-button
 {
   position: absolute;
   left: 220px;
 }
-
 .source-link-button
 {
   position: absolute;
   left: 315px;
 }
-
 .round-button
 {
   border-radius: 15px!important;
 }
-
 #footer-menu
 {
   position: absolute;
   bottom: 0;
 }
-
 .footer-link
 {
   color: black;
 }
 
-#member-cards-container, #paper-cards-container
-{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  row-gap: 30px;
-}
-.transparent-card
-{
-  background-color: #e5e5e9!important;
-  border-color: #e5e5e9!important; 
-}
-.cards-row
-{
-  display: flex;
-  justify-content: space-between;
-  column-gap: 35px;
-}
-.left-card
-{
-  float: left;
-}
-.right-card
-{
-  float: right;
-}
-
-.light-blue, #header-text, #form-header
-{
-  color: #118ab2;
-}
-.color-black
-{
-  color: black;
-}
-.color-grey
-{
-  color: grey;
-}
-.color-white
-{
-  color: white;
-}
-.color-red
-{
-  color: red;
-}
-
 .unarchive-button
 {
   text-align: center;
+}
+.copy-button
+{
+  float: right;
 }
 
 .images-row
@@ -509,7 +487,23 @@ a:active
   margin-bottom: 20px;
 }
 
-.copy-button
+.light-blue, #header-text, #form-header
 {
-  float: right;
+  color: #118ab2;
+}
+.color-black
+{
+  color: black;
+}
+.color-grey
+{
+  color: grey;
+}
+.color-white
+{
+  color: white;
+}
+.color-red
+{
+  color: red;
 }
