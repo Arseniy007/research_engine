@@ -33,20 +33,3 @@ function get_paper_file_info(file_id) {
         document.querySelector('#characters_with_space').innerHTML = result.characters_with_space;
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-function handleErrors(response, url) {
-    if (!response.ok) {
-        redirect(url)
-    }
-    return response;
-}

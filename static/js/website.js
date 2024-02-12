@@ -1,5 +1,5 @@
-const gray = '#222222';
-const normal = '#0b121b';
+const GRAY = '#222222';
+const NORMAL = '#0b121b';
 
 document.addEventListener('DOMContentLoaded', function() {
     // Enable popovers
@@ -36,12 +36,30 @@ function dropdown_papers() {
     document.getElementById("papers-dropdown").classList.toggle("show");
 }
 
+function delay(milliseconds){
+    return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
+}
+
+function handleErrors(response, url) {
+    if (!response.ok) {
+        redirect(url)
+    }
+    return response;
+}
+
+function redirect(url) {
+    // Imitate django redirect func
+    window.location.replace(url)
+}
+
 async function openNav() {
     // Open sidenav 
     const nav = document.querySelector(".sidenav");
     nav.style.width = "100%";
     nav.style.textAlign = 'center';
-    nav.style.background = gray;
+    nav.style.background = GRAY;
     nav.querySelector('#sidenav-closed-view').style.display = 'none';
 
     // Load content
@@ -60,7 +78,7 @@ function closeNav() {
     const nav = document.querySelector(".sidenav");
     nav.style.width = "240px";
     nav.style.textAlign = 'left';
-    nav.style.background = normal;
+    nav.style.background = NORMAL;
     nav.querySelector('#sidenav-full-view').style.display = 'none';
     nav.querySelector('#sidenav-closed-view').style.display = 'block';
 }
