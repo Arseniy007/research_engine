@@ -100,7 +100,7 @@ def archive_or_unarchive_paper(request, paper_id):
             return redirect(reverse("website:account_settings"))
 
         paper.unarchive()
-        display_success_message(request, f"Paper is now again part of {paper.work_space.title} workspace!")
+        display_success_message(request, f" is now again part of {paper.work_space.title} workspace!")
         return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
     paper.archive()
@@ -133,4 +133,16 @@ def select_sources_for_paper(request, paper_id):
     else:
         display_error_message(request)
 
+    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
+
+
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def clear_paper_file_history(request, paper_id):
+    """Delete all files related to given paper"""
+
+    # Check if user has right to delete all files
+    paper = check_paper(paper_id, request.user)
+
+    paper.clear_file_history()
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))

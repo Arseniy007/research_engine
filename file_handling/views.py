@@ -79,19 +79,6 @@ def get_paper_file_info(request, file_id):
     return JsonResponse(response)
 
 
-@paper_authorship_required
-@login_required(redirect_field_name=None)
-def clear_paper_file_history(request, paper_id):
-    """Delete all files related to given paper"""
-
-    # Check if user has right to delete all files
-    paper = check_paper(paper_id, request.user)
-
-    paper.clear_file_history()
-
-    return JsonResponse({"status": "ok"})
-
-
 @post_request_required
 @login_required(redirect_field_name=None)
 def upload_source_file(request, source_id):

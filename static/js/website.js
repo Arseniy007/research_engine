@@ -268,3 +268,15 @@ function enable_rename_form(page) {
     });
     header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');   
 }
+
+function set_disable_scrolling_buttons() {
+    // Disable scrolling back when closing modal windows
+    const close_header_buttons = document.getElementsByClassName('close-header-button');
+    const close_footer_buttons = document.getElementsByClassName('close-footer-button');
+    Array.from(close_header_buttons).forEach(button => {
+        button.addEventListener('click', () => disable_scrolling());
+    })
+    Array.from(close_footer_buttons).forEach(button => {
+        button.addEventListener('click', () => disable_scrolling());
+    })
+}

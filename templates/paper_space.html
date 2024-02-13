@@ -22,7 +22,7 @@
 
 {% block nav_links %}
     <nav class="nav-tabs" id="nav-tabs">
-        <a onclick="show_paper_area('');return false" href="#" type="button" class="active">
+        <a onclick="show_paper_area('todo-area');return false" href="#" type="button" class="active">
             TODO&nbsp;<span>{{ number_of_sources }}</span>
         </a>
         <a onclick="show_paper_area('');return false" href="#" type="button">
@@ -31,8 +31,8 @@
         <a onclick="show_paper_area('');return false" href="#" type="button">
             TODO&nbsp;<span>{{ number_of_members }}</span>
         </a>
-        <a onclick="show_paper_area('');return false" href="#" type="button">
-            TODO
+        <a onclick="show_paper_area('actions-area');return false" href="#" type="button">
+            Actions
         </a>
     </nav>
 {% endblock %}
@@ -41,65 +41,145 @@
 
     <div class="paper-area" id="todo-area">
 
-
+        <h4>TODO</h4>
+        <br>
+        <h4>Toggle between areas</h4>
+        <h4>Each Area</h4>
+    
+        <br><br><br><br>
+       
+        <h3>Number of words: <div id="number_of_words"></div></h3>
+        <br>
+        <h3>Number of characters without spaces: <div id="characters_no_space"></div></h3>
+        <br>
+        <h3>Number of characters with spaces: <div id="characters_with_space"></div></h3>
+        <br><br>
+    
+    
+        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post">
+            {% csrf_token %} 
+            {{ new_paper_file_form }}
+            <button id="change_password_button" type="submit">Save New Version</button>
+        </form>
+    
+        <ul>
+            {% for file in paper_files %}
+                <li>
+                    <a href="{% url 'file_handling:display_paper_file' file.pk %}">{{ file.file }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    
+        <br><br>
+    
+    
+    
+    
+    
+    
+        <h3>Choose sources</h3>
+    
+        <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
+            {% csrf_token %} 
+            {{ choose_sources_form }}
+            <button type="submit">Choose</button>
+        </form>
+        
+        <br><br>
+    
+        <h3>Endnotes:</h3>
+    
+        <ul>
+            {% for endnote in endnotes %}
+                <li>{{ endnote.endnote_apa }}</li>
+            {% endfor %}
+        </ul><br><br>
 
     </div>
 
-    <h4>TODO</h4>
-    <br>
-    <h4>Toggle between areas</h4>
-    <h4>Each Area</h4>
-
-    <br><br><br><br>
-   
-    <h3>Number of words: <div id="number_of_words"></div></h3>
-    <br>
-    <h3>Number of characters without spaces: <div id="characters_no_space"></div></h3>
-    <br>
-    <h3>Number of characters with spaces: <div id="characters_with_space"></div></h3>
-    <br><br>
-
-
-    <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post">
-        {% csrf_token %} 
-        {{ new_paper_file_form }}
-        <button id="change_password_button" type="submit">Save New Version</button>
-    </form>
-
-    <ul>
-        {% for file in paper_files %}
-            <li>
-                <a href="{% url 'file_handling:display_paper_file' file.pk %}">{{ file.file }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-
-    <br><br>
-
-
-
-
-
-
-    <h3>Choose sources</h3>
-
-    <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
-        {% csrf_token %} 
-        {{ choose_sources_form }}
-        <button type="submit">Choose</button>
-    </form>
-    
-    <br><br>
-
-    <h3>Endnotes:</h3>
-
-    <ul>
-        {% for endnote in endnotes %}
-            <li>{{ endnote.endnote_apa }}</li>
-        {% endfor %}
-    </ul><br><br>
-
-
+    <div class="paper-area" id="actions-area" style="display: none;">
+        <div class="cards-row">
+            <!-- Clear Paper File History -->
+            <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="/static/images/flat_icons/zip-archive.png" class="img-fluid rounded-start" alt="Clear File History">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <br><h5 class="card-title">Clear File History</h5>
+                            <p class="card-text">
+                                <br>Start everything from scratch:<br>
+                                <a onclick="enable_scrolling();" href="#clear-history-modal" class="color-red" data-bs-toggle="modal" data-bs-target="#clear-history-modal">
+                                    Clear all files
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Archive Paper Card -->
+            <div class="card mb-3 transparent-card right-card" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="/static/images/flat_icons/leave_space.png" class="img-fluid rounded-start" alt="Archivation">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <br><h5 class="card-title">Archive Paper</h5>
+                            <p class="card-text">
+                                <br>Click here at your own risk:<br>
+                                <a onclick="enable_scrolling();" href="#archive-paper-modal" class="color-red" data-bs-toggle="modal" data-bs-target="#archive-paper-modal">
+                                    Archive {{ paper }}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Cleaning History Modal -->
+        <div class="modal fade" id="clear-history-modal" tabindex="-1" aria-labelledby="clear-history-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="clear-history-modal-label">{{ paper }} files will be deleted!</h1>
+                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Are you sure you want to delete all files?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger">
+                            <a href="{% url 'paper_work:clear_paper_file_history' paper.pk %}" class="color-white">Clear History</a>
+                        </button>
+                        <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Paper Archivation Modal -->
+        <div class="modal fade" id="archive-paper-modal" tabindex="-1" aria-labelledby="archive-paper-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="archive-paper-modal-label">{{ paper }} will be archived!</h1>
+                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Are you sure you want to archive this Paper?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger">
+                            <a href="{% url 'paper_work:archive_paper' paper.pk %}" class="color-white">Archive Paper</a>
+                        </button>
+                        <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hidden parts of page -->
     <div id="paper-id" style="display: none;">{{ paper.pk }}</div>
     <div id="last-file-id" style="display: none;">{{ last_file_id }}</div>
     <div id="rename-paper-form-div" style="display: none;">
@@ -115,5 +195,4 @@
             </div>
         </form>
     </div>
-   
 {% endblock %}

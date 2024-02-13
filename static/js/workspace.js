@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function show_workspace_area(area_id) {
-
     // Hide all areas first then show one
     hide_all_areas('workspace');
     const area = document.getElementById(area_id);
@@ -391,16 +390,4 @@ function copy_invitation(kind, type) {
     }
     textarea.select();
     document.execCommand("copy");
-}
-
-function set_disable_scrolling_buttons() {
-    // Disable scrolling back when closing modal windows
-    const close_header_buttons = document.getElementsByClassName('close-header-button');
-    const close_footer_buttons = document.getElementsByClassName('close-footer-button');
-    Array.from(close_header_buttons).forEach(button => {
-        button.addEventListener('click', () => disable_scrolling());
-    })
-    Array.from(close_footer_buttons).forEach(button => {
-        button.addEventListener('click', () => disable_scrolling());
-    })
 }
