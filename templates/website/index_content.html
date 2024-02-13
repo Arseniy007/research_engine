@@ -5,7 +5,7 @@
     <div id="index-div">
         {% if work_spaces %}
             <a data-bs-toggle="collapse" href="#my-workspaces-area" role="button" aria-expanded="false" aria-controls="my-workspaces-area">
-                <h2 class="text-uppercase text-center mb-3 color-white"><i class="fa-solid fa-folder-open"></i>&nbsp;&nbsp;My Workspaces</h2>
+                <h2 class="text-uppercase text-center mb-3 color-white">My Workspaces&nbsp;&nbsp;<i class="fa-solid fa-folder-open"></i></h2>
             </a>
             <div class="collapse" id="my-workspaces-area">
                 {% for space in work_spaces %}
@@ -15,7 +15,7 @@
             <br><br>
         {% endif %}
         <a data-bs-toggle="collapse" href="#new-space-form-area" role="button" aria-expanded="false" aria-controls="new-space-form-area">
-            <h2 class="text-uppercase text-center mb-3 color-white"><i class="fa-solid fa-circle-plus"></i>&nbsp;&nbspCreate New Workspace</h2>
+            <h2 class="text-uppercase text-center mb-3 color-white">Create New Workspace&nbsp;&nbsp;<i class="fa-solid fa-circle-plus"></i></h2>
         </a>
         <div class="collapse" id="new-space-form-area">
             <form action="{% url 'work_space:create_space' %}" class="needs-validation index-form" id="create-space-form" method="post" novalidate>
@@ -32,7 +32,7 @@
         </div>
         <br><br>
         <a data-bs-toggle="collapse" href="#receive-invitation-form-area" role="button" aria-expanded="false" aria-controls="receive-invitation-form-area">
-            <h2 class="text-uppercase text-center mb-3 color-white"><i class="fa-solid fa-hand-holding-heart"></i>&nbsp;&nbsp;I was invited to a workspace</h2>
+            <h2 class="text-uppercase text-center mb-3 color-white">I was invited to a workspace&nbsp;&nbsp;<i class="fa-solid fa-hand-holding-heart"></i></h2>
         </a>
         <div class="collapse" id="receive-invitation-form-area">
             <form action="{% url 'work_space:receive_invitation' %}" class="needs-validation index-form" id="receive-invitation-form" method="post" novalidate>
@@ -49,7 +49,7 @@
         </div>
         <br><br>
         <a data-bs-toggle="collapse" href="#shared-sources-form-area" role="button" aria-expanded="false" aria-controls="shared-sources-form-area">
-            <h2 class="text-uppercase text-center mb-3 color-white"><i class="fa-solid fa-book"></i>&nbsp;&nbsp;Get shared research sources</h2>
+            <h2 class="text-uppercase text-center mb-3 color-white">Get shared research sources&nbsp;&nbsp;<i class="fa-solid fa-book"></i></h2>
         </a>
         <div class="collapse" id="shared-sources-form-area">
             <form action="{% url 'work_space:receive_shared_sources' %}" class="needs-validation index-form" id="shared-sources-form" method="post" novalidate>
