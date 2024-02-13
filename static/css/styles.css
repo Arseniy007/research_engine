@@ -215,7 +215,7 @@ header
 
 .modal
 {
-  background-image: url(../images/re_repeat.png);
+  background-image: url(../images/main/re_repeat.png);
   background-repeat: repeat;
 }
 .modal-header, .modal-body, .modal-footer, .same-color
@@ -354,7 +354,7 @@ header
 
 #form-section
 {
-  background-image: url(../images/library-background.jpeg);
+  background-image: url(../images/main/library-background.jpeg);
   background-repeat: repeat-y;
   overflow: auto; 
   margin-left: 0cm;
