@@ -35,7 +35,7 @@ class Paper(models.Model):
         return len(PaperFile.objects.filter(paper=self))
 
 
-    def get_last_file_id(self) -> int:
+    def get_last_file_id(self) -> int | None:
         """Returns last uploaded paper file"""
         try:
             return PaperFile.objects.filter(paper=self).order_by("-pk")[0].pk
