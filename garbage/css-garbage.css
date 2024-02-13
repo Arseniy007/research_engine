@@ -475,3 +475,45 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
   height: 100%;
   overflow: hidden;
 }
+
+
+
+.source-footer
+{
+  padding: 0px;
+  height: 65px;
+}
+#left-footer-buttons
+{
+  position: absolute;
+  left: 10px;
+}
+.expand-button
+{
+  position: absolute;
+  left: 120px;
+}
+.source-file-button
+{
+  position: absolute;
+  left: 220px;
+}
+.source-link-button
+{
+  position: absolute;
+  left: 315px;
+}
+.round-button
+{
+  border-radius: 15px!important;
+}
+#footer-menu
+{
+  position: absolute;
+  bottom: 0;
+}
+.footer-link
+{
+  color: black;
+}
+

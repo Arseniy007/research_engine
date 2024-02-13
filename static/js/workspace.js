@@ -5,20 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     set_disable_scrolling_buttons();
 });
 
-
-function set_disable_scrolling_buttons() {
-
-    const close_header_buttons = document.getElementsByClassName('close-header-button');
-    const close_footer_buttons = document.getElementsByClassName('close-footer-button');
-    Array.from(close_header_buttons).forEach(button => {
-        button.addEventListener('click', () => disable_scrolling());
-    })
-    Array.from(close_footer_buttons).forEach(button => {
-        button.addEventListener('click', () => disable_scrolling());
-    })
-}
-
-
 function show_workspace_area(area_id) {
 
     // Hide all areas first then show one
@@ -251,7 +237,6 @@ function show_or_hide_source_settings(source_id) {
     // Get main divs
     const source_div = document.querySelector(`#source-space-${source_id}`);
     const source_settings_div = document.querySelector(`#source-settings-${source_id}`);
-
     // Get all buttons
     const btn_close_button = document.querySelector(`#btn-close-${source_id}`);
     const close_modal_button = document.querySelector(`#close-source-modal-button-${source_id}`);
@@ -278,7 +263,6 @@ function show_or_hide_source_settings(source_id) {
         if (open_file_button) {
             open_file_button.style.display = 'none';
         }
-
         if (link_button) {
             link_button.style.display = 'none';
         }        
@@ -287,7 +271,6 @@ function show_or_hide_source_settings(source_id) {
     else {
         source_settings_div.style.display = 'none';
         source_div.style.display = 'block';
-
         // Change all buttons
         close_settings_button.style.display = 'none';
         delete_button.innerHTML = 'Delete source';
@@ -300,7 +283,6 @@ function show_or_hide_source_settings(source_id) {
         if (open_file_button) {
             open_file_button.style.display = 'inline-block';
         }
-
         if (link_button) {
             link_button.style.display = 'inline-block';
         }
@@ -409,4 +391,16 @@ function copy_invitation(kind, type) {
     }
     textarea.select();
     document.execCommand("copy");
+}
+
+function set_disable_scrolling_buttons() {
+    // Disable scrolling back when closing modal windows
+    const close_header_buttons = document.getElementsByClassName('close-header-button');
+    const close_footer_buttons = document.getElementsByClassName('close-footer-button');
+    Array.from(close_header_buttons).forEach(button => {
+        button.addEventListener('click', () => disable_scrolling());
+    })
+    Array.from(close_footer_buttons).forEach(button => {
+        button.addEventListener('click', () => disable_scrolling());
+    })
 }

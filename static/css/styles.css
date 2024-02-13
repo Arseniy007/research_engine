@@ -113,7 +113,7 @@ main
 header
 {
   padding: 3rem 3rem 0.5rem 3rem;
-  background-color: #ebecee!important;
+  background-color: #ebecee !important;
 }
 
 .nav-tabs a, .nav-link 
@@ -187,8 +187,8 @@ header
 }
 .transparent-card
 {
-  background-color: #e5e5e9!important;
-  border-color: #e5e5e9!important; 
+  background-color: #e5e5e9 !important;
+  border-color: #e5e5e9 !important; 
 }
 .cards-row
 {
@@ -212,8 +212,8 @@ header
 }
 .modal-header, .modal-body, .modal-footer, .same-color
 {
-  background-color: #e5e5e9!important;
-  border-color: #0b121b!important;
+  background-color: #e5e5e9 !important;
+  border-color: #0b121b !important;
 }
 
 #sources-container
@@ -352,7 +352,7 @@ header
   background-color: #e5e5e9;
   margin: 0;
   border-radius: 15px;
-  border-color: #e5e5e9!important;
+  border-color: #e5e5e9 !important;
 }
 
 .form-card 
@@ -389,6 +389,9 @@ a:active
   text-decoration: none;
 }
 
+
+
+
 .source-footer
 {
   padding: 0px;
@@ -416,7 +419,7 @@ a:active
 }
 .round-button
 {
-  border-radius: 15px!important;
+  border-radius: 15px !important;
 }
 #footer-menu
 {
@@ -427,6 +430,10 @@ a:active
 {
   color: black;
 }
+
+
+
+
 
 .unarchive-button
 {

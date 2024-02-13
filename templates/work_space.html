@@ -125,12 +125,12 @@
                                 <div class="btn-toolbar" role="toolbar" id="left-footer-buttons">
                                     <div class="btn-group" role="group">
                                         <button onclick="delete_source('{{ source.id }}')" id="delete-source-button-{{ source.id }}" type="button" class="btn btn-danger round-button" style="display: none;">Delete source&nbsp;&nbsp;<i class="fa-solid fa-trash"></i></button>
-                                        <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" id="show-source-settings-button-{{ source.id }}" class="btn btn-warning round-button">Edit&nbsp;&nbsp;<i class="fa-solid fa-gears source-modal-icon"></i></button>
+                                        <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" id="show-source-settings-button-{{ source.id }}" class="btn btn-warning round-button">Edit&nbsp;<i class="fa-solid fa-gears source-modal-icon"></i></button>
                                     </div>
                                 </div>
                                 <div class="btn-toolbar expand-button" role="toolbar">
                                     <a href="{% url 'bookshelf:source_space' source.id %}" id="expand-button-{{ source.id }}">
-                                        <button type="button" class="btn btn-dark round-button">Full&nbsp;&nbsp;<i class="fa-solid fa-expand"></i></button>
+                                        <button type="button" class="btn btn-dark round-button">Full Screen&nbsp;&nbsp;<i class="fa-solid fa-expand"></i></button>
                                     </a>
                                 </div>
                                 {% if source.has_file %}
