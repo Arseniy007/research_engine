@@ -993,3 +993,15 @@ header.addEventListener('mouseenter', () => {
 header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none'); 
 
 
+function load_main_paper_area() {
+    // Check if paper has files
+    const last_file_id = document.querySelector('#last-file-id').innerHTML;
+    if (last_file_id) {
+        // Load paper statistics
+        get_paper_file_info(last_file_id);
+    }
+    else {
+        // If there are no files - TODO
+
+    }
+}

@@ -22,14 +22,14 @@
 
 {% block nav_links %}
     <nav class="nav-tabs" id="nav-tabs">
-        <a onclick="show_paper_area('todo-area');return false" href="#" type="button" class="active">
-            TODO&nbsp;<span>{{ number_of_sources }}</span>
+        <a onclick="show_paper_area('main-area');return false" href="#" type="button" class="active">
+            Main Info
         </a>
-        <a onclick="show_paper_area('');return false" href="#" type="button">
-            TODO&nbsp;<span>{{ number_of_papers }}</span>
+        <a onclick="show_paper_area('files-area');return false" href="#" type="button">
+            File history&nbsp;<span>{{ number_of_files }}</span>
         </a>
-        <a onclick="show_paper_area('');return false" href="#" type="button">
-            TODO&nbsp;<span>{{ number_of_members }}</span>
+        <a onclick="show_paper_area('sources-area');return false" href="#" type="button">
+            Sources&nbsp;<span>{{ number_of_sources }}</span>
         </a>
         <a onclick="show_paper_area('actions-area');return false" href="#" type="button">
             Actions
@@ -39,13 +39,23 @@
 
 {% block body %}
 
-    <div class="paper-area" id="todo-area">
+    <div class="paper-area" id="main-area">
+
+        {% if last_file_id %}
+            <script>get_paper_file_info('{{ last_file_id }}')</script>
+
+
+        {% else %}
+
+
+        {% endif %}
+
+
+
 
         <h4>TODO</h4>
         <br>
-        <h4>Toggle between areas</h4>
-        <h4>Make endnotes as file or append them at the end of the last uploaded file</h4>
-        <h4>Each Area</h4>
+
     
         <br><br><br><br>
        
@@ -57,6 +67,27 @@
         <br><br>
     
     
+
+    
+    
+        
+
+    
+
+
+    </div>
+
+    <div class="paper-area" id="files-area" style="display: none;">
+
+        <h4>TODO</h4>
+        <br>
+        <h4>File history</h4>
+        <h4>Upload new file form</h4>
+        <h4>Maybe commit text?</h4>
+
+        <br><br><br></br>
+
+
         <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post">
             {% csrf_token %} 
             {{ new_paper_file_form }}
@@ -74,10 +105,14 @@
         <br><br>
     
     
-        
+    
+    </div>
 
-    
-    
+    <div class="paper-area" id="sources-area" style="display: none;">
+
+
+        <h4>Make endnotes as file or append them at the end of the last uploaded file??</h4>
+            
         <h3>Choose sources</h3>
     
         <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
@@ -95,7 +130,8 @@
                 <li>{{ endnote.endnote_apa }}</li>
             {% endfor %}
         </ul><br><br>
-
+    
+    
     </div>
 
     <div class="paper-area" id="actions-area" style="display: none;">

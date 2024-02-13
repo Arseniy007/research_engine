@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     enable_nav_links();
     enable_rename_form('paper');
     set_disable_scrolling_buttons();
-    load_main_paper_area();
+    //load_main_paper_area();
 
 
 
@@ -47,18 +47,6 @@ function show_paper_area(area_id) {
     area.style.display = '';
 }
 
-function load_main_paper_area() {
-    // Check if paper has files
-    const last_file_id = document.querySelector('#last-file-id').innerHTML;
-    if (last_file_id) {
-        // Load paper statistics
-        get_paper_file_info(last_file_id);
-    }
-    else {
-        // If there are no files - TODO
-
-    }
-}
 
 
 
