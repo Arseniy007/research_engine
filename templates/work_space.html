@@ -556,7 +556,7 @@
                                 <br><h5 class="card-title">Leave Workspace</h5>
                                 <p class="card-text">
                                     <br>Click here at your own risk:<br>
-                                    <a href="#leave-space-modal" class="color-red" data-bs-toggle="modal" data-bs-target="#leave-space-modal">
+                                    <a onclick="enable_scrolling();" href="#leave-space-modal" class="color-red" data-bs-toggle="modal" data-bs-target="#leave-space-modal">
                                         Leave {{ space }}
                                     </a>
                                 </p>
@@ -601,7 +601,7 @@
                                 <h5 class="card-title">Archive Workspace</h5>
                                 <p class="card-text">
                                     <br>Click here at your own risk:<br>
-                                    <a href="#space-archive-modal" class="color-red" data-bs-toggle="modal" data-bs-target="#space-archive-modal">
+                                    <a onclick="enable_scrolling();" href="#space-archive-modal" class="color-red" data-bs-toggle="modal" data-bs-target="#space-archive-modal">
                                         Archive {{ space }}
                                     </a>
                                 </p>
@@ -617,7 +617,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5 light-blue" id="invite-to-space-modal-label">Send it to your friend!</h1>
-                        <button onclick="disable_scrolling();" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h4>Invitation code</h4>
@@ -628,7 +628,7 @@
                         <button onclick="copy_invitation('invitation', 'link')" type="button" class="btn btn-dark mt-3 ms-1">Copy</button>
                     </div>
                     <div class="modal-footer">
-                        <button onclick="disable_scrolling();" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -639,7 +639,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5 light-blue" id="share-sources-modal-label">Send it to your friend!</h1>
-                        <button onclick="disable_scrolling();" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h4>Shared sources code</h4>
@@ -650,7 +650,7 @@
                         <button onclick="copy_invitation('sources', 'link')" type="button" class="btn btn-dark mt-3 ms-1">Copy</button>
                     </div>
                     <div class="modal-footer">
-                        <button onclick="disable_scrolling();" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -661,13 +661,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="leave-space-modal-label">You are about to leave {{ space}}!</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h4>Are you sure you want to leave this Workspace?</h4>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-danger">
                             <a href="{% url 'work_space:leave_space' space.pk %}" class="color-white">Leave Workspace</a>
                         </button>
@@ -681,7 +681,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="space-archive-modal-label">{{ space}} will be archived!</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h4>Are you sure you want to archive this Workspace?</h4>
@@ -690,7 +690,7 @@
                         <button type="button" class="btn btn-danger">
                             <a href="{% url 'work_space:archive_space' space.pk %}" class="color-white">Archive Workspace</a>
                         </button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

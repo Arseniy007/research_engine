@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const source_id = document.querySelector('#source-id').innerHTML;
     const new_quote_form = document.querySelector('#new_quote_form');
-    const alter_quote_form = document.querySelector('#alter_quote_form');
+    //const alter_quote_form = document.querySelector('#alter_quote_form');
     const delete_quote_buttons = document.getElementsByClassName('delete_quote_buttons');
     
     new_quote_form.addEventListener('submit', event => {
@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
         add_quote(new_quote_form, source_id);
       });
 
-    alter_quote_form.addEventListener('submit', event => {
-        event.preventDefault();
-        alter_quote(alter_quote_form, source_id);
-      });
+    //alter_quote_form.addEventListener('submit', event => {
+      //  event.preventDefault();
+       // alter_quote(alter_quote_form, source_id);
+    //  });
 
     Array.from(delete_quote_buttons).forEach(button => {
         button.addEventListener('click', () => delete_quote(button.id));

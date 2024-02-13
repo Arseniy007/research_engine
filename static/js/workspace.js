@@ -2,7 +2,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     enable_nav_links();
     enable_rename_form('workspace');
+    set_disable_scrolling_buttons();
 });
+
+
+function set_disable_scrolling_buttons() {
+
+    const close_header_buttons = document.getElementsByClassName('close-header-button');
+    const close_footer_buttons = document.getElementsByClassName('close-footer-button');
+    Array.from(close_header_buttons).forEach(button => {
+        button.addEventListener('click', () => disable_scrolling());
+    })
+    Array.from(close_footer_buttons).forEach(button => {
+        button.addEventListener('click', () => disable_scrolling());
+    })
+}
+
 
 function show_workspace_area(area_id) {
 
@@ -297,8 +312,10 @@ async function show_new_paper_form(space_id) {
     const nav = document.querySelector(".sidenav");
     nav.style.width = "100%";
     nav.style.textAlign = 'center';
-    nav.style.background = gray;
+    nav.style.background = GRAY;
+    nav.classList.add('z-index-max');
     nav.querySelector('#sidenav-closed-view').style.display = 'none';
+    nav.querySelector('#re-main-button').style.marginRight = '15px';
 
     // Load content
     nav.querySelector('#index-container').innerHTML = document.querySelector('#new-paper-form').innerHTML;
