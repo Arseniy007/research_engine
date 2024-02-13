@@ -75,7 +75,7 @@
                         <h5 class="card-title source-button source-title">"{{ source.title }}"</h5>
                     </div>
                     <div class="card-footer source-card-footer">
-                        <small class="text-body-secondary source-incons-div">
+                        <small class="text-body-secondary">
                             <div class="source-icons">
                                 <div class="source-type-icon">
                                     {% if source.type == 'book' %}
@@ -122,44 +122,29 @@
                             <div class="modal-body" id="source-space-div-{{ source.id }}"></div>
                             <div id="source-id" style="display: none;">{{ source.id }}</div>
                             <div class="modal-footer source-footer" id="source-footer-div-{{ source.id }}">
-                                <div class="btn-toolbar" role="toolbar" id="left-footer-buttons">
-                                    <div class="btn-group" role="group">
-                                        <button onclick="delete_source('{{ source.id }}')" id="delete-source-button-{{ source.id }}" type="button" class="btn btn-danger round-button" style="display: none;">Delete source&nbsp;&nbsp;<i class="fa-solid fa-trash"></i></button>
-                                        <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" id="show-source-settings-button-{{ source.id }}" class="btn btn-warning round-button">Edit&nbsp;<i class="fa-solid fa-gears source-modal-icon"></i></button>
-                                    </div>
+                                <div class="source-footer-button left-source-footer-button">
+                                    <button onclick="delete_source('{{ source.id }}')" id="delete-source-button-{{ source.id }}" type="button" class="btn btn-danger round-button" style="display: none;">Delete source&nbsp;&nbsp;<i class="fa-solid fa-trash"></i></button>
+                                    <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" id="show-source-settings-button-{{ source.id }}" class="btn btn-warning round-button">Edit&nbsp;<i class="fa-solid fa-gears source-modal-icon"></i></button>
                                 </div>
-                                <div class="btn-toolbar expand-button" role="toolbar">
+                                <div class="source-footer-button middle-source-footer-buttons">
                                     <a href="{% url 'bookshelf:source_space' source.id %}" id="expand-button-{{ source.id }}">
                                         <button type="button" class="btn btn-dark round-button">Full Screen&nbsp;&nbsp;<i class="fa-solid fa-expand"></i></button>
                                     </a>
-                                </div>
-                                {% if source.has_file %}
-                                    <div class="btn-toolbar source-file-button" role="toolbar">
+                                    {% if source.has_file %}
                                         <a href="{% url 'file_handling:display_source_file' source.file_id %}" id="open-source-file-button-{{ source.id }}">
                                             <button type="button" class="btn btn-dark round-button">File&nbsp;&nbsp;<i class="fa-solid fa-file"></i></button>
                                         </a>
-                                    </div>
-                                {% endif %}
-                                {% if source.link %}
-                                    {% if source.has_file %}
-                                    <div class="btn-toolbar source-link-button" role="toolbar">
+                                    {% endif %}
+                                    {% if source.link %}
                                         <a href="{{ source.link }}" id="source-link-button-{{ source.id }}">
                                             <button type="button" class="btn btn-dark round-button">Link&nbsp;&nbsp;<i class="fa-solid fa-link source-modal-icon"></i></button>
                                         </a>
-                                    </div>
-                                    {% else %}
-                                        <div class="btn-toolbar source-file-button" role="toolbar">
-                                            <a href="{{ source.link }}" id="source-link-button-{{ source.id }}">
-                                                <button type="button" class="btn btn-dark round-button">Link&nbsp;&nbsp;<i class="fa-solid fa-link source-modal-icon"></i></button>
-                                            </a>
-                                        </div>
                                     {% endif %}
-                                {% endif %}
-                                <div class="btn-toolbar" role="toolbar">
-                                    <div class="btn-group" role="group">
-                                        <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" class="btn btn-secondary round-button " id="close-source-settings-button-{{ source.id }}" style="display: none;">Back</button>
-                                        <button type="button" class="btn btn-secondary round-button" data-bs-dismiss="modal" id="close-source-modal-button-{{ source.id }}">Close</button>
-                                    </div>
+                                </div>
+                                <div class="source-footer-button left-source-footer-button invisible-button"></div>
+                                <div class="source-footer-button right-source-footer-button">
+                                    <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" class="btn btn-secondary round-button " id="close-source-settings-button-{{ source.id }}" style="display: none;">Back</button>
+                                    <button type="button" class="btn btn-secondary round-button" data-bs-dismiss="modal" id="close-source-modal-button-{{ source.id }}">Close</button>
                                 </div>
                             </div>
                         </div>

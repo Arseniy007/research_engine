@@ -517,3 +517,23 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
   color: black;
 }
 
+#left-footer-buttons
+{
+  position: absolute;
+  left: 10px;
+}
+.expand-button
+{
+  position: absolute;
+  left: 120px;
+}
+.source-file-button
+{
+  position: absolute;
+  left: 220px;
+}
+.source-link-button
+{
+  position: absolute;
+  left: 315px;
+}

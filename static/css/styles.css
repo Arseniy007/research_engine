@@ -103,7 +103,11 @@ main
   border-radius: 20px;
   text-align: center;
 }
-
+#footer-menu
+{
+  position: absolute;
+  bottom: 0;
+}
 .dropdown-content 
 {
   display: none;
@@ -175,6 +179,10 @@ header
 .z-index-max
 {
   z-index: 1;
+}
+.pointy-cursor
+{
+  cursor: pointer;
 }
 
 #member-cards-container, #paper-cards-container
@@ -272,14 +280,51 @@ header
   color: white;
 }
 
+.source-footer
+{
+  padding: 0px;
+  height: 65px;
+  display: flex;
+  justify-content: space-between;
+  column-gap: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.source-footer-button
+{
+  display: inline;
+}
+.left-source-footer-button
+{
+  float: left;
+}
+.middle-source-footer-buttons
+{
+  display: flex;
+  float: left;
+  column-gap: 15px;
+}
+.right-source-footer-button
+{
+  float: right;
+}
+.invisible-button
+{
+  width: 50px;
+}
+.round-button
+{
+  border-radius: 15px !important;
+}
+
+
+
+
+
+
 .reference-textarea
 {
   overflow: hidden;
-}
-
-.pointy-cursor
-{
-  cursor: pointer;
 }
 
 .delete-author-button
@@ -388,51 +433,6 @@ a:active
 { 
   text-decoration: none;
 }
-
-
-
-
-.source-footer
-{
-  padding: 0px;
-  height: 65px;
-}
-#left-footer-buttons
-{
-  position: absolute;
-  left: 10px;
-}
-.expand-button
-{
-  position: absolute;
-  left: 120px;
-}
-.source-file-button
-{
-  position: absolute;
-  left: 220px;
-}
-.source-link-button
-{
-  position: absolute;
-  left: 315px;
-}
-.round-button
-{
-  border-radius: 15px !important;
-}
-#footer-menu
-{
-  position: absolute;
-  bottom: 0;
-}
-.footer-link
-{
-  color: black;
-}
-
-
-
 
 
 .unarchive-button
