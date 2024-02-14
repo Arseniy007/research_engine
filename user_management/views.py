@@ -53,7 +53,7 @@ def register(request):
         "form_title": "Register",
         "register_form": form
     }
-    return render(request, "user_management.html", data)
+    return render(request, "website/user_management.html", data)
 
 
 def login_view(request):
@@ -90,7 +90,7 @@ def login_view(request):
         "form_title": "Login",
         "login_form": form
     }
-    return render(request, "user_management.html", data)
+    return render(request, "website/user_management.html", data)
 
 
 @login_required
@@ -120,7 +120,7 @@ def edit_account_info(request):
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user)
     }
-    return render(request, "user_management.html", data)
+    return render(request, "website/user_management.html", data)
 
 
 @login_required
@@ -155,7 +155,7 @@ def change_password(request):
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user)
     }
-    return render(request, "user_management.html", data)
+    return render(request, "website/user_management.html", data)
 
 
 def forget_password(request):
@@ -230,7 +230,7 @@ def reset_password(request, reset_code):
         "reset_form": form, 
         "reset_code": reset_code
     }
-    return render(request, "user_management.html", data)
+    return render(request, "website/user_management.html", data)
 
 
 def logout_view(request):

@@ -25,11 +25,11 @@
         <a onclick="show_paper_area('main-area');return false" href="#" type="button" class="active">
             Main Info
         </a>
+        <a onclick="show_paper_area('sources-area');return false" href="#" type="button">
+            Bibliography&nbsp;<span>{{ number_of_sources }}</span>
+        </a>
         <a onclick="show_paper_area('files-area');return false" href="#" type="button">
             File history&nbsp;<span>{{ number_of_files }}</span>
-        </a>
-        <a onclick="show_paper_area('sources-area');return false" href="#" type="button">
-            Sources&nbsp;<span>{{ number_of_sources }}</span>
         </a>
         <a onclick="show_paper_area('actions-area');return false" href="#" type="button">
             Actions
@@ -77,7 +77,31 @@
 
 
     </div>
+    <div class="paper-area" id="sources-area" style="display: none;">
 
+
+        <h4>Make endnotes as file or append them at the end of the last uploaded file??</h4>
+            
+        <h3>Choose sources</h3>
+    
+        <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
+            {% csrf_token %} 
+            {{ choose_sources_form }}
+            <button type="submit">Choose</button>
+        </form>
+        
+        <br><br>
+    
+        <h3>Endnotes:</h3>
+    
+        <ul>
+            {% for endnote in endnotes %}
+                <li>{{ endnote.endnote_apa }}</li>
+            {% endfor %}
+        </ul><br><br>
+    
+    
+    </div>
     <div class="paper-area" id="files-area" style="display: none;">
 
         <h4>TODO</h4>
@@ -109,33 +133,50 @@
     
     </div>
 
-    <div class="paper-area" id="sources-area" style="display: none;">
-
-
-        <h4>Make endnotes as file or append them at the end of the last uploaded file??</h4>
-            
-        <h3>Choose sources</h3>
-    
-        <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
-            {% csrf_token %} 
-            {{ choose_sources_form }}
-            <button type="submit">Choose</button>
-        </form>
-        
-        <br><br>
-    
-        <h3>Endnotes:</h3>
-    
-        <ul>
-            {% for endnote in endnotes %}
-                <li>{{ endnote.endnote_apa }}</li>
-            {% endfor %}
-        </ul><br><br>
-    
-    
-    </div>
-
     <div class="paper-area" id="actions-area" style="display: none;">
+        <div class="cards-row">
+            <!-- Upload Paper File Card -->
+            <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="/static/images/flat_icons/paper/upload_paper.png" class="img-fluid rounded-start" alt="Upload new File">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Save new version</h5>
+                            <p class="card-text">
+                                <br>Upload new .doc / .pdf file here:<br>
+                                <a onclick="enable_scrolling();" href="#upload-file-modal" class="light-blue" data-bs-toggle="modal" data-bs-target="#upload-file-modal">
+                                    New {{ paper }} version
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Append Bibliography Card -->
+            <div class="card mb-3 transparent-card right-card" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="/static/images/flat_icons/paper/append_bibliography.png" class="img-fluid rounded-start" alt="Append Bibliography">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Auto add bibliography</h5>
+                            <p class="card-text">
+                                <br>Add the bibliography to the end of my latest file:<br><br>
+                                <a onclick="enable_scrolling();" href="TODO" class="light-blue">
+                                    Add in APA
+                                </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a onclick="enable_scrolling();" href="TODO" class="light-blue">
+                                    Add in MLA
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><br><br>
         <div class="cards-row">
             <!-- Clear Paper File History -->
             <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
@@ -172,6 +213,23 @@
                                 </a>
                             </p>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Upload Paper File Modal -->
+        <div class="modal fade" id="upload-file-modal" tabindex="-1" aria-labelledby="upload-file-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="upload-file-modal-label">TODO</h1>
+                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>TODO</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
