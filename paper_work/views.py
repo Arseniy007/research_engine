@@ -7,7 +7,7 @@ from file_handling.forms import UploadPaperFileForm
 from file_handling.models import PaperFile
 from user_management.helpers import get_user_papers, get_user_work_spaces
 from utils.decorators import paper_authorship_required, post_request_required
-from utils.messages import display_error_message, display_success_message
+from utils.messages import display_error_message, display_info_message, display_success_message
 from utils.verification import check_paper, check_work_space
 from .forms import ChooseSourcesForm, NewPaperForm, RenamePaperForm
 
@@ -146,4 +146,5 @@ def clear_paper_file_history(request, paper_id):
     paper = check_paper(paper_id, request.user)
 
     paper.clear_file_history()
+    display_info_message(request, "History cleared!")
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))

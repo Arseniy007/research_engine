@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     enable_nav_links();
     enable_rename_form('workspace');
+    set_enable_scrolling_buttons();
     set_disable_scrolling_buttons();
 });
 

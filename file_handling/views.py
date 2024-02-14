@@ -1,4 +1,5 @@
 from binascii import hexlify
+from PyPDF2 import PdfReader
 import shutil
 import textract
 from office_word_count import Counter
@@ -72,10 +73,26 @@ def get_paper_file_info(request, file_id):
     # Count words, characters, etc.
     info = Counter(decoded_text).count()
 
-    response = {"number_of_words": info.words,
-                "characters_no_space": info.characters_no_space,
-                "characters_with_space": info.characters_with_space}
+    # Count pages in pdf file
+    if file.file_name().lower().endswith(".pdf"):
+        pdf_file = open(file.get_path_to_file(), "rb")
+        number_of_pages = len(PdfReader(pdf_file).pages)
 
+    elif file.file_name().endswith(".docx"):
+        #TODO
+        number_of_pages = None
+    
+    else:
+        # Error case
+        # TODO?
+        return JsonResponse({"status" : "error"})
+
+    response = {
+        "number_of_words": info.words,
+        "characters_no_space": info.characters_no_space,
+        "characters_with_space": info.characters_with_space,
+        "number_of_pages": number_of_pages
+    }
     return JsonResponse(response)
 
 

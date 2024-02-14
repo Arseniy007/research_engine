@@ -2,8 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     enable_nav_links();
     enable_rename_form('paper');
+    set_enable_scrolling_buttons();
     set_disable_scrolling_buttons();
-    //load_main_paper_area();
+
 
 
 
@@ -62,9 +63,14 @@ function get_paper_file_info(file_id) {
     .then(response => handleErrors(response, url))
     .then(response => response.json())
     .then(result => {
+
+        // Error case
+        //TODO
+
         // Render last paper file statistics
-        document.querySelector('#number_of_words').innerHTML = result.number_of_words;
-        document.querySelector('#characters_no_space').innerHTML = result.characters_no_space;
-        document.querySelector('#characters_with_space').innerHTML = result.characters_with_space;
+        document.getElementById('number-of-words').innerHTML = result.number_of_words;
+        document.getElementById('characters-no-space').innerHTML = result.characters_no_space;
+        document.getElementById('characters-with-space').innerHTML = result.characters_with_space;
+        document.getElementById('number-of-pages').innerHTML = result.number_of_pages;
     });
 }

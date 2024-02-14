@@ -55,16 +55,17 @@
 
         <h4>TODO</h4>
         <br>
-        <h4>Number of pages also?</h4>
+        <h4>Number of pages in docx</h4>
 
     
         <br><br><br><br>
        
-        <h3>Number of words: <div id="number_of_words"></div></h3>
+        <h3>Number of words: <div id="number-of-words"></div></h3>
         <br>
-        <h3>Number of characters without spaces: <div id="characters_no_space"></div></h3>
+        <h3>Number of characters without spaces: <div id="characters-no-space"></div></h3>
         <br>
-        <h3>Number of characters with spaces: <div id="characters_with_space"></div></h3>
+        <h3>Number of characters with spaces: <div id="characters-with-space"></div></h3>
+        <h3>Number of pages: <div id="number-of-pages"></div></h3>
         <br><br>
     
     
@@ -92,7 +93,9 @@
         
         <br><br>
     
-        <h3>Endnotes:</h3>
+        <h3>Bibliography:</h3>
+
+        <h3>Textareas and files?</h3>
     
         <ul>
             {% for endnote in endnotes %}
@@ -145,8 +148,8 @@
                         <div class="card-body">
                             <h5 class="card-title">Save new version</h5>
                             <p class="card-text">
-                                <br>Upload new .doc / .pdf file here:<br>
-                                <a onclick="enable_scrolling();" href="#upload-file-modal" class="light-blue" data-bs-toggle="modal" data-bs-target="#upload-file-modal">
+                                <br>Upload new .docx / .pdf file here:<br>
+                                <a href="#upload-file-modal" class="open-modal-button light-blue" data-bs-toggle="modal" data-bs-target="#upload-file-modal">
                                     New {{ paper }} version
                                 </a>
                             </p>
@@ -165,10 +168,10 @@
                             <h5 class="card-title">Auto add bibliography</h5>
                             <p class="card-text">
                                 <br>Add the bibliography to the end of my latest file:<br><br>
-                                <a onclick="enable_scrolling();" href="TODO" class="light-blue">
+                                <a href="TODO" class="open-modal-button light-blue">
                                     Add in APA
                                 </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <a onclick="enable_scrolling();" href="TODO" class="light-blue">
+                                <a href="TODO" class="open-modal-button light-blue">
                                     Add in MLA
                                 </a>
                             </p>
@@ -189,7 +192,7 @@
                             <br><h5 class="card-title">Clear File History</h5>
                             <p class="card-text">
                                 <br>Start everything from scratch:<br>
-                                <a onclick="enable_scrolling();" href="#clear-history-modal" class="color-red" data-bs-toggle="modal" data-bs-target="#clear-history-modal">
+                                <a href="#clear-history-modal" class="open-modal-button color-red" data-bs-toggle="modal" data-bs-target="#clear-history-modal">
                                     Clear all files
                                 </a>
                             </p>
@@ -208,7 +211,7 @@
                             <br><h5 class="card-title">Archive Paper</h5>
                             <p class="card-text">
                                 <br>Click here at your own risk:<br>
-                                <a onclick="enable_scrolling();" href="#archive-paper-modal" class="color-red" data-bs-toggle="modal" data-bs-target="#archive-paper-modal">
+                                <a  href="#archive-paper-modal" class="open-modal-button color-red" data-bs-toggle="modal" data-bs-target="#archive-paper-modal">
                                     Archive {{ paper }}
                                 </a>
                             </p>
@@ -222,11 +225,11 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="upload-file-modal-label">TODO</h1>
+                        <h1 class="modal-title fs-5" id="upload-file-modal-label">Upload new .docx / .pdf file here</h1>
                         <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>TODO</h4>
+                        <h4>TODO form here/ name of file? commit?</h4>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>

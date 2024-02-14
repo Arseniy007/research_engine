@@ -269,6 +269,14 @@ function enable_rename_form(page) {
     header.addEventListener('mouseleave', () => edit_symbol.style.display = 'none');   
 }
 
+function set_enable_scrolling_buttons() {
+    // Enable scrolling when opening modal windows
+    const open_modal_buttons = document.getElementsByClassName('open-modal-button');
+    Array.from(open_modal_buttons).forEach(button => {
+        button.addEventListener('click', () => enable_scrolling());
+    })
+}
+
 function set_disable_scrolling_buttons() {
     // Disable scrolling back when closing modal windows
     const close_header_buttons = document.getElementsByClassName('close-header-button');
