@@ -5,8 +5,9 @@ from research_engine.constants import ACCEPTED_UPLOAD_FORMATS, CLASS_
 class UploadPaperFileForm(forms.Form):
     file = forms.FileField(widget=forms.FileInput(attrs={
         "accept": ACCEPTED_UPLOAD_FORMATS,
+        "type": "file",
         "id": "file-field",
-        "class": CLASS_,
+        "class": "form-control form-control-lg",
         "placeholder": "File"})
     )
 

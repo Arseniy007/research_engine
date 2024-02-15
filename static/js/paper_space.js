@@ -30,28 +30,10 @@ function show_paper_area(area_id) {
 
 
 
-    else if (area_id === 'members-area') {
-        if (area.getElementsByClassName('member-card').length <= 3) {
-            // Disable scrolling if there is no members at workspace
-            disable_scrolling();
-        }
-    }
-    else if (area_id === 'papers-area') {
-        if (area.getElementsByClassName('paper-card').length <= 4) {
-            // Disable scrolling if there is no members at workspace
-            disable_scrolling();
-        }
-    }
-
 
 
     area.style.display = '';
 }
-
-
-
-
-
 
 function get_paper_file_info(file_id) {
 

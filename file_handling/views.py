@@ -4,6 +4,7 @@ import textract
 from office_word_count import Counter
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, JsonResponse
+from django.shortcuts import redirect
 from django.urls import reverse
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message
@@ -26,11 +27,10 @@ def upload_paper_file(request, paper_id):
         save_new_paper_file(paper, request.user, 
                             form.cleaned_data["file"], 
                             form.cleaned_data["commit_text"])
+    else:
+        display_error_message(request, "Something wrong with uploaded file. Try again!")
 
-        return JsonResponse({"status": "ok"})
-
-    display_error_message(request, "Something wrong with uploaded file. Try again!")
-    return JsonResponse({"url": reverse("paper_work:paper_space", args=(paper_id,))})
+    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
 
 @paper_authorship_required

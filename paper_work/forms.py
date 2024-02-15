@@ -36,6 +36,6 @@ class ChooseSourcesForm(forms.Form):
     sources = forms.ModelMultipleChoiceField(queryset=Source.objects.all(), required=False, widget=forms.CheckboxSelectMultiple)
 
     def set_initials(self, sources):
-        """Pre-populate field with all sources in a work space"""
+        """Pre-populate field with all sources in a workspace"""
         self.fields["sources"].queryset = sources
         return self

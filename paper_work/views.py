@@ -34,7 +34,7 @@ def paper_space(request, paper_id):
         "number_of_sources": len(sources),
         "last_file_id": paper.get_last_file_id(),
         "choose_sources_form": choose_sources_form,
-        "new_paper_file_form": UploadPaperFileForm(),
+        "new_file_form": UploadPaperFileForm(),
         "rename_form": RenamePaperForm().set_initial(paper.title),
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user)
