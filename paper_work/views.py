@@ -20,7 +20,7 @@ def paper_space(request, paper_id):
     paper = check_paper(paper_id, request.user)
     sources = paper.sources.all()
     endnotes = [get_source_reference(source) for source in paper.sources.all()]
-    paper_files = PaperFile.objects.filter(paper=paper).order_by("saving_time")
+    paper_files = PaperFile.objects.filter(paper=paper).order_by("version_number")
     links = [reverse("file_handling:display_paper_file", args=(file.pk,)) for file in paper_files]
     choose_sources_form = ChooseSourcesForm().set_initials(paper.work_space.sources.all())
 

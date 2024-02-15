@@ -4,9 +4,9 @@ from user_management.models import User
 from .models import PaperFile, SourceFile
 
 
-def save_new_paper_file(paper: Paper, user: User, file):
+def save_new_paper_file(paper: Paper, user: User, file, commit_text: str | None):
     """Create and save new PaperFile obj"""
-    new_file = PaperFile(user=user, paper=paper, file=file)
+    new_file = PaperFile(user=user, paper=paper, file=file, commit_text=commit_text)
     new_file.save()
 
 

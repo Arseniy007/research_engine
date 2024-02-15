@@ -1,5 +1,4 @@
 from binascii import hexlify
-from PyPDF2 import PdfReader
 import shutil
 import textract
 from office_word_count import Counter
@@ -24,7 +23,10 @@ def upload_paper_file(request, paper_id):
     if form.is_valid():
         # Get and save new file
         paper = check_paper(paper_id, request.user)
-        save_new_paper_file(paper, request.user, form.cleaned_data["file"])
+        save_new_paper_file(paper, request.user, 
+                            form.cleaned_data["file"], 
+                            form.cleaned_data["commit_text"])
+
         return JsonResponse({"status": "ok"})
 
     display_error_message(request, "Something wrong with uploaded file. Try again!")
@@ -72,7 +74,7 @@ def get_paper_file_info(request, file_id):
     decoded_text = bytes.fromhex(hex_text).decode('utf-8')
 
     # Count words, characters, etc.
-    info = Counter(decoded_text).count()
+    file_data = Counter(decoded_text).count()
 
     # Count pages in .pdf file
     if file.file_name().lower().endswith(".pdf"):
@@ -83,9 +85,9 @@ def get_paper_file_info(request, file_id):
         number_of_pages = count_pages_docx(file.get_path_to_file())
 
     response = {
-        "number_of_words": info.words,
-        "characters_no_space": info.characters_no_space,
-        "characters_with_space": info.characters_with_space,
+        "number_of_words": file_data.words,
+        "characters_no_space": file_data.characters_no_space,
+        "characters_with_space": file_data.characters_with_space,
         "number_of_pages": number_of_pages
     }
     return JsonResponse(response)

@@ -122,7 +122,7 @@
         <ul>
             {% for file in paper_files %}
                 <li>
-                    <a href="{% url 'file_handling:display_paper_file' file.pk %}">{{ file.file }}</a>
+                    <a href="{% url 'file_handling:display_paper_file' file.pk %}">{{ file }}</a>
                 </li>
             {% endfor %}
         </ul>

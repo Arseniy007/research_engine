@@ -1,7 +1,11 @@
 import os
 import shutil
+from bookshelf.models import Source
 from bookshelf.source_citation import get_source_reference
-from work_space.models import WorkSpace
+from file_handling.models import PaperFile
+from paper_work.models import Paper
+from user_management.models import User
+from .models import WorkSpace
 
 
 def create_friendly_space_directory(work_space: WorkSpace) -> str | bool:
@@ -53,7 +57,7 @@ def create_friendly_sources_directory(work_space: WorkSpace) -> str | bool:
     original_path = work_space.get_friendly_path()
     root_path = os.path.join(original_path, "Sources")
 
-    # Create new "books" dir
+    # Create new "sources" dir
     create_friendly_sources_dir(sources, root_path)
 
     # Return path to the whole dir
@@ -93,7 +97,8 @@ def create_friendly_sources_dir(sources, root_path: str) -> None:
 
         for source in sources_with_files:
             # Copy original source file into new "sources-file" dir
-            destination = os.path.join(sources_files_root, source.file.file_name())
+            source: Source
+            destination = os.path.join(sources_files_root, source.get_file().file_name())
             original_file = source.get_file().get_path_to_file()
             shutil.copyfile(original_file, destination)
 
@@ -124,30 +129,36 @@ def create_friendly_papers_dir(papers, authors: list, root_path: str) -> None:
 
     # Get all users    
     for author in authors:
-        if len(authors) == 1:
-             # Don't create author dir if there is only one user
-            author_root = papers_root
-        else:
-            # Create new "user" dirs inside "papers" dir if there are multiple users
-            author_name = f"{author.last_name} {author.first_name}"
-            author_root = os.path.join(papers_root, author_name)
-            os.makedirs(author_root, exist_ok=True)
-
         # Get all user papers
         author_papers = [paper for paper in papers if paper.user == author]
-        for author_paper in author_papers:
-            # Create new "paper" dirs inside "user" dir
-            path_to_paper = os.path.join(author_root, author_paper.title)
-            os.makedirs(path_to_paper, exist_ok=True)
+        
+        # Add only whose users who creates a paper
+        if any(author_papers):
+            author: User
+            if len(authors) == 1:
+                # Don't create author dir if there is only one user
+                author_root = papers_root
+            else:
+                # Create new "user" dirs inside "papers" dir if there are multiple users
+                author_name = f"{author.last_name} {author.first_name}"
+                author_root = os.path.join(papers_root, author_name)
+                os.makedirs(author_root, exist_ok=True)
 
-            # Get all paper-related files
-            files = author_paper.files.all()
-            for file in files:
-                # Create new "paper-file" dirs inside "paper" dir
-                path_to_paper_file = os.path.join(path_to_paper, file.get_saving_time())
-                os.makedirs(path_to_paper_file, exist_ok=True)
+            for author_paper in author_papers:
+                # Create new "paper" dirs inside "user" dir
+                author_paper: Paper
+                path_to_paper = os.path.join(author_root, author_paper.title)
+                os.makedirs(path_to_paper, exist_ok=True)
 
-                # Copy original paper file into new "paper-file" dir
-                destination = os.path.join(path_to_paper_file, file.file_name())
-                original_file = file.get_path_to_file()
-                shutil.copyfile(original_file, destination)
+                # Get all paper-related files
+                files = author_paper.files.all()
+                for file in files:
+                    # Create new "paper-file" dirs inside "paper" dir
+                    file: PaperFile
+                    path_to_paper_file = os.path.join(path_to_paper, file.__str__())
+                    os.makedirs(path_to_paper_file, exist_ok=True)
+
+                    # Copy original paper file into new "paper-file" dir
+                    destination = os.path.join(path_to_paper_file, file.file_name())
+                    original_file = file.get_path_to_file()
+                    shutil.copyfile(original_file, destination)
