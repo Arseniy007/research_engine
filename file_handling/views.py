@@ -11,6 +11,7 @@ from utils.messages import display_error_message
 from utils.verification import check_paper_file, check_paper, check_source, check_source_file
 from .file_saving import save_new_paper_file, save_new_source_file
 from .forms import UploadPaperFileForm, UploadSourceFileForm
+from .page_counter import count_pages_docx, count_pages_pdf
 
 
 @post_request_required
@@ -73,19 +74,13 @@ def get_paper_file_info(request, file_id):
     # Count words, characters, etc.
     info = Counter(decoded_text).count()
 
-    # Count pages in pdf file
+    # Count pages in .pdf file
     if file.file_name().lower().endswith(".pdf"):
-        pdf_file = open(file.get_path_to_file(), "rb")
-        number_of_pages = len(PdfReader(pdf_file).pages)
+        number_of_pages = count_pages_pdf(file.get_path_to_file())
 
-    elif file.file_name().endswith(".docx"):
-        #TODO
-        number_of_pages = None
-    
-    else:
-        # Error case
-        # TODO?
-        return JsonResponse({"status" : "error"})
+    # Count pages in .docx file
+    elif file.file_name().lower().endswith(".docx"):
+        number_of_pages = count_pages_docx(file.get_path_to_file())
 
     response = {
         "number_of_words": info.words,
