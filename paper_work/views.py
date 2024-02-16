@@ -130,7 +130,7 @@ def select_sources_for_paper(request, paper_id):
                 paper.sources.remove(source)
         paper.sources.add(*selected_sources)
 
-        display_success_message(request)
+        display_success_message(request, "Bibliography updated!")
     else:
         display_error_message(request)
 

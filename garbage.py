@@ -4716,6 +4716,37 @@ class PaperFile(models.Model):
 
 SAVING_TIME_FORMAT = "%Y-%m-%d-%H-%M-%S"
 
+
+
+def append_bibliography_pdf(path_to_file: str, bibliography: str):
+    """"""
+    pass
+
+    packet = io.BytesIO()
+    can = canvas.Canvas(packet, pagesize=letter)
+    can.drawString(10, 100, bibliography)
+    can.save()
+    packet.seek(0)
+
+    new_pdf = PdfReader(packet)
+
+    existing_pdf = PdfReader(open(path_to_file, "rb"))
+    output = PdfWriter()
+    page = existing_pdf.pages[0]
+    page.merge_page(new_pdf.pages[0])
+    output.add_page(page)
+
+    output_stream = open(path_to_file, "wb")
+    output.write(output_stream)
+    output_stream.close()
+
+    
+    from PyPDF2 import PdfWriter, PdfReader
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+import io
+
+
 """
 
 

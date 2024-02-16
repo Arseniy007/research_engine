@@ -1,4 +1,5 @@
 django
 office_word_count
+python-docx
 requests
 textract

@@ -63,3 +63,9 @@ class Paper(models.Model):
         """Return paper in its work_space"""
         self.archived = False
         return self.save(update_fields=("archived",))
+
+
+class Bibliography(models.Model):
+    paper = models.OneToOneField(Paper, on_delete=models.CASCADE, related_name="bibliography")
+    apa = models.TextField()
+    mla = models.TextField()
