@@ -9,5 +9,6 @@ urlpatterns = [
     path("rename_paper/<int:paper_id>", views.rename_paper, name="rename_paper"),
     path("archive_paper/<int:paper_id>", views.archive_or_unarchive_paper, name="archive_paper"),
     path("select_sources/<int:paper_id>", views.select_sources_for_paper, name="select_sources"),
-    path("clear_paper_file_history/<int:paper_id>", views.clear_paper_file_history, name="clear_paper_file_history"),
+    path("append_bibliography/<int:paper_id>", views.auto_append_bibliography, name="append_bibliography"),
+    path("clear_paper_file_history/<int:paper_id>", views.clear_paper_file_history, name="clear_paper_file_history")
 ]

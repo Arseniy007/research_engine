@@ -67,5 +67,5 @@ class Paper(models.Model):
 
 class Bibliography(models.Model):
     paper = models.OneToOneField(Paper, on_delete=models.CASCADE, related_name="bibliography")
-    apa = models.TextField()
-    mla = models.TextField()
+    apa = models.TextField(blank=True)
+    mla = models.TextField(blank=True)

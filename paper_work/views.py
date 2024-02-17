@@ -8,7 +8,11 @@ from file_handling.models import PaperFile
 from user_management.helpers import get_user_papers, get_user_work_spaces
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_info_message, display_success_message
-from utils.verification import check_paper, check_work_space
+from utils.verification import check_paper, check_paper_file, check_work_space
+from .bibliography import (
+    append_bibliography_to_file, clear_bibliography, 
+    create_bibliography, get_bibliography, update_bibliography
+)
 from .forms import ChooseSourcesForm, NewPaperForm, RenamePaperForm
 
 
@@ -53,7 +57,8 @@ def create_paper(request, space_id):
         # Save new paper to db
         space = check_work_space(space_id, request.user)
         new_paper = form.save_paper(space, request.user)
-        display_success_message(request)
+        create_bibliography(new_paper)
+        display_success_message(request, "Paper successfully created")
 
         # Redirect user to the new paper-space
         return JsonResponse({"status": "ok", "url": reverse("paper_work:paper_space", args=(new_paper.pk,))})
@@ -130,11 +135,31 @@ def select_sources_for_paper(request, paper_id):
                 paper.sources.remove(source)
         paper.sources.add(*selected_sources)
 
+        # Create new bibliography text
+        update_bibliography(paper)
         display_success_message(request, "Bibliography updated!")
     else:
         display_error_message(request)
 
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
+
+
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def auto_append_bibliography(request, paper_id):
+    """Add bibliography to the end of a last uploaded file"""
+    
+    # Get last uploaded paper file
+    paper = check_paper(paper_id, request.user)
+    file = check_paper_file(paper.get_last_file_id(), request.user)
+
+    bibliography = get_bibliography(paper).apa
+    append_bibliography_to_file(file, bibliography)
+
+    return redirect(reverse("file_handling:display_paper_file", args=(file.pk,)))
+
+    
+
 
 
 @paper_authorship_required
@@ -146,5 +171,6 @@ def clear_paper_file_history(request, paper_id):
     paper = check_paper(paper_id, request.user)
 
     paper.clear_file_history()
+    clear_bibliography(paper)
     display_info_message(request, "History cleared!")
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))

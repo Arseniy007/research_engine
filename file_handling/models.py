@@ -6,8 +6,8 @@ from user_management.models import User
 
 def paper_saving_path(instance, filename):
     """File will be uploaded to MEDIA_ROOT/work_space_<id>/papers/user_<id>/paper_<id>/file.str()/<filename>"""
-    space_path, user_id = instance.paper.work_space.get_base_dir(), instance.paper.pk
-    paper_id, dir_name = instance.paper.user.pk, instance.__str__()
+    space_path, paper_id = instance.paper.work_space.get_base_dir(), instance.paper.pk
+    user_id, dir_name = instance.paper.user.pk, instance.version_number
     return os.path.join(space_path, "papers", f"user_{user_id}", f"paper_{paper_id}", dir_name, filename)
 
 
@@ -22,14 +22,14 @@ class PaperFile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     paper = models.ForeignKey("paper_work.Paper", on_delete=models.CASCADE, related_name="files")
     commit_text = models.CharField(max_length=100, blank=True)
-    version_number = models.IntegerField()
+    version_number = models.CharField(max_length=50)
     file = models.FileField(upload_to=paper_saving_path)
 
 
     def save(self, *args, **kwargs):
         """Custom save method with storing version number"""
         previous_versions = PaperFile.objects.filter(paper=self.paper)
-        self.version_number = len(previous_versions) + 1
+        self.version_number = f"file #{len(previous_versions) + 1}"
         return super(PaperFile, self).save(*args, **kwargs)
 
 
@@ -50,9 +50,9 @@ class PaperFile(models.Model):
         return os.path.join(MEDIA_ROOT, str(self.file))
 
 
-    def get_directory_path(self):
+    def get_directory_path(self) -> str:
         """Returns a path to the file directory"""
-        return os.path.join(self.paper.get_path(), self.__str__())
+        return os.path.join(self.paper.get_path(), self.version_number)
 
 
 class SourceFile(models.Model):
