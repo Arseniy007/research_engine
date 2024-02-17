@@ -20,8 +20,8 @@ class Paper(models.Model):
         return self.title
 
 
-    def get_path(self):
-        """Returns a path to the paper directory"""
+    def get_path(self) -> str:
+        """Returns a path to the paper directory (possibly without MEDIA_ROOT)"""
         return os.path.join(self.work_space.get_path(), "papers", f"user_{self.user.pk}", f"paper_{self.pk}")
 
 
