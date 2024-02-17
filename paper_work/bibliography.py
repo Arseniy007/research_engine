@@ -19,11 +19,17 @@ def update_bibliography(paper: Paper):
     # Get apa and mla references
     bibliography = get_bibliography(paper)
     references = [get_source_reference(source) for source in paper.sources.all()]
+
+    # Order them alphabetically
+    apa_references = sorted([reference.endnote_apa for reference in references])
+    mla_references = sorted([reference.endnote_mla for reference in references])
+
+    # Print them into strs
     apa_sources: str = ""
     mla_sources: str = ""
     for number in range(len(references)):
-        apa_sources += f"{number + 1}. {references[number].endnote_apa}\n\n"
-        mla_sources += f"{number + 1}. {references[number].endnote_mla}\n\n"
+        apa_sources += f"{number + 1}. {apa_references[number]}\n\n"
+        mla_sources += f"{number + 1}. {mla_references[number]}\n\n"
     
     # Update obj
     bibliography.apa = apa_sources
@@ -96,4 +102,3 @@ def get_bibliography(paper: Paper) -> Bibliography | None:
         return Bibliography.objects.get(paper=paper)
     except ObjectDoesNotExist:
         return None
-    

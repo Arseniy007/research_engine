@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from bookshelf.source_citation import get_source_reference
 from file_handling.forms import UploadPaperFileForm
 from file_handling.models import PaperFile
 from user_management.helpers import get_user_papers, get_user_work_spaces
@@ -116,8 +115,6 @@ def archive_or_unarchive_paper(request, paper_id):
 @login_required(redirect_field_name=None)
 def select_sources_for_paper(request, paper_id):
     """Allow user to choose from all sources in a work space to be used (cited) in a paper"""
-
-    # TODO
 
     form = ChooseSourcesForm(request.POST)
 

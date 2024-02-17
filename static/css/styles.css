@@ -385,9 +385,26 @@ header
   float: right;
 }
 
-.reference-textarea
+.reference-textarea, #bibliography-textarea
 {
   overflow: hidden;
+}
+
+#bibliography-textarea
+{
+  width: 1000px;
+}
+
+#bibliography-header
+{
+  display: flex;
+  justify-content: center;
+}
+
+#bibliography-button
+{
+  display: block;
+  margin: auto;
 }
 
 .delete-author-button

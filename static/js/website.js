@@ -288,3 +288,15 @@ function set_disable_scrolling_buttons() {
         button.addEventListener('click', () => disable_scrolling());
     })
 }
+
+function adjust_textarea_height(textarea) {
+    // Set min height of textarea
+    const min_rows = 2;
+
+    // Calculate the number of rows needed based on the textarea's scrollHeight
+    const calculatedRows = Math.max(min_rows, Math.ceil(textarea.scrollHeight / 25));
+
+    // Update the rows attribute of the textarea
+    textarea.rows = calculatedRows;
+    textarea.style.resize = 'none';
+}

@@ -308,18 +308,6 @@ function get_quick_reference(form_id) {
     });
 }
 
-function adjust_textarea_height(textarea) {
-    // Set min height of textarea
-    const min_rows = 2;
-
-    // Calculate the number of rows needed based on the textarea's scrollHeight
-    const calculatedRows = Math.max(min_rows, Math.ceil(textarea.scrollHeight / 20));
-
-    // Update the rows attribute of the textarea
-    textarea.rows = calculatedRows;
-    textarea.style.resize = 'none';
-}
-
 function copy_reference(style) {
     const textarea = document.querySelector(`#reference-result-field-${style}`);
     if (!textarea) {

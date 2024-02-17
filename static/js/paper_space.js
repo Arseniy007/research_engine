@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     enable_rename_form('paper');
     set_enable_scrolling_buttons();
     set_disable_scrolling_buttons();
+    adjust_textarea_height(document.getElementById("bibliography-textarea"));
 
 
 
@@ -55,4 +56,13 @@ function get_paper_file_info(file_id) {
         document.getElementById('characters-with-space').innerHTML = result.characters_with_space;
         document.getElementById('number-of-pages').innerHTML = result.number_of_pages;
     });
+}
+
+function copy_bibliography() {
+    const textarea = document.getElementById('bibliography-textarea')
+    if (!textarea) {
+        return;
+    }
+    textarea.select();
+    document.execCommand("copy");
 }

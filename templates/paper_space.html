@@ -26,12 +26,12 @@
             Main Info
         </a>
         <a onclick="show_paper_area('sources-area');return false" href="#" type="button">
-            Bibliography&nbsp;<span>{{ number_of_sources }}</span>
+            Choose Sources&nbsp;<span>{{ number_of_sources }}</span>
         </a>
         <a onclick="show_paper_area('files-area');return false" href="#" type="button">
             File history&nbsp;<span>{{ number_of_files }}</span>
         </a>
-        <a onclick="show_paper_area('actions-area');return false" href="#" type="button">
+        <a onclick="show_paper_area('actions-area');return false" href="#" type="button" id="actions-button">
             Actions
         </a>
     </nav>
@@ -41,44 +41,45 @@
 
     <div class="paper-area" id="main-area">
 
+        <h4>TODO</h4>
+        <br>
+        <h4>Create paper form add apa/mla</h4>
+        <h4>Change apa/mla at actions?</h4>
+        <h4>Choose sources form (if in "sources" - then checked checkboxes)</h4>
+        <h4>CSS of statistics</h4>
+        <h4>Css of files history</h4>
+        <br><br><br>
+
         {% if last_file_id %}
             <script>get_paper_file_info('{{ last_file_id }}')</script>
 
 
+            <h3>Number of words: <div id="number-of-words"></div></h3>
+            <br>
+            <h3>Number of characters without spaces: <div id="characters-no-space"></div></h3>
+            <br>
+            <h3>Number of characters with spaces: <div id="characters-with-space"></div></h3>
+            <h3>Number of pages: <div id="number-of-pages"></div></h3>
+
         {% else %}
-
-
+            <a onclick="document.getElementById('actions-button').click(); return false" class="light-blue" href="#" type="button">
+                <h1>Upload your first file to see statistics!</h1>
+            </a>
         {% endif %}
 
 
 
-
-        <h4>TODO</h4>
-        <br>    
-        <br><br><br><br>
-       
-        <h3>Number of words: <div id="number-of-words"></div></h3>
-        <br>
-        <h3>Number of characters without spaces: <div id="characters-no-space"></div></h3>
-        <br>
-        <h3>Number of characters with spaces: <div id="characters-with-space"></div></h3>
-        <h3>Number of pages: <div id="number-of-pages"></div></h3>
-        <br><br>
-
-    
-        
-    
-        
-
-    
-
-
+        <br><br><br><br>        
+        {% if sources %}
+            <div>
+                <h2 class="mb-4 light-blue" id="bibliography-header">Bibliography</h2>
+                <textarea class="form-control ms-5" id="bibliography-textarea">{{ bibliography }}</textarea>
+                <button onclick="copy_bibliography()" type="button" class="btn btn-lg btn-dark mt-4" id="bibliography-button">Copy</button>
+            </div>
+        {% endif %}
     </div>
     <div class="paper-area" id="sources-area" style="display: none;">
 
-
-        <h4>Make f as file or append them at the end of the last uploaded file??</h4>
-            
         <h3>Choose sources</h3>
     
         <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
@@ -87,23 +88,11 @@
             <button type="submit">Choose</button>
         </form>
         
-        <br><br>
-    
-        <h3>Bibliography:</h3>
-
-        <h3>Textareas and files?</h3>
-    
-        <ul>
-            {% for endnote in endnotes %}
-                <li>{{ endnote.endnote_apa }}</li>
-            {% endfor %}
-        </ul><br><br>
-    
     
     </div>
     <div class="paper-area" id="files-area" style="display: none;">
 
-        <h4>TODO</h4>
+
         <br>
         <h4>File history</h4>
 
@@ -123,7 +112,6 @@
     
     
     </div>
-
     <div class="paper-area" id="actions-area" style="display: none;">
         <div class="cards-row">
             <!-- Upload Paper File Card -->
