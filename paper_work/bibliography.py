@@ -21,9 +21,9 @@ def update_bibliography(paper: Paper):
     references = [get_source_reference(source) for source in paper.sources.all()]
     apa_sources: str = ""
     mla_sources: str = ""
-    for number in range(1, len(references) + 1):
-        apa_sources += f"{number}. {references[number].endnote_apa}\n\n"
-        mla_sources += f"{number}. {references[number].endnote_mla}\n\n"
+    for number in range(len(references)):
+        apa_sources += f"{number + 1}. {references[number].endnote_apa}\n\n"
+        mla_sources += f"{number + 1}. {references[number].endnote_mla}\n\n"
     
     # Update obj
     bibliography.apa = apa_sources
@@ -71,9 +71,24 @@ def append_bibliography_to_file(file: PaperFile, bibliography: str):
     # Append bibliography
     file = Document(path_to_file)
     file.add_page_break()
-    file.add_paragraph("Bibliography")
+    file.add_paragraph("Bibliography\n\n\n")
     file.add_paragraph(bibliography)
     return file.save(path_to_file)
+
+
+def get_right_bibliography(paper: Paper) -> str | None:
+    """Check if bibliography obj for existing paper obj exists"""
+
+    bibliography = get_bibliography(paper)
+    if not bibliography:
+        return None
+    if paper.citation_style == "APA":
+        return bibliography.apa
+    elif paper.citation_style == "MLA":
+        return bibliography.mla
+    else:
+        return None
+  
 
 def get_bibliography(paper: Paper) -> Bibliography | None:
     """Check if bibliography obj for existing paper obj exists"""
@@ -81,3 +96,4 @@ def get_bibliography(paper: Paper) -> Bibliography | None:
         return Bibliography.objects.get(paper=paper)
     except ObjectDoesNotExist:
         return None
+    

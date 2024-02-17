@@ -11,7 +11,7 @@ from utils.messages import display_error_message, display_info_message, display_
 from utils.verification import check_paper, check_paper_file, check_work_space
 from .bibliography import (
     append_bibliography_to_file, clear_bibliography, 
-    create_bibliography, get_bibliography, update_bibliography
+    create_bibliography, get_right_bibliography, update_bibliography
 )
 from .forms import ChooseSourcesForm, NewPaperForm, RenamePaperForm
 
@@ -23,20 +23,17 @@ def paper_space(request, paper_id):
     # Get all needed paper-related data
     paper = check_paper(paper_id, request.user)
     sources = paper.sources.all()
-    endnotes = [get_source_reference(source) for source in paper.sources.all()]
     paper_files = PaperFile.objects.filter(paper=paper).order_by("version_number")
-    links = [reverse("file_handling:display_paper_file", args=(file.pk,)) for file in paper_files]
     choose_sources_form = ChooseSourcesForm().set_initials(paper.work_space.sources.all())
 
     paper_data = {
         "paper": paper,
         "sources": sources,
-        "endnotes": endnotes,
         "paper_files": paper_files,
-        "links": links,
-        "number_of_files": len(paper_files),
         "number_of_sources": len(sources),
+        "number_of_files": len(paper_files),
         "last_file_id": paper.get_last_file_id(),
+        "bibliography": get_right_bibliography(paper),
         "choose_sources_form": choose_sources_form,
         "new_file_form": UploadPaperFileForm(),
         "rename_form": RenamePaperForm().set_initial(paper.title),
@@ -153,13 +150,11 @@ def auto_append_bibliography(request, paper_id):
     paper = check_paper(paper_id, request.user)
     file = check_paper_file(paper.get_last_file_id(), request.user)
 
-    bibliography = get_bibliography(paper).apa
-    append_bibliography_to_file(file, bibliography)
+    # Choose between two citation styles
+    append_bibliography_to_file(file, get_right_bibliography(paper))
 
+    # Redirect to file_handling app to download .docx file
     return redirect(reverse("file_handling:display_paper_file", args=(file.pk,)))
-
-    
-
 
 
 @paper_authorship_required

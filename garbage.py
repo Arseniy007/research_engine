@@ -4747,6 +4747,9 @@ from reportlab.lib.pagesizes import letter
 import io
 
 
+ endnotes = [get_source_reference(source) for source in paper.sources.all()]
+
+
 """
 
 

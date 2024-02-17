@@ -3,6 +3,7 @@ import shutil
 from django.db import models
 from bookshelf.models import Source
 from file_handling.models import PaperFile
+from research_engine.constants import CITATION_STYLES
 from user_management.models import User
 from work_space.models import WorkSpace
 
@@ -11,6 +12,7 @@ class Paper(models.Model):
     work_space = models.ForeignKey(WorkSpace, on_delete=models.CASCADE, related_name="papers")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="papers")
     title = models.CharField(max_length=50, unique=True)
+    citation_style = models.CharField(max_length=3, choices=CITATION_STYLES)
     sources = models.ManyToManyField(Source, related_name="papers")
     archived = models.BooleanField(default=False)
 
