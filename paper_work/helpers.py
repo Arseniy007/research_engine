@@ -1,3 +1,4 @@
+from user_management.helpers import get_user_work_spaces
 from user_management.models import User
 from work_space.models import WorkSpace
 from .bibliography import create_bibliography
@@ -16,7 +17,13 @@ def create_new_paper(space: WorkSpace, user: User, title: str, citation_style: s
 def rename_paper_obj(paper: Paper, new_title: str):
     """Change title fields at paper obj"""
     paper.title = new_title
-    paper.save(update_fields=("title",))
+    return paper.save(update_fields=("title",))
+
+
+def transfer_paper(paper: Paper, new_space: WorkSpace):
+    """Change work_space field at paper obj"""
+    paper.work_space = new_space
+    return paper.save(update_fields=("work_space",))
 
 
 def change_citation_style(paper: Paper) -> str:
@@ -31,9 +38,15 @@ def change_citation_style(paper: Paper) -> str:
     return new_style
 
 
+def get_available_spaces(paper: Paper, user: User) -> list:
+    """Get all user workspaces except for which paper is in"""
+    users_spaces = get_user_work_spaces(user)
+    return [space for space in users_spaces if space != paper.work_space]
+
+
 def get_paper_files(paper: Paper):
-    """Get all uploaded paper files"""
-    return PaperFile.objects.filter(paper=paper).order_by("version_number")
+    """Get all uploaded paper files in reversed order"""
+    return PaperFile.objects.filter(paper=paper).order_by("-version_number")
 
 
 def get_chosen_source_ids(paper: Paper) -> list:

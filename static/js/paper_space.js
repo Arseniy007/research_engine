@@ -1,13 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
-
     enable_nav_links();
     enable_rename_form('paper');
     set_enable_scrolling_buttons();
     set_disable_scrolling_buttons();
-
-
-
-
 });
 
 function show_paper_area(area_id) {
@@ -39,7 +34,11 @@ function show_paper_area(area_id) {
     }
     else if (area_id === 'files-area') {
         // Disable scrolling if there is no file history
-        if (!area.querySelector('#file-history')) {
+        if (!area.querySelector('#paper-files-container')) {
+            disable_scrolling();
+        }
+        // Disable scrolling if there is a small amount of uploaded files
+        else if (!area.getElementsByClassName('paper-file-card').length < 6) {
             disable_scrolling();
         }
     }
@@ -60,10 +59,6 @@ function get_paper_file_info(file_id) {
     .then(response => handleErrors(response, url))
     .then(response => response.json())
     .then(result => {
-
-        // Error case
-        //TODO
-
         // Render last paper file statistics
         document.getElementById('number-of-words').innerHTML = result.number_of_words;
         document.getElementById('characters-no-space').innerHTML = result.characters_no_space;
@@ -89,11 +84,11 @@ function mark_source_as_checked(source_id) {
     const check_box = source_card.querySelector(`#source-checkbox-${source_id}`);
     if (check_box.checked === false) {
         check_box.checked = true;
-        source_card.classList.add('checked-source')
+        source_card.classList.add('checked-item')
     }
     else {
         check_box.checked = false;
-        source_card.classList.remove('checked-source')
+        source_card.classList.remove('checked-item')
     }
 }
 
@@ -116,4 +111,17 @@ function submit_choose_source_form(paper_id) {
             return redirect(result.url);
         }
     });
+}
+
+async function open_space_creation_form() {
+    // Close modal - open navbar - show form
+    document.getElementById('close-transfer-modal').click();
+    await delay(800);
+    openNav();
+    await delay(800);
+    document.getElementById('new-workspace-button').click();
+}
+
+function open_paper_actions() {
+    document.getElementById('actions-button').click();
 }

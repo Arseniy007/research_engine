@@ -42,7 +42,7 @@ def source_space(request, source_id):
             "work_spaces": get_user_work_spaces(request.user), 
             "papers": get_user_papers(request.user)
     }
-    return render(request, "source_space.html", source_data)
+    return render(request, "main/source_space.html", source_data)
 
 
 @post_request_required

@@ -28,10 +28,10 @@
         <a onclick="show_paper_area('sources-area');return false" href="#" type="button">
             Choose Sources&nbsp;<span>{{ number_of_sources }}</span>
         </a>
-        <a onclick="show_paper_area('files-area');return false" href="#" type="button" id="file-button">
+        <a onclick="show_paper_area('files-area');return false" href="#" type="button">
             File history&nbsp;<span>{{ number_of_files }}</span>
         </a>
-        <a onclick="show_paper_area('actions-area');return false" href="#" type="button">
+        <a onclick="show_paper_area('actions-area');return false" href="#" type="button" id="actions-button">
             Actions
         </a>
     </nav>
@@ -44,7 +44,6 @@
         <h4>TODO</h4>
         <br>
         <h4>CSS of statistics</h4>
-        <h4>Css of files history</h4>
         <br><br><br>
 
         {% if last_file_id %}
@@ -59,7 +58,7 @@
             <h3>Number of pages: <div id="number-of-pages"></div></h3>
 
         {% else %}
-            <a onclick="document.getElementById('file-button').click(); return false" class="light-blue" href="#" type="button">
+            <a onclick="open_paper_actions(); return false" class="light-blue" href="#" type="button">
                 <h1>Upload your first file to see statistics!</h1>
             </a>
         {% endif %}
@@ -77,7 +76,6 @@
         {% else %}
             <script>disable_scrolling();</script>
         {% endif %}
-
     </div>
     <div class="paper-area" id="sources-area" style="display: none;">
         {% if space_sources %} 
@@ -85,7 +83,7 @@
                 <i class="fa-regular fa-bookmark"></i>
                 &nbsp;&nbsp;Update Bibliography&nbsp;&nbsp;
                 <i class="fa-regular fa-bookmark"></i>
-            </button><br><br>
+            </button><br>
             <div class="sources-search">
                 <i class="fa fa-search"></i>
                 <input onkeyup="search_source()" id="search-box" class="form-control form-input" type="text" placeholder="Search your sources here...">
@@ -96,7 +94,7 @@
                 <div id="sources-container">
                     {% for source in space_sources %}
                         <!-- Source Card -->
-                        <div onclick="mark_source_as_checked('{{ source.id }}');" id="source-card-{{ source.id }}" class="card text-bg-secondary mb-3 pointy-cursor source-card {% if source.id in chosen_source_ids %} checked-source {% endif %}">
+                        <div onclick="mark_source_as_checked('{{ source.id }}');" id="source-card-{{ source.id }}" class="card text-bg-secondary mb-3 pointy-cursor source-card {% if source.id in chosen_source_ids %} checked-item {% endif %}">
                             <div class="card-header source-author">
                                 {{ source.author }}
                                 <input class="form-check-input source-checkbox" type="checkbox" name="sources-id" value="{{ source.id }}" id="source-checkbox-{{ source.id }}" {% if source.id in chosen_source_ids %} checked {% endif %}>
@@ -146,84 +144,32 @@
         {% endif %}
     </div>
     <div class="paper-area" id="files-area" style="display: none;">
-        <!-- Upload Paper File Card -->
-        <div class="card mb-3 transparent-card" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="/static/images/flat_icons/paper/upload_paper.png" class="img-fluid rounded-start" alt="Upload new File">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            {% if paper_files %}
-                                Save new version
-                            {% else %}
-                                Save first version
-                            {% endif %}
-                        </h5>
-                        <p class="card-text">
-                            <br>Upload new .docx / .pdf file here:<br>
-                            <a href="#upload-file-modal" class="open-modal-button light-blue" data-bs-toggle="modal" data-bs-target="#upload-file-modal">
-                                New {{ paper }} version
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Upload Paper File Modal -->
-        <div class="modal fade" id="upload-file-modal" tabindex="-1" aria-labelledby="upload-file-modal-label" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="upload-file-modal-label">Upload new .docx / .pdf file here</h1>
-                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post" class="needs-validation" novalidate>
-                            {% csrf_token %} 
-                            <div class="form-outline mb-4 form-floating">
-                                {{ new_file_form.commit_text }}
-                                <label class="form-label" for="commit-field">Short comment</label>
-                            </div>
-                            <div class="mb-3">
-                                {{ new_file_form.file }}
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <input type="submit" value="Upload" class="btn btn-info btn-lg btn-block gradient-custom-4 text-body"></input>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
         {% if paper_files %}
-            <h4 id="file-history">File history</h4>
             <div id="paper-files-container">
                 {% for file in paper_files %}
                     <!-- Paper File Card -->
-                    <div id="file-card-{{ file.pk }}" class="card text-bg-secondary mb-3 paper-file-card">
+                    <div id="file-card-{{ file.pk }}" class="card text-bg-secondary mb-3 paper-file-card {% if file.pk == last_file_id %} checked-item {% endif %}">
                         <div class="card-header">
                             {{ file }}
                             <i class="fa-solid {% if file.file_extension == 'docx' %} fa-file-word {% else %} fa-file-pdf {% endif %} fa-xl paper-extension-icon"></i>
                         </div>
-                        <div class="card-body source-card-body">
+                        <div class="card-body source-card-body btn-dark">
                             <h5 class="card-title">
-                                {% if file.commit_text %}
-                                    {{ file.commit_text }}
-                                {% else %}
-                                    No comment
-                                {% endif %}
+                                {% if file.commit_text %} "{{ file.commit_text }}" {% else %} No comment {% endif %}
                                 <br><br>
-                                <a href="{% url 'file_handling:display_paper_file' file.pk %}">
+                                <a class="color-white" href="{% url 'file_handling:display_paper_file' file.pk %}">
                                     {% if file.file_extension == 'docx' %}
-                                        Download File
+                                        <small>
+                                            <i class="fa-solid fa-download"></i>
+                                            &nbsp;Download File&nbsp;
+                                            <i class="fa-solid fa-download"></i>
+                                        </small>
                                     {% else %}
-                                        Open File
+                                        <small>
+                                            <i class="fa-solid fa-file-import"></i>
+                                            &nbsp;Open File&nbsp;
+                                            <i class="fa-solid fa-file-import"></i>
+                                        </small>
                                     {% endif %}
                                 </a>
                             </h5>
@@ -236,27 +182,33 @@
                     </div>
                 {% endfor %}
             </div>
+        {% else %}
+            <a onclick="open_paper_actions(); return false" class="light-blue" href="#" type="button">
+                <h1>Upload your first file here!</h1>
+            </a>
         {% endif %}
     </div>
     <div class="paper-area" id="actions-area" style="display: none;">
         <div class="cards-row">
-            <!-- Change Citation Style Card -->
+            <!-- Upload Paper File Card -->
             <div class="card mb-3 transparent-card" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="/static/images/flat_icons/paper/citation_style.png" class="img-fluid rounded-start" alt="Citation Style">
+                        <img src="/static/images/flat_icons/paper/upload_paper.png" class="img-fluid rounded-start" alt="Upload new File">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Change citation style</h5>
+                            <h5 class="card-title">
+                                {% if paper_files %}
+                                    <b>Save New Version</b>
+                                {% else %}
+                                    <b>Save First Version</b>
+                                {% endif %}
+                            </h5>
                             <p class="card-text">
-                                <br>Choose between APA and MLA styles:<br>
-                                <a href="{% url 'paper_work:change_citation_style' paper.pk %}" class="light-blue">
-                                    {% if paper.citation_style == "APA" %}
-                                        Change to MLA
-                                    {% else %}
-                                        Change to APA
-                                    {% endif %}
+                                <br>Upload new .docx / .pdf file here:<br>
+                                <a href="#upload-file-modal" class="open-modal-button light-blue" data-bs-toggle="modal" data-bs-target="#upload-file-modal">
+                                    New {{ paper }} version
                                 </a>
                             </p>
                         </div>
@@ -271,7 +223,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Auto add bibliography</h5>
+                            <h5 class="card-title">Auto Add Bibliography</h5>
                             <p class="card-text">
                                 <br>Add the bibliography to the end of my latest file:<br>
                                 {% if paper_sources %}
@@ -286,6 +238,54 @@
                     </div>
                 </div>
             </div>
+        </div><br>
+        <div class="cards-row">
+            <!-- Change Citation Style Card -->
+            <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="/static/images/flat_icons/paper/citation_style.png" class="img-fluid rounded-start" alt="Citation Style">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Change Citation Style</h5>
+                            <p class="card-text">
+                                <br>Choose between APA and MLA styles:<br>
+                                <a href="{% url 'paper_work:change_citation_style' paper.pk %}" class="light-blue">
+                                    {% if paper.citation_style == "APA" %}
+                                        Change to MLA
+                                    {% else %}
+                                        Change to APA
+                                    {% endif %}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Transfer Paper Card -->
+            <div class="card mb-3 transparent-card right-card" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="/static/images/flat_icons/paper/transfer_paper.png" class="img-fluid rounded-start" alt="Transfer">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Transfer Paper to Another Workspace</h5>
+                            <p class="card-text">
+                                <br>Move "{{ paper }}" to a new workspace:<br>
+                                {% if user.pk == paper.user.pk %}
+                                    <a href="#transfer-paper-modal" class="open-modal-button light-blue" data-bs-toggle="modal" data-bs-target="#transfer-paper-modal">
+                                        Leave "{{ paper.work_space }}"
+                                    </a>
+                                {% else %}
+                                    <h6 class="color-red">Only {{ paper.user }} can perform this action :((</h6>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>  
         </div><br><br>
         <div class="cards-row">
             <!-- Clear Paper File History -->
@@ -323,6 +323,67 @@
                                 </a>
                             </p>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Upload Paper File Modal -->
+        <div class="modal fade" id="upload-file-modal" tabindex="-1" aria-labelledby="upload-file-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="upload-file-modal-label">Upload new .docx / .pdf file here</h1>
+                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post" class="needs-validation" novalidate>
+                            {% csrf_token %} 
+                            <div class="form-outline mb-4 form-floating">
+                                {{ new_file_form.commit_text }}
+                                <label class="form-label" for="commit-field">Short comment</label>
+                            </div>
+                            <div class="mb-3">
+                                {{ new_file_form.file }}
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <input type="submit" value="Upload" class="btn btn-info btn-lg btn-block gradient-custom-4 text-body"></input>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Transfer Paper Modal -->
+        <div class="modal fade" id="transfer-paper-modal" tabindex="-1" aria-labelledby="transfer-paper-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="transfer-paper-modal-label">Choose New Workspace</h1>
+                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% if available_spaces %}
+                            <form action="{% url 'paper_work:transfer_paper' paper.pk %}" method="post" class="needs-validation" novalidate>
+                                {% csrf_token %} 
+                                <select class="form-select form-select-lg mb-3" name="new_work_space">
+                                    <option selected>Choose Available Workspace</option>
+                                    {% for space in available_spaces  %}
+                                        <option value="{{ space.pk }}">{{ space }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="d-flex justify-content-center">
+                                    <input type="submit" value="Transfer {{ paper }}" class="btn btn-info btn-lg btn-block gradient-custom-4 text-body"></input>
+                                </div>
+                            </form>
+                        {% else %}  
+                            <button onclick="open_space_creation_form();" id="create-workspace-button" class="btn btn-info btn-lg btn-block" type="button">Create New Workspace</button>
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button id="close-transfer-modal" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal" type="button">Close</button>
                     </div>
                 </div>
             </div>

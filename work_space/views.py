@@ -49,7 +49,7 @@ def work_space_view(request, space_id):
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user),
     }
-    return render(request, "work_space.html", work_space_data)
+    return render(request, "main/work_space.html", work_space_data)
 
 
 @post_request_required

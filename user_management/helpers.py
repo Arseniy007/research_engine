@@ -1,10 +1,11 @@
+from itertools import chain
 from django.core.exceptions import ObjectDoesNotExist
 from .models import PasswordResetCode, User
 
 
 def get_user_work_spaces(user: User, archived=False) -> list:
     """Get all work spaces user owns or were invited to"""
-    return list(user.work_spaces.filter(archived=archived)) + list(user.guest_work_spaces.filter(archived=archived))
+    return list(chain(user.work_spaces.filter(archived=archived), user.guest_work_spaces.filter(archived=archived)))
 
 
 def get_user_papers(user: User, archived=False):

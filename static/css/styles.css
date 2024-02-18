@@ -262,7 +262,7 @@ header
 .paper-file-card
 {
   min-width: 250px;
-  min-height: 200px;
+  min-height: 150px;
 }
 
 .paper-extension-icon
@@ -279,7 +279,7 @@ header
   right: 0;
   margin-right: 8px;
 }
-.checked-source
+.checked-item
 {
   border-style: solid;
   border-color: yellow;
@@ -291,7 +291,7 @@ header
   background-color: rgba(255, 0, 0, 0.775) !important;
 }
 
-#choose-sources-button
+#choose-sources-button, #create-workspace-button
 {
   display: block;
   margin: auto;

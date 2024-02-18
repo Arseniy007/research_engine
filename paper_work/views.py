@@ -9,13 +9,14 @@ from utils.messages import display_error_message, display_info_message, display_
 from utils.verification import check_paper, check_paper_file, check_work_space
 from work_space.helpers import get_work_space_sources
 from .bibliography import (
-    append_bibliography_to_file, clear_bibliography, 
+    append_bibliography_to_file, clear_bibliography,
     get_right_bibliography, update_bibliography
 )
 from .forms import NewPaperForm, RenamePaperForm
 from .helpers import (
-    change_citation_style, create_new_paper, 
-    get_chosen_source_ids, get_paper_files, rename_paper_obj
+    change_citation_style, create_new_paper,
+    get_available_spaces, get_chosen_source_ids,
+    get_paper_files, rename_paper_obj, transfer_paper
 )
 
 
@@ -38,12 +39,13 @@ def paper_space(request, paper_id):
         "bibliography": get_right_bibliography(paper),
         "chosen_source_ids": get_chosen_source_ids(paper),
         "space_sources": get_work_space_sources(paper.work_space),
+        "available_spaces": get_available_spaces(paper, request.user),
         "new_file_form": UploadPaperFileForm(),
         "rename_form": RenamePaperForm().set_initial(paper.title),
         "work_spaces": get_user_work_spaces(request.user),
         "papers": get_user_papers(request.user)
     }
-    return render(request, "paper_space.html", paper_data)
+    return render(request, "main/paper_space.html", paper_data)
 
 
 @post_request_required
@@ -92,16 +94,27 @@ def rename_paper(request, paper_id):
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
 
+@post_request_required
 @paper_authorship_required
 @login_required(redirect_field_name=None)
-def change_paper_citation_style(request, paper_id):
-    """Change paper citation style (APA / MLA)"""
+def transfer_paper_to_new_space(request, paper_id):
+    """Change work space associated with given paper"""
 
-    # Update paper info
+    # Check if user has right to transfer this paper
     paper = check_paper(paper_id, request.user)
-    citation_style = change_citation_style(paper)
-    display_info_message(request, f"Citation style was set to {citation_style}")
-    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
+
+    # Check selected workspace
+    new_space_id = request.POST.get("new_work_space")
+    new_space = check_work_space(new_space_id, request.user)
+    available_spaces = get_available_spaces(paper, request.user)
+    if new_space not in available_spaces:
+        # Error case
+        display_error_message(request)
+        return redirect(reverse("paper_work:paper_space", args=(paper.pk,)))
+
+    transfer_paper(paper, new_space)
+    display_success_message(request, f'"{paper}" is now part of "{new_space}"!')
+    return redirect(reverse("work_space:space_view", args=(new_space_id,)))
 
 
 @paper_authorship_required
@@ -126,6 +139,18 @@ def archive_or_unarchive_paper(request, paper_id):
     paper.archive()
     display_success_message(request, f"{paper.title} was successfully archived")
     return redirect(reverse("work_space:space_view", args=(paper.work_space.pk,)))
+
+
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def change_paper_citation_style(request, paper_id):
+    """Change paper citation style (APA / MLA)"""
+
+    # Update paper info
+    paper = check_paper(paper_id, request.user)
+    citation_style = change_citation_style(paper)
+    display_info_message(request, f"Citation style was set to {citation_style}")
+    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
 
 @post_request_required
