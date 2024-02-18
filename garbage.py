@@ -4759,6 +4759,30 @@ CITATION_STYLES = (("APA", "APA"), ("MLA", "MLA"),)
         new_paper.save()
         return new_paper
 
+def get_other_citation_style(paper: Paper) -> str:
+
+    if paper.citation_style == "APA":
+        return "MLA"
+    return "APA"
+
+@post_request_required
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def change_paper_citation_style(request, paper_id):
+
+    # Get one of two possible citation styles
+    citation_style = request.POST.get("citation_style")
+    if citation_style in ("APA", "MLA",):
+        # Update paper info
+        paper = check_paper(paper_id, request.user)
+        change_citation_style(paper, citation_style)
+        display_info_message(request, f"Citation style was set to {citation_style}")
+    else:
+        display_error_message(request)
+    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))    
+
+
+
 """
 
 

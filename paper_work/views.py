@@ -3,7 +3,6 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from file_handling.forms import UploadPaperFileForm
-from file_handling.models import PaperFile
 from user_management.helpers import get_user_papers, get_user_work_spaces
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_info_message, display_success_message
@@ -13,7 +12,7 @@ from .bibliography import (
     get_right_bibliography, update_bibliography
 )
 from .forms import ChooseSourcesForm, NewPaperForm, RenamePaperForm
-from .helpers import change_citation_style, create_new_paper, rename_paper_obj
+from .helpers import change_citation_style, create_new_paper, get_paper_files, rename_paper_obj
 
 
 @login_required(redirect_field_name=None)
@@ -23,7 +22,7 @@ def paper_space(request, paper_id):
     # Get all needed paper-related data
     paper = check_paper(paper_id, request.user)
     sources = paper.sources.all()
-    paper_files = PaperFile.objects.filter(paper=paper).order_by("version_number")
+    paper_files = get_paper_files(paper)
     choose_sources_form = ChooseSourcesForm().set_initials(paper.work_space.sources.all())
 
     paper_data = {
@@ -89,21 +88,15 @@ def rename_paper(request, paper_id):
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
 
-@post_request_required
 @paper_authorship_required
 @login_required(redirect_field_name=None)
 def change_paper_citation_style(request, paper_id):
     """Change paper citation style (APA / MLA)"""
 
-    # Get one of two possible citation styles
-    citation_style = request.POST.get("citation_style")
-    if citation_style in ("APA", "MLA",):
-        # Update paper info
-        paper = check_paper(paper_id, request.user)
-        change_citation_style(paper, citation_style)
-        display_info_message(request, f"Citation style was set to {citation_style}")
-    else:
-        display_error_message(request)
+    # Update paper info
+    paper = check_paper(paper_id, request.user)
+    citation_style = change_citation_style(paper)
+    display_info_message(request, f"Citation style was set to {citation_style}")
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
 

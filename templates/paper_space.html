@@ -28,10 +28,10 @@
         <a onclick="show_paper_area('sources-area');return false" href="#" type="button">
             Choose Sources&nbsp;<span>{{ number_of_sources }}</span>
         </a>
-        <a onclick="show_paper_area('files-area');return false" href="#" type="button">
+        <a onclick="show_paper_area('files-area');return false" href="#" type="button" id="file-button">
             File history&nbsp;<span>{{ number_of_files }}</span>
         </a>
-        <a onclick="show_paper_area('actions-area');return false" href="#" type="button" id="actions-button">
+        <a onclick="show_paper_area('actions-area');return false" href="#" type="button">
             Actions
         </a>
     </nav>
@@ -43,8 +43,6 @@
 
         <h4>TODO</h4>
         <br>
-        <h4>Create paper form add apa/mla</h4>
-        <h4>Change apa/mla at actions?</h4>
         <h4>Choose sources form (if in "sources" - then checked checkboxes)</h4>
         <h4>CSS of statistics</h4>
         <h4>Css of files history</h4>
@@ -62,7 +60,7 @@
             <h3>Number of pages: <div id="number-of-pages"></div></h3>
 
         {% else %}
-            <a onclick="document.getElementById('actions-button').click(); return false" class="light-blue" href="#" type="button">
+            <a onclick="document.getElementById('file-button').click(); return false" class="light-blue" href="#" type="button">
                 <h1>Upload your first file to see statistics!</h1>
             </a>
         {% endif %}
@@ -93,7 +91,63 @@
     <div class="paper-area" id="files-area" style="display: none;">
 
 
-        <br>
+        <!-- Upload Paper File Card -->
+        <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/static/images/flat_icons/paper/upload_paper.png" class="img-fluid rounded-start" alt="Upload new File">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {% if paper_files %}
+                                Save new version
+                            {% else %}
+                                Save first version
+                            {% endif %}
+                        </h5>
+                        <p class="card-text">
+                            <br>Upload new .docx / .pdf file here:<br>
+                            <a href="#upload-file-modal" class="open-modal-button light-blue" data-bs-toggle="modal" data-bs-target="#upload-file-modal">
+                                New {{ paper }} version
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Upload Paper File Modal -->
+        <div class="modal fade" id="upload-file-modal" tabindex="-1" aria-labelledby="upload-file-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="upload-file-modal-label">Upload new .docx / .pdf file here</h1>
+                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post" class="needs-validation" novalidate>
+                            {% csrf_token %} 
+                            <div class="form-outline mb-4 form-floating">
+                                {{ new_file_form.commit_text }}
+                                <label class="form-label" for="commit-field">Short comment</label>
+                            </div>
+                            <div class="mb-3">
+                                {{ new_file_form.file }}
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <input type="submit" value="Upload" class="btn btn-info btn-lg btn-block gradient-custom-4 text-body"></input>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <br><br><br>
         <h4>File history</h4>
 
 
@@ -114,19 +168,23 @@
     </div>
     <div class="paper-area" id="actions-area" style="display: none;">
         <div class="cards-row">
-            <!-- Upload Paper File Card -->
-            <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
+            <!-- Change Citation Style Card -->
+            <div class="card mb-3 transparent-card" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="/static/images/flat_icons/paper/upload_paper.png" class="img-fluid rounded-start" alt="Upload new File">
+                        <img src="/static/images/flat_icons/paper/citation_style.png" class="img-fluid rounded-start" alt="Citation Style">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Save new version</h5>
+                            <h5 class="card-title">Change citation style</h5>
                             <p class="card-text">
-                                <br>Upload new .docx / .pdf file here:<br>
-                                <a href="#upload-file-modal" class="open-modal-button light-blue" data-bs-toggle="modal" data-bs-target="#upload-file-modal">
-                                    New {{ paper }} version
+                                <br>Choose between APA and MLA styles:<br>
+                                <a href="{% url 'paper_work:change_citation_style' paper.pk %}" class="light-blue">
+                                    {% if paper.citation_style == "APA" %}
+                                        Change to MLA
+                                    {% else %}
+                                        Change to APA
+                                    {% endif %}
                                 </a>
                             </p>
                         </div>
@@ -193,35 +251,6 @@
                                 </a>
                             </p>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Upload Paper File Modal -->
-        <div class="modal fade" id="upload-file-modal" tabindex="-1" aria-labelledby="upload-file-modal-label" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="upload-file-modal-label">Upload new .docx / .pdf file here</h1>
-                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form enctype="multipart/form-data" action="{% url 'file_handling:upload_paper_file' paper.pk %}" method="post" class="needs-validation" novalidate>
-                            {% csrf_token %} 
-                            <div class="form-outline mb-4 form-floating">
-                                {{ new_file_form.commit_text }}
-                                <label class="form-label" for="commit-field">Short comment</label>
-                            </div>
-                            <div class="mb-3">
-                                {{ new_file_form.file }}
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <input type="submit" value="Upload" class="btn btn-info btn-lg btn-block gradient-custom-4 text-body"></input>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
