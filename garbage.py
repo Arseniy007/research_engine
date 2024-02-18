@@ -4747,8 +4747,17 @@ from reportlab.lib.pagesizes import letter
 import io
 
 
- endnotes = [get_source_reference(source) for source in paper.sources.all()]
+endnotes = [get_source_reference(source) for source in paper.sources.all()]
 
+            # Get one of two possible receiving options
+            option = request.POST.get("option")
+CITATION_STYLES = (("APA", "APA"), ("MLA", "MLA"),)
+
+
+    def save_paper(self, space: WorkSpace, user: User):
+        new_paper = Paper(work_space=space, user=user, title=self.cleaned_data["title"])
+        new_paper.save()
+        return new_paper
 
 """
 

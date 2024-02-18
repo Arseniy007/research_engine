@@ -690,13 +690,27 @@
         <a data-bs-toggle="collapse" class="mt-5" id="open-new-paper-form" href="#new-paper-form-area" role="button" aria-expanded="false" aria-controls="new-paper-form-area">
             <h2 class="text-uppercase text-center mb-3 color-white">Create New Paper&nbsp;&nbsp;<i class="fa-solid fa-circle-plus"></i></h2>
         </a>
-        <div class="collapse" id="new-paper-form-area">
-            <form action="{% url 'paper_work:create_paper' space.pk %}" class="needs-validation mt-3" id="paper-form" method="post" novalidate>
+        <div class="collapse mb-5" id="new-paper-form-area">
+            <form action="{% url 'paper_work:create_paper' space.pk %}" class="needs-validation mt-3 index-form" id="paper-form" method="post" novalidate>
                 {% csrf_token %}
-                <div class="form-outline mb-4 form-floating">         
-                    {{ new_paper_form.title }}
-                    <label class="form-label" for="title-field">Paper Title</label>
-                    <div class="invalid-feedback">Please provide paper title.</div>
+                <div class="form-outline mb-4 row">
+                    <div class="col-md">
+                        <div class="form-floating">
+                            {{ new_paper_form.title }}
+                            <label class="form-label" for="title-field">Paper Title</label>
+                            <div class="invalid-feedback">Please provide paper title.</div>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-check">
+                            <input class="form-check-input" value="APA" type="radio" name="citation_style" id="apa-option" checked>
+                            <label class="form-check-label color-white" for="apa-option">APA</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input color-white" value="MLA" type="radio" name="citation_style" id="mla-option">
+                            <label class="form-check-label color-white" for="mla-option">MLA</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="d-flex justify-content-center">
                     <input type="submit" value="Create" class="btn btn-info btn-block btn-lg gradient-custom-4"></input>

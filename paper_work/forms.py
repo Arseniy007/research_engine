@@ -1,12 +1,6 @@
 from django import forms
 from bookshelf.models import Source
 from research_engine.constants import CLASS_
-from user_management.models import User
-from work_space.models import WorkSpace
-from .models import Paper
-
-
-CITATION_STYLES = (("APA", "APA"), ("MLA", "MLA"),)
 
 
 class NewPaperForm(forms.Form):
@@ -17,12 +11,6 @@ class NewPaperForm(forms.Form):
         "autocomplete": "off",
         "placeholder": "Paper title"})
     )
-
-    def save_paper(self, space: WorkSpace, user: User):
-        """Save new Paper object"""
-        new_paper = Paper(work_space=space, user=user, title=self.cleaned_data["title"])
-        new_paper.save()
-        return new_paper
 
 
 class RenamePaperForm(NewPaperForm):

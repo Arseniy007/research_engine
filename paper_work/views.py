@@ -10,9 +10,10 @@ from utils.messages import display_error_message, display_info_message, display_
 from utils.verification import check_paper, check_paper_file, check_work_space
 from .bibliography import (
     append_bibliography_to_file, clear_bibliography, 
-    create_bibliography, get_right_bibliography, update_bibliography
+    get_right_bibliography, update_bibliography
 )
 from .forms import ChooseSourcesForm, NewPaperForm, RenamePaperForm
+from .helpers import change_citation_style, create_new_paper, rename_paper_obj
 
 
 @login_required(redirect_field_name=None)
@@ -50,14 +51,17 @@ def create_paper(request, space_id):
     form = NewPaperForm(request.POST)
 
     if form.is_valid():
-        # Save new paper to db
-        space = check_work_space(space_id, request.user)
-        new_paper = form.save_paper(space, request.user)
-        create_bibliography(new_paper)
-        display_success_message(request, "Paper successfully created")
-
-        # Redirect user to the new paper-space
-        return JsonResponse({"status": "ok", "url": reverse("paper_work:paper_space", args=(new_paper.pk,))})
+        # Get one of two possible citation styles
+        citation_style = request.POST.get("citation_style")
+        if citation_style in ("APA", "MLA",):
+            # Save new paper to db
+            new_paper = create_new_paper(
+                check_work_space(space_id, request.user), 
+                request.user, form.cleaned_data["title"], citation_style
+            )
+            display_success_message(request, "Paper successfully created")
+            # Redirect user to the new paper-space
+            return JsonResponse({"status": "ok", "url": reverse("paper_work:paper_space", args=(new_paper.pk,))})
 
     # Error case
     return JsonResponse({"status": "error"})
@@ -76,13 +80,30 @@ def rename_paper(request, paper_id):
         paper = check_paper(paper_id, request.user)
         new_title = form.cleaned_data["title"]
         if new_title != paper.title:
-            paper.title = new_title
-            paper.save(update_fields=("title",))
+            rename_paper_obj(paper, new_title)
             display_success_message(request, "Paper successfully renamed!")
     else:
         # Error case
         display_error_message(request)
 
+    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
+
+
+@post_request_required
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def change_paper_citation_style(request, paper_id):
+    """Change paper citation style (APA / MLA)"""
+
+    # Get one of two possible citation styles
+    citation_style = request.POST.get("citation_style")
+    if citation_style in ("APA", "MLA",):
+        # Update paper info
+        paper = check_paper(paper_id, request.user)
+        change_citation_style(paper, citation_style)
+        display_info_message(request, f"Citation style was set to {citation_style}")
+    else:
+        display_error_message(request)
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
 

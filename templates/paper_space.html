@@ -72,7 +72,7 @@
         <br><br><br><br>        
         {% if sources %}
             <div>
-                <h2 class="mb-4 light-blue" id="bibliography-header">Bibliography</h2>
+                <h2 class="mb-4 light-blue" id="bibliography-header">Bibliography ({{ paper.citation_style }})</h2>
                 <textarea class="form-control ms-5" id="bibliography-textarea">{{ bibliography }}</textarea>
                 <button onclick="copy_bibliography()" type="button" class="btn btn-lg btn-dark mt-4" id="bibliography-button">Copy</button>
             </div>
