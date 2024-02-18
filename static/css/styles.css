@@ -234,7 +234,7 @@ header
   margin-left: 5px;
 }
 
-#sources-container
+#sources-container, #paper-files-container
 {
   display: flex;
   flex-direction: row;
@@ -257,6 +257,20 @@ header
 {
   height: 50px;
   width: 1200px
+}
+
+.paper-file-card
+{
+  min-width: 250px;
+  min-height: 200px;
+}
+
+.paper-extension-icon
+{
+  position: absolute;
+  right: 0;
+  margin-right: 8px;
+  margin-top: 10px;
 }
 
 .source-checkbox
@@ -309,6 +323,12 @@ header
   margin-top: 2px;
   color: white;
 }
+
+.paper-extension-icon
+{
+  position: absolute;
+}
+
 .source-icon, .source-button
 {
   display: inline;

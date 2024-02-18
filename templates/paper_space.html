@@ -147,7 +147,7 @@
     </div>
     <div class="paper-area" id="files-area" style="display: none;">
         <!-- Upload Paper File Card -->
-        <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
+        <div class="card mb-3 transparent-card" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
                     <img src="/static/images/flat_icons/paper/upload_paper.png" class="img-fluid rounded-start" alt="Upload new File">
@@ -200,29 +200,43 @@
                 </div>
             </div>
         </div>
-
-
-        <br><br><br>
-
+        <br>
         {% if paper_files %}
             <h4 id="file-history">File history</h4>
-
-
-            <br><br>
-
-            <ul>
+            <div id="paper-files-container">
                 {% for file in paper_files %}
-                    <li>
-                        <a href="{% url 'file_handling:display_paper_file' file.pk %}">{{ file }}</a>
-                    </li>
+                    <!-- Paper File Card -->
+                    <div id="file-card-{{ file.pk }}" class="card text-bg-secondary mb-3 paper-file-card">
+                        <div class="card-header">
+                            {{ file }}
+                            <i class="fa-solid {% if file.file_extension == 'docx' %} fa-file-word {% else %} fa-file-pdf {% endif %} fa-xl paper-extension-icon"></i>
+                        </div>
+                        <div class="card-body source-card-body">
+                            <h5 class="card-title">
+                                {% if file.commit_text %}
+                                    {{ file.commit_text }}
+                                {% else %}
+                                    No comment
+                                {% endif %}
+                                <br><br>
+                                <a href="{% url 'file_handling:display_paper_file' file.pk %}">
+                                    {% if file.file_extension == 'docx' %}
+                                        Download File
+                                    {% else %}
+                                        Open File
+                                    {% endif %}
+                                </a>
+                            </h5>
+                        </div>
+                        <div class="card-footer source-card-footer">
+                            <small>
+                                Uploaded:&nbsp;&nbsp;&nbsp;{{ file.uploading_time }}
+                            </small>
+                        </div>
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         {% endif %}
-    
-       
-    
-    
-    
     </div>
     <div class="paper-area" id="actions-area" style="display: none;">
         <div class="cards-row">

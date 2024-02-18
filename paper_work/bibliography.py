@@ -48,7 +48,7 @@ def append_bibliography_to_file(file: PaperFile, bibliography: str):
     """Add bibliography to the end of a last uploaded file"""
 
     # If document extension is .pdf - convert it to .docx first
-    if file.file_name().lower().endswith(".pdf"):
+    if file.file_extension == "pdf":
 
         # Get new file name and location
         future_file_name = f"{str(file.file_name().split('.')[0:-1][0])}.docx"
@@ -68,7 +68,7 @@ def append_bibliography_to_file(file: PaperFile, bibliography: str):
         file.save(update_fields=("file",))
 
     # If document extension is .docx - just get its location
-    elif file.file_name().lower().endswith(".docx"):
+    elif file.file_extension == "docx":
         path_to_file = file.get_path_to_file()
     # Error case
     else:

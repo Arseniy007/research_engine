@@ -77,11 +77,11 @@ def get_paper_file_info(request, file_id):
     file_data = Counter(decoded_text).count()
 
     # Count pages in .pdf file
-    if file.file_name().lower().endswith(".pdf"):
+    if file.file_extension == "pdf":
         number_of_pages = count_pages_pdf(file.get_path_to_file())
 
     # Count pages in .docx file
-    elif file.file_name().lower().endswith(".docx"):
+    elif file.file_extension == "docx":
         number_of_pages = count_pages_docx(file.get_path_to_file())
 
     response = {

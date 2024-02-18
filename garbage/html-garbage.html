@@ -1835,3 +1835,24 @@ onclick="load_and_show_source_space('{{ source.id }}')"
     <i class="fa-solid fa-quote-right"></i>
 </div>&nbsp;
 {% endif %}
+
+
+<ul>
+    {% for file in paper_files %}
+        <li>
+            <a href="{% url 'file_handling:display_paper_file' file.pk %}">{{ file }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+
+<div class="card transparent-card" style="width: 18rem;">
+    <img src="../static/images/flat_icons/paper/paper_file.png" class="card-img-top" alt="File Icon">
+    <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+    </div>
+</div>
+

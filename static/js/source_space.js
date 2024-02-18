@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-
 function enable_source_rename_form() {
     // Show and hide source settings form
     const header = document.querySelector('#header');

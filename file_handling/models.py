@@ -23,6 +23,8 @@ class PaperFile(models.Model):
     paper = models.ForeignKey("paper_work.Paper", on_delete=models.CASCADE, related_name="files")
     commit_text = models.CharField(max_length=100, blank=True)
     version_number = models.CharField(max_length=50)
+    file_extension = models.CharField(max_length=5)
+    uploading_time = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to=paper_saving_path)
 
 
@@ -30,19 +32,26 @@ class PaperFile(models.Model):
         """Custom save method with storing version number"""
         previous_versions = PaperFile.objects.filter(paper=self.paper)
         self.version_number = f"file #{len(previous_versions) + 1}"
+        self.file_extension = self.get_file_extension()
         return super(PaperFile, self).save(*args, **kwargs)
 
 
     def __str__(self):
-        """Display either commit text if given or number of current paper file"""
-        if self.commit_text:
-            return self.commit_text
-        return f"{self.paper} #{self.version_number}"
+        """Display number of current paper file"""
+        return f"{self.paper} #{self.version_number.split('#')[-1]}"
 
 
     def file_name(self):
         """Returns only the name of file without trailing dirs"""
         return os.path.basename(self.file.name)
+
+
+    def get_file_extension(self) -> str:
+        """Either .pdf or .docx"""
+        if self.file_name().lower().endswith(".pdf"):
+            return "pdf"
+        else:
+            return "docx"
 
 
     def get_path_to_file(self):
