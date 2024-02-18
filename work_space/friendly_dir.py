@@ -102,24 +102,6 @@ def create_friendly_sources_dir(sources, root_path: str) -> None:
             original_file = source.get_file().get_path_to_file()
             shutil.copyfile(original_file, destination)
 
-    # Get array with only sources with quotes
-    sources_with_quotes = [source for source in sources if source.quotes.all()]
-
-    if any(sources_with_quotes):
-        # Get paths to new .txt file
-        quotes_file = os.path.join(books_root, "quotes.txt")
-
-        # Create file and write in all quotes
-        with open(quotes_file, "w") as file:
-            for source in sources_with_quotes:
-                # Write every source title
-                file.write(f"\t{source}\n\n\n")
-                source_quotes = source.quotes.all()
-                # Write all its quotes
-                for quote in source_quotes:
-                    file.write(f"{quote}\n\n")
-                file.write("\n\n")
-
 
 def create_friendly_papers_dir(papers, authors: list, root_path: str) -> None:
     """Create new "papers" dir with all space-related papers inside"""

@@ -27,18 +27,17 @@ def paper_space(request, paper_id):
     paper = check_paper(paper_id, request.user)
     sources = paper.sources.all()
     paper_files = get_paper_files(paper)
-    space_sources = get_work_space_sources(paper.work_space)
 
     paper_data = {
         "paper": paper,
         "paper_sources": sources,
         "paper_files": paper_files,
-        "space_sources": space_sources,
         "number_of_sources": len(sources),
         "number_of_files": len(paper_files),
         "last_file_id": paper.get_last_file_id(),
-        "chosen_source_ids": get_chosen_source_ids(paper),
         "bibliography": get_right_bibliography(paper),
+        "chosen_source_ids": get_chosen_source_ids(paper),
+        "space_sources": get_work_space_sources(paper.work_space),
         "new_file_form": UploadPaperFileForm(),
         "rename_form": RenamePaperForm().set_initial(paper.title),
         "work_spaces": get_user_work_spaces(request.user),
@@ -137,6 +136,7 @@ def select_sources_for_paper(request, paper_id):
     # Get all selected sources
     paper = check_paper(paper_id, request.user)
     selected_sources = request.POST.getlist('sources-id')
+    print(selected_sources)
 
     # Remove all sources that were not selected and add all chosen one
     for source in paper.sources.all():
@@ -175,7 +175,8 @@ def clear_paper_file_history(request, paper_id):
 
     # Check if user has right to delete all files
     paper = check_paper(paper_id, request.user)
-
+    
+    # Delete files and reset bibliography
     paper.clear_file_history()
     clear_bibliography(paper)
     display_info_message(request, "History cleared!")

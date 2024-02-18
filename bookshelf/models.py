@@ -100,32 +100,3 @@ class Reference(models.Model):
     source = models.OneToOneField(Source, on_delete=models.CASCADE, related_name="reference")
     endnote_apa = models.CharField(max_length=50)
     endnote_mla = models.CharField(max_length=50)
-
-
-class Quote(models.Model):
-    source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="quotes")
-    page = models.IntegerField()
-    text = models.TextField()
-    apa = models.CharField(max_length=20)
-    mla = models.CharField(max_length=20) 
-
-
-    def save(self, *args, **kwargs):
-        """Custom save method that stores apa & mla in-text citations"""
-        author_last_name = self.source.author.split()[0]
-        self.apa = f"({author_last_name}, {self.source.year}, p. {self.page})"
-        self.mla = f"({author_last_name} {self.page})"
-        super(Quote, self).save(*args, **kwargs)
-
-
-    def apa_formatted(self):
-        return f'"{self.text}" {self.apa}'
-
-
-    def mla_formatted(self):
-        return f'"{self.text}" {self.mla}'
-
-
-    def __str__(self):
-        """Display quotes text"""
-        return self.apa_formatted()

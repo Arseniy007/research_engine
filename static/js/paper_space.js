@@ -29,7 +29,7 @@ function show_paper_area(area_id) {
             disable_scrolling();
         }
         // Disable scrolling if there is less than 8 sources
-        else if (area.getElementsByClassName('source-card').length < 9) {
+        else if (area.getElementsByClassName('source-card').length < 5) {
             disable_scrolling();
         }
         // Hide info message

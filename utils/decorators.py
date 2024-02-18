@@ -1,7 +1,7 @@
 from typing import Callable
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseBadRequest
-from .verification import check_paper, check_quote, check_source, check_work_space
+from .verification import check_paper, check_source, check_work_space
 
 
 def post_request_required(func: Callable) -> Callable | HttpResponseBadRequest:
@@ -23,16 +23,6 @@ def space_ownership_required(func: Callable) -> Callable | PermissionDenied:
     return wrapper
 
 
-def source_ownership_required(func: Callable) -> Callable | PermissionDenied:
-    """Checks if current user added this source"""
-    def wrapper(request, source_id):
-        source = check_source(source_id, request.user)
-        if source.user != request.user:
-            raise PermissionDenied
-        return func(request, source_id)
-    return wrapper
-
-
 def paper_authorship_required(func: Callable) -> Callable | PermissionDenied:
     """Checks if current user is author of the paper"""
     def wrapper(request, paper_id):
@@ -43,11 +33,11 @@ def paper_authorship_required(func: Callable) -> Callable | PermissionDenied:
     return wrapper
 
 
-def quote_ownership_required(func: Callable) -> Callable | PermissionDenied:
-    """Checks if current user added book to which given quote belongs"""
-    def wrapper(request, quote_id):
-        quote = check_quote(quote_id, request.user)
-        if quote.source.user != request.user:
+def source_ownership_required(func: Callable) -> Callable | PermissionDenied:
+    """Checks if current user added this source"""
+    def wrapper(request, source_id):
+        source = check_source(source_id, request.user)
+        if source.user != request.user:
             raise PermissionDenied
-        return func(request, quote_id)
+        return func(request, source_id)
     return wrapper

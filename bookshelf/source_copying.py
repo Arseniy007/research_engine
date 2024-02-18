@@ -27,9 +27,6 @@ def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source
         case _:
             return None
 
-    # Save all quotes related to the source
-    source_quotes = source.quotes.all()
-
     # Copy the given source and alter its key fields
     source.pk, source.id = None, None
     source.work_space, source.user = new_space, new_owner
@@ -41,13 +38,6 @@ def copy_source(source: Source, new_space: WorkSpace, new_owner: User) -> Source
     if source_file:
         new_file = ContentFile(source_file.file.read(), name=source_file.file_name())
         save_new_source_file(source, new_file)
-
-    # Copy all quotes related to original source if necessary
-    if source_quotes:
-        for quote in source_quotes:
-            quote.pk, quote.source = None, source
-            quote._state.adding = True
-            quote.save()
 
     # Create new Reference obj based on new source
     return create_source_reference(source)

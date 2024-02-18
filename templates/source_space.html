@@ -25,9 +25,6 @@
         <a onclick="show_paper_area('reference-area');return false" href="#" type="button" class="active">
             Reference
         </a>
-        <a onclick="show_paper_area('quotes-area');return false" href="#" type="button">
-            Quotes&nbsp;<span>{{ number_of_quotes }}</span>
-        </a>
         <a onclick="show_paper_area('settings-area');return false" href="#" type="button" id="settings-area-button">
             Settings
         </a>
@@ -49,9 +46,6 @@
 
         </div>
 
-        <div class="source-area" id="quotes-area" style="display: none;">
-
-        </div>
 
         <div class="source-area" id="settings-area" style="display: none;">
 
@@ -89,39 +83,7 @@
             </ul>
             <br><br>
 
-            <form action="{% url 'bookshelf:add_quote' source.pk %}" id="new_quote_form" method="post">
-                {% csrf_token %} 
-                {{ new_quote_form }}
-                <button type="submit">Add Quote</button>
-            </form><br><br>
-
-
-            <h3>Quotes</h3>
-            <ul>
-                {% for quote in quotes %}
-                <div id="quote_{{ quote.pk }}">
-                    <li>
-                        {{ quote }} | Quote apa: {{ quote.apa }} | Quote mla: {{ quote.mla }}
-                        <button class="delete_quote_buttons" id="{{ quote.pk }}">Delete Quote</button>
-                    </li>
-                </div>
-                {% endfor %}
-            </ul>
-
-            {% for quote in quotes %}
-                <div class="card text-bg-secondary">
-                    <div class="card-header">
-                        ???
-                    </div>
-                    <div class="card-body">
-                        <blockquote class="blockquote mb-0">
-                            <p>{{ quote.text }}</p>
-                            <footer style="color: white;" class="blockquote-footer">{{ quote.apa }}</footer>
-                            <footer style="color: white;" class="blockquote-footer">{{ quote.mla }}</footer>
-                        </blockquote>
-                    </div>
-                </div>
-            {% endfor %}
+            
 
 
 

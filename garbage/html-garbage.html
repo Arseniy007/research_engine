@@ -1792,3 +1792,46 @@ onclick="load_and_show_source_space('{{ source.id }}')"
     {% endif %}
 </div>
 
+<form action="{% url 'bookshelf:add_quote' source.pk %}" id="new_quote_form" method="post">
+    {% csrf_token %} 
+    {{ new_quote_form }}
+    <button type="submit">Add Quote</button>
+</form><br><br>
+
+
+<h3>Quotes</h3>
+<ul>
+    {% for quote in quotes %}
+    <div id="quote_{{ quote.pk }}">
+        <li>
+            {{ quote }} | Quote apa: {{ quote.apa }} | Quote mla: {{ quote.mla }}
+            <button class="delete_quote_buttons" id="{{ quote.pk }}">Delete Quote</button>
+        </li>
+    </div>
+    {% endfor %}
+</ul>
+
+{% for quote in quotes %}
+    <div class="card text-bg-secondary">
+        <div class="card-header">
+            ???
+        </div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                <p>{{ quote.text }}</p>
+                <footer style="color: white;" class="blockquote-footer">{{ quote.apa }}</footer>
+                <footer style="color: white;" class="blockquote-footer">{{ quote.mla }}</footer>
+            </blockquote>
+        </div>
+    </div>
+{% endfor %}
+
+<a onclick="show_paper_area('quotes-area');return false" href="#" type="button">
+    Quotes&nbsp;<span>{{ number_of_quotes }}</span>
+</a>
+{% if source.has_quotes %}
+<div class="source-icon">
+    <i class="fa-solid fa-quote-left"></i>
+    <i class="fa-solid fa-quote-right"></i>
+</div>&nbsp;
+{% endif %}

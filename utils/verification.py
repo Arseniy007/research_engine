@@ -1,6 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
-from bookshelf.models import Article, Book, Chapter, Quote, Source, Webpage
+from bookshelf.models import Article, Book, Chapter, Source, Webpage
 from file_handling.models import PaperFile, SourceFile
 from paper_work.models import Paper
 from user_management.models import PasswordResetCode, User
@@ -80,17 +80,6 @@ def check_paper_file(file_id: int, user: User) -> PaperFile | Http404:
     else:
         check_paper(file.paper.pk, user)
     return file
-
-
-def check_quote(quote_id: int, user: User) -> Quote | Http404:
-    """Checks if quote exists"""
-    try:
-        quote = Quote.objects.get(pk=quote_id)
-    except ObjectDoesNotExist:
-        raise Http404
-    else:
-        check_work_space(quote.source.work_space.pk, user)
-    return quote
 
 
 def check_invitation(invitation_code: str) -> Invitation | bool:

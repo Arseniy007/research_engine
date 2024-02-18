@@ -4815,10 +4815,172 @@ def select_sources_for_paper(request, paper_id):
     else:
         display_error_message(request)
 
-    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))        
+    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
+
+class Quote(models.Model):
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="quotes")
+    page = models.IntegerField()
+    text = models.TextField()
+    apa = models.CharField(max_length=20)
+    mla = models.CharField(max_length=20) 
 
 
+    def save(self, *args, **kwargs):
+        author_last_name = self.source.author.split()[0]
+        self.apa = f"({author_last_name}, {self.source.year}, p. {self.page})"
+        self.mla = f"({author_last_name} {self.page})"
+        super(Quote, self).save(*args, **kwargs)
 
+
+    def apa_formatted(self):
+        return f'"{self.text}" {self.apa}'
+
+
+    def mla_formatted(self):
+        return f'"{self.text}" {self.mla}'
+
+
+    def __str__(self):
+        return self.apa_formatted()
+   
+@post_request_required
+@login_required(redirect_field_name=None)
+def add_quote(request, source_id):
+
+    # TODO
+
+    form = NewQuoteForm(request.POST)
+
+    if form and form.is_valid():
+        source = check_source(source_id, request.user)
+        new_quote = form.save_quote(source)
+        return JsonResponse({"status": "ok", "quote": model_to_dict(new_quote)})
+
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
+
+
+@quote_ownership_required
+@login_required(redirect_field_name=None)
+def delete_quote(request, quote_id):
+ 
+
+    # TODO
+
+    # Check quote and delete it from the db
+    quote = check_quote(quote_id, request.user)
+    quote.delete()
+    return JsonResponse({"status": "ok"})
+
+
+@post_request_required
+@quote_ownership_required
+@login_required(redirect_field_name=None)
+def alter_quote(request, quote_id):
+
+
+    # TODO
+
+    form = AlterQuoteForm(request.POST)
+    quote = check_quote(quote_id, request.user)
+
+    if form and form.is_valid():
+        altered_quote = form.save_altered_quote(quote)
+        return JsonResponse({"status": "ok", "altered_quote": model_to_dict(altered_quote)})
+
+    # Send redirect url to js
+    display_error_message(request)
+    return JsonResponse({"url": reverse("bookshelf:source_space", args=(quote.source.pk,))})
+
+class NewQuoteForm(forms.Form):
+
+    text = forms.CharField(widget=forms.TextInput(attrs={
+        "type": "text",
+        "id": "text-field",
+        "class": CLASS_,
+        "autocomplete": "off",
+        "placeholder": "Quote text"})
+    )
+
+    page = forms.IntegerField(widget=forms.NumberInput(attrs={
+        "type": "number",
+        "id": "page-field",
+        "class": CLASS_,
+        "autocomplete": "off",
+        "placeholder": "Quote text"
+    }))
+
+
+    def save_quote(self, source: Source) -> Quote:
+        new_quote = Quote(source=source, page=self.cleaned_data["page"], text=clean_text_data(self.cleaned_data["text"]))
+        new_quote.save()
+        return new_quote
+
+
+class AlterQuoteForm(forms.ModelForm):
+    class Meta:
+        model = Quote
+        fields = ["text", "page"]
+
+    def set_initials(self, quote: Quote):
+        self.fields["text"].initial = quote.text
+        self.fields["page"].initial = quote.page
+        return self 
+
+
+    def save_altered_quote(self, quote: Quote) -> Quote:
+        quote.text = self.cleaned_data["text"]
+        quote.page = self.cleaned_data["page"]
+        quote.save(update_fields=("text", "page",))
+        return quote
+
+
+def check_quote(quote_id: int, user: User) -> Quote | Http404:
+    try:
+        quote = Quote.objects.get(pk=quote_id)
+    except ObjectDoesNotExist:
+        raise Http404
+    else:
+        check_work_space(quote.source.work_space.pk, user)
+    return quote
+
+
+def quote_ownership_required(func: Callable) -> Callable | PermissionDenied:
+    def wrapper(request, quote_id):
+        quote = check_quote(quote_id, request.user)
+        if quote.source.user != request.user:
+            raise PermissionDenied
+        return func(request, quote_id)
+    return wrapper
+
+    # Save all quotes related to the source
+    source_quotes = source.quotes.all()
+
+    # Copy all quotes related to original source if necessary
+    if source_quotes:
+        for quote in source_quotes:
+            quote.pk, quote.source = None, source
+            quote._state.adding = True
+            quote.save()
+
+    # Get array with only sources with quotes
+    sources_with_quotes = [source for source in sources if source.quotes.all()]
+
+    if any(sources_with_quotes):
+        # Get paths to new .txt file
+        quotes_file = os.path.join(books_root, "quotes.txt")
+
+        # Create file and write in all quotes
+        with open(quotes_file, "w") as file:
+            for source in sources_with_quotes:
+                # Write every source title
+                file.write(f"\t{source}\n\n\n")
+                source_quotes = source.quotes.all()
+                # Write all its quotes
+                for quote in source_quotes:
+                    file.write(f"{quote}\n\n")
+                file.write("\n\n")
 """
 
 

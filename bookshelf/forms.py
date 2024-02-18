@@ -1,7 +1,7 @@
 from django import forms
 from research_engine.constants import CLASS_
 from utils.data_cleaning import clean_text_data
-from .models import Article, Book, Chapter, Quote, Source, Webpage
+from .models import Article, Book, Chapter, Source, Webpage
 
 
 class SourceTypes:
@@ -300,51 +300,6 @@ class AddLinkForm(forms.Form):
         """Checks and saves link for given source"""
         source.link = clean_text_data(self.cleaned_data["link"])
         source.save(update_fields=("link",))
-
-
-class NewQuoteForm(forms.Form):
-
-    text = forms.CharField(widget=forms.TextInput(attrs={
-        "type": "text",
-        "id": "text-field",
-        "class": CLASS_,
-        "autocomplete": "off",
-        "placeholder": "Quote text"})
-    )
-
-    page = forms.IntegerField(widget=forms.NumberInput(attrs={
-        "type": "number",
-        "id": "page-field",
-        "class": CLASS_,
-        "autocomplete": "off",
-        "placeholder": "Quote text"
-    }))
-
-
-    def save_quote(self, source: Source) -> Quote:
-        """Save new Quote object"""
-        new_quote = Quote(source=source, page=self.cleaned_data["page"], text=clean_text_data(self.cleaned_data["text"]))
-        new_quote.save()
-        return new_quote
-
-
-class AlterQuoteForm(forms.ModelForm):
-    class Meta:
-        model = Quote
-        fields = ["text", "page"]
-
-    def set_initials(self, quote: Quote):
-        """Pre-populate fields"""
-        self.fields["text"].initial = quote.text
-        self.fields["page"].initial = quote.page
-        return self 
-
-
-    def save_altered_quote(self, quote: Quote) -> Quote:
-        quote.text = self.cleaned_data["text"]
-        quote.page = self.cleaned_data["page"]
-        quote.save(update_fields=("text", "page",))
-        return quote
 
 
 def get_type_of_source_form(data, alter_source=False):

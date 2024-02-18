@@ -1,19 +1,18 @@
 import shutil
 from django.contrib.auth.decorators import login_required
-from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from file_handling.forms import UploadSourceFileForm
 from utils.data_cleaning import clean_author_data
-from utils.decorators import quote_ownership_required, post_request_required, source_ownership_required
+from utils.decorators import post_request_required, source_ownership_required
 from utils.messages import display_error_message, display_success_message
-from utils.verification import check_quote, check_source, check_work_space
+from utils.verification import check_source, check_work_space
 from user_management.helpers import get_user_papers, get_user_work_spaces
 from .forms import (
-        AddLinkForm, AlterQuoteForm, ChapterForm, NewQuoteForm, WebpageForm,
-        get_and_set_alter_form, get_type_of_source_form
-    )
+    AddLinkForm, ChapterForm, WebpageForm, 
+    get_and_set_alter_form, get_type_of_source_form
+)
 from .source_alteration import alter_source
 from .source_citation import get_source_reference
 from .source_creation import create_source
@@ -25,7 +24,6 @@ def source_space(request, source_id):
 
     source = check_source(source_id, request.user)
     reference = get_source_reference(source)
-    quotes = source.quotes.all()
 
     if source.has_file:
         source_file_id = source.get_file().pk
@@ -38,12 +36,9 @@ def source_space(request, source_id):
             "source_type": source.get_type(),
             "reference": reference,
             "source_file_id": source_file_id,
-            "quotes": quotes,
-            "number_of_quotes": len(quotes),
             "alter_source_form": get_and_set_alter_form(source),
             "upload_file_form": UploadSourceFileForm(),
             "link_form": AddLinkForm().set_initials(source),
-            "new_quote_form": NewQuoteForm(),
             "work_spaces": get_user_work_spaces(request.user), 
             "papers": get_user_papers(request.user)
     }
@@ -141,55 +136,3 @@ def add_link_to_source(request, source_id):
         return JsonResponse({"status": "ok"})
 
     return JsonResponse({"status": "error"})
-
-
-@post_request_required
-@login_required(redirect_field_name=None)
-def add_quote(request, source_id):
-    """Saves quote from given source"""
-
-    # TODO
-
-    form = NewQuoteForm(request.POST)
-
-    if form and form.is_valid():
-        source = check_source(source_id, request.user)
-        new_quote = form.save_quote(source)
-        return JsonResponse({"status": "ok", "quote": model_to_dict(new_quote)})
-
-    # Send redirect url to js
-    display_error_message(request)
-    return JsonResponse({"url": reverse("bookshelf:source_space", args=(source_id,))})
-
-
-@quote_ownership_required
-@login_required(redirect_field_name=None)
-def delete_quote(request, quote_id):
-    """Delete added quote"""
-
-    # TODO
-
-    # Check quote and delete it from the db
-    quote = check_quote(quote_id, request.user)
-    quote.delete()
-    return JsonResponse({"status": "ok"})
-
-
-@post_request_required
-@quote_ownership_required
-@login_required(redirect_field_name=None)
-def alter_quote(request, quote_id):
-    """Alter quote text / page num."""
-
-    # TODO
-
-    form = AlterQuoteForm(request.POST)
-    quote = check_quote(quote_id, request.user)
-
-    if form and form.is_valid():
-        altered_quote = form.save_altered_quote(quote)
-        return JsonResponse({"status": "ok", "altered_quote": model_to_dict(altered_quote)})
-
-    # Send redirect url to js
-    display_error_message(request)
-    return JsonResponse({"url": reverse("bookshelf:source_space", args=(quote.source.pk,))})
