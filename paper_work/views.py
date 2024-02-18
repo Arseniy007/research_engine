@@ -23,12 +23,14 @@ def paper_space(request, paper_id):
     paper = check_paper(paper_id, request.user)
     sources = paper.sources.all()
     paper_files = get_paper_files(paper)
-    choose_sources_form = ChooseSourcesForm().set_initials(paper.work_space.sources.all())
+    space_sources = paper.work_space.sources.all()
+    choose_sources_form = ChooseSourcesForm().set_initials(space_sources)
 
     paper_data = {
         "paper": paper,
-        "sources": sources,
+        "paper_sources": sources,
         "paper_files": paper_files,
+        "space_sources": space_sources,
         "number_of_sources": len(sources),
         "number_of_files": len(paper_files),
         "last_file_id": paper.get_last_file_id(),

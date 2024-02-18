@@ -4,16 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     enable_rename_form('paper');
     set_enable_scrolling_buttons();
     set_disable_scrolling_buttons();
-    adjust_textarea_height(document.getElementById("bibliography-textarea"));
 
-
-
-
-
-
-
-
-   
 
 });
 
@@ -24,15 +15,28 @@ function show_paper_area(area_id) {
     if (!area) {
         return;
     }
-    if (area_id === 'actions-area') {
+    if (area_id === 'main-area') {
+        // Disable scrolling if no bibliography
+        if (!area.querySelector('#bibliography-textarea')) {
+            disable_scrolling();           
+        }
+    }
+    else if (area_id === 'sources-area') {
+        // Disable scrolling if there is no form
+        if (!area.querySelector('#choose-sources')) {
+            disable_scrolling();
+        }
+    }
+    else if (area_id === 'files-area') {
+        // Disable scrolling if there is no file history
+        if (!area.querySelector('#file-history')) {
+            disable_scrolling();
+        }
+    }
+    else if (area_id === 'actions-area') {
         // Disable scrolling
         disable_scrolling();
     }
-
-
-
-
-
     area.style.display = '';
 }
 
