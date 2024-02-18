@@ -256,6 +256,7 @@ header
 #search-box
 {
   height: 50px;
+  width: 1200px
 }
 
 .source-card, .new-source-card

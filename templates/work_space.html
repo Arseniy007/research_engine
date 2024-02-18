@@ -69,7 +69,7 @@
             </div>
             {% for source in sources %}
                 <!-- Source Card -->
-                <div onclick="load_and_show_source_space('{{ source.id }}')" id="source-card-{{ source.id }}" class="card text-bg-secondary mb-3 pointy-cursor source-card" data-bs-toggle="modal" data-bs-target="#source-space-modal-{{ source.id }}">
+                <div onclick="load_and_show_source_space('{{ source.id }}')" id="source-card-{{ source.id }}" class="card text-bg-secondary mb-3 pointy-cursor source-card open-modal-button" data-bs-toggle="modal" data-bs-target="#source-space-modal-{{ source.id }}">
                     <div class="card-header source-author">{{ source.author }}</div>
                     <div class="card-body source-card-body">
                         <h5 class="card-title source-button source-title">"{{ source.title }}"</h5>
@@ -151,6 +151,11 @@
                     </div>
                 </div>
             {% endfor %}
+            <script>
+                if (document.getElementsByClassName('source-card').length < 8) {
+                    disable_scrolling();
+                }
+            </script>
         </div>
         <!-- Add new source modal -->
         <div class="modal fade" id="new-source" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="new-source-label" aria-hidden="true">

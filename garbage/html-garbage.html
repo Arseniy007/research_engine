@@ -1775,3 +1775,20 @@ onclick="load_and_show_source_space('{{ source.id }}')"
     </div> 
 </form>
 
+<div class="paper-area" id="sources-area" style="display: none;">
+
+    {% if space_sources %}
+
+        <h3 id="choose-sources">Choose sources</h3>
+        <br>
+        <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
+            {% csrf_token %} 
+            {{ choose_sources_form }}
+            <button type="submit">Choose</button>
+        </form>
+
+    {% else %}
+
+    {% endif %}
+</div>
+

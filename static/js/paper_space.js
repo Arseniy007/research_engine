@@ -26,6 +26,10 @@ function show_paper_area(area_id) {
         if (!area.querySelector('#choose-sources')) {
             disable_scrolling();
         }
+        // Disable scrolling if there is less than 8 sources
+        else if (area.getElementsByClassName('source-card').length < 9) {
+            disable_scrolling();
+        }
     }
     else if (area_id === 'files-area') {
         // Disable scrolling if there is no file history

@@ -15,7 +15,7 @@ from .forms import NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, Rena
 from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 from .space_creation import copy_space_with_all_sources, create_new_space
 from .space_sharing import generate_invitation, get_sources_sharing_code, share_sources
-from .view_helpers import get_work_space_sources
+from .helpers import get_work_space_sources
 
 
 @login_required

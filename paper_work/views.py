@@ -7,6 +7,7 @@ from user_management.helpers import get_user_papers, get_user_work_spaces
 from utils.decorators import paper_authorship_required, post_request_required
 from utils.messages import display_error_message, display_info_message, display_success_message
 from utils.verification import check_paper, check_paper_file, check_work_space
+from work_space.helpers import get_work_space_sources
 from .bibliography import (
     append_bibliography_to_file, clear_bibliography, 
     get_right_bibliography, update_bibliography
@@ -23,8 +24,8 @@ def paper_space(request, paper_id):
     paper = check_paper(paper_id, request.user)
     sources = paper.sources.all()
     paper_files = get_paper_files(paper)
-    space_sources = paper.work_space.sources.all()
-    choose_sources_form = ChooseSourcesForm().set_initials(space_sources)
+    space_sources = get_work_space_sources(paper.work_space)
+    #choose_sources_form = ChooseSourcesForm().set_initials(space_sources)
 
     paper_data = {
         "paper": paper,
@@ -35,7 +36,7 @@ def paper_space(request, paper_id):
         "number_of_files": len(paper_files),
         "last_file_id": paper.get_last_file_id(),
         "bibliography": get_right_bibliography(paper),
-        "choose_sources_form": choose_sources_form,
+        #"choose_sources_form": choose_sources_form,
         "new_file_form": UploadPaperFileForm(),
         "rename_form": RenamePaperForm().set_initial(paper.title),
         "work_spaces": get_user_work_spaces(request.user),

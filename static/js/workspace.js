@@ -13,9 +13,11 @@ function show_workspace_area(area_id) {
     if (!area) {
         return;
     }
-    if (area_id === 'actions-area') {
-        // Disable scrolling
-        disable_scrolling();
+    if (area_id === 'sources-area') {
+        if (area.getElementsByClassName('source-card').length < 8) {
+            // Disable scrolling if there is less than 8 sources
+            disable_scrolling();
+        }
     }
     else if (area_id === 'members-area') {
         if (area.getElementsByClassName('member-card').length <= 3) {
@@ -29,32 +31,12 @@ function show_workspace_area(area_id) {
             disable_scrolling();
         }
     }
+    else if (area_id === 'actions-area') {
+        // Disable scrolling
+        disable_scrolling();
+    }
     area.style.display = '';
 }
-
-function search_source() {
-
-    // Get all sources
-    const sources = document.getElementsByClassName("source-card");
-    const titles = document.getElementsByClassName("source-title");
-    const authors = document.getElementsByClassName("source-author");
-    const number_of_sources = sources.length;
-
-    // Get input
-    let input = document.getElementById("search-box");
-    input = input.value.toLowerCase();
-
-    // Loop through all sources, and hide those who don't match the search query
-    for (let i = 0; i < number_of_sources; i++) {
-        if (!titles[i].innerHTML.toLowerCase().includes(input) && !authors[i].innerHTML.toLowerCase().includes(input)) {
-
-            sources[i].style.display = 'none';
-        }
-        else {
-            sources[i].style.display = '';
-        }
-    }
-};
 
 function load_and_show_source_space(source_id) {
 

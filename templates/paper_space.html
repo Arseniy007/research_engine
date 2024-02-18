@@ -81,24 +81,75 @@
 
     </div>
     <div class="paper-area" id="sources-area" style="display: none;">
-
         {% if space_sources %}
-
             <h3 id="choose-sources">Choose sources</h3>
-            <br>
-            <form action="{% url 'paper_work:select_sources' paper.pk %}" method="post">
-                {% csrf_token %} 
-                {{ choose_sources_form }}
-                <button type="submit">Choose</button>
-            </form>
+
+            <div class="sources-search">
+                <i class="fa fa-search"></i>
+                <input onkeyup="search_source()" id="search-box" class="form-control form-input" type="text" placeholder="Search your sources here...">
+            </div>
+            <br><br>
+            <div id="sources-container">
+                {% for source in space_sources %}
+                    <!-- Source Card -->
+                    <div id="source-card-{{ source.id }}" class="card text-bg-secondary mb-3 pointy-cursor source-card">
+                        <div class="card-header source-author">{{ source.author }}</div>
+                        <div class="card-body source-card-body">
+                            <h5 class="card-title source-button source-title">"{{ source.title }}"</h5>
+                        </div>
+                        <div class="card-footer source-card-footer">
+                            <small class="text-body-secondary">
+                                <div class="source-icons">
+                                    <div class="source-type-icon">
+                                        {% if source.type == 'book' %}
+                                        <span><i class="fa-solid fa-book fa-xl"></i></span>
+                                        {% elif source.type == 'article' %}
+                                            <span><i class="fa-solid fa-newspaper fa-xl"></i></span>
+                                        {% elif source.type == 'chapter' %}
+                                            <span><i class="fa-solid fa-book-bookmark fa-xl"></i></span>
+                                        {% elif source.type == 'webpage' %}
+                                            <span><i class="fa-solid fa-globe fa-xl"></i></span>
+                                        {% endif %}
+                                    </div>
+                                    {% if source.has_file %}
+                                        <div class="source-icon">
+                                            <i class="fa-solid fa-file"></i>
+                                        </div>&nbsp;
+                                    {% endif %}
+                                    {% if source.link %}
+                                        <div class="source-icon">
+                                            <i class="fa-solid fa-link"></i>
+                                        </div>&nbsp;
+                                    {% endif %}
+                                    {% if source.has_quotes %}
+                                        <div class="source-icon">
+                                            <i class="fa-solid fa-quote-left"></i>
+                                            <i class="fa-solid fa-quote-right"></i>
+                                        </div>&nbsp;
+                                    {% endif %}
+                                    <div class="source-icon">
+                                        <strong><i class="fa-solid fa-asterisk"></i></strong>
+                                    </div>
+                                </div>
+                            </small>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+
+
+
+
 
         {% else %}
-
+            <h3>"{{ paper.work_space }}" has no sources</h3><br><br>
+            <a class="light-blue" href="{% url 'work_space:space_view' paper.work_space.pk %}">
+                <h3>You can add your first source here!</h3>
+            </a>
         {% endif %}
     </div>
     <div class="paper-area" id="files-area" style="display: none;">
-
-
         <!-- Upload Paper File Card -->
         <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
             <div class="row g-0">
