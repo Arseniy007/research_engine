@@ -265,6 +265,12 @@ header
   right: 0;
   margin-right: 8px;
 }
+.checked-source
+{
+  border-style: solid;
+  border-color: yellow;
+  border-width: 2px;
+}
 
 .source-checkbox:checked
 {

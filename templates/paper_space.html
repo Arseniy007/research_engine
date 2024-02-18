@@ -96,14 +96,10 @@
                 <div id="sources-container">
                     {% for source in space_sources %}
                         <!-- Source Card -->
-                        <div onclick="mark_source_as_checked('{{ source.id }}');" id="source-card-{{ source.id }}" class="card text-bg-secondary mb-3 pointy-cursor source-card">
+                        <div onclick="mark_source_as_checked('{{ source.id }}');" id="source-card-{{ source.id }}" class="card text-bg-secondary mb-3 pointy-cursor source-card {% if source.id in chosen_source_ids %} checked-source {% endif %}">
                             <div class="card-header source-author">
                                 {{ source.author }}
-                                {% if source.id in chosen_source_ids %}
-                                    <input class="form-check-input source-checkbox" type="checkbox" name="sources-id" value="{{ source.id }}" id="source-checkbox-{{ source.id }}" checked>
-                                {% else %}
-                                    <input class="form-check-input source-checkbox" type="checkbox" name="sources-id" value="{{ source.id }}" id="source-checkbox-{{ source.id }}">
-                                {% endif %}
+                                <input class="form-check-input source-checkbox" type="checkbox" name="sources-id" value="{{ source.id }}" id="source-checkbox-{{ source.id }}" {% if source.id in chosen_source_ids %} checked {% endif %}>
                             </div>
                             <div class="card-body source-card-body">
                                 <h5 class="card-title source-button source-title">"{{ source.title }}"</h5>

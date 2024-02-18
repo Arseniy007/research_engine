@@ -89,9 +89,11 @@ function mark_source_as_checked(source_id) {
     const check_box = source_card.querySelector(`#source-checkbox-${source_id}`);
     if (check_box.checked === false) {
         check_box.checked = true;
+        source_card.classList.add('checked-source')
     }
     else {
         check_box.checked = false;
+        source_card.classList.remove('checked-source')
     }
 }
 
