@@ -12,8 +12,11 @@ from .bibliography import (
     append_bibliography_to_file, clear_bibliography, 
     get_right_bibliography, update_bibliography
 )
-from .forms import ChooseSourcesForm, NewPaperForm, RenamePaperForm
-from .helpers import change_citation_style, create_new_paper, get_paper_files, rename_paper_obj
+from .forms import NewPaperForm, RenamePaperForm
+from .helpers import (
+    change_citation_style, create_new_paper, 
+    get_chosen_source_ids, get_paper_files, rename_paper_obj
+)
 
 
 @login_required(redirect_field_name=None)
@@ -25,7 +28,6 @@ def paper_space(request, paper_id):
     sources = paper.sources.all()
     paper_files = get_paper_files(paper)
     space_sources = get_work_space_sources(paper.work_space)
-    #choose_sources_form = ChooseSourcesForm().set_initials(space_sources)
 
     paper_data = {
         "paper": paper,
@@ -35,8 +37,8 @@ def paper_space(request, paper_id):
         "number_of_sources": len(sources),
         "number_of_files": len(paper_files),
         "last_file_id": paper.get_last_file_id(),
+        "chosen_source_ids": get_chosen_source_ids(paper),
         "bibliography": get_right_bibliography(paper),
-        #"choose_sources_form": choose_sources_form,
         "new_file_form": UploadPaperFileForm(),
         "rename_form": RenamePaperForm().set_initial(paper.title),
         "work_spaces": get_user_work_spaces(request.user),
@@ -128,31 +130,26 @@ def archive_or_unarchive_paper(request, paper_id):
 
 
 @post_request_required
-@paper_authorship_required
 @login_required(redirect_field_name=None)
 def select_sources_for_paper(request, paper_id):
     """Allow user to choose from all sources in a work space to be used (cited) in a paper"""
 
-    form = ChooseSourcesForm(request.POST)
+    # Get all selected sources
+    paper = check_paper(paper_id, request.user)
+    selected_sources = request.POST.getlist('sources-id')
 
-    if form.is_valid():
-        # Get all selected sources
-        paper = check_paper(paper_id, request.user)
-        selected_sources = form.cleaned_data["sources"]
+    # Remove all sources that were not selected and add all chosen one
+    for source in paper.sources.all():
+        if source not in selected_sources:
+            paper.sources.remove(source)
+    paper.sources.add(*selected_sources)
 
-        # Remove all sources that were not selected and add all chosen one
-        for source in paper.sources.all():
-            if source not in selected_sources:
-                paper.sources.remove(source)
-        paper.sources.add(*selected_sources)
+    # Create new bibliography text
+    update_bibliography(paper)
 
-        # Create new bibliography text
-        update_bibliography(paper)
-        display_success_message(request, "Bibliography updated!")
-    else:
-        display_error_message(request)
-
-    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
+    # Redirect back to paper page
+    display_info_message(request, "Bibliography updated!")
+    return JsonResponse({"status": "ok", "url": reverse("paper_work:paper_space", args=(paper_id,))})
 
 
 @paper_authorship_required

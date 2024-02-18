@@ -43,7 +43,6 @@
 
         <h4>TODO</h4>
         <br>
-        <h4>Choose sources form (if in "sources" - then checked checkboxes)</h4>
         <h4>CSS of statistics</h4>
         <h4>Css of files history</h4>
         <br><br><br>
@@ -81,67 +80,74 @@
 
     </div>
     <div class="paper-area" id="sources-area" style="display: none;">
-        {% if space_sources %}
-            <h3 id="choose-sources">Choose sources</h3>
-
+        {% if space_sources %} 
+            <button onclick="submit_choose_source_form('{{ paper.pk }}')" id="choose-sources-button" class="btn btn-dark btn-lg btn-block" type="button">
+                <i class="fa-regular fa-bookmark"></i>
+                &nbsp;&nbsp;Update Bibliography&nbsp;&nbsp;
+                <i class="fa-regular fa-bookmark"></i>
+            </button><br><br>
             <div class="sources-search">
                 <i class="fa fa-search"></i>
                 <input onkeyup="search_source()" id="search-box" class="form-control form-input" type="text" placeholder="Search your sources here...">
             </div>
             <br><br>
-            <div id="sources-container">
-                {% for source in space_sources %}
-                    <!-- Source Card -->
-                    <div id="source-card-{{ source.id }}" class="card text-bg-secondary mb-3 pointy-cursor source-card">
-                        <div class="card-header source-author">{{ source.author }}</div>
-                        <div class="card-body source-card-body">
-                            <h5 class="card-title source-button source-title">"{{ source.title }}"</h5>
-                        </div>
-                        <div class="card-footer source-card-footer">
-                            <small class="text-body-secondary">
-                                <div class="source-icons">
-                                    <div class="source-type-icon">
-                                        {% if source.type == 'book' %}
-                                        <span><i class="fa-solid fa-book fa-xl"></i></span>
-                                        {% elif source.type == 'article' %}
-                                            <span><i class="fa-solid fa-newspaper fa-xl"></i></span>
-                                        {% elif source.type == 'chapter' %}
-                                            <span><i class="fa-solid fa-book-bookmark fa-xl"></i></span>
-                                        {% elif source.type == 'webpage' %}
-                                            <span><i class="fa-solid fa-globe fa-xl"></i></span>
+            <form id="choose-source-form">
+                {% csrf_token %}
+                <div id="sources-container">
+                    {% for source in space_sources %}
+                        <!-- Source Card -->
+                        <div onclick="mark_source_as_checked('{{ source.id }}');" id="source-card-{{ source.id }}" class="card text-bg-secondary mb-3 pointy-cursor source-card">
+                            <div class="card-header source-author">
+                                {{ source.author }}
+                                {% if source.id in chosen_source_ids %}
+                                    <input class="form-check-input source-checkbox" type="checkbox" name="sources-id" value="{{ source.id }}" id="source-checkbox-{{ source.id }}" checked>
+                                {% else %}
+                                    <input class="form-check-input source-checkbox" type="checkbox" name="sources-id" value="{{ source.id }}" id="source-checkbox-{{ source.id }}">
+                                {% endif %}
+                            </div>
+                            <div class="card-body source-card-body">
+                                <h5 class="card-title source-button source-title">"{{ source.title }}"</h5>
+                            </div>
+                            <div class="card-footer source-card-footer">
+                                <small class="text-body-secondary">
+                                    <div class="source-icons">
+                                        <div class="source-type-icon">
+                                            {% if source.type == 'book' %}
+                                                <span><i class="fa-solid fa-book fa-xl"></i></span>
+                                            {% elif source.type == 'article' %}
+                                                <span><i class="fa-solid fa-newspaper fa-xl"></i></span>
+                                            {% elif source.type == 'chapter' %}
+                                                <span><i class="fa-solid fa-book-bookmark fa-xl"></i></span>
+                                            {% elif source.type == 'webpage' %}
+                                                <span><i class="fa-solid fa-globe fa-xl"></i></span>
+                                            {% endif %}
+                                        </div>
+                                        {% if source.has_file %}
+                                            <div class="source-icon">
+                                                <i class="fa-solid fa-file"></i>
+                                            </div>&nbsp;
                                         {% endif %}
+                                        {% if source.link %}
+                                            <div class="source-icon">
+                                                <i class="fa-solid fa-link"></i>
+                                            </div>&nbsp;
+                                        {% endif %}
+                                        {% if source.has_quotes %}
+                                            <div class="source-icon">
+                                                <i class="fa-solid fa-quote-left"></i>
+                                                <i class="fa-solid fa-quote-right"></i>
+                                            </div>&nbsp;
+                                        {% endif %}
+                                        <div class="source-icon">
+                                            <strong><i class="fa-solid fa-asterisk"></i></strong>
+                                        </div>
                                     </div>
-                                    {% if source.has_file %}
-                                        <div class="source-icon">
-                                            <i class="fa-solid fa-file"></i>
-                                        </div>&nbsp;
-                                    {% endif %}
-                                    {% if source.link %}
-                                        <div class="source-icon">
-                                            <i class="fa-solid fa-link"></i>
-                                        </div>&nbsp;
-                                    {% endif %}
-                                    {% if source.has_quotes %}
-                                        <div class="source-icon">
-                                            <i class="fa-solid fa-quote-left"></i>
-                                            <i class="fa-solid fa-quote-right"></i>
-                                        </div>&nbsp;
-                                    {% endif %}
-                                    <div class="source-icon">
-                                        <strong><i class="fa-solid fa-asterisk"></i></strong>
-                                    </div>
-                                </div>
-                            </small>
+                                </small>
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-            </div>
-
-
-
-
-
-
+                    {% endfor %}
+                </div>
+            </form>
         {% else %}
             <h3>"{{ paper.work_space }}" has no sources</h3><br><br>
             <a class="light-blue" href="{% url 'work_space:space_view' paper.work_space.pk %}">

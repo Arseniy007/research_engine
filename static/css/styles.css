@@ -259,6 +259,24 @@ header
   width: 1200px
 }
 
+.source-checkbox
+{
+  position: absolute;
+  right: 0;
+  margin-right: 8px;
+}
+
+.source-checkbox:checked
+{
+  background-color: rgba(255, 0, 0, 0.775) !important;
+}
+
+#choose-sources-button
+{
+  display: block;
+  margin: auto;
+}
+
 .source-card, .new-source-card
 {
   width: 300px;

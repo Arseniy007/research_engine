@@ -18,12 +18,3 @@ class RenamePaperForm(NewPaperForm):
         """Pre-populate form fields"""
         self.fields["title"].initial = paper_title
         return self
-
-
-class ChooseSourcesForm(forms.Form):
-    sources = forms.ModelMultipleChoiceField(queryset=Source.objects.all(), required=False, widget=forms.CheckboxSelectMultiple)
-
-    def set_initials(self, sources):
-        """Pre-populate field with all sources in a workspace"""
-        self.fields["sources"].queryset = sources
-        return self

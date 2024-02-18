@@ -34,3 +34,8 @@ def change_citation_style(paper: Paper) -> str:
 def get_paper_files(paper: Paper):
     """Get all uploaded paper files"""
     return PaperFile.objects.filter(paper=paper).order_by("version_number")
+
+
+def get_chosen_source_ids(paper: Paper) -> list:
+    """Get id of every chosen source"""
+    return [source.pk for source in paper.sources.all()]

@@ -537,3 +537,15 @@ input[type]:not([type="button"], [type="submit"]), textarea, select
   position: absolute;
   left: 315px;
 }
+
+
+#choose-sources-button1
+{
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-right: 50px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+

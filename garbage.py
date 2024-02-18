@@ -4781,6 +4781,42 @@ def change_paper_citation_style(request, paper_id):
         display_error_message(request)
     return redirect(reverse("paper_work:paper_space", args=(paper_id,)))    
 
+#choose_sources_form = ChooseSourcesForm().set_initials(space_sources)
+
+
+class ChooseSourcesForm(forms.Form):
+    sources = forms.ModelMultipleChoiceField(queryset=Source.objects.all(), required=False, widget=forms.CheckboxSelectMultiple)
+
+    def set_initials(self, sources):
+        self.fields["sources"].queryset = sources
+        return self
+
+@post_request_required
+@paper_authorship_required
+@login_required(redirect_field_name=None)
+def select_sources_for_paper(request, paper_id):
+
+    form = ChooseSourcesForm(request.POST)
+
+    if form.is_valid():
+        # Get all selected sources
+        paper = check_paper(paper_id, request.user)
+        selected_sources = form.cleaned_data["sources"]
+
+        # Remove all sources that were not selected and add all chosen one
+        for source in paper.sources.all():
+            if source not in selected_sources:
+                paper.sources.remove(source)
+        paper.sources.add(*selected_sources)
+
+        # Create new bibliography text
+        update_bibliography(paper)
+        display_success_message(request, "Bibliography updated!")
+    else:
+        display_error_message(request)
+
+    return redirect(reverse("paper_work:paper_space", args=(paper_id,)))        
+
 
 
 """
