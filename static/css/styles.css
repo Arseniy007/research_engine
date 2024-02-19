@@ -283,6 +283,15 @@ header {
   margin: auto;
 }
 
+#help-to-choose-buttons
+{
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 15px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
 .source-card, .new-source-card {
   width: 300px;
   max-width: 16rem;
