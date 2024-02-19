@@ -316,5 +316,3 @@ function copy_reference(style) {
     textarea.select();
     document.execCommand("copy");
 }
-
-
