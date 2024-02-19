@@ -146,7 +146,7 @@
                 </div>
             {% endfor %}
             <script>
-                if (document.getElementsByClassName('source-card').length < 8) {
+                if (document.getElementsByClassName('source-card').length < 4) {
                     disable_scrolling();
                 }
             </script>
@@ -492,7 +492,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Download Workspace</h5>
+                            <h5 class="card-title"><b>Download Workspace</b></h5>
                             <p class="card-text">
                                 Click here to download whole workspace:&nbsp;&nbsp;
                                 <a href="{% url 'work_space:download_space' space.pk %}" class="light-blue">
@@ -517,7 +517,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">Invite to Workspace</h5>
+                                <h5 class="card-title"><b>Invite to Workspace</b></h5>
                                 <p class="card-text">
                                     <br>Click here to create invitation code or link:&nbsp;&nbsp;
                                     <a onclick="invite_to_work_space('{{ space.pk }}')" href="#invite-to-space-modal" class="light-blue" data-bs-toggle="modal" data-bs-target="#invite-to-space-modal">
@@ -537,7 +537,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <br><h5 class="card-title">Leave Workspace</h5>
+                                <br><h5 class="card-title"><b>Leave Workspace</b></h5>
                                 <p class="card-text">
                                     <br>Click here at your own risk:<br>
                                     <a href="#leave-space-modal" class="open-modal-button color-red" data-bs-toggle="modal" data-bs-target="#leave-space-modal">
@@ -561,7 +561,7 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title">Share Sources</h5>
+                                    <h5 class="card-title"><b>Share Sources</b></h5>
                                     <p class="card-text">
                                         <br>Click here to create special code or link:&nbsp;&nbsp;
                                         <a onclick="share_space_sources('{{ space.pk }}')" href="#share-sources-modal" class="light-blue" data-bs-toggle="modal" data-bs-target="#share-sources-modal">
@@ -581,7 +581,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">Archive Workspace</h5>
+                                <h5 class="card-title"><b>Archive Workspace</b></h5>
                                 <p class="card-text">
                                     <br>Click here at your own risk:<br>
                                     <a href="#space-archive-modal" class="open-modal-button color-red" data-bs-toggle="modal" data-bs-target="#space-archive-modal">

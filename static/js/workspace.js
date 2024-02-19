@@ -13,7 +13,7 @@ function show_workspace_area(area_id) {
         return;
     }
     if (area_id === 'sources-area') {
-        if (area.getElementsByClassName('source-card').length < 8) {
+        if (area.getElementsByClassName('source-card').length < 4) {
             // Disable scrolling if there is less than 8 sources
             disable_scrolling();
         }

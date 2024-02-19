@@ -14,7 +14,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'work_space:space_view' source.work_space.pk %}" class="color-grey">{{ source.work_space }}</a></li>
             <li class="breadcrumb-item active light-blue" aria-current="page">
-                <h2 class="one-liner light-blue">"{{ source }}" by {{ source.author }}&nbsp;<i id="edit-title-symbol" class="fa-solid fa-pen-to-square fa-xs" style="display: none;"></i></h2>
+                <h2 class="one-liner light-blue">{{ source_header }}</h2>
             </li>
         </ol>
     </nav>
@@ -33,10 +33,10 @@
 
 {% block body %}
     <div class="source-area" id="info-area">
-
-
-        <h2>Info area</h2>
-
+        <h2>TODO</h2>
+        <br>
+        <h4>Reference</h4>
+        <h4>File and Link</h4>
 
 
 
@@ -79,9 +79,9 @@
                         <div class="card-body">
                             <h5 class="card-title">
                                 {% if source.has_file %}
-                                    Upload New File
+                                    <b>Upload New File</b>
                                 {% else %}
-                                    Upload Source file
+                                    <b>Upload Source file</b>
                                 {% endif %}
                             </h5>
                             <p class="card-text">
@@ -104,7 +104,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Alter Source Info</h5>
+                            <h5 class="card-title"><b>Alter Source Info</b></h5>
                             <p class="card-text">
                                 <br>Change source title, author or anything else you'd like:<br>
                                 <a href="#alter-source-modal" class="open-modal-button light-blue" data-bs-toggle="modal" data-bs-target="#alter-source-modal">
@@ -123,7 +123,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Delete Source</h5>
+                            <h5 class="card-title"><b>Delete Source</b></h5>
                             <p class="card-text">
                                 <br>Click here at your own risk:<br>
                                 <a href="#delete-source-modal" class="open-modal-button color-red" data-bs-toggle="modal" data-bs-target="#delete-source-modal">
@@ -199,12 +199,178 @@
                     <div class="modal-body">
                         <form action="{% url 'bookshelf:alter_source' source.pk %}" method="post" class="needs-validation" novalidate>
                             {% csrf_token %}
-                            <div class="form-outline mb-4 form-floating">
-                                {{ link_form.link }}
-                                <label class="form-label" for="link-field">Link</label>
-                                <div class="valid-feedback">Looks good!</div>
-                                <div class="invalid-feedback">Please provide a link.</div>
-                            </div>
+                            {{ alter_source_form.source_type }}
+                            {{ alter_source_form.number_of_authors }}
+
+                            {% if source_type == 'book' %}
+                                <div class="form-outline mb-4 form-floating">         
+                                    {{ alter_source_form.author }}
+                                    <label class="form-label" for="author-field">Author</label>
+                                    <div class="invalid-feedback">Please provide books title.</div>
+                                </div>
+                                <div class="form-outline mb-4 form-floating">         
+                                    {{ alter_source_form.title }}
+                                    <label class="form-label" for="title-field">Title</label>
+                                    <div class="invalid-feedback">Please provide books title.</div>
+                                </div>
+                                <div class="form-outline mb-4 row">
+                                    <div class="col-md">
+                                        <div class="form-floating">
+                                            {{ alter_source_form.publishing_house }}
+                                            <label class="form-label" for="publishing-house-field">Publishing House</label>
+                                            <div class="invalid-feedback">Please provide books publishing house.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating">
+                                            {{ alter_source_form.year }}
+                                            <label class="form-label" for="book-year-field">Year</label>
+                                            <div class="invalid-feedback">Please provide publishing year.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% elif source_type == 'article' %}
+                                <div class="form-outline mb-4 form-floating">         
+                                    {{ alter_source_form.author }}
+                                    <label class="form-label" for="author-field">Author</label>
+                                    <div class="invalid-feedback">Please provide article author.</div>
+                                </div>
+                                <div class="form-outline mb-4 form-floating">         
+                                    {{ alter_source_form.title }}
+                                    <label class="form-label" for="title-field">Title</label>
+                                    <div class="invalid-feedback">Please provide article title.</div>
+                                </div>
+                                <div class="form-outline mb-4 form-floating">         
+                                    {{ alter_source_form.journal_title }}
+                                    <label class="form-label" for="journal-title-field">Journal Title</label>
+                                    <div class="invalid-feedback">Please provide journal title.</div>
+                                </div>
+                                <div class="form-outline mb-4 row">
+                                    <div class="col-md">
+                                        <div class="form-floating">
+                                            {{ alter_source_form.volume }}
+                                            <label class="form-label" for="volume-field">Volume</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide journal volume.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating">
+                                            {{ alter_source_form.issue }}
+                                            <label class="form-label" for="issue-field">Issue</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide journals issue.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-outline mb-4 row">
+                                    <div class="col-md">
+                                        <div class="form-floating">
+                                            {{ alter_source_form.pages }}
+                                            <label class="form-label" for="article-pages-field">Article pages</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide article pages.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating">
+                                            {{ alter_source_form.year }}
+                                            <label class="form-label" for="article-year-field">Article Year</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide article year.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-outline mb-4 form-floating">
+                                    {{ alter_source_form.link_to_journal }}
+                                    <label class="form-label" for="link-to-journal-field">Link to Journal</label>
+                                </div>
+                            {% elif source_type == 'chapter' %}
+                                {{ alter_source_form.number_of_chapter_authors }}
+                                <div class="form-outline mb-4 form-floating">         
+                                    {{ alter_source_form.author }}
+                                    <label class="form-label" for="author-field">Chapter Author</label>
+                                    <div class="invalid-feedback">Please provide chapter author.</div>
+                                </div>
+                                <div class="form-outline mb-4 form-floating">         
+                                    {{ alter_source_form.title }}
+                                    <label class="form-label" for="chapter-title-field">Chapter Title</label>
+                                    <div class="valid-feedback">Looks good!</div>
+                                    <div class="invalid-feedback">Please provide chapter title.</div>
+                                </div>
+                                <div class="form-outline mb-4 form-floating">         
+                                    {{ alter_source_form.book_author }}
+                                    <label class="form-label" for="book-author-field">Book Author</label>
+                                    <div class="invalid-feedback">Please provide book author.</div>
+                                </div>
+                                <div class="form-outline mb-4 form-floating">
+                                    {{ alter_source_form.book_title }}
+                                    <label class="form-label" for="book-title-field">Book title</label>
+                                    <div class="valid-feedback">Looks good!</div>
+                                    <div class="invalid-feedback">Please provide book title.</div>
+                                </div>
+                                <div class="form-outline mb-4 form-floating">
+                                    {{ alter_source_form.publishing_house }}
+                                    <label class="form-label" for="chapter-publishing-house-field">Publishing House</label>
+                                    <div class="valid-feedback">Looks good!</div>
+                                    <div class="invalid-feedback">Please provide publishing house.</div>
+                                </div>
+                                <div class="form-outline mb-4 row">
+                                    <div class="col-md">
+                                        <div class="form-floating">
+                                            {{ alter_source_form.edition }}
+                                            <label class="form-label" for="edition-field">Edition</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide book edition.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating">
+                                            {{ alter_source_form.pages }}
+                                            <label class="form-label" for="chapter-pages-field">Pages</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide chapters pages.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating">
+                                            {{ alter_source_form.year }}
+                                            <label class="form-label" for="chapter-year-field">Year</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please provide publishing year.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% elif source_type == 'webpage' %}
+                                <div class="form-outline mb-4 form-floating">         
+                                    {{ alter_source_form.author }}
+                                    <label class="form-label" for="author-field">Author</label>
+                                    <div class="invalid-feedback">Please provide webpage author.</div>
+                                </div>
+                                <div class="form-outline mb-4 form-floating">         
+                                    {{ alter_source_form.title }}
+                                    <label class="form-label" for="title-field">Title</label>
+                                    <div class="invalid-feedback">Please provide webpage title.</div>
+                                </div>
+                                <div class="form-outline mb-4 form-floating">
+                                    {{ alter_source_form.website_title }}
+                                    <label class="form-label" for="website-title-field">Website title</label>
+                                    <div class="valid-feedback">Looks good!</div>
+                                    <div class="invalid-feedback">Please provide website title.</div>
+                                </div>
+                                <div class="form-outline mb-4 form-floating">
+                                    {{ alter_source_form.link }}
+                                    <label class="form-label" for="page-url-field">Page URL</label>
+                                    <div class="valid-feedback">Looks good!</div>
+                                    <div class="invalid-feedback">Please provide page url.</div>
+                                </div>
+                                <div class="form-outline mb-4 form-floating">
+                                    {{ alter_source_form.date }}
+                                    <label class="form-label" for="date-field">Date</label>
+                                    <div class="valid-feedback">Looks good!</div>
+                                    <div class="invalid-feedback">Please provide date.</div>
+                                </div>
+                            {% endif %}
                             <div class="d-flex justify-content-center">
                                 <input type="submit" value="Edit Source" class="btn btn-info btn-lg btn-block gradient-custom-4 text-body"></input>
                             </div>
@@ -216,9 +382,25 @@
                 </div>
             </div>
         </div>
-
-       
-
-
+        <!--Delete Source Modal -->
+        <div class="modal fade" id="delete-source-modal" tabindex="-1" aria-labelledby="delete-source-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="delete-source-modal-label">"{{ source }}"" will be deleted!</h1>
+                        <button type="button" class="btn-close close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Are you sure you want to delete "{{ source }}"?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger">
+                            <a href="{% url 'bookshelf:delete_source' source.pk %}" class="color-white">Delete Source</a>
+                        </button>
+                        <button type="button" class="btn btn-secondary close-footer-button" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

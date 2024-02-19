@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from citation.author_formatting import format_authors_apa
 from file_handling.forms import UploadSourceFileForm
 from utils.data_cleaning import clean_author_data
 from utils.decorators import post_request_required, source_ownership_required
@@ -24,6 +25,7 @@ def source_space(request, source_id):
 
     source = check_source(source_id, request.user)
     reference = get_source_reference(source)
+    source_header = f'"{source}" by {format_authors_apa(source.author)}'
 
     if source.has_file:
         source_file_id = source.get_file().pk
@@ -33,9 +35,10 @@ def source_space(request, source_id):
     # Get all needed source-related data
     source_data = {
             "source": source,
-            "source_type": source.get_type(),
             "reference": reference,
+            "source_header": source_header,
             "source_file_id": source_file_id,
+            "source_type": source.get_type(),
             "alter_source_form": get_and_set_alter_form(source),
             "upload_file_form": UploadSourceFileForm(),
             "link_form": AddLinkForm().set_initials(source),
@@ -101,6 +104,7 @@ def delete_source(request, source_id):
 
     # Delete source from the db
     source.delete()
+    display_info_message(request, "Source successfully deleted!")
     return redirect(reverse("work_space:space_view", args=(space_id,)))
 
 
@@ -120,7 +124,7 @@ def alter_source_info(request, source_id):
         display_info_message(request, "Info successfully updated!")
     else:
         display_error_message(request)
-    return redirect(reverse("bookshelf:source_space", args=source_id,))
+    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
     
 
 @post_request_required
