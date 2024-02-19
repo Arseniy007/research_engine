@@ -157,7 +157,7 @@
                     <div id="file-card-{{ file.pk }}" class="card text-bg-secondary mb-3 paper-file-card {% if file.pk == last_file_id %} checked-item {% endif %}">
                         <div class="card-header">
                             {{ file }}
-                            <i class="fa-solid {% if file.file_extension == 'docx' %} fa-file-word {% else %} fa-file-pdf {% endif %} fa-xl paper-extension-icon"></i>
+                            <i class="fa-solid {% if file.file_extension == 'docx' %} fa-file-word {% else %} fa-file-pdf {% endif %} fa-xl"></i>
                         </div>
                         <div class="card-body source-card-body btn-dark">
                             <h5 class="card-title">
@@ -334,7 +334,7 @@
             </div>
         </div>
         <!-- Upload Paper File Modal -->
-        <div class="modal fade" id="upload-file-modal" tabindex="-1" aria-labelledby="upload-file-modal-label" aria-hidden="true">
+        <div class="modal fade library-background" id="upload-file-modal" tabindex="-1" aria-labelledby="upload-file-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">

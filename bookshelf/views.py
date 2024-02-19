@@ -27,18 +27,13 @@ def source_space(request, source_id):
     reference = get_source_reference(source)
     source_header = f'"{source}" by {format_authors_apa(source.author)}'
 
-    if source.has_file:
-        source_file_id = source.get_file().pk
-    else:
-        source_file_id = None
-
     # Get all needed source-related data
     source_data = {
             "source": source,
             "reference": reference,
             "source_header": source_header,
-            "source_file_id": source_file_id,
             "source_type": source.get_type(),
+            "source_file": source.get_file(),
             "alter_source_form": get_and_set_alter_form(source),
             "upload_file_form": UploadSourceFileForm(),
             "link_form": AddLinkForm().set_initials(source),

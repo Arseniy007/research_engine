@@ -23,26 +23,47 @@
 {% block nav_links %}
     <nav class="nav-tabs" id="nav-tabs">
         <a onclick="show_source_area('info-area');return false" href="#" type="button" class="active">
-            Info
+            Reference
         </a>
-        <a onclick="show_source_area('actions-area');return false" href="#" type="button" id="settings-area-button">
+        {% if source.has_file %}
+            <a href="{% url 'file_handling:display_source_file' source_file.pk %}">
+                {% if source_file.file_extension == "pdf" %}
+                    Open File&nbsp;<i class="fa-solid fa-file-pdf fa-lg"></i>
+                {% elif source_file.file_extension == "docx" %}
+                    Download File&nbsp;<i class="fa-solid fa-file-word fa-lg"></i>
+                {% endif %}
+            </a>
+        {% endif %}
+        {% if source.link %}
+            <a href="{{ source.link }}">Link to Source&nbsp;<i class="fa-solid fa-link"></i></a>
+        {% endif %}
+        <a onclick="show_source_area('actions-area');return false" href="#" type="button">
             Actions
         </a>
     </nav>
 {% endblock %}
 
 {% block body %}
-    <div class="source-area" id="info-area">
-        <h2>TODO</h2>
-        <br>
-        <h4>Reference</h4>
-        <h4>File and Link</h4>
-        <h4>Source type Icon</h4>
-
-
-
-
-
+    <div class="source-area" id="info-area"> 
+        <div id="reference-container">
+            <div id="source-type-icon-huge">
+                {% if source_type == 'book' %}
+                    <span><i class="fa-solid fa-book fa-10x"></i></span>
+                {% elif source_type == 'article' %}
+                    <span><i class="fa-solid fa-newspaper fa-10x"></i></span>
+                {% elif source_type == 'chapter' %}
+                    <span><i class="fa-solid fa-book-bookmark fa-10x"></i></span>
+                {% elif source_type == 'webpage' %}
+                    <span><i class="fa-solid fa-globe fa-10x"></i></span>
+                {% endif %}
+            </div>
+            <div id="reference-huge">
+                <br><h4 class="light-blue">APA:</h4>
+                <h4>{{ reference.endnote_apa }}</h4><br>
+                <h4 class="light-blue">MLA:</h4>
+                <h4>{{ reference.endnote_mla }}</h4>
+            </div>
+        </div>
     </div>
     <div class="source-area" id="actions-area" style="display: none;">
         <div class="cards-row">
@@ -138,7 +159,7 @@
             </div>
         </div>
         <!-- Add Source Link Modal -->
-        <div class="modal fade" id="add-link-modal" tabindex="-1" aria-labelledby="add-link-modal-label" aria-hidden="true">
+        <div class="modal fade library-background" id="add-link-modal" tabindex="-1" aria-labelledby="add-link-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -166,7 +187,7 @@
             </div>
         </div>
         <!-- Upload Source File Modal -->
-        <div class="modal fade" id="upload-source-file-modal" tabindex="-1" aria-labelledby="upload-source-file-modal-label" aria-hidden="true">
+        <div class="modal fade library-background" id="upload-source-file-modal" tabindex="-1" aria-labelledby="upload-source-file-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -191,7 +212,7 @@
             </div>
         </div>
         <!-- Alter Source Info Modal -->
-        <div class="modal fade" id="alter-source-modal" tabindex="-1" aria-labelledby="alter-source-modal-label" aria-hidden="true">
+        <div class="modal fade library-background" id="alter-source-modal" tabindex="-1" aria-labelledby="alter-source-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">

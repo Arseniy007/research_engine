@@ -23,13 +23,13 @@ class PaperFile(models.Model):
     paper = models.ForeignKey("paper_work.Paper", on_delete=models.CASCADE, related_name="files")
     commit_text = models.CharField(max_length=100, blank=True)
     version_number = models.CharField(max_length=50)
-    file_extension = models.CharField(max_length=5)
+    file_extension = models.CharField(max_length=4)
     uploading_time = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to=paper_saving_path)
 
 
     def save(self, *args, **kwargs):
-        """Custom save method with storing version number"""
+        """Custom save method with storing version number and file extension"""
         previous_versions = PaperFile.objects.filter(paper=self.paper)
         self.version_number = f"file #{len(previous_versions) + 1}"
         self.file_extension = self.get_file_extension()
@@ -66,7 +66,14 @@ class PaperFile(models.Model):
 
 class SourceFile(models.Model):
     source = models.OneToOneField("bookshelf.Source", on_delete=models.CASCADE, related_name="file")
+    file_extension = models.CharField(max_length=4)
     file = models.FileField(upload_to=source_saving_path, blank=True)
+
+
+    def save(self, *args, **kwargs):
+        """Custom save method with storing file extension"""
+        self.file_extension = self.get_file_extension()
+        return super(SourceFile, self).save(*args, **kwargs)
 
 
     def file_name(self):
@@ -79,3 +86,11 @@ class SourceFile(models.Model):
         if self.file:
             return os.path.join(MEDIA_ROOT, str(self.file))
         return None
+    
+
+    def get_file_extension(self) -> str:
+        """Either .pdf or .docx"""
+        if self.file_name().lower().endswith(".pdf"):
+            return "pdf"
+        else:
+            return "docx"

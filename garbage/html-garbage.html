@@ -1857,3 +1857,32 @@ onclick="load_and_show_source_space('{{ source.id }}')"
 </div>
 
 <h2 class="one-liner light-blue">"{{ source }}" by {{ source.author }}&nbsp;<i id="edit-title-symbol" class="fa-solid fa-pen-to-square fa-xs" style="display: none;"></i></h2>
+
+
+
+<div class="source-footer-button left-source-footer-button">
+    <button onclick="delete_source('{{ source.id }}')" id="delete-source-button-{{ source.id }}" type="button" class="btn btn-danger round-button" style="display: none;">Delete source&nbsp;&nbsp;<i class="fa-solid fa-trash"></i></button>
+    <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" id="show-source-settings-button-{{ source.id }}" class="btn btn-warning round-button">Edit&nbsp;<i class="fa-solid fa-gears source-modal-icon"></i></button>
+</div>
+<div class="source-footer-button middle-source-footer-buttons">
+    <a href="{% url 'bookshelf:source_space' source.id %}" id="expand-button-{{ source.id }}">
+        <button type="button" class="btn btn-dark round-button">Full Screen&nbsp;&nbsp;<i class="fa-solid fa-expand"></i></button>
+    </a>
+    {% if source.has_file %}
+        <a href="{% url 'file_handling:display_source_file' source.file_id %}" id="open-source-file-button-{{ source.id }}">
+            <button type="button" class="btn btn-dark round-button">File&nbsp;&nbsp;<i class="fa-solid fa-file"></i></button>
+        </a>
+    {% endif %}
+    {% if source.link %}
+        <a href="{{ source.link }}" id="source-link-button-{{ source.id }}">
+            <button type="button" class="btn btn-dark round-button">Link&nbsp;&nbsp;<i class="fa-solid fa-link source-modal-icon"></i></button>
+        </a>
+    {% endif %}
+</div>
+<div class="source-footer-button left-source-footer-button invisible-button"></div>
+<div class="source-footer-button right-source-footer-button">
+    <button onclick="show_or_hide_source_settings('{{ source.id }}')" type="button" class="btn btn-secondary round-button " id="close-source-settings-button-{{ source.id }}" style="display: none;">Back</button>
+    <button type="button" class="btn btn-secondary round-button close-footer-button" data-bs-dismiss="modal" id="close-source-modal-button-{{ source.id }}">Close</button>
+</div>
+
+
