@@ -113,7 +113,14 @@
                                 <h1 class="modal-title fs-5 light-blue" id="source-space-label-{{ source.id }}"></h1>
                                 <button type="button" class="btn-close" id="btn-close-{{ source.id }}" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body" id="source-space-div-{{ source.id }}"></div>
+                            <div class="modal-body" id="source-space-div-{{ source.id }}">
+                                <div class="mt-0">
+                                    <br><h4 class="light-blue">APA:</h4>
+                                    <h4 id="apa-reference-{{ source.id }}"></h4><br>
+                                    <h4 class="light-blue">MLA:</h4>
+                                    <h4 id="mla-reference-{{ source.id }}"></h4>
+                                </div>
+                            </div>
                             <div id="source-id" style="display: none;">{{ source.id }}</div>
                             <div class="modal-footer source-footer">
                                 <div class="source-footer-button left-source-footer-buttons">

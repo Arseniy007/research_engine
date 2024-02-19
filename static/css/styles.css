@@ -308,16 +308,13 @@ header {
   color: white;
 }
 
-
 #reference-container {
   display: flex;
   justify-content: space-between;
 }
 
-
 #source-type-icon-huge {
   float: left;
-
 }
 
 #reference-huge {

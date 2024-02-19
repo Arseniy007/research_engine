@@ -248,13 +248,7 @@ function load_and_show_new_source_space(url) {
         // Past fetched body
         new_source_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
 
-        // Set validation for source-edit-forms
-        const edit_forms = document.getElementsByClassName('edit-form');
-        Array.from(edit_forms).forEach(form => {
-            form.addEventListener('change', function() {
-                form.classList.add('was-changed')
-            })
-        })
+       
     })
 }
 

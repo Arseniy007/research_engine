@@ -1373,3 +1373,92 @@ function show_or_hide_source_settings(source_id) {
         }
     }
 }
+
+
+function load_and_show_source_space(source_id) {
+
+    // Source-space view url
+    const url = `/source_space/${source_id}`;
+
+    // Send request to source-space view
+    fetch(url)
+    .then(response => handleErrors(response, url))
+    .then(function(response) {
+        // When the page is loaded convert it to text
+        return response.text()
+    })
+    .then(function(html) {
+        // Initialize the DOM parser
+        let parser = new DOMParser();
+
+        // Parse the text
+        const source_space_page = parser.parseFromString(html, "text/html");
+
+        // Get empty div for pasting
+        const source_space_div = document.querySelector(`#source-space-div-${source_id}`);
+
+        // Past source space header
+        const source_space_header = source_space_page.querySelector('#source-space-header');
+        document.querySelector(`#source-space-label-${source_id}`).innerHTML = source_space_header.innerHTML;
+
+        // Past source space body
+        source_space_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
+        
+        // Set validation for source-edit-forms
+        const edit_forms = document.getElementsByClassName('edit-form');
+        Array.from(edit_forms).forEach(form => {
+            form.addEventListener('change', function() {
+                form.classList.add('was-changed')
+            })
+        })
+    })
+}
+
+function load_and_show_new_source_space(url) {
+
+    // Send request to source-space view
+    fetch(url)
+    .then(response => handleErrors(response, url))
+    .then(function(response) {
+        // When the page is loaded convert it to text
+        return response.text()
+    })
+    .then(function(html) {
+        // Initialize the DOM parser
+        let parser = new DOMParser();
+
+        // Parse the text
+        const source_space_page = parser.parseFromString(html, "text/html");
+
+        // Get div for pasting (the one with submitted form)
+        const new_source_div = document.querySelector('#new-source-div');
+
+        // Past source space header
+        const source_space_header = source_space_page.querySelector('#source-space-header');
+        document.querySelector('#new-source-label').innerHTML = source_space_header.innerHTML;
+
+        // Past source footer
+        const old_footer =  document.querySelector('#new-source-footer');
+        const source_space_footer = source_space_page.querySelector('#hidden-source-footer');
+        old_footer.classList.add('source-footer');
+        old_footer.innerHTML = source_space_footer.innerHTML;
+
+        // Sat new ids
+        const source_id = source_space_page.querySelector('#source-id').innerHTML;
+        document.querySelector('#new-source-label').id = `source-space-label-${source_id}`;
+        document.querySelector('#btn-new-source-close-button').id = `btn-close-${source_id}`
+        document.querySelector('#new-source-div').id = `source-space-div-${source_id}`;
+
+        // Past fetched body
+        new_source_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
+
+        // Set validation for source-edit-forms
+        const edit_forms = document.getElementsByClassName('edit-form');
+        Array.from(edit_forms).forEach(form => {
+            form.addEventListener('change', function() {
+                form.classList.add('was-changed')
+            })
+        })
+    })
+}
+

@@ -52,27 +52,16 @@ function load_and_show_source_space(source_id) {
     .then(function(html) {
         // Initialize the DOM parser
         let parser = new DOMParser();
-
         // Parse the text
-        const source_space_page = parser.parseFromString(html, "text/html");
-
-        // Get empty div for pasting
-        const source_space_div = document.querySelector(`#source-space-div-${source_id}`);
-
-        // Past source space header
-        const source_space_header = source_space_page.querySelector('#source-space-header');
-        document.querySelector(`#source-space-label-${source_id}`).innerHTML = source_space_header.innerHTML;
-
-        // Past source space body
-        source_space_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
-        
-        // Set validation for source-edit-forms
-        const edit_forms = document.getElementsByClassName('edit-form');
-        Array.from(edit_forms).forEach(form => {
-            form.addEventListener('change', function() {
-                form.classList.add('was-changed')
-            })
-        })
+        const source_space = parser.parseFromString(html, "text/html");
+        // Get source data
+        const source_header = source_space.querySelector('#source-header').innerHTML;
+        const reference_apa = source_space.querySelector('#apa-reference').innerHTML;
+        const reference_mla = source_space.querySelector('#mla-reference').innerHTML;
+        // Past data
+        document.querySelector(`#source-space-label-${source_id}`).innerHTML = source_header;
+        document.querySelector(`#apa-reference-${source_id}`).innerHTML = reference_apa;
+        document.querySelector(`#mla-reference-${source_id}`).innerHTML =  reference_mla;
     })
 }
 

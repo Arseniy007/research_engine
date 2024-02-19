@@ -14,7 +14,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'work_space:space_view' source.work_space.pk %}" class="color-grey">{{ source.work_space }}</a></li>
             <li class="breadcrumb-item active light-blue" aria-current="page">
-                <h2 class="one-liner light-blue">{{ source_header }}</h2>
+                <h2 id="source-header" class="one-liner light-blue">{{ source_header }}</h2>
             </li>
         </ol>
     </nav>
@@ -59,9 +59,9 @@
             </div>
             <div id="reference-huge">
                 <br><h4 class="light-blue">APA:</h4>
-                <h4>{{ reference.endnote_apa }}</h4><br>
+                <h4 id="apa-reference">{{ reference.endnote_apa }}</h4><br>
                 <h4 class="light-blue">MLA:</h4>
-                <h4>{{ reference.endnote_mla }}</h4>
+                <h4 id="mla-reference">{{ reference.endnote_mla }}</h4>
             </div>
         </div>
     </div>
