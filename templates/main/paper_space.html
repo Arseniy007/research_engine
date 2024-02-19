@@ -38,12 +38,12 @@
 {% endblock %}
 
 {% block body %}
-
     <div class="paper-area" id="main-area">
 
         <h4>TODO</h4>
         <br>
         <h4>CSS of statistics</h4>
+        <h4>Buttons at sources area</h4>
         <br><br><br>
 
         {% if last_file_id %}
@@ -84,6 +84,12 @@
                 &nbsp;&nbsp;Update Bibliography&nbsp;&nbsp;
                 <i class="fa-regular fa-bookmark"></i>
             </button><br>
+            <button onclick="choose_all_sources();" class="btn btn-light btn-lg btn-block" type="button">
+                Choose all sources
+            </button>
+            <button onclick="reset_all_sources();" class="btn btn-light btn-lg btn-block" type="button">
+                Reset
+            </button>
             <div class="sources-search">
                 <i class="fa fa-search"></i>
                 <input onkeyup="search_source()" id="search-box" class="form-control form-input" type="text" placeholder="Search your sources here...">

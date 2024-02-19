@@ -1,13 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-
     set_form_validation();
 });
 
 function change_forms() {
     
     // Get both forms
-    let first_form = document.querySelector('#first_form');
-    let second_form = document.querySelector('#second_form');
+    let first_form = document.getElementById('first-form');
+    let second_form = document.getElementById('second-form');
 
     // Hide one and show other
     if (second_form.style.display === 'none') {
@@ -18,61 +17,4 @@ function change_forms() {
         second_form.style.display = 'none';
         first_form.style.display = 'block';
     }
-}
-
-function check_password(form_name) {
-
-    // Get new password and its confirmation
-    const password = document.forms[form_name]["password"].value;
-    const confirmation = document.forms[form_name]["confirmation"].value;
-    const length = password.length;
-    let digit = false;
-    let upper = false;
-
-    // Show error message if password and confirmation don't match
-    if (password != confirmation) {
-
-        return false;
-    }
-
-    for (let i = 0; i < length; i++) {
-
-        let char = password[i];
-
-        // Check if at least one character is digit
-        if (char >= '0' && char <= '9') {
-
-            digit = true;
-        }
-        // Check if at least one character is uppercase
-        else if (char === char.toUpperCase()) {
-
-            upper = true;
-        }
-    }
-
-    if (!(digit && upper && length > 5)) {
-
-        return false;
-    }
-
-    // Submit the form if password is ok
-    return true;
-}
-
-function set_form_validation() {
-
-    // Fetch all the forms
-    const forms = document.querySelectorAll('.needs-validation')
-  
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated')
-      }, false)
-    })
 }

@@ -7,7 +7,7 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from utils.decorators import paper_authorship_required, post_request_required
-from utils.messages import display_error_message
+from utils.messages import display_error_message, display_info_message
 from utils.verification import check_paper_file, check_paper, check_source, check_source_file
 from .file_saving import save_new_paper_file, save_new_source_file
 from .forms import UploadPaperFileForm, UploadSourceFileForm
@@ -27,6 +27,7 @@ def upload_paper_file(request, paper_id):
         save_new_paper_file(paper, request.user, 
                             form.cleaned_data["file"], 
                             form.cleaned_data["commit_text"])
+        display_info_message(request, "File successfully uploaded!")
     else:
         display_error_message(request, "Something wrong with uploaded file. Try again!")
 
@@ -104,16 +105,17 @@ def upload_source_file(request, source_id):
         # Get and save new file
         source = check_source(source_id, request.user)
 
+        # In case user already uploaded a file - delete it first
         if source.has_file:
-            # In case user already uploaded a file - delete it first
+            shutil.rmtree(source.get_path())
             old_file = source.get_file()
             old_file.delete()
-            shutil.rmtree(source.get_path())
-
         save_new_source_file(source, form.cleaned_data["file"])
-        return JsonResponse({"status": "ok"})
+        display_info_message(request, "File successfully uploaded!")
+    else:
+        display_error_message(request, "Something wrong with uploaded file. Try again!")
 
-    return JsonResponse({"status": "error"})
+    return redirect(reverse("bookshelf:source_space", args=(source_id,)))
 
 
 @login_required(redirect_field_name=None)

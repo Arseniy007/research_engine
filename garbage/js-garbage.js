@@ -1095,3 +1095,73 @@ function alter_quote(form, quote_id) {
         }
     });
 }
+
+
+function mark_source_as_checked(source_id) {
+    // Get right card
+    const source_card = document.getElementById(`source-card-${source_id}`);
+
+    // Check or uncheck source checkbox
+    const check_box = source_card.querySelector(`#source-checkbox-${source_id}`);
+    if (check_box.checked === false) {
+        check_box.checked = true;
+        source_card.classList.add('checked-item');
+    }
+    else {
+        check_box.checked = false;
+        source_card.classList.remove('checked-item');
+    }
+}
+
+function choose_all_sources() {
+    // Get all source cards
+    const all_sources = document.getElementsByClassName('source-card');
+
+    // Check all sources
+    Array.from(all_sources).forEach(source => {
+        const check_box = source.getElementsByClassName('source-checkbox')[0];
+        check_box.checked = true;
+        source.classList.add('checked-item');
+    })
+}
+
+function check_password(form_name) {
+
+    // Get new password and its confirmation
+    const password = document.forms[form_name]["password"].value;
+    const confirmation = document.forms[form_name]["confirmation"].value;
+    const length = password.length;
+    let digit = false;
+    let upper = false;
+
+    // Show error message if password and confirmation don't match
+    if (password != confirmation) {
+
+        return false;
+    }
+
+    for (let i = 0; i < length; i++) {
+
+        let char = password[i];
+
+        // Check if at least one character is digit
+        if (char >= '0' && char <= '9') {
+
+            digit = true;
+        }
+        // Check if at least one character is uppercase
+        else if (char === char.toUpperCase()) {
+
+            upper = true;
+        }
+    }
+
+    if (!(digit && upper && length > 5)) {
+
+        return false;
+    }
+
+    // Submit the form if password is ok
+    return true;
+}
+

@@ -1,12 +1,12 @@
 import shutil
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from file_handling.forms import UploadSourceFileForm
 from utils.data_cleaning import clean_author_data
 from utils.decorators import post_request_required, source_ownership_required
-from utils.messages import display_error_message, display_success_message
+from utils.messages import display_error_message, display_info_message, display_success_message
 from utils.verification import check_source, check_work_space
 from user_management.helpers import get_user_papers, get_user_work_spaces
 from .forms import (
@@ -93,6 +93,7 @@ def delete_source(request, source_id):
 
     # Check if user has right to delete this source
     source = check_source(source_id, request.user)
+    space_id = source.work_space.pk
 
     # Delete paper directory with all files inside
     if source.has_file:
@@ -100,7 +101,7 @@ def delete_source(request, source_id):
 
     # Delete source from the db
     source.delete()
-    return JsonResponse({"status": "ok"})
+    return redirect(reverse("work_space:space_view", args=(space_id,)))
 
 
 @post_request_required
@@ -116,10 +117,11 @@ def alter_source_info(request, source_id):
         source = check_source(source_id, request.user)
         # Alter and save source obj
         alter_source(source, form)
-        return JsonResponse({"status": "ok"})
-
-    return JsonResponse({"status": "error"})
-
+        display_info_message(request, "Info successfully updated!")
+    else:
+        display_error_message(request)
+    return redirect(reverse("bookshelf:source_space", args=source_id,))
+    
 
 @post_request_required
 @login_required(redirect_field_name=None)
@@ -128,11 +130,12 @@ def add_link_to_source(request, source_id):
 
     form = AddLinkForm(request.POST)
 
-    if form and form.is_valid():
+    if form.is_valid():
         # Check source and get its attrs
         source = check_source(source_id, request.user)
         # Add link
         form.save_link(source)
-        return JsonResponse({"status": "ok"})
-
-    return JsonResponse({"status": "error"})
+        display_info_message(request, "Link successfully added!")
+    else:
+        display_error_message(request)
+    return redirect(reverse("bookshelf:source_space", args=(source_id,)))

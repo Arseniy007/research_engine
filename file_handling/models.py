@@ -12,10 +12,10 @@ def paper_saving_path(instance, filename):
 
 
 def source_saving_path(instance, filename):
-    """File will be uploaded to MEDIA_ROOT/work_space_<id>/books/user_<id>/source_<id>/<filename>"""
+    """File will be uploaded to MEDIA_ROOT/work_space_<id>/sources/user_<id>/source_<id>/<filename>"""
     space_path = instance.source.work_space.get_base_dir()
-    source_id = instance.source.pk
-    return os.path.join(space_path, "sources", f"source_{source_id}", filename)
+    source_id, user_id = instance.source.pk, instance.source.user.pk
+    return os.path.join(space_path, "sources", f"user_{user_id}", f"source_{source_id}", filename)
 
 
 class PaperFile(models.Model):

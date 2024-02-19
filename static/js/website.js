@@ -258,6 +258,23 @@ function search_source() {
     }
 }
 
+function set_form_validation() {
+
+    // Fetch all the forms
+    const forms = document.querySelectorAll('.needs-validation')
+  
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+}
+
 function hide_all_areas(page) {
     // Hide all parts of workspace / paper pages
     const areas = document.getElementsByClassName(`${page}-area`);

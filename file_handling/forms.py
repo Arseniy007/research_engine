@@ -2,12 +2,14 @@ from django import forms
 from research_engine.constants import ACCEPTED_UPLOAD_FORMATS, CLASS_
 
 
+LARGE_FILE_FIELD = "form-control form-control-lg"
+
 class UploadPaperFileForm(forms.Form):
     file = forms.FileField(widget=forms.FileInput(attrs={
         "accept": ACCEPTED_UPLOAD_FORMATS,
         "type": "file",
         "id": "file-field",
-        "class": "form-control form-control-lg",
+        "class": LARGE_FILE_FIELD,
         "placeholder": "File"})
     )
 
@@ -24,6 +26,6 @@ class UploadSourceFileForm(forms.Form):
     file = forms.FileField(widget=forms.FileInput(attrs={
         "accept": ACCEPTED_UPLOAD_FORMATS,
         "id": "file-field",
-        "class": CLASS_,
+        "class": LARGE_FILE_FIELD ,
         "placeholder": "File"})
     )

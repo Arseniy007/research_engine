@@ -84,12 +84,36 @@ function mark_source_as_checked(source_id) {
     const check_box = source_card.querySelector(`#source-checkbox-${source_id}`);
     if (check_box.checked === false) {
         check_box.checked = true;
-        source_card.classList.add('checked-item')
+        source_card.classList.add('checked-item');
     }
     else {
         check_box.checked = false;
-        source_card.classList.remove('checked-item')
+        source_card.classList.remove('checked-item');
     }
+}
+
+function choose_all_sources() {
+    // Get all source cards
+    const all_sources = document.getElementsByClassName('source-card');
+
+    // Check all sources
+    Array.from(all_sources).forEach(source => {
+        const check_box = source.getElementsByClassName('source-checkbox')[0];
+        check_box.checked = true;
+        source.classList.add('checked-item');
+    })
+}
+
+function reset_all_sources() {
+    // Get all source cards
+    const all_sources = document.getElementsByClassName('source-card');
+
+    // Check all sources
+    Array.from(all_sources).forEach(source => {
+        const check_box = source.getElementsByClassName('source-checkbox')[0];
+        check_box.checked = false;
+        source.classList.remove('checked-item');
+    })
 }
 
 function submit_choose_source_form(paper_id) {

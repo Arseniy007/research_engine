@@ -281,7 +281,7 @@ class AlterWebpageForm(WebpageForm):
 
 
 class AddLinkForm(forms.Form):
-    link = forms.URLField(required=False, widget=forms.URLInput(attrs={
+    link = forms.URLField(widget=forms.URLInput(attrs={
         "type": "url",
         "id": "link-field",
         "class": CLASS_,
