@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    let space_id = document.querySelector('#space_id');
+    let space_id = document.querySelector('#space-id');
     if (space_id) {
         // Get space id if current page is not lobby
         space_id = space_id.innerHTML;
@@ -199,57 +199,9 @@ function submit_source_form(form, space_id) {
     })
     .then(response => response.json())
     .then(result => {
-        if (result.status === 'ok') {
-            // Fill opened div with new source space
-            load_and_show_new_source_space(result.url);
-        }
-        else {
-            // Redirect back to work space view in case of error
-            window.location.replace(result.url)
-        }
+        // Redirect to new source space or back in case of error
+        window.location.replace(result.url)
     });
-}
-
-function load_and_show_new_source_space(url) {
-
-    // Send request to source-space view
-    fetch(url)
-    .then(response => handleErrors(response, url))
-    .then(function(response) {
-        // When the page is loaded convert it to text
-        return response.text()
-    })
-    .then(function(html) {
-        // Initialize the DOM parser
-        let parser = new DOMParser();
-
-        // Parse the text
-        const source_space_page = parser.parseFromString(html, "text/html");
-
-        // Get div for pasting (the one with submitted form)
-        const new_source_div = document.querySelector('#new-source-div');
-
-        // Past source space header
-        const source_space_header = source_space_page.querySelector('#source-space-header');
-        document.querySelector('#new-source-label').innerHTML = source_space_header.innerHTML;
-
-        // Past source footer
-        const old_footer =  document.querySelector('#new-source-footer');
-        const source_space_footer = source_space_page.querySelector('#hidden-source-footer');
-        old_footer.classList.add('source-footer');
-        old_footer.innerHTML = source_space_footer.innerHTML;
-
-        // Sat new ids
-        const source_id = source_space_page.querySelector('#source-id').innerHTML;
-        document.querySelector('#new-source-label').id = `source-space-label-${source_id}`;
-        document.querySelector('#btn-new-source-close-button').id = `btn-close-${source_id}`
-        document.querySelector('#new-source-div').id = `source-space-div-${source_id}`;
-
-        // Past fetched body
-        new_source_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
-
-       
-    })
 }
 
 function get_quick_reference(form_id) {

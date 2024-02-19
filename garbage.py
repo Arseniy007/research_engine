@@ -4981,6 +4981,55 @@ def quote_ownership_required(func: Callable) -> Callable | PermissionDenied:
                 for quote in source_quotes:
                     file.write(f"{quote}\n\n")
                 file.write("\n\n")
+
+
+@post_request_required
+@login_required(redirect_field_name=None)
+def add_source(request, space_id):
+
+    # Figure out which of four forms was uploaded
+    form = get_type_of_source_form(request.POST)
+    work_space_url = reverse("work_space:space_view", args=(space_id,))
+
+    if form and form.is_valid():
+        space = check_work_space(space_id, request.user)
+
+        # Get and validate author(s) fields
+        author = clean_author_data(request.POST)
+        # Webpage is the only obj there author field could be blank
+        if not author and type(form) != WebpageForm:
+            # Error case
+            display_error_message(request, "Author fields should not be empty")
+            return JsonResponse({"status": "error", "url": work_space_url})
+
+        if type(form) == ChapterForm:
+            chapter_author = clean_author_data(request.POST, chapter_author=True)
+            if not chapter_author:
+                # Error case
+                pass
+            else:
+                # Success case with chapter form
+                display_success_message(request)
+                new_source_pk = create_source(request.user, space, form, author, chapter_author=chapter_author)
+                return JsonResponse({"status": "ok", "url": reverse("bookshelf:source_space", args=(new_source_pk,))})
+        else:
+            # Success case with all other forms
+            display_success_message(request)
+            new_source_pk = create_source(request.user, space, form, author)
+            return JsonResponse({"status": "ok", "url": reverse("bookshelf:source_space", args=(new_source_pk,))})
+                
+    # Redirect back to work space
+    display_error_message(request)
+    return JsonResponse({"status": "error", "url": work_space_url})                
+
+
+
+
+
+
+
+
+
 """
 
 

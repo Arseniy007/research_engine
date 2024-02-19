@@ -1462,3 +1462,86 @@ function load_and_show_new_source_space(url) {
     })
 }
 
+function load_and_show_new_source_space(url) {
+
+    // Send request to source-space view
+    fetch(url)
+    .then(response => handleErrors(response, url))
+    .then(function(response) {
+        // When the page is loaded convert it to text
+        return response.text()
+    })
+    .then(function(html) {
+        // Initialize the DOM parser
+        let parser = new DOMParser();
+
+        // Parse the text
+        const source_space_page = parser.parseFromString(html, "text/html");
+
+        // Get div for pasting (the one with submitted form)
+        const new_source_div = document.querySelector('#new-source-div');
+
+        // Past source space header
+        const source_space_header = source_space_page.querySelector('#source-space-header');
+        document.querySelector('#new-source-label').innerHTML = source_space_header.innerHTML;
+
+        // Past source footer
+        const old_footer =  document.querySelector('#new-source-footer');
+        const source_space_footer = source_space_page.querySelector('#hidden-source-footer');
+        old_footer.classList.add('source-footer');
+        old_footer.innerHTML = source_space_footer.innerHTML;
+
+        // Sat new ids
+        const source_id = source_space_page.querySelector('#source-id').innerHTML;
+        document.querySelector('#new-source-label').id = `source-space-label-${source_id}`;
+        document.querySelector('#btn-new-source-close-button').id = `btn-close-${source_id}`
+        document.querySelector('#new-source-div').id = `source-space-div-${source_id}`;
+
+        // Past fetched body
+        new_source_div.innerHTML = source_space_page.querySelector('#source-space-div').innerHTML;
+
+       
+    })
+}
+
+
+
+if (result.status === 'ok') {
+    // Fill opened div with new source space
+    load_and_show_new_source_space(result.new_source_id);
+}
+else {
+    // Redirect back to work space view in case of error
+    window.location.replace(result.url)
+}
+
+function load_and_show_new_source_space(source_id) {
+
+    // Source page view url
+    const url = `/source_space/${source_id}`;
+
+    // Send request to source-space view
+    fetch(url)
+    .then(response => handleErrors(response, url))
+    .then(function(response) {
+        // When the page is loaded convert it to text
+        return response.text()
+    })
+    .then(function(html) {
+        // Initialize the DOM parser
+        let parser = new DOMParser();
+
+        // Parse the text
+        const source_space = parser.parseFromString(html, "text/html");
+
+        // Get source data
+        const source_header = source_space.querySelector('#source-header').innerHTML;
+        const source_body = source_space.querySelector('#new-source-body').innerHTML;
+        const source_footer = source_space.querySelector('#new-source-footer').innerHTML;
+
+        // Past data
+        document.getElementById('new-source-label').innerHTML = source_header;
+        document.getElementById('new-source-div').innerHTML = source_body;
+        document.getElementById('new-source-footer').innerHTML =  source_footer;       
+    })
+}

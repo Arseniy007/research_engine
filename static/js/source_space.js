@@ -20,6 +20,6 @@ function show_source_area(area_id) {
 
 function set_huge_icon_margin() {
     // Calculate scroll height of reference field and set top margin for left icon
-    const calculated_height = document.getElementsByClassName('reference-huge')[0].scrollHeight / 6;
-    document.getElementsByClassName('source-type-icon-huge')[0].style.marginTop = `${calculated_height}px`;
+    const calculated_height = document.getElementById('reference-huge').scrollHeight / 6;
+    document.getElementById('source-type-icon-huge').style.marginTop = `${calculated_height}px`;
 }

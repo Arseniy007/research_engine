@@ -70,12 +70,12 @@ def add_source(request, space_id):
                 pass
             else:
                 # Success case with chapter form
-                display_success_message(request)
+                display_info_message(request, "New source added!")
                 new_source_pk = create_source(request.user, space, form, author, chapter_author=chapter_author)
                 return JsonResponse({"status": "ok", "url": reverse("bookshelf:source_space", args=(new_source_pk,))})
         else:
             # Success case with all other forms
-            display_success_message(request)
+            display_info_message(request, "New source added!")
             new_source_pk = create_source(request.user, space, form, author)
             return JsonResponse({"status": "ok", "url": reverse("bookshelf:source_space", args=(new_source_pk,))})
                 

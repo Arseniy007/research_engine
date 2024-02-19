@@ -52,12 +52,15 @@ function load_and_show_source_space(source_id) {
     .then(function(html) {
         // Initialize the DOM parser
         let parser = new DOMParser();
+
         // Parse the text
         const source_space = parser.parseFromString(html, "text/html");
+
         // Get source data
         const source_header = source_space.querySelector('#source-header').innerHTML;
         const reference_apa = source_space.querySelector('#apa-reference').innerHTML;
         const reference_mla = source_space.querySelector('#mla-reference').innerHTML;
+        
         // Past data
         document.querySelector(`#source-space-label-${source_id}`).innerHTML = source_header;
         document.querySelector(`#apa-reference-${source_id}`).innerHTML = reference_apa;

@@ -114,7 +114,7 @@
                                 <button type="button" class="btn-close" id="btn-close-{{ source.id }}" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body" id="source-space-div-{{ source.id }}">
-                                <div class="mt-0">
+                                <div>
                                     <br><h4 class="light-blue">APA:</h4>
                                     <h4 id="apa-reference-{{ source.id }}"></h4><br>
                                     <h4 class="light-blue">MLA:</h4>
@@ -151,7 +151,7 @@
                                     {% endif %}
                                 </div>
                                 <div class="source-footer-button right-source-footer-button">
-                                    <button type="button" class="btn btn-secondary round-button close-footer-button" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary round-button" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -170,7 +170,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="new-source-label">Add new source</h1>
-                        <button type="button" class="btn-close" id="btn-new-source-close-button" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" id="btn-new-source-close-button close-header-button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="new-source-div">
                         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -378,7 +378,7 @@
                             </div>
                         </div>
                     </div>    
-                    <div class="modal-footer" id="new-source-footer">
+                    <div class="modal-footer source-footer" id="new-source-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -693,7 +693,7 @@
         </div>
     </div>
     <!-- Hidden parts of page -->
-    <div id="space_id" style="display: none;">{{ space.pk }}</div>
+    <div id="space-id" style="display: none;">{{ space.pk }}</div>
     <div id="new-paper-form" style="display: none;">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

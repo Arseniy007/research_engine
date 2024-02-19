@@ -12,3 +12,4 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('#sources-code-field').value = share_sources_code.innerHTML;
     }    
 });
+
