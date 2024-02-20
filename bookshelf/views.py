@@ -7,7 +7,7 @@ from citation.author_formatting import format_authors_apa
 from file_handling.forms import UploadSourceFileForm
 from utils.data_cleaning import clean_author_data
 from utils.decorators import post_request_required, source_ownership_required
-from utils.messages import display_error_message, display_info_message, display_success_message
+from utils.messages import display_error_message, display_info_message
 from utils.verification import check_source, check_work_space
 from user_management.helpers import get_user_papers, get_user_work_spaces
 from .forms import (
@@ -58,12 +58,12 @@ def add_source(request, space_id):
         # Get and validate author(s) fields
         author = clean_author_data(request.POST)
         # Webpage is the only obj there author field could be blank
-        if not author and type(form) != WebpageForm:
+        if not author and isinstance(form, WebpageForm):
             # Error case
             display_error_message(request, "Author fields should not be empty")
             return JsonResponse({"status": "error", "url": work_space_url})
 
-        if type(form) == ChapterForm:
+        if isinstance(form, ChapterForm):
             chapter_author = clean_author_data(request.POST, chapter_author=True)
             if not chapter_author:
                 # Error case
@@ -72,13 +72,16 @@ def add_source(request, space_id):
                 # Success case with chapter form
                 display_info_message(request, "New source added!")
                 new_source_pk = create_source(request.user, space, form, author, chapter_author=chapter_author)
-                return JsonResponse({"status": "ok", "url": reverse("bookshelf:source_space", args=(new_source_pk,))})
+                return JsonResponse({
+                    "status": "ok", "url": reverse("bookshelf:source_space", args=(new_source_pk,))
+                })
         else:
             # Success case with all other forms
             display_info_message(request, "New source added!")
             new_source_pk = create_source(request.user, space, form, author)
-            return JsonResponse({"status": "ok", "url": reverse("bookshelf:source_space", args=(new_source_pk,))})
-                
+            return JsonResponse({
+                "status": "ok", "url": reverse("bookshelf:source_space", args=(new_source_pk,))
+            })
     # Redirect back to work space
     display_error_message(request)
     return JsonResponse({"status": "error", "url": work_space_url})
@@ -120,7 +123,7 @@ def alter_source_info(request, source_id):
     else:
         display_error_message(request)
     return redirect(reverse("bookshelf:source_space", args=(source_id,)))
-    
+
 
 @post_request_required
 @login_required(redirect_field_name=None)

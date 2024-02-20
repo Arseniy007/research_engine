@@ -2,14 +2,17 @@ from django.forms import Form
 from bookshelf.forms import ArticleForm, BookForm, ChapterForm, WebpageForm
 from utils.data_cleaning import clean_source_form_fields
 from .citation_apa import (
-    make_article_endnote_apa, make_book_endnote_apa, make_chapter_endnote_apa, make_webpage_endnote_apa
+    make_article_endnote_apa, make_book_endnote_apa,
+    make_chapter_endnote_apa, make_webpage_endnote_apa
 )
 from .citation_mla import (
-    make_article_endnote_mla, make_book_endnote_mla, make_chapter_endnote_mla, make_webpage_endnote_mla
+    make_article_endnote_mla, make_book_endnote_mla,
+    make_chapter_endnote_mla, make_webpage_endnote_mla
 )
 
 
 def create_input_reference(form: Form, author: str, chapter_author: str=None) -> dict | None:
+    """Make reference without creating source obj."""
 
     # Iterate through all fields and clean its data
     cleaned_data: dict = clean_source_form_fields(form)

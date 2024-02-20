@@ -105,17 +105,16 @@ def get_quick_reference(request):
     """Get reference for source that was inputted"""
 
     form = get_type_of_source_form(request.POST)
-
     if form and form.is_valid():
         # Get and validate author(s) fields
         author = clean_author_data(request.POST)
 
         # Webpage is the only obj there author field could be blank
-        if not author and type(form) != WebpageForm:
+        if not author and isinstance(form, WebpageForm):
             # Error case
             pass
         else:
-            if type(form) == ChapterForm:
+            if isinstance(form, ChapterForm):
                 # Chapter is the only source type with two author fields
                 chapter_author = clean_author_data(request.POST, chapter_author=True)
                 if not chapter_author:
@@ -136,13 +135,11 @@ def get_quick_reference(request):
 
 def render_author_form_fields(request, author_number, chapter):
     """API route for getting author input fields for add-source-form"""
-
     # Chapter parameter is boolean (0/1). In case of True: pass "chapter-" as prefix to html tags
     if chapter:
         chapter = "chapter-"
     else:
         chapter = ""
-
     data = {
         "chapter": chapter,
         "author_number": author_number,

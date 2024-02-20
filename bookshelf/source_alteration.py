@@ -29,11 +29,11 @@ def update_source_fields(source: Book | Article | Chapter, form: forms.Form) -> 
         if field not in ("source_type", "number_of_authors",):
             info = form.cleaned_data[field]
             # Check if field was indeed altered
-            if source.__getattribute__(field) != info:
-                if type(info) == str:
+            if getattr(source, field) != info:
+                if isinstance(info, str):
                     info = clean_text_data(info)
                 # Update field and save obj
-                source.__setattr__(field, info)
+                setattr(source, field, info)
                 source.save(update_fields=(field,))
     update_source_reference(source)
     return source
@@ -46,11 +46,11 @@ def update_webpage_fields(webpage: Webpage, form: AlterWebpageForm) -> Webpage:
         if field not in ("source_type", "number_of_authors",):
             info = form.cleaned_data[field]
             # Check if field was indeed altered
-            if webpage.__getattribute__(field) != info:
-                if type(info) == str:
+            if getattr(webpage, field) != info:
+                if isinstance(info, str):
                     info = clean_text_data(info)
                 # Update field and save obj
-                webpage.__setattr__(field, info)
+                setattr(webpage, field, info)
                 webpage.save(update_fields=(field,))
     update_source_reference(webpage)
     return webpage

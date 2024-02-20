@@ -61,13 +61,14 @@ def create_paper(request, space_id):
         if citation_style in ("APA", "MLA",):
             # Save new paper to db
             new_paper = create_new_paper(
-                check_work_space(space_id, request.user), 
+                check_work_space(space_id, request.user),
                 request.user, form.cleaned_data["title"], citation_style
             )
             display_success_message(request, "Paper successfully created")
             # Redirect user to the new paper-space
-            return JsonResponse({"status": "ok", "url": reverse("paper_work:paper_space", args=(new_paper.pk,))})
-
+            return JsonResponse({
+                "status": "ok", "url": reverse("paper_work:paper_space", args=(new_paper.pk,))
+            })
     # Error case
     return JsonResponse({"status": "error"})
 
@@ -128,12 +129,16 @@ def archive_or_unarchive_paper(request, paper_id):
     if paper.archived:
         if paper.work_space.archived:
             # Error case
-            error_message = f"{paper.title} is part of archived workspace: {paper.work_space.title}. You need to unarchive it first"
+            error_message: str = (
+                f"{paper.title} is part of archived workspace: {paper.work_space.title}. "
+                "You need to unarchive it first"
+            )
             display_error_message(request, error_message)
             return redirect(reverse("website:account_settings"))
 
         paper.unarchive()
-        display_success_message(request, f" is now again part of {paper.work_space.title} workspace!")
+        success_message = f"{paper} is now again part of {paper.work_space.title} workspace!"
+        display_success_message(request, success_message)
         return redirect(reverse("paper_work:paper_space", args=(paper_id,)))
 
     paper.archive()
@@ -174,14 +179,16 @@ def select_sources_for_paper(request, paper_id):
 
     # Redirect back to paper page
     display_info_message(request, "Bibliography updated!")
-    return JsonResponse({"status": "ok", "url": reverse("paper_work:paper_space", args=(paper_id,))})
+    return JsonResponse({
+        "status": "ok", "url": reverse("paper_work:paper_space", args=(paper_id,))
+    })
 
 
 @paper_authorship_required
 @login_required(redirect_field_name=None)
 def auto_append_bibliography(request, paper_id):
     """Add bibliography to the end of a last uploaded file"""
-    
+
     # Get last uploaded paper file
     paper = check_paper(paper_id, request.user)
     file = check_paper_file(paper.get_last_file_id(), request.user)
@@ -200,7 +207,7 @@ def clear_paper_file_history(request, paper_id):
 
     # Check if user has right to delete all files
     paper = check_paper(paper_id, request.user)
-    
+
     # Delete files and reset bibliography
     paper.clear_file_history()
     clear_bibliography(paper)

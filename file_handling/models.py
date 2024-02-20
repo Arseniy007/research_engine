@@ -5,7 +5,7 @@ from user_management.models import User
 
 
 def paper_saving_path(instance, filename):
-    """File will be uploaded to MEDIA_ROOT/work_space_<id>/papers/user_<id>/paper_<id>/file.str()/<filename>"""
+    """File will be uploaded to MEDIA_ROOT/work_space_<id>/papers/user_<id>/paper_<id>/file.str/<filename>"""
     space_path, paper_id = instance.paper.work_space.get_base_dir(), instance.paper.pk
     user_id, dir_name = instance.paper.user.pk, instance.version_number
     return os.path.join(space_path, "papers", f"user_{user_id}", f"paper_{paper_id}", dir_name, filename)
@@ -86,11 +86,10 @@ class SourceFile(models.Model):
         if self.file:
             return os.path.join(MEDIA_ROOT, str(self.file))
         return None
-    
+
 
     def get_file_extension(self) -> str:
         """Either .pdf or .docx"""
         if self.file_name().lower().endswith(".pdf"):
             return "pdf"
-        else:
-            return "docx"
+        return "docx"

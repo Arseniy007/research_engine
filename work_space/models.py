@@ -46,7 +46,7 @@ class WorkSpace(models.Model):
         """;)"""
         if user == self.owner:
             return "owner"
-        elif user in self.members.all():
+        if user in self.members.all():
             return "member"
         return None
 

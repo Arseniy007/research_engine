@@ -11,7 +11,7 @@ def clean_source_form_fields(form: Form) -> dict:
     cleaned_data = {}
     for field in form.fields:
         info = form.cleaned_data[field]
-        if type(info) == str:
+        if isinstance(info, str):
             info = clean_text_data(info)
         cleaned_data[field] = info
     return cleaned_data

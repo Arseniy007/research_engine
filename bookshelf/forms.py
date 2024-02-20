@@ -211,6 +211,7 @@ class AlterBookForm(BookForm):
     number_of_authors = forms.IntegerField(widget=forms.HiddenInput, required=False)
 
     def set_initials(self, book: Book):
+        """Prepopulate from fields"""
         for field in self.fields:
             if field not in ("source_type", "number_of_authors",):
                 self.fields[field].initial = book.__getattribute__(field)
@@ -229,6 +230,7 @@ class AlterArticleForm(ArticleForm):
     number_of_authors = forms.IntegerField(widget=forms.HiddenInput, required=False)
 
     def set_initials(self, article: Article):
+        """Prepopulate from fields"""
         for field in self.fields:
             if field not in ("source_type", "number_of_authors",):
                 self.fields[field].initial = article.__getattribute__(field)
@@ -256,6 +258,7 @@ class AlterChapterForm(ChapterForm):
     number_of_chapter_authors = forms.IntegerField(widget=forms.HiddenInput, required=False)
 
     def set_initials(self, chapter: Chapter):
+        """Prepopulate from fields"""
         for field in self.fields:
             if field not in ("source_type", "number_of_authors", "number_of_chapter_authors",):
                 self.fields[field].initial = chapter.__getattribute__(field)
@@ -274,6 +277,7 @@ class AlterWebpageForm(WebpageForm):
     number_of_authors = forms.IntegerField(widget=forms.HiddenInput, required=False)
 
     def set_initials(self, webpage: Webpage):
+        """Prepopulate from fields"""
         for field in self.fields:
             if field not in ("source_type", "number_of_authors",):
                 self.fields[field].initial = webpage.__getattribute__(field)
@@ -311,20 +315,19 @@ def get_type_of_source_form(data, alter_source=False):
         if alter_source:
             return AlterBookForm(data)
         return BookForm(data)
-    elif "article" in data["source_type"]:
+    if "article" in data["source_type"]:
         if alter_source:
             return AlterArticleForm(data)
         return  ArticleForm(data)
-    elif "chapter" in data["source_type"]:
+    if "chapter" in data["source_type"]:
         if alter_source:
             return AlterChapterForm(data)
         return ChapterForm(data)
-    elif "webpage" in data["source_type"]:
+    if "webpage" in data["source_type"]:
         if alter_source:
             return AlterWebpageForm(data)
         return WebpageForm(data)
-    else:
-        return None
+    return None
 
 
 def get_and_set_alter_form(source: Source):

@@ -1,8 +1,14 @@
 from typing import Callable
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
-from citation.citation_apa import make_article_endnote_apa, make_book_endnote_apa, make_chapter_endnote_apa, make_webpage_endnote_apa
-from citation.citation_mla import make_article_endnote_mla, make_book_endnote_mla, make_chapter_endnote_mla, make_webpage_endnote_mla
+from citation.citation_apa import (
+    make_article_endnote_apa, make_book_endnote_apa,
+    make_chapter_endnote_apa, make_webpage_endnote_apa
+)
+from citation.citation_mla import (
+    make_article_endnote_mla, make_book_endnote_mla,
+    make_chapter_endnote_mla, make_webpage_endnote_mla
+)
 from .models import Article, Book, Chapter, Reference, Source, Webpage
 
 
@@ -26,8 +32,8 @@ def get_source_reference(source: Source) -> Reference | Http404:
     """Get endnote for given source"""
     try:
         return Reference.objects.get(source=source)
-    except ObjectDoesNotExist:
-        raise Http404
+    except ObjectDoesNotExist as e:
+        raise Http404 from e
 
 
 def make_source_endnote_apa(source: Source) -> Callable | bool:

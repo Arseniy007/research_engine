@@ -1,6 +1,6 @@
-from PyPDF2 import PdfReader
 from re import search
 from zipfile import ZipFile
+from PyPDF2 import PdfReader
 
 
 def count_pages_docx(path_to_file: str) -> int:

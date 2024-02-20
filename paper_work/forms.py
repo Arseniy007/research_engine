@@ -1,5 +1,4 @@
 from django import forms
-from bookshelf.models import Source
 from research_engine.constants import CLASS_
 
 

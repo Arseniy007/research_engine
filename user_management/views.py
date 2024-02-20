@@ -7,12 +7,14 @@ from research_engine.settings import LOGIN_URL
 from utils.messages import display_error_message, display_info_message, display_success_message
 from utils.verification import check_reset_password_code
 from .forms import (
-    AccountSettingsForm, ChangePasswordForm, ForgetPasswordForm, LoginForm, 
+    AccountSettingsForm, ChangePasswordForm, ForgetPasswordForm, LoginForm,
     ForgetPasswordForm2, RegisterForm, ResetPasswordForm, check_forget_password_form_info
 )
 from .helpers import get_user_by_reset_code, get_user_papers, get_user_work_spaces
 from .models import User
-from .password_resetting import generate_password_reset_code, get_reset_url, send_password_resetting_email
+from .password_resetting import (
+    generate_password_reset_code, get_reset_url, send_password_resetting_email
+)
 
 
 def register(request):
@@ -101,7 +103,9 @@ def edit_account_info(request):
         form = AccountSettingsForm(request.POST)
 
         if form.is_valid():
-            user = authenticate(request, username=request.user.username, password=form.cleaned_data["password"])
+            user = authenticate(
+                request, username=request.user.username, password=form.cleaned_data["password"]
+            )
             if user is not None and user == request.user:
                 # Save all changes
                 form.update_user_info(user)
@@ -165,7 +169,7 @@ def forget_password(request):
         # Check if user submitted right info
         user = check_forget_password_form_info(request)
         if user:
-            # Get unique reset code and create resets url 
+            # Get unique reset code and create resets url
             reset_code = generate_password_reset_code(user)
             reset_url = get_reset_url(request, reset_code)
 

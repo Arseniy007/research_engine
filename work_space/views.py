@@ -9,7 +9,9 @@ from paper_work.forms import NewPaperForm
 from research_engine.constants import FRIENDLY_TMP_ROOT
 from utils.decorators import post_request_required, space_ownership_required
 from utils.messages import display_error_message, display_success_message
-from utils.verification import check_invitation, check_share_sources_code, check_user, check_work_space
+from utils.verification import (
+    check_invitation, check_share_sources_code, check_user, check_work_space
+)
 from user_management.helpers import get_user_papers, get_user_work_spaces
 from .forms import NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, RenameSpaceForm
 from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
@@ -65,8 +67,9 @@ def create_work_space(request):
 
         # Redirect user to the new work space
         display_success_message(request)
-        return JsonResponse({"status": "ok", "url": reverse("work_space:space_view", args=(new_space_id,))})
-
+        return JsonResponse({
+            "status": "ok", "url": reverse("work_space:space_view", args=(new_space_id,))
+        })
     # Error case
     return JsonResponse({"status": "error"})
 
@@ -101,7 +104,7 @@ def archive_or_unarchive_space(request, space_id):
     space = check_work_space(space_id, request.user)
 
     if space.archived:
-        # Mark workspace and all papers related to it as unarchived 
+        # Mark workspace and all papers related to it as unarchived
         space.unarchive()
         for paper in space.papers.all():
             paper.unarchive()
@@ -109,7 +112,7 @@ def archive_or_unarchive_space(request, space_id):
         display_success_message(request)
         return redirect(reverse("work_space:space_view", args=(space_id,)))
 
-    # Mark workspace and all papers related to it as archived 
+    # Mark workspace and all papers related to it as archived
     space.archive()
     for paper in space.papers.all():
         paper.archive()
@@ -131,8 +134,10 @@ def download_work_space(request, space_id):
 
     # Create zip file of the directory
     saving_destination = os.path.join(space.get_friendly_path(), space.title)
-    zip_file = shutil.make_archive(root_dir=user_friendly_dir, base_dir=space.title, 
-                                   base_name=saving_destination, format="zip")
+    zip_file = shutil.make_archive(
+        root_dir=user_friendly_dir, base_dir=space.title,
+        base_name=saving_destination, format="zip"
+    )
     try:
         # Open and send it
         return FileResponse(open(zip_file, "rb"))
@@ -155,8 +160,10 @@ def download_space_sources(request, space_id):
     # Create zip file of the directory
     dir_title = "Sources"
     saving_destination = os.path.join(space.get_friendly_path(), dir_title)
-    zip_file = shutil.make_archive(root_dir=user_friendly_dir, base_dir=dir_title, 
-                                   base_name=saving_destination, format="zip")
+    zip_file = shutil.make_archive(
+        root_dir=user_friendly_dir, base_dir=dir_title,
+        base_name=saving_destination, format="zip"
+    )
     try:
         # Open and send it
         return FileResponse(open(zip_file, "rb"))
@@ -176,7 +183,9 @@ def invite_to_work_space(request, space_id):
 
     # Generate link with invitation code inside
     invitation_code = generate_invitation(space)
-    invitation_link = request.build_absolute_uri(reverse("website:invitation", args=(invitation_code,)))
+    invitation_link = request.build_absolute_uri(
+        reverse("website:invitation", args=(invitation_code,))
+    )
     return JsonResponse({"invitation_code": invitation_code, "invitation_link": invitation_link})
 
 
@@ -192,7 +201,9 @@ def share_space_sources(request, space_id):
         # Get source sharing link
         share_sources(space)
         share_sources_code = get_sources_sharing_code(space).code
-        share_sources_link = request.build_absolute_uri(reverse("website:invitation", args=(share_sources_code,)))
+        share_sources_link = request.build_absolute_uri(
+            reverse("website:invitation", args=(share_sources_code,))
+        )
         return JsonResponse({
             "status": "ok", 
             "sources_code": share_sources_code, 
@@ -266,8 +277,9 @@ def receive_shared_sources(request):
                 new_space = copy_space_with_all_sources(original_work_space, request.user)
                 # Redirect to the new work space
                 display_success_message(request)
-                return JsonResponse({"status": "ok", "url": reverse("work_space:space_view", args=(new_space.pk,))})
-
+                return JsonResponse({
+                    "status": "ok", "url": reverse("work_space:space_view", args=(new_space.pk,))
+                })
             if option == "download":
                 # Add user to space in order to download it and redirect them to download url
                 original_work_space.add_member(request.user)

@@ -109,11 +109,11 @@ def create_friendly_papers_dir(papers, authors: list, root_path: str) -> None:
     papers_root = os.path.join(root_path, "papers")
     os.makedirs(papers_root, exist_ok=True)
 
-    # Get all users    
+    # Get all users
     for author in authors:
         # Get all user papers
         author_papers = [paper for paper in papers if paper.user == author]
-        
+
         # Add only whose users who creates a paper
         if any(author_papers):
             author: User
@@ -137,7 +137,7 @@ def create_friendly_papers_dir(papers, authors: list, root_path: str) -> None:
                 for file in files:
                     # Create new "paper-file" dirs inside "paper" dir
                     file: PaperFile
-                    path_to_paper_file = os.path.join(path_to_paper, file.__str__())
+                    path_to_paper_file = os.path.join(path_to_paper, str(file))
                     os.makedirs(path_to_paper_file, exist_ok=True)
 
                     # Copy original paper file into new "paper-file" dir

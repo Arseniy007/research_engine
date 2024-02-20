@@ -24,9 +24,11 @@ def upload_paper_file(request, paper_id):
     if form.is_valid():
         # Get and save new file
         paper = check_paper(paper_id, request.user)
-        save_new_paper_file(paper, request.user, 
-                            form.cleaned_data["file"], 
-                            form.cleaned_data["commit_text"])
+        save_new_paper_file(
+            paper, request.user,
+            form.cleaned_data["file"],
+            form.cleaned_data["commit_text"]
+        )
         display_info_message(request, "File successfully uploaded!")
     else:
         display_error_message(request, "Something wrong with uploaded file. Try again!")

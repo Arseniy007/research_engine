@@ -184,5 +184,7 @@ def check_forget_password_form_info(request) -> User | None:
     if "second_form" in request.POST["form_type"]:
         form = ForgetPasswordForm2(request.POST)
         if form.is_valid():
-            return get_user_by_name(form.cleaned_data["first_name"], form.cleaned_data["last_name"], form.cleaned_data["email"])
+            return get_user_by_name(
+                form.cleaned_data["first_name"], form.cleaned_data["last_name"], form.cleaned_data["email"]
+            )
     return None

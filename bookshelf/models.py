@@ -1,6 +1,6 @@
 import os
 from django.core.exceptions import ObjectDoesNotExist
-from django.db import models 
+from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from file_handling.models import SourceFile
 from user_management.models import User
@@ -42,7 +42,7 @@ class Source(models.Model):
     def cast(self):
         """Get object class (Book / Article / Webpage / etc.)"""
         return self.real_type.get_object_for_this_type(pk=self.pk)
-    
+
 
     def get_path(self):
         """Returns a path to the source directory"""

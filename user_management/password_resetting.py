@@ -25,5 +25,4 @@ def send_password_resetting_email(user: User, reset_url: str) -> None:
     message = f"Hi {user}.\n\nYou can resend your password here: {reset_url}"
     sender = EMAIL_HOST_USER
     recipient = (user.email,)
-
     return send_mail(subject, message, sender, recipient)

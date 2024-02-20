@@ -13,7 +13,6 @@ def create_source(user: User, space: WorkSpace, form: Form, author: str, chapter
 
     # Iterate through all fields and clean its data
     cleaned_data: dict = clean_source_form_fields(form)
-
     match form:
         case BookForm():
             return create_book_obj(user, space, cleaned_data, author)
@@ -31,8 +30,10 @@ def create_book_obj(user: User, space: WorkSpace, cleaned_data: dict, author: st
     """Validate Book form, create Book obj and return its id"""
 
     # Create and save new Book obj
-    new_book = Book(work_space=space, user=user, author=author, title=cleaned_data["title"], 
-                    year=cleaned_data["year"], publishing_house=cleaned_data["publishing_house"])
+    new_book = Book(
+        work_space=space, user=user, author=author, title=cleaned_data["title"],
+        year=cleaned_data["year"], publishing_house=cleaned_data["publishing_house"]
+    )
     new_book.save()
     # Create new Reference obj with Foreign key to this Book obj
     create_source_reference(new_book)
@@ -43,10 +44,14 @@ def create_article_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
     """Validate Article form, create Article obj and return its id"""
 
     # Create and save new Article obj
-    new_article = Article(work_space=space, user=user, author=author, title=cleaned_data["article_title"],
-                          year=cleaned_data["year"], journal_title=cleaned_data["journal_title"],
-                          volume=cleaned_data["volume"], issue=cleaned_data["issue"],
-                          pages=cleaned_data["pages"], link_to_journal=cleaned_data["link_to_journal"])
+    new_article = Article(
+        work_space=space, user=user, author=author,
+        title=cleaned_data["article_title"], year=cleaned_data["year"],
+        journal_title=cleaned_data["journal_title"],
+        volume=cleaned_data["volume"], issue=cleaned_data["issue"],
+        pages=cleaned_data["pages"],
+        link_to_journal=cleaned_data["link_to_journal"]
+    )
     new_article.save()
     # Create new Reference obj with Foreign key to this Article obj
     create_source_reference(new_article)
@@ -57,10 +62,14 @@ def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_au
     """Validate Chapter form, create Chapter obj and return its id"""
 
     # Create and save new Chapter obj
-    new_chapter = Chapter(work_space=space, user=user, author=chapter_author, book_author=book_author,
-                          title=cleaned_data["chapter_title"], book_title=cleaned_data["book_title"],
-                          publishing_house = cleaned_data["publishing_house"], year=cleaned_data["year"],
-                          edition = cleaned_data["edition"], pages=cleaned_data["pages"])
+    new_chapter = Chapter(
+        work_space=space, user=user, author=chapter_author,
+        book_author=book_author, title=cleaned_data["chapter_title"],
+        book_title=cleaned_data["book_title"],
+        publishing_house = cleaned_data["publishing_house"],
+        year=cleaned_data["year"], edition = cleaned_data["edition"],
+        pages=cleaned_data["pages"]
+    )
     new_chapter.save()
     # Create new Reference obj with Foreign key to this Chapter obj
     create_source_reference(new_chapter)
@@ -76,9 +85,11 @@ def create_webpage_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
     link, date = cleaned_data["link"], cleaned_data["date"]
 
     # Create and save new Webpage obj
-    new_webpage = Webpage(work_space=space, user=user, author=author, 
-                          link=link, date=date, title=cleaned_data["title"],
-                          website_title=cleaned_data["website_title"])
+    new_webpage = Webpage(
+        work_space=space, user=user, author=author, 
+        link=link, date=date, title=cleaned_data["title"],
+        website_title=cleaned_data["website_title"]
+    )
     new_webpage.save()
     # Create new Reference obj with Foreign key to this Webpage obj
     create_source_reference(new_webpage)

@@ -15,6 +15,7 @@ class NewSpaceForm(forms.Form):
 
 class RenameSpaceForm(NewSpaceForm):
     def set_initial(self, space_title: str):
+        """Prepopulate field"""
         self.fields["title"].initial = space_title
         return self
 

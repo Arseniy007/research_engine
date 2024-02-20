@@ -1,8 +1,8 @@
 from user_management.helpers import get_user_work_spaces
 from user_management.models import User
 from work_space.models import WorkSpace
-from .bibliography import create_bibliography
 from file_handling.models import PaperFile
+from .bibliography import create_bibliography
 from .models import Paper
 
 

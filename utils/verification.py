@@ -11,8 +11,8 @@ def check_work_space(space_id: int, user: User) -> WorkSpace | Http404 | Permiss
     """Checks if work_space exists and the user is either its owner or member"""
     try:
         space = WorkSpace.objects.get(pk=space_id)
-    except ObjectDoesNotExist:
-        raise Http404
+    except ObjectDoesNotExist as e:
+        raise Http404 from e
     else:
         if space.owner != user and user not in space.members.all():
             raise PermissionDenied
@@ -23,8 +23,8 @@ def check_source(source_id: int, user: User) -> Source | Http404:
     """Checks source, its type and work space"""
     try:
         source = Source.objects.get(pk=source_id)
-    except ObjectDoesNotExist:
-        raise Http404
+    except ObjectDoesNotExist as e:
+        raise Http404 from e
     else:
         source_type = source.cast()
         match source_type:
@@ -45,16 +45,16 @@ def check_user(user_id: int) -> User | Http404:
     """Check if user with given id exists"""
     try:
         return User.objects.get(pk=user_id)
-    except ObjectDoesNotExist:
-        raise Http404
+    except ObjectDoesNotExist as e:
+        raise Http404 from e
 
 
 def check_paper(paper_id: int, user: User) -> Paper | Http404:
     """Checks if paper exists and user has access to it"""
     try:
         paper = Paper.objects.get(pk=paper_id)
-    except ObjectDoesNotExist:
-        raise Http404
+    except ObjectDoesNotExist as e:
+        raise Http404 from e
     else:
         check_work_space(paper.work_space.pk, user)
     return paper
@@ -64,8 +64,8 @@ def check_source_file(file_id: int, user: User) -> SourceFile | Http404:
     """Check if source file exists and user has access to it"""
     try:
         file = SourceFile.objects.get(pk=file_id)
-    except ObjectDoesNotExist:
-        raise Http404
+    except ObjectDoesNotExist as e:
+        raise Http404 from e
     else:
         check_source(file.source.pk, user)
     return file
@@ -75,8 +75,8 @@ def check_paper_file(file_id: int, user: User) -> PaperFile | Http404:
     """Checks if this file exists"""
     try:
         file = PaperFile.objects.get(pk=file_id)
-    except ObjectDoesNotExist:
-        raise Http404
+    except ObjectDoesNotExist as e:
+        raise Http404 from e
     else:
         check_paper(file.paper.pk, user)
     return file

@@ -1,5 +1,5 @@
-from docx import Document
 import os
+from docx import Document
 from pdf2docx import Converter
 from django.core.exceptions import ObjectDoesNotExist
 from bookshelf.source_citation import get_source_reference
@@ -15,7 +15,7 @@ def create_bibliography(paper: Paper):
 
 def update_bibliography(paper: Paper):
     """Update existing Bibliography obj based on chosen sources"""
- 
+
     # Get apa and mla references
     bibliography = get_bibliography(paper)
     references = [get_source_reference(source) for source in paper.sources.all()]
@@ -30,7 +30,7 @@ def update_bibliography(paper: Paper):
     for number in range(len(references)):
         apa_sources += f"{number + 1}. {apa_references[number]}\n\n"
         mla_sources += f"{number + 1}. {mla_references[number]}\n\n"
-    
+
     # Update obj
     bibliography.apa = apa_sources
     bibliography.mla = mla_sources
@@ -94,7 +94,7 @@ def get_right_bibliography(paper: Paper) -> str | None:
         return bibliography.mla
     else:
         return None
-  
+
 
 def get_bibliography(paper: Paper) -> Bibliography | None:
     """Check if bibliography obj for existing paper obj exists"""
