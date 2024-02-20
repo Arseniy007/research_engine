@@ -81,13 +81,13 @@
     <script>
         set_index_form_validation(document);
         // Prepopulate form fields
-        const invitation_code = document.querySelector('#invitation-code');
+        const invitation_code = document.getElementById('invitation-code');
         if (invitation_code) {
-            document.querySelector('#code-field').value = invitation_code.innerHTML;
+            document.getElementById('code-field').value = invitation_code.innerHTML;
         }
-        const share_sources_code = document.querySelector('#share-sources-code');
+        const share_sources_code = document.getElementById('share-sources-code');
         if (share_sources_code) {
-            document.querySelector('#sources-code-field').value = share_sources_code.innerHTML;
+            document.getElementById('sources-code-field').value = share_sources_code.innerHTML;
         }    
     </script>
 {% endblock %}

@@ -78,7 +78,7 @@ async function show_new_paper_form(space_id) {
     nav.querySelector('#re-main-button').style.marginRight = '15px';
 
     // Load content
-    nav.querySelector('#index-container').innerHTML = document.querySelector('#new-paper-form').innerHTML;
+    nav.querySelector('#index-container').innerHTML = document.getElementById('new-paper-form').innerHTML;
 
     // Set form validation
     set_index_form_validation(nav);
