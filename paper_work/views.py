@@ -38,6 +38,7 @@ def paper_space(request, paper_id):
         "last_file_id": paper.get_last_file_id(),
         "bibliography": get_right_bibliography(paper),
         "chosen_source_ids": get_chosen_source_ids(paper),
+        "last_uploading_time": paper.last_uploading_time(),
         "space_sources": get_work_space_sources(paper.work_space),
         "available_spaces": get_available_spaces(paper, request.user),
         "new_file_form": UploadPaperFileForm(),

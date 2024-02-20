@@ -39,36 +39,85 @@
 
 {% block body %}
     <div class="paper-area" id="main-area">
-
         {% if last_file_id %}
+            <div class="cards-row">
+                <!-- Number of Pages Card -->
+                <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="/static/images/flat_icons/paper/pages.png" class="img-fluid rounded-start" alt="Pages">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <br><h2 class="card-title">Pages</h2>
+                                <p class="card-text">
+                                    <h1 class="light-blue ms-2" id="number-of-pages"></h1>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Number of Words Card -->
+                <div class="card mb-3 ms-3 transparent-card right-card" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="/static/images/flat_icons/paper/words1.png" class="img-fluid rounded-start" alt="Words">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <br><h2 class="card-title">Words</h2>
+                                <p class="card-text">
+                                    <h1 class="light-blue ms-2" id="number-of-words"></h1>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br><br>
+            <div class="cards-row">
+                <!-- Number of Characters with Spaces Card -->
+                <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="/static/images/flat_icons/paper/characters_with_spaces.png" class="img-fluid rounded-start" alt="Characters with Spaces">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h2 class="card-title mt-3">Characters with Spaces</h2>
+                                <p class="card-text">
+                                    <h1 class="light-blue ms-2" id="characters-with-space"></h1>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Number of Characters without Spaces Card-->
+                <div class="card mb-3 ms-3 transparent-card right-card" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="/static/images/flat_icons/paper/characters_without_spaces.png" class="img-fluid rounded-start" alt="Characters without Spaces">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h2 class="card-title mt-3">Characters without Spaces</h2>
+                                <p class="card-text">
+                                    <h1 class="light-blue ms-2" id="characters-no-space"></h1>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <script>get_paper_file_info('{{ last_file_id }}')</script>
-
-
-            <h3>Number of words: <div id="number-of-words"></div></h3>
-            <br>
-            <h3>Number of characters without spaces: <div id="characters-no-space"></div></h3>
-            <br>
-            <h3>Number of characters with spaces: <div id="characters-with-space"></div></h3>
-            <h3>Number of pages: <div id="number-of-pages"></div></h3>
-
         {% else %}
             <a onclick="open_paper_actions(); return false" class="light-blue" href="#" type="button">
                 <h1>Upload your first file to see statistics!</h1>
             </a>
         {% endif %}
-
-        
-        <h4>TODO</h4>
-        <br>
-        <h4>CSS of statistics</h4>
-        <br><br><br>
-
-
-
         <br><br><br><br>        
         {% if paper_sources %}
             <div>
-                <h2 class="mb-4 light-blue" id="bibliography-header">Bibliography ({{ paper.citation_style }})</h2>
+                <h1 class="mb-4" id="bibliography-header">Bibliography ({{ paper.citation_style }})</h1>
                 <textarea class="form-control ms-5" id="bibliography-textarea">{{ bibliography }}</textarea>
                 <button onclick="copy_bibliography()" type="button" class="btn btn-lg btn-dark mt-4" id="bibliography-button">Copy</button>
             </div>
@@ -154,8 +203,8 @@
                     <!-- Paper File Card -->
                     <div id="file-card-{{ file.pk }}" class="card text-bg-secondary mb-3 paper-file-card {% if file.pk == last_file_id %} checked-item {% endif %}">
                         <div class="card-header">
-                            {{ file }}
-                            <i class="fa-solid {% if file.file_extension == 'docx' %} fa-file-word {% else %} fa-file-pdf {% endif %} fa-xl"></i>
+                            {{ file }}&nbsp;
+                            <i class="fa-solid {% if file.file_extension == 'docx' %} fa-file-word {% else %} fa-file-pdf {% endif %} fa-xl paper-extension-icon"></i>
                         </div>
                         <div class="card-body source-card-body btn-dark">
                             <h5 class="card-title">
@@ -195,7 +244,7 @@
     <div class="paper-area" id="actions-area" style="display: none;">
         <div class="cards-row">
             <!-- Upload Paper File Card -->
-            <div class="card mb-3 transparent-card" style="max-width: 540px;">
+            <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="/static/images/flat_icons/paper/upload_paper.png" class="img-fluid rounded-start" alt="Upload new File">
@@ -227,7 +276,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Auto Add Bibliography</h5>
+                            <h5 class="card-title"><b>Auto Add Bibliography</b></h5>
                             <p class="card-text">
                                 <br>Add the bibliography to the end of my latest file:<br>
                                 {% if paper_sources %}
@@ -252,7 +301,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Change Citation Style</h5>
+                            <h5 class="card-title"><b>Change Citation Style</b></h5>
                             <p class="card-text">
                                 <br>Choose between APA and MLA styles:<br>
                                 <a href="{% url 'paper_work:change_citation_style' paper.pk %}" class="light-blue">
@@ -275,7 +324,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Transfer Paper to Another Workspace</h5>
+                            <h5 class="card-title"><b>Transfer Paper to Another Workspace</b></h5>
                             <p class="card-text">
                                 <br>Move "{{ paper }}" to a new workspace:<br>
                                 {% if user.pk == paper.user.pk %}
@@ -300,7 +349,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <br><h5 class="card-title">Clear File History</h5>
+                            <br><h5 class="card-title"><b>Clear File History</b></h5>
                             <p class="card-text">
                                 <br>Start everything from scratch:<br>
                                 <a href="#clear-history-modal" class="open-modal-button color-red" data-bs-toggle="modal" data-bs-target="#clear-history-modal">
@@ -319,7 +368,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <br><h5 class="card-title">Archive Paper</h5>
+                            <br><h5 class="card-title"><b>Archive Paper</b></h5>
                             <p class="card-text">
                                 <br>Click here at your own risk:<br>
                                 <a  href="#archive-paper-modal" class="open-modal-button color-red" data-bs-toggle="modal" data-bs-target="#archive-paper-modal">

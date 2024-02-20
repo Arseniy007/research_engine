@@ -44,6 +44,15 @@ class Paper(models.Model):
         except IndexError:
             return None
 
+
+    def last_uploading_time(self) -> str:
+        """Returns uploading time field of last PaperFile obj"""
+        try:
+            return PaperFile.objects.filter(paper=self).order_by("-pk")[0].uploading_time
+        except IndexError:
+            return None
+
+
     def clear_file_history(self):
         """Delete all files related to paper"""
 
