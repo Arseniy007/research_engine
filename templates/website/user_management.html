@@ -1,10 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
 
-{% block script %}
-    <script src="{% static 'js/user_management.js' %}"></script>
-{% endblock %}
-
 {% block headless %}
     <section class="vh-100 bg-image" id="form-section">
         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -121,7 +117,10 @@
                                         <div class="d-flex justify-content-center">
                                             <input type="submit" value="Reset password" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
                                         </div>
-                                        <p class="text-center text-muted mt-4 mb-0">Forgot your username?&nbsp;<a onclick="return change_forms()" class="fw-bold text-body pointy-cursor"><u>Click here</u></a></p>
+                                        <p class="text-center text-muted mt-4 mb-0">
+                                            Forgot your username?&nbsp;
+                                            <a onclick="toggle_between_forget_password_forms();" class="fw-bold text-body pointy-cursor"><u>Click here</u></a>
+                                        </p>
                                     </form>
                                     <form action="{% url 'user_management:forget_password' %}" id="second-form" class="needs-validation" novalidate method="post" style="display: none;">
                                         {% csrf_token %}
@@ -147,7 +146,10 @@
                                         <div class="d-flex justify-content-center">
                                             <input type="submit" value="Reset password" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"></input>
                                         </div>
-                                        <p class="text-center text-muted mt-4 mb-0">Go back&nbsp;<a onclick="return change_forms()" class="fw-bold text-body pointy-cursor"><u>Click here</u></a></p>
+                                        <p class="text-center text-muted mt-4 mb-0">
+                                            Go back&nbsp;
+                                            <a onclick="toggle_between_forget_password_forms();" class="fw-bold text-body pointy-cursor"><u>Click here</u></a>
+                                        </p>
                                     </form>
                                 {% elif page_type == 'reset_password' %}
                                     <form action="{% url 'user_management:reset_password' reset_code %}" class="needs-validation" novalidate id="reset_password_form" method="post">
@@ -251,4 +253,5 @@
             </div>
         </div>
     </section>
+    <script>set_form_validation();</script>
 {% endblock %}

@@ -6,11 +6,6 @@
 {% endblock %}
 
 {% block headless %}
-    <script>
-        if (document.referrer === `${window.location.protocol}//${window.location.host}/login`) {
-            openNav();
-        }
-    </script>
     <section class="vh-100 bg-image" id="form-section">
         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
             <div class="container h-100">
@@ -232,4 +227,11 @@
             </div>
         </div>
     </section>
+    <script>
+        show_source_creation_form();
+        set_reference_forms_submission();
+        if (document.referrer === `${window.location.protocol}//${window.location.host}/login`) {
+            openNav();
+        }
+    </script>
 {% endblock %}

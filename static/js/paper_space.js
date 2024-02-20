@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     enable_nav_links();
     enable_rename_form('paper');
     set_enable_scrolling_buttons();
@@ -67,29 +67,25 @@ function get_paper_file_info(file_id) {
     });
 }
 
-function copy_bibliography() {
-    const textarea = document.getElementById('bibliography-textarea')
-    if (!textarea) {
-        return;
-    }
-    textarea.select();
-    document.execCommand("copy");
-}
+function submit_choose_source_form(paper_id) {
 
-function mark_source_as_checked(source_id) {
-    // Get right card
-    const source_card = document.getElementById(`source-card-${source_id}`);
+    // Select sources API route
+    const url = `/select_sources/${paper_id}`;
+    const form = document.getElementById('choose-source-form');
 
-    // Check or uncheck source checkbox
-    const check_box = source_card.querySelector(`#source-checkbox-${source_id}`);
-    if (check_box.checked === false) {
-        check_box.checked = true;
-        source_card.classList.add('checked-item');
-    }
-    else {
-        check_box.checked = false;
-        source_card.classList.remove('checked-item');
-    }
+    // Send POST request
+    fetch(url, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => handleErrors(response, url))
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'ok') {
+            // Reload page
+            return redirect(result.url);
+        }
+    });
 }
 
 function choose_all_sources() {
@@ -116,25 +112,20 @@ function reset_all_sources() {
     })
 }
 
-function submit_choose_source_form(paper_id) {
+function mark_source_as_checked(source_id) {
+    // Get right card
+    const source_card = document.getElementById(`source-card-${source_id}`);
 
-    // Select sources API route
-    const url = `/select_sources/${paper_id}`;
-    const form = document.getElementById('choose-source-form');
-
-    // Send POST request
-    fetch(url, {
-        method: 'POST',
-        body: new FormData(form)
-    })
-    .then(response => handleErrors(response, url))
-    .then(response => response.json())
-    .then(result => {
-        if (result.status === 'ok') {
-            // Reload page
-            return redirect(result.url);
-        }
-    });
+    // Check or uncheck source checkbox
+    const check_box = source_card.querySelector(`#source-checkbox-${source_id}`);
+    if (check_box.checked === false) {
+        check_box.checked = true;
+        source_card.classList.add('checked-item');
+    }
+    else {
+        check_box.checked = false;
+        source_card.classList.remove('checked-item');
+    }
 }
 
 async function open_space_creation_form() {
@@ -144,6 +135,15 @@ async function open_space_creation_form() {
     openNav();
     await delay(800);
     document.getElementById('new-workspace-button').click();
+}
+
+function copy_bibliography() {
+    const textarea = document.getElementById('bibliography-textarea')
+    if (!textarea) {
+        return;
+    }
+    textarea.select();
+    document.execCommand("copy");
 }
 
 function open_paper_actions() {

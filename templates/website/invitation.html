@@ -2,21 +2,6 @@
 {% load static %}
 
 {% block headless %}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            set_index_form_validation(document);
-
-            // Prepopulate form fields
-            const invitation_code = document.querySelector('#invitation-code');
-            if (invitation_code) {
-                document.querySelector('#code-field').value = invitation_code.innerHTML;
-            }
-            const share_sources_code = document.querySelector('#share-sources-code');
-            if (share_sources_code) {
-                document.querySelector('#sources-code-field').value = share_sources_code.innerHTML;
-            }    
-        });
-    </script>
     <section class="vh-100 bg-image" id="form-section">
         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
             <div class="container h-100">
@@ -93,4 +78,16 @@
             </div>
         </div>
     </section>
+    <script>
+        set_index_form_validation(document);
+        // Prepopulate form fields
+        const invitation_code = document.querySelector('#invitation-code');
+        if (invitation_code) {
+            document.querySelector('#code-field').value = invitation_code.innerHTML;
+        }
+        const share_sources_code = document.querySelector('#share-sources-code');
+        if (share_sources_code) {
+            document.querySelector('#sources-code-field').value = share_sources_code.innerHTML;
+        }    
+    </script>
 {% endblock %}

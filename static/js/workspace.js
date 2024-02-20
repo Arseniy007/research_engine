@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     enable_nav_links();
     enable_rename_form('workspace');
     set_enable_scrolling_buttons();
@@ -38,7 +38,6 @@ function show_workspace_area(area_id) {
 }
 
 function load_and_show_source_space(source_id) {
-
     // Source-space view url
     const url = `/source_space/${source_id}`;
 
@@ -62,9 +61,9 @@ function load_and_show_source_space(source_id) {
         const reference_mla = source_space.querySelector('#mla-reference').innerHTML;
         
         // Past data
-        document.querySelector(`#source-space-label-${source_id}`).innerHTML = source_header;
-        document.querySelector(`#apa-reference-${source_id}`).innerHTML = reference_apa;
-        document.querySelector(`#mla-reference-${source_id}`).innerHTML =  reference_mla;
+        document.getElementById(`source-space-label-${source_id}`).innerHTML = source_header;
+        document.getElementById(`apa-reference-${source_id}`).innerHTML = reference_apa;
+        document.getElementById(`mla-reference-${source_id}`).innerHTML =  reference_mla;
     })
 }
 
@@ -107,7 +106,6 @@ async function show_new_paper_form(space_id) {
 }
 
 function create_new_paper(form, space_id) {
-
     // Create-paper route
     const url = `/create_paper/${space_id}`;
 
@@ -124,13 +122,12 @@ function create_new_paper(form, space_id) {
         }
         else {
             // Show error message
-            document.querySelector('#index-error-message').style.display = 'block';
+            document.getElementById('index-error-message').style.display = 'block';
         }
     });
 }
 
 function invite_to_work_space(space_id) {
-
     // Invitation API route
     const url = `/invite_to_space/${space_id}`;
 
@@ -140,14 +137,13 @@ function invite_to_work_space(space_id) {
     .then(response => response.json())
     .then(result => {
         // Render results inside opened modal
-        document.querySelector('#invitation-code-textarea').innerHTML = result.invitation_code;
-        document.querySelector('#invitation-link-textarea').innerHTML = result.invitation_link;
+        document.getElementById('invitation-code-textarea').innerHTML = result.invitation_code;
+        document.getElementById('invitation-link-textarea').innerHTML = result.invitation_link;
         enable_scrolling();
     });
 }
 
 function share_space_sources(space_id) {
-
     // Invitation API route
     const url = `/share_sources/${space_id}`;
 
@@ -157,14 +153,14 @@ function share_space_sources(space_id) {
     .then(response => response.json())
     .then(result => {
         // Render results inside opened modal
-        document.querySelector('#sources-code-textarea').innerHTML = result.sources_code;
-        document.querySelector('#sources-link-textarea').innerHTML = result.sources_link;
+        document.getElementById('sources-code-textarea').innerHTML = result.sources_code;
+        document.getElementById('sources-link-textarea').innerHTML = result.sources_link;
         enable_scrolling();
     });
 }
 
 function copy_invitation(kind, type) {
-    const textarea = document.querySelector(`#${kind}-${type}-textarea`);
+    const textarea = document.getElementById(`${kind}-${type}-textarea`);
     if (!textarea) {
         return;
     }

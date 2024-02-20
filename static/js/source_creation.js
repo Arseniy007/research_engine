@@ -1,46 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-
-    let space_id = document.querySelector('#space-id');
-    if (space_id) {
-        // Get space id if current page is not lobby
-        space_id = space_id.innerHTML;
-    }
-    // When source type gets selected - show selected form
-    const source_type_selector = document.querySelector('#source-type-selector');
-    source_type_selector.addEventListener('change', () => {
-        const selected_source_type = source_type_selector.value;
-        if (selected_source_type) {
-            show_and_load_form(selected_source_type);
-        }
-        else {
-            hide_all_forms();
-        }
-    });
-    const forms = document.getElementsByClassName('source-form');
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-
-            // Set form Validation
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-                form.classList.add('was-validated')
-              }
-            else {
-                // If everything alright - submit form with custom function
-                event.preventDefault();
-                count_and_set_authors_number(form);
-                submit_source_form(form, space_id);
-            }
-        }, false)
-    })
-    // For lobby (get quick reference)
-    const get_reference_buttons = document.getElementsByClassName('get-reference-button');
-    Array.from(get_reference_buttons).forEach(button => {
-        button.addEventListener('click', () => get_quick_reference(button.parentNode.parentNode.parentNode.id));
-    })
-});
-
 function hide_all_forms() {
     const all_forms = document.getElementsByClassName('source-form-area');
     Array.from(all_forms).forEach(form => {
@@ -48,21 +5,35 @@ function hide_all_forms() {
     })
 
     // Hide result if shown
-    const reference_result = document.querySelector('#reference-result');
+    const reference_result = document.getElementById('reference-result');
     if (reference_result) {
         reference_result.style.display = 'none';
     }
 }
 
-async function show_and_load_form(form_id) {
+function show_source_creation_form() {
+    // When source type gets selected - show selected form
+    const source_type_selector = document.getElementById('source-type-selector');
+    source_type_selector.addEventListener('change', () => {
+        const selected_source_type = source_type_selector.value;
+        if (selected_source_type) {
+            load_source_form(selected_source_type);
+        }
+        else {
+            hide_all_forms();
+        }
+    });
+}
+
+async function load_source_form(form_id) {
 
     // Hide all forms and show the one that user clicked on
     hide_all_forms();
-    const form = document.querySelector(`#${form_id}`);
+    const form = document.getElementById(form_id);
 
-    if (document.querySelector('#reference-result')) {
+    if (document.getElementById('reference-result')) {
         // For lobby page
-        document.querySelector('#reference-result').style.display = 'none';
+        document.getElementById('reference-result').style.display = 'none';
         form.querySelector('.get-reference-button').style.display = 'block';
         form.querySelector('.source-form').reset();
     }
@@ -187,8 +158,28 @@ function count_and_set_authors_number(form) {
     form.querySelector('.final_number_of_authors').value = form.getElementsByClassName('author').length;
 }
 
-function submit_source_form(form, space_id) {
+function set_source_creation_forms_validation(space_id) {
+    // Get all forms
+    const forms = document.getElementsByClassName('source-form');
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            // Set form Validation
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated')
+              }
+            else {
+                // If everything alright - submit form with custom function
+                event.preventDefault();
+                count_and_set_authors_number(form);
+                submit_source_form(form, space_id);
+            }
+        }, false)
+    })
+}
 
+function submit_source_form(form, space_id) {
     // Add-source API route
     const url = `/add_source/${space_id}`;
 
@@ -204,10 +195,17 @@ function submit_source_form(form, space_id) {
     });
 }
 
+function set_reference_forms_submission() {
+    const get_reference_buttons = document.getElementsByClassName('get-reference-button');
+    Array.from(get_reference_buttons).forEach(button => {
+        button.addEventListener('click', () => get_quick_reference(button.parentNode.parentNode.parentNode.id));
+    })
+}
+
 function get_quick_reference(form_id) {
 
     const url = '/get_quick_reference';
-    const form = document.querySelector(`#${form_id}`).querySelector('.source-form');
+    const form = document.getElementById(form_id).querySelector('.source-form');
     const error_message = document.querySelector('.form-error-message');
 
     // Set form validation
@@ -235,11 +233,11 @@ function get_quick_reference(form_id) {
             hide_all_forms();
 
             // Show fields
-            document.querySelector('#reference-result').style.display = 'block';
+            document.getElementById('reference-result').style.display = 'block';
 
             // Get result fields
-            const apa_field = document.querySelector('#reference-result-field-apa');
-            const mla_field = document.querySelector('#reference-result-field-mla');
+            const apa_field = document.getElementById('reference-result-field-apa');
+            const mla_field = document.getElementById('reference-result-field-mla');
 
             // Paste result references and auto grow textareas
             apa_field.value = result.reference.apa_endnote;
@@ -255,7 +253,7 @@ function get_quick_reference(form_id) {
 }
 
 function copy_reference(style) {
-    const textarea = document.querySelector(`#reference-result-field-${style}`);
+    const textarea = document.getElementById(`reference-result-field-${style}`);
     if (!textarea) {
         return;
     }

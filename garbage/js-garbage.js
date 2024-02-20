@@ -1545,3 +1545,19 @@ function load_and_show_new_source_space(source_id) {
         document.getElementById('new-source-footer').innerHTML =  source_footer;       
     })
 }
+
+function toggle_between_forget_password_forms() {
+    // Get both forms
+    const first_form = document.getElementById('first-form');
+    const second_form = document.getElementById('second-form');
+
+    // Hide one and show other
+    if (second_form.style.display === 'none') {
+        first_form.style.display = 'none';
+        second_form.style.display = '';
+    }
+    else {
+        second_form.style.display = 'none';
+        first_form.style.display = '';
+    }
+}

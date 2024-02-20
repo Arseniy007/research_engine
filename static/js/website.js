@@ -1,7 +1,7 @@
 const GRAY = '#222222';
 const NORMAL = '#0b121b';
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     // Enable popovers
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
@@ -89,7 +89,6 @@ async function closeNav() {
 }
 
 async function load_index_data() {
-
     // API route for loading index content
     const url = '/index_content';
 
@@ -112,7 +111,6 @@ async function load_index_data() {
 }
 
 function set_index_form_validation(nav) {
-
     // Get all index-forms
     const index_forms = nav.getElementsByClassName('index-form');
 
@@ -138,7 +136,7 @@ function set_index_form_validation(nav) {
                 }
                 else {
                     // Error case
-                    document.querySelector('#index-error-message').style.display = 'block';
+                    document.getElementById('index-error-message').style.display = 'block';
                 }
             }
         })
@@ -146,7 +144,6 @@ function set_index_form_validation(nav) {
 }
 
 function create_new_work_space(form) {
-
     // Create-workspace route
     const url = '/create_work_space';
 
@@ -163,13 +160,12 @@ function create_new_work_space(form) {
         }
         else {
             // Show error message
-            document.querySelector('#index-error-message').style.display = 'block';
+            document.getElementById('index-error-message').style.display = 'block';
         }
     });
 }
 
 function receive_invitation(form) {
-
     // API route
     const url = '/receive_invitation';
 
@@ -186,14 +182,14 @@ function receive_invitation(form) {
         }
         else {
             // Show error message
-            const invitation_error_message = document.querySelector('#invitation-error-message');
+            const invitation_error_message = document.getElementById('invitation-error-message');
             let error_message;
             if (invitation_error_message) {
                 error_message = invitation_error_message;
-                document.querySelector('#invitation-div').style.display = 'none';
+                document.getElementById('invitation-div').style.display = 'none';
             }
             else {
-                error_message = document.querySelector('#index-error-message');
+                error_message = document.getElementById('index-error-message');
             }
             error_message.querySelector('.error').innerHTML = `<a href="${result.url}" style="color: black">${result.message}</a>`;
             error_message.style.display = 'block';
@@ -202,7 +198,6 @@ function receive_invitation(form) {
 }
 
 function receive_shared_sources(form) {
-
     // API route
     const url = '/receive_shared_sources';
 
@@ -219,14 +214,14 @@ function receive_shared_sources(form) {
         }
         else {
             // Show error message
-            const invitation_error_message = document.querySelector('#invitation-error-message');
+            const invitation_error_message = document.getElementById('invitation-error-message');
             let error_message;
             if (invitation_error_message) {
                 error_message = invitation_error_message;
-                document.querySelector('#sources-div').style.display = 'none';
+                document.getElementById('sources-div').style.display = 'none';
             }
             else {
-                error_message = document.querySelector('#index-error-message');
+                error_message = document.getElementById('index-error-message');
             }
             error_message.querySelector('.error').innerHTML = `<a href="${result.url}" style="color: black">${result.message}</a>`;
             error_message.style.display = 'block';
@@ -235,7 +230,6 @@ function receive_shared_sources(form) {
 }
 
 function search_source() {
-
     // Get all sources
     const sources = document.getElementsByClassName("source-card");
     const titles = document.getElementsByClassName("source-title");
@@ -259,7 +253,6 @@ function search_source() {
 }
 
 function set_form_validation() {
-
     // Fetch all the forms
     const forms = document.querySelectorAll('.needs-validation')
   
@@ -298,12 +291,12 @@ function enable_nav_links() {
 
 function enable_rename_form(page) {
     // Show and hide rename space / paper forms
-    const header = document.querySelector('#header');
-    const header_text = document.querySelector('#header-text');
-    const edit_symbol = document.querySelector('#edit-title-symbol');
+    const header = document.getElementById('header');
+    const header_text = document.getElementById('header-text');
+    const edit_symbol = document.getElementById('edit-title-symbol');
     header.addEventListener('mouseenter', () => {
         edit_symbol.addEventListener('click', () => {
-            header_text.innerHTML = document.querySelector(`#rename-${page}-form-div`).innerHTML;
+            header_text.innerHTML = document.getElementById(`rename-${page}-form-div`).innerHTML;
         });
         edit_symbol.style.display = 'inline-block';
     });
@@ -340,4 +333,20 @@ function adjust_textarea_height(textarea) {
     // Update the rows attribute of the textarea
     textarea.rows = calculatedRows;
     textarea.style.resize = 'none';
+}
+
+function toggle_between_forget_password_forms() {
+    // Get both forms
+    const first_form = document.getElementById('first-form');
+    const second_form = document.getElementById('second-form');
+
+    // Hide one and show other
+    if (second_form.style.display === 'none') {
+        first_form.style.display = 'none';
+        second_form.style.display = '';
+    }
+    else {
+        second_form.style.display = 'none';
+        first_form.style.display = '';
+    }
 }

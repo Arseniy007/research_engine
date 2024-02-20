@@ -190,7 +190,7 @@ def forget_password(request):
         "first_form": ForgetPasswordForm(), 
         "second_form": ForgetPasswordForm2()
     }
-    return render(request, "user_management.html", data)
+    return render(request, "website/user_management.html", data)
 
 
 def reset_password(request, reset_code):

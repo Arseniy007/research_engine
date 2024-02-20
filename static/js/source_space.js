@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     enable_nav_links();
     disable_scrolling();
     set_form_validation();

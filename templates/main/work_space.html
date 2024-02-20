@@ -693,7 +693,6 @@
         </div>
     </div>
     <!-- Hidden parts of page -->
-    <div id="space-id" style="display: none;">{{ space.pk }}</div>
     <div id="new-paper-form" style="display: none;">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -743,4 +742,8 @@
             </div>
         </form>
     </div>
+    <script>
+        show_source_creation_form();
+        set_source_creation_forms_validation('{{ space.pk }}');
+    </script>
 {% endblock %}
