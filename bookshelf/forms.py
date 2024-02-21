@@ -214,7 +214,7 @@ class AlterBookForm(BookForm):
         """Prepopulate from fields"""
         for field in self.fields:
             if field not in ("source_type", "number_of_authors",):
-                self.fields[field].initial = book.__getattribute__(field)
+                self.fields[field].initial = getattr(book, field)
         return self
 
 
@@ -233,7 +233,7 @@ class AlterArticleForm(ArticleForm):
         """Prepopulate from fields"""
         for field in self.fields:
             if field not in ("source_type", "number_of_authors",):
-                self.fields[field].initial = article.__getattribute__(field)
+                self.fields[field].initial = getattr(article, field)
         return self
 
 
@@ -261,7 +261,7 @@ class AlterChapterForm(ChapterForm):
         """Prepopulate from fields"""
         for field in self.fields:
             if field not in ("source_type", "number_of_authors", "number_of_chapter_authors",):
-                self.fields[field].initial = chapter.__getattribute__(field)
+                self.fields[field].initial = getattr(chapter, field)
         return self
 
 
@@ -280,7 +280,7 @@ class AlterWebpageForm(WebpageForm):
         """Prepopulate from fields"""
         for field in self.fields:
             if field not in ("source_type", "number_of_authors",):
-                self.fields[field].initial = webpage.__getattribute__(field)
+                self.fields[field].initial = getattr(webpage, field)
         return self
 
 
