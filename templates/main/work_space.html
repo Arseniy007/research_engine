@@ -507,15 +507,19 @@
                         <div class="card-body">
                             <h5 class="card-title"><b>Download Workspace</b></h5>
                             <p class="card-text">
-                                Click here to download whole workspace:&nbsp;&nbsp;
-                                <a href="{% url 'work_space:download_space' space.pk %}" class="light-blue">
-                                    <small>{{ space }}.zip</small>
-                                </a>
-                                <br><br>
-                                Click here to download only sources inside workspace:&nbsp;&nbsp;
-                                <a href="{% url 'work_space:download_space_sources' space.pk %}" class="light-blue">
-                                    <small>Sources.zip</small>
-                                </a>
+                                {% if space_is_empty %}
+                                    <h6 class="light-blue">Add your first source or paper to download workspace</h6>
+                                {% else %}
+                                    Click here to download whole workspace:&nbsp;&nbsp;
+                                    <a href="{% url 'work_space:download_space' space.pk %}" class="light-blue">
+                                        <small>{{ space }}.zip</small>
+                                    </a>
+                                    <br><br>
+                                    Click here to download only sources inside workspace:&nbsp;&nbsp;
+                                    <a href="{% url 'work_space:download_space_sources' space.pk %}" class="light-blue">
+                                        <small>Sources.zip</small>
+                                    </a>
+                                {% endif %}
                             </p>
                         </div>
                     </div>

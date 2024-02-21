@@ -17,7 +17,7 @@ from .forms import NewSpaceForm, ReceiveInvitationForm, ReceiveSourcesForm, Rena
 from .friendly_dir import create_friendly_sources_directory, create_friendly_space_directory
 from .space_creation import copy_space_with_all_sources, create_new_space
 from .space_sharing import generate_invitation, get_sources_sharing_code, share_sources
-from .helpers import get_work_space_sources
+from .helpers import check_emptiness, get_work_space_sources
 
 
 @login_required
@@ -37,6 +37,7 @@ def work_space_view(request, space_id):
         "space_papers": space_papers,
         "owner": space.owner,
         "members": members,
+        "space_is_empty": check_emptiness(space),
         "user_status": space.get_user_status(request.user),
         "number_of_members": len(members) + 1, # 1 = Owner
         "space_has_sources": bool(sources),

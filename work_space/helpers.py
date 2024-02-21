@@ -5,7 +5,6 @@ from .models import WorkSpace
 
 def get_work_space_sources(space: WorkSpace) -> list:
     """Get all sources related to given workspace + add some additional info about them"""
-
     sources: list = []
     for source in space.sources.all():
         source: Source
@@ -19,3 +18,14 @@ def get_work_space_sources(space: WorkSpace) -> list:
         sources.append(source_dict)
 
     return sources
+
+
+def check_emptiness(space: WorkSpace) -> bool:
+    """Check if space is empty or not"""
+    # Get all sources and papers in given work space
+    sources = space.sources.all()
+    papers = space.papers.filter(archived=False)
+
+    if not sources and not papers:
+        return True
+    return False
