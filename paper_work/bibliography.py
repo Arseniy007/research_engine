@@ -65,7 +65,8 @@ def append_bibliography_to_file(file: PaperFile, bibliography: str):
 
         # Update PaperFile obj (set file property to new .docx file)
         file.file = "/".join(output_path.split("/")[1::]) # delete media_root from file path
-        file.save(update_fields=("file",))
+        file.file_extension = "docx"
+        file.save(update_fields=("file", "file_extension",))
 
     # If document extension is .docx - just get its location
     elif file.file_extension == "docx":

@@ -34,7 +34,7 @@
         <img class="close-bracket" src="/static/images/about/close_bracket.png" alt="Close Bracket">
     </div>
     <img id="equal-sign" src="/static/images/about/equal.png" alt="Equal">
-    <div id="re-about-button" class="pointy-cursor" onclick="openNav()">
+    <div id="re-about-button" class="pointy-cursor" {% if user.is_authenticated %} onclick="openNav()" {% endif %}>
         <i class="fa-solid fa-graduation-cap"></i>
         research engine
     </div>
