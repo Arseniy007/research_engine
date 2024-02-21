@@ -46,7 +46,7 @@ def create_article_obj(user: User, space: WorkSpace, cleaned_data: dict, author:
     # Create and save new Article obj
     new_article = Article(
         work_space=space, user=user, author=author,
-        title=cleaned_data["article_title"], year=cleaned_data["year"],
+        title=cleaned_data["title"], year=cleaned_data["year"],
         journal_title=cleaned_data["journal_title"],
         volume=cleaned_data["volume"], issue=cleaned_data["issue"],
         pages=cleaned_data["pages"],
@@ -64,7 +64,7 @@ def create_chapter_obj(user: User, space: WorkSpace, cleaned_data: dict, book_au
     # Create and save new Chapter obj
     new_chapter = Chapter(
         work_space=space, user=user, author=chapter_author,
-        book_author=book_author, title=cleaned_data["chapter_title"],
+        book_author=book_author, title=cleaned_data["title"],
         book_title=cleaned_data["book_title"],
         publishing_house = cleaned_data["publishing_house"],
         year=cleaned_data["year"], edition = cleaned_data["edition"],

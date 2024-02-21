@@ -326,7 +326,7 @@
                         <div class="card-body">
                             <h5 class="card-title"><b>Transfer Paper to Another Workspace</b></h5>
                             <p class="card-text">
-                                <br>Move "{{ paper }}" to a new workspace:<br>
+                                <br>Move Paper to a new workspace:<br>
                                 {% if user.pk == paper.user.pk %}
                                     <a href="#transfer-paper-modal" class="open-modal-button light-blue" data-bs-toggle="modal" data-bs-target="#transfer-paper-modal">
                                         Leave "{{ paper.work_space }}"
@@ -339,7 +339,7 @@
                     </div>
                 </div>
             </div>  
-        </div><br><br>
+        </div>
         <div class="cards-row">
             <!-- Clear Paper File History -->
             <div class="card mb-3 transparent-card left-card" style="max-width: 540px;">

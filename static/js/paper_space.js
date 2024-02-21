@@ -12,6 +12,10 @@ function show_paper_area(area_id) {
     if (!area) {
         return;
     }
+    // Hide info message
+    if (document.getElementsByClassName('messages').length > 0) {
+        Array.from(document.getElementsByClassName('messages')).forEach(message => {message.style.display = 'none'});
+    }
     if (area_id === 'main-area') {
         // Disable scrolling if no bibliography
         if (!area.querySelector('#bibliography-textarea')) {
@@ -26,10 +30,6 @@ function show_paper_area(area_id) {
         // Disable scrolling if there is less than 8 sources
         else if (area.getElementsByClassName('source-card').length < 5) {
             disable_scrolling();
-        }
-        // Hide info message
-        if (document.getElementsByClassName('messages').length > 0) {
-            Array.from(document.getElementsByClassName('messages')).forEach(message => {message.style.display = 'none'});
         }
     }
     else if (area_id === 'files-area') {

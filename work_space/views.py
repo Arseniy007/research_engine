@@ -240,9 +240,6 @@ def receive_invitation(request):
             # Add user as member to the new work space
             new_work_space.add_member(request.user)
 
-            # Delete invitation code
-            invitation.delete()
-
             # Send redirect to the new work space
             display_success_message(request)
             return JsonResponse({"status": "ok", "url": work_space_url})
