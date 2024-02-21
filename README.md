@@ -50,7 +50,7 @@ Besides that, app concentrates on Paper class. It allows to create, rename and a
 
 #### • bookshelf
 
-“bookshelf” definitely has the most complex model structure. It uses multi-table inheritance (https://docs.djangoproject.com/en/5.0/topics/db/models/#model-inheritance) in order to store different types of sources:
+“bookshelf” definitely has the most complex model structure. It uses [multi-table inheritance] (https://docs.djangoproject.com/en/5.0/topics/db/models/#model-inheritance) in order to store different types of sources:
 class Source is a parent base class that has four child classes (Book, Article, Chapter, Webpage). Using _cast_ method one can access child class of any source-object.
 Besides that, there is a Reference model with one-to-one relation to every source object that stores both APA and MLA endnotes.
 source_alteration.py, source_citation.py, source_copying.py and soure_creation.py helping views.py to cope with all data.
