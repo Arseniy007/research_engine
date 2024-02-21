@@ -1,7 +1,7 @@
 # Research Engine (R.E.)
 ## My CS50 Final Project
 
-R.E. – is a platform build specifically for those, who deal with writing academic (and nonacademic texts alike) on a daily basis. Whether you are a PhD student, who writes their final paper, a journalist working for a local newspaper, a screenwriter or a serios amazon reviewer – “Research Engine” (if deployed 😊) will definitely try to make the process of working on large texts easier for you. 
+R.E. – is a platform build specifically for those, who deal with writing academic (and nonacademic texts alike) on a daily basis. Whether you are a PhD student, who writes their final paper, a journalist working for a local newspaper, a screenwriter or a serious amazon reviewer – “Research Engine” (if deployed 😊) will definitely try to make the process of working on large texts easier for you. 
 
 ### Here is a brief review of all R.E. key features:
 
@@ -50,10 +50,10 @@ Besides that, app concentrates on Paper class. It allows to create, rename and a
 
 #### • bookshelf
 
-“bookshelf” definitely has the most complex model structure. It uses [multi-table inheritance] (https://docs.djangoproject.com/en/5.0/topics/db/models/#model-inheritance) in order to store different types of sources:
+“bookshelf” definitely has the most complex model structure. It uses [multi-table inheritance](https://docs.djangoproject.com/en/5.0/topics/db/models/#model-inheritance) in order to store different types of sources:
 class Source is a parent base class that has four child classes (Book, Article, Chapter, Webpage). Using _cast_ method one can access child class of any source-object.
 Besides that, there is a Reference model with one-to-one relation to every source object that stores both APA and MLA endnotes.
-source_alteration.py, source_citation.py, source_copying.py and soure_creation.py helping views.py to cope with all data.
+source_alteration.py, source_citation.py, source_copying.py and source_creation.py helping views.py to cope with all data.
 
 #### • file_handling
 
