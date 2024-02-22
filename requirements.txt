@@ -2,5 +2,4 @@ django
 office_word_count
 pdf2docx
 python-docx
-requests
 textract
