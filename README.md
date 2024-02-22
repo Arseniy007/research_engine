@@ -1,7 +1,7 @@
 # Research Engine (R.E.)
 ## My CS50 Final Project
 
-R.E. is a platform built specifically for those who deal with writing academic (and nonacademic) on a daily basis. Whether you are a PhD student who writes their final paper, a journalist working for a local newspaper, a screenwriter, or a serious Amazon reviewer, “Research Engine” (if deployed 😊) will definitely try to make the process of working on large texts easier for you. 
+R.E. is a platform built specifically for those who deal with writing academic (and nonacademic) papers on a daily basis. Whether you are a PhD student who writes their final paper, a journalist working for a local newspaper, a screenwriter, or a serious Amazon reviewer, “Research Engine” (if deployed 😊) will definitely try to make the process of working on large texts easier for you. 
 
 ### Here is a brief review of all R.E. key features:
 
@@ -12,10 +12,10 @@ Without even signing up for R.E., you are able to gain access to what it does be
 If you want to save a source and its reference for later use - no problem! Maybe you’d want to also add a link to this source or even upload a file containing this source – this would work smoothly! Delete or edit the source later – yes of course!
 
 ### • Workspaces
-When signed up, users will be invited to create their workspaces. The workspace is a main area where they will gather all their studies. It combines everything one needs to succeed at writing any text: people, papers, sources, and a bunch of other features. The workspace could be a place where multiple members collaborate on writing different papers, or it could turn into a fortress of solitude. But remember: you will be able to invite or share your workspace at any given time. And one more feature the developer is especially proud of: int the actions area of your workspace, under a regular looking anchor tag, lies a possibility of downloading a zip-archive of your space with all files, papers, sources and references uploaded previously.
+When signed up, users will be invited to create their workspaces. The workspace is a main area where they will gather all their studies. It combines everything one needs to succeed at writing any text: people, papers, sources, and a bunch of other features. The workspace could be a place where multiple members collaborate on writing different papers, or it could turn into a fortress of solitude. But remember: you will be able to invite or share your workspace at any given time. And one more feature the developer is especially proud of: in the actions area of your workspace, under a regular looking anchor tag, lies a possibility of downloading a zip-archive of your space with all files, papers, sources and references uploaded previously.
 
 ### • Papers
-The paper you’re working on is, of course, the most important part of a workspace. On your paper’s page, you will experience the following: uploading and saving versions of your paper (pdf or docx), the quantity of pages, words, and characters of your last uploaded file, and choosing sources from your workspace in order to automatically get a bibliography for your page. Lastly, you will definitely find it convenient, that R.E. can automatically add an automatically created bibliography to your last file.
+The paper you’re working on is, of course, the most important part of a workspace. On your paper’s page, you will experience the following: uploading and saving versions of your paper (pdf or docx), the quantity of pages, words, and characters of your last uploaded file, and choosing sources from your workspace in order to automatically get a bibliography for your text. Lastly, you will definitely find it convenient, that R.E. can automatically add final bibliography to your last file.
 
 ## Technical Information
 
@@ -76,7 +76,7 @@ Creates APA and MLA references. It’s built as a separate module, because this 
 
 ### Frontend
 
-On the frontend side, R.E. is made of Django Template Language (ten html files extend layout.html), CSS and JavaScript.
+On the frontend side, R.E. is made of Django Template Language (ten HTML files extend layout.html), CSS and JavaScript.
 website.js – is a main js file with cross-page functions. Other js files improve the user experience on every single R.E. page.
 
 
