@@ -1,4 +1,5 @@
 django
+gunicorn
 office_word_count
 pdf2docx
 PyPDF2
